@@ -48,14 +48,14 @@ export function CatalogCTA() {
             </div>
 
             {/* ================= ACTIONS ================= */}
-            <div className="flex w-full shrink-0 flex-col items-stretch gap-3 sm:w-auto sm:flex-row">
+            <div className="flex w-full shrink-0 flex-col items-center gap-3 sm:w-auto sm:flex-row">
 
               {/* WhatsApp */}
               <a
                 href={APP_CONFIG.whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center justify-center gap-2.5 bg-[#25D366] px-6 py-3.5 text-[10px] font-extrabold uppercase tracking-wider text-black transition-all duration-300 hover:bg-[#20bd5a] hover:shadow-[0_10px_30px_rgba(37,211,102,0.2)]"
+                className="group inline-flex h-11 min-w-[175px] items-center justify-center gap-2.5 bg-[#25D366] px-6 text-[10px] font-extrabold uppercase tracking-wider text-black transition-all duration-300 hover:bg-[#20bd5a] hover:shadow-[0_10px_30px_rgba(37,211,102,0.2)]"
               >
                 <WhatsAppIcon className="h-4 w-4 text-black" />
 
@@ -65,7 +65,7 @@ export function CatalogCTA() {
               {/* Phone */}
               <a
                 href={`tel:${APP_CONFIG.phoneRaw}`}
-                className="group inline-flex items-center justify-center gap-2 border border-white/20 bg-white/[0.03] px-6 py-3.5 text-[10px] font-extrabold uppercase tracking-wider text-white transition-all duration-300 hover:border-[#e21b23] hover:bg-white/[0.06]"
+                className="group inline-flex h-11 min-w-[175px] items-center justify-center gap-2 border border-white/20 bg-white/[0.03] px-6 text-[10px] font-extrabold uppercase tracking-wider text-white transition-all duration-300 hover:border-[#e21b23] hover:bg-white/[0.06]"
               >
                 <span>Call Technical Desk</span>
 
