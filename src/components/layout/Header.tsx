@@ -16,10 +16,10 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [productsDropdownOpen, setProductsDropdownOpen] = useState(false);
   const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
+
   const dropdownRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
-  // Close desktop dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -29,11 +29,13 @@ export function Header() {
         setProductsDropdownOpen(false);
       }
     }
+
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+
+    return () =>
+      document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Close mobile menu on route change
   useEffect(() => {
     setMobileMenuOpen(false);
     setProductsDropdownOpen(false);
@@ -41,133 +43,172 @@ export function Header() {
   }, [pathname]);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-[#d31820] text-white shadow-lg transition-all">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
-        {/* Brand Logo */}
-        <Link href="/" className="flex items-center gap-2 transition hover:opacity-95">
-          <TuqoLogo variant="white" />
-        </Link>
+    <header className="sticky top-0 z-50 w-full bg-white text-[#111214] shadow-[0_2px_12px_rgba(0,0,0,0.08)]">
 
-        {/* Desktop Navigation Links */}
-        <nav className="hidden items-center gap-8 md:flex">
-          {NAV_LINKS.map((link) => {
-            const isActive = pathname === link.href;
+      {/* Top Promotional Strip */}
+      <div className="w-full bg-[#111214] px-4 py-2 text-center">
+        <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-white sm:text-[10px]">
+          TUQO PROFESSIONAL MACHINERY • PAN-INDIA DELIVERY • GENUINE PRODUCTS • TECHNICAL SUPPORT
+        </p>
+      </div>
 
-            if (link.subItems) {
-              return (
-                <div
-                  key={link.label}
-                  ref={dropdownRef}
-                  className="relative"
-                  onMouseEnter={() => setProductsDropdownOpen(true)}
-                  onMouseLeave={() => setProductsDropdownOpen(false)}
-                >
-                  <button
-                    onClick={() => setProductsDropdownOpen(!productsDropdownOpen)}
-                    className="flex items-center gap-1.5 py-1 text-sm font-semibold tracking-wide text-white transition hover:text-red-100"
-                    aria-expanded={productsDropdownOpen}
+      {/* Main Header */}
+      <div className="border-b border-gray-100 bg-white">
+        <div className="mx-auto flex min-h-[76px] max-w-[1500px] items-center gap-5 px-5 sm:px-8 lg:px-10">
+
+          {/* Logo */}
+          <Link
+            href="/"
+            className="flex shrink-0 items-center transition-opacity duration-200 hover:opacity-80"
+          >
+            <div className="rounded-sm bg-[#111214] px-3 py-2">
+              <TuqoLogo variant="white" />
+            </div>
+          </Link>
+
+          {/* Desktop Navigation */}
+          <nav className="ml-auto hidden items-center gap-7 lg:flex">
+            {NAV_LINKS.map((link) => {
+              const isActive = pathname === link.href;
+
+              if (link.subItems) {
+                return (
+                  <div
+                    key={link.label}
+                    ref={dropdownRef}
+                    className="relative"
+                    onMouseEnter={() => setProductsDropdownOpen(true)}
+                    onMouseLeave={() => setProductsDropdownOpen(false)}
                   >
-                    <span>{link.label}</span>
-                    <ChevronDownIcon
-                      className={`h-3.5 w-3.5 transition-transform duration-200 ${
-                        productsDropdownOpen ? "rotate-180" : ""
+                    <button
+                      onClick={() =>
+                        setProductsDropdownOpen(!productsDropdownOpen)
+                      }
+                      className={`flex h-11 items-center gap-1.5 rounded-md px-3 text-[11px] font-extrabold uppercase tracking-wide transition-all duration-200 ${
+                        productsDropdownOpen
+                          ? "bg-[#e21b23] text-white"
+                          : "text-[#111214] hover:bg-gray-100"
                       }`}
-                    />
-                  </button>
+                      aria-expanded={productsDropdownOpen}
+                    >
+                      <span>{link.label}</span>
 
-                  {/* Dropdown Menu */}
-                  {productsDropdownOpen && (
-                    <div className="absolute left-0 top-full pt-2">
-                      <div className="w-64 rounded-lg bg-white p-2 text-gray-900 shadow-2xl ring-1 ring-black/10 transition-all">
-                        <div className="py-1">
+                      <ChevronDownIcon
+                        className={`h-3.5 w-3.5 transition-transform duration-200 ${
+                          productsDropdownOpen ? "rotate-180" : ""
+                        }`}
+                      />
+                    </button>
+
+                    {productsDropdownOpen && (
+                      <div className="absolute left-0 top-full pt-2">
+                        <div className="w-64 overflow-hidden rounded-md border border-gray-200 bg-white p-2 text-gray-900 shadow-2xl">
                           {link.subItems.map((sub) => (
                             <Link
                               key={sub.label}
                               href={sub.href}
-                              className="block rounded-md px-4 py-2.5 text-xs font-semibold text-gray-800 transition hover:bg-red-50 hover:text-red-600"
-                              onClick={() => setProductsDropdownOpen(false)}
+                              className="block rounded-md px-4 py-3 text-[10px] font-extrabold uppercase tracking-wide text-gray-700 transition-all duration-200 hover:bg-red-50 hover:text-[#e21b23]"
+                              onClick={() =>
+                                setProductsDropdownOpen(false)
+                              }
                             >
                               {sub.label}
                             </Link>
                           ))}
                         </div>
                       </div>
-                    </div>
-                  )}
-                </div>
+                    )}
+                  </div>
+                );
+              }
+
+              return (
+                <Link
+                  key={link.label}
+                  href={link.href}
+                  className={`relative flex h-11 items-center rounded-md px-3 text-[11px] font-extrabold uppercase tracking-wide transition-all duration-200 ${
+                    isActive
+                      ? "bg-[#e21b23] text-white"
+                      : "text-[#111214] hover:bg-gray-100 hover:text-[#e21b23]"
+                  }`}
+                >
+                  {link.label}
+                </Link>
               );
-            }
+            })}
+          </nav>
 
-            return (
-              <Link
-                key={link.label}
-                href={link.href}
-                className={`relative py-1 text-sm font-semibold tracking-wide transition hover:text-red-100 ${
-                  isActive ? "text-white after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-white" : "text-white"
-                }`}
-              >
-                {link.label}
-              </Link>
-            );
-          })}
-        </nav>
+          {/* Desktop Phone CTA */}
+          <div className="hidden shrink-0 items-center lg:flex">
+            <a
+              href={`tel:${APP_CONFIG.phoneRaw}`}
+              className="inline-flex h-11 w-[175px] min-w-[175px] items-center justify-center gap-2 rounded-md bg-[#e21b23] px-5 text-[10px] font-extrabold uppercase tracking-wider text-white transition-all duration-300 hover:bg-[#b8141a] hover:shadow-lg"
+            >
+              <PhoneIcon className="h-3.5 w-3.5" />
+              <span>{APP_CONFIG.phone}</span>
+            </a>
+          </div>
 
-        {/* Desktop Right CTA Phone Button */}
-        <div className="hidden items-center md:flex">
-          <a
-            href={`tel:${APP_CONFIG.phoneRaw}`}
-            className="group flex items-center gap-2.5 rounded-full bg-[#111111] px-5 py-2 text-xs font-bold tracking-wide text-white transition-all duration-200 hover:bg-black hover:shadow-md hover:scale-105 active:scale-95"
-          >
-            <PhoneIcon className="h-3.5 w-3.5 text-white transition-transform group-hover:rotate-12" />
-            <span>{APP_CONFIG.phone}</span>
-          </a>
-        </div>
+          {/* Mobile Actions */}
+          <div className="ml-auto flex items-center gap-2 lg:hidden">
 
-        {/* Mobile Hamburger Button */}
-        <div className="flex items-center gap-2 md:hidden">
-          <a
-            href={`tel:${APP_CONFIG.phoneRaw}`}
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-black text-white"
-            aria-label="Call Tuqo Tools"
-          >
-            <PhoneIcon className="h-4 w-4" />
-          </a>
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="flex h-10 w-10 items-center justify-center rounded-md text-white hover:bg-red-700 focus:outline-none"
-            aria-label="Toggle Navigation Menu"
-          >
-            {mobileMenuOpen ? <XIcon className="h-6 w-6" /> : <MenuIcon className="h-6 w-6" />}
-          </button>
+            <a
+              href={`tel:${APP_CONFIG.phoneRaw}`}
+              className="flex h-10 w-10 items-center justify-center rounded-md bg-[#e21b23] text-white transition-colors hover:bg-[#b8141a]"
+              aria-label="Call Tuqo Tools"
+            >
+              <PhoneIcon className="h-4 w-4" />
+            </a>
+
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="flex h-10 w-10 items-center justify-center rounded-md border border-gray-200 bg-white text-[#111214] transition-colors hover:border-[#e21b23] hover:text-[#e21b23]"
+              aria-label="Toggle Navigation Menu"
+            >
+              {mobileMenuOpen ? (
+                <XIcon className="h-5 w-5" />
+              ) : (
+                <MenuIcon className="h-5 w-5" />
+              )}
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Mobile Menu Drawer */}
+      {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="border-t border-red-700/50 bg-[#b9151c] px-4 py-6 md:hidden">
-          <div className="flex flex-col space-y-4">
+        <div className="border-t border-gray-200 bg-white px-5 py-5 shadow-xl lg:hidden">
+          <div className="flex flex-col">
+
             {NAV_LINKS.map((link) => {
               if (link.subItems) {
                 return (
-                  <div key={link.label} className="border-b border-red-700/40 pb-2">
+                  <div
+                    key={link.label}
+                    className="border-b border-gray-100"
+                  >
                     <button
-                      onClick={() => setMobileProductsOpen(!mobileProductsOpen)}
-                      className="flex w-full items-center justify-between py-2 text-base font-semibold text-white"
+                      onClick={() =>
+                        setMobileProductsOpen(!mobileProductsOpen)
+                      }
+                      className="flex h-12 w-full items-center justify-between text-[11px] font-extrabold uppercase tracking-wide text-[#111214]"
                     >
                       <span>{link.label}</span>
+
                       <ChevronDownIcon
                         className={`h-4 w-4 transition-transform ${
                           mobileProductsOpen ? "rotate-180" : ""
                         }`}
                       />
                     </button>
+
                     {mobileProductsOpen && (
-                      <div className="ml-4 mt-2 space-y-2 border-l-2 border-red-400 pl-3">
+                      <div className="mb-3 ml-3 border-l-2 border-[#e21b23] pl-4">
                         {link.subItems.map((sub) => (
                           <Link
                             key={sub.label}
                             href={sub.href}
-                            className="block py-1.5 text-sm text-red-100 hover:text-white"
+                            className="block py-2.5 text-[10px] font-bold uppercase tracking-wide text-gray-600 transition-colors hover:text-[#e21b23]"
                           >
                             {sub.label}
                           </Link>
@@ -182,22 +223,27 @@ export function Header() {
                 <Link
                   key={link.label}
                   href={link.href}
-                  className="block border-b border-red-700/40 py-2 text-base font-semibold text-white hover:text-red-100"
+                  className={`flex h-12 items-center border-b border-gray-100 text-[11px] font-extrabold uppercase tracking-wide transition-colors ${
+                    pathname === link.href
+                      ? "text-[#e21b23]"
+                      : "text-[#111214] hover:text-[#e21b23]"
+                  }`}
                 >
                   {link.label}
                 </Link>
               );
             })}
 
-            <div className="pt-3">
+            <div className="pt-5">
               <a
                 href={`tel:${APP_CONFIG.phoneRaw}`}
-                className="flex w-full items-center justify-center gap-2 rounded-lg bg-black py-3 text-sm font-bold text-white shadow-md"
+                className="flex h-11 w-full items-center justify-center gap-2 rounded-md bg-[#e21b23] text-[10px] font-extrabold uppercase tracking-wider text-white transition-colors hover:bg-[#b8141a]"
               >
                 <PhoneIcon className="h-4 w-4" />
                 <span>Call {APP_CONFIG.phone}</span>
               </a>
             </div>
+
           </div>
         </div>
       )}
