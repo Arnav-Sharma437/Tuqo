@@ -55,7 +55,8 @@ export function FaqSection() {
 
           </div>
 
-          <h2 className="text-3xl font-black uppercase leading-none tracking-tight text-[#111214] sm:text-4xl lg:text-5xl">
+          {/* Smaller Heading */}
+          <h2 className="text-2xl font-black uppercase leading-none tracking-tight text-[#111214] sm:text-3xl lg:text-4xl">
             EVERYTHING YOU NEED
             <br />
             <span className="text-[#e21b23]">
