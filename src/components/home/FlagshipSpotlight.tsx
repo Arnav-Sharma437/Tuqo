@@ -61,7 +61,8 @@ export function FlagshipSpotlight() {
               </span>
             </div>
 
-            <h2 className="text-2xl font-black uppercase leading-none tracking-tight text-[#111214] sm:text-3xl lg:text-4xl">
+            {/* RESTORED HEADING SIZE */}
+            <h2 className="text-3xl font-black uppercase leading-none tracking-tight text-[#111214] sm:text-4xl lg:text-5xl">
               HEAVY-DUTY MACHINERY
               <br className="hidden sm:block" />
               <span className="text-[#e21b23]"> BUILT FOR PROS</span>
@@ -86,6 +87,7 @@ export function FlagshipSpotlight() {
               key={machine.title}
               className="group flex flex-col overflow-hidden border border-gray-200 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-[#e21b23]/40 hover:shadow-xl hover:shadow-black/10"
             >
+
               {/* Product Image */}
               <div className="relative flex h-[240px] items-center justify-center overflow-hidden bg-[#f8f8f8] sm:h-[260px]">
 
