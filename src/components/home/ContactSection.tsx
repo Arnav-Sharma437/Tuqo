@@ -11,151 +11,234 @@ import {
 
 export function ContactSection() {
   return (
-    <section id="contact" className="relative w-full bg-white py-16 sm:py-20 lg:py-24 overflow-hidden">
-      {/* Background architectural grid */}
+    <section
+      id="contact"
+      className="relative w-full overflow-hidden bg-[#08090b] py-16 text-white sm:py-20 lg:py-24"
+    >
+
+      {/* Background grid */}
       <div
-        className="absolute inset-0 opacity-[0.03] pointer-events-none"
+        className="pointer-events-none absolute inset-0 opacity-[0.04]"
         style={{
-          backgroundImage: `linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)`,
-          backgroundSize: "40px 40px",
+          backgroundImage:
+            "linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)",
+          backgroundSize: "45px 45px",
         }}
       />
 
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Section Top Header */}
-        <div className="mb-12 max-w-2xl">
-          <div className="flex items-center gap-2">
-            <span className="h-1.5 w-6 rounded-full bg-[#d31820]" />
-            <span className="text-xs font-black uppercase tracking-[0.25em] text-[#d31820]">
+      {/* Red glow */}
+      <div className="pointer-events-none absolute right-[-150px] top-1/2 h-[450px] w-[450px] -translate-y-1/2 rounded-full bg-red-600/10 blur-[130px]" />
+
+      <div className="relative mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-10">
+
+        {/* ================= HEADER ================= */}
+        <div className="mb-10 max-w-3xl">
+
+          <div className="mb-3 flex items-center gap-2">
+            <span className="h-[3px] w-7 bg-[#e21b23]" />
+
+            <span className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-[#e21b23] sm:text-xs">
               GET IN TOUCH
             </span>
           </div>
-          <h2 className="mt-2 text-3xl font-black uppercase tracking-tight text-gray-950 sm:text-4xl lg:text-5xl">
-            CONTACT US
+
+          <h2 className="text-3xl font-black uppercase leading-none tracking-tight sm:text-4xl lg:text-5xl">
+            HAVE A QUESTION?
+            <br />
+            <span className="text-[#e21b23]">
+              WE&apos;RE HERE TO HELP.
+            </span>
           </h2>
-          <p className="mt-3 text-sm sm:text-base text-gray-600 leading-relaxed">
-            We love our customers, so feel free to visit during normal business hours or reach out directly on WhatsApp.
+
+          <p className="mt-5 max-w-2xl text-sm leading-6 text-gray-400 sm:text-base sm:leading-7">
+            Connect directly with our technical support and sales team for
+            product catalogs, quotes, service assistance, and dealer inquiries.
           </p>
+
         </div>
 
-        {/* Custom Redesigned Industrial Layout Cards */}
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-8 items-stretch">
-          {/* Left Column: Direct WhatsApp & Phone Action Card */}
-          <div className="flex flex-col justify-between rounded-3xl bg-gradient-to-br from-[#0e0f14] via-[#14161d] to-[#0c0d11] p-8 sm:p-10 text-white shadow-xl ring-1 ring-white/10 lg:col-span-6">
+        {/* ================= MAIN GRID ================= */}
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">
+
+          {/* ================= SUPPORT CARD ================= */}
+          <div className="relative flex flex-col justify-between overflow-hidden border border-white/10 bg-[#101114] p-7 sm:p-9 lg:col-span-6">
+
+            {/* Red corner */}
+            <div className="absolute right-0 top-0 h-1 w-24 bg-[#e21b23]" />
+
             <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-1 text-xs font-bold text-emerald-400">
-                <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+
+              {/* Status */}
+              <div className="inline-flex items-center gap-2 border border-emerald-500/20 bg-emerald-500/5 px-3 py-1.5 text-[9px] font-extrabold uppercase tracking-wider text-emerald-400">
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
                 Customer Support Active
               </div>
 
-              <h3 className="mt-6 text-2xl sm:text-3xl font-black uppercase tracking-tight text-white leading-tight">
-                Quick Assistance &amp; Inquiries
+              <h3 className="mt-6 text-2xl font-black uppercase leading-tight tracking-tight text-white sm:text-3xl">
+                QUICK ASSISTANCE
+                <br />
+                <span className="text-[#e21b23]">&amp; INQUIRIES</span>
               </h3>
 
-              <p className="mt-3 text-sm text-gray-300 leading-relaxed">
-                Connect directly with our technical support and sales team for product catalogs, quotes, and authorized dealer inquiries.
+              <p className="mt-4 max-w-lg text-sm leading-6 text-gray-400">
+                Get in touch with our team for product information, technical
+                support, quotations, catalogs, and authorized dealer inquiries.
               </p>
 
-              {/* Action Buttons */}
-              <div className="mt-8 flex flex-col sm:flex-row gap-4">
+              {/* Actions */}
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+
                 <a
                   href={APP_CONFIG.whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group inline-flex items-center justify-center gap-3 rounded-xl bg-[#25D366] px-6 py-4 text-xs sm:text-sm font-extrabold uppercase tracking-wider text-black shadow-lg shadow-emerald-950/40 transition-all duration-200 hover:bg-[#20bd5a] hover:scale-[1.02] active:scale-95"
+                  className="group inline-flex items-center justify-center gap-2.5 bg-[#25D366] px-6 py-3.5 text-[10px] font-extrabold uppercase tracking-wider text-black transition-all duration-300 hover:bg-[#20bd5a] hover:shadow-[0_10px_30px_rgba(37,211,102,0.18)]"
                 >
-                  <WhatsAppIcon className="h-5 w-5 text-black" />
+                  <WhatsAppIcon className="h-4 w-4 text-black" />
                   <span>Message on WhatsApp</span>
                 </a>
 
                 <a
                   href={`tel:${APP_CONFIG.phoneRaw}`}
-                  className="group inline-flex items-center justify-center gap-2.5 rounded-xl border border-white/20 bg-white/5 px-6 py-4 text-xs sm:text-sm font-bold uppercase tracking-wider text-white backdrop-blur-sm transition-all duration-200 hover:bg-white/10 hover:border-white/40 active:scale-95"
+                  className="group inline-flex items-center justify-center gap-2.5 border border-white/15 bg-white/[0.03] px-6 py-3.5 text-[10px] font-extrabold uppercase tracking-wider text-white transition-all duration-300 hover:border-[#e21b23] hover:bg-white/[0.06]"
                 >
-                  <PhoneIcon className="h-4 w-4 text-[#d31820] group-hover:scale-110 transition-transform" />
+                  <PhoneIcon className="h-4 w-4 text-[#e21b23]" />
                   <span>{APP_CONFIG.phone}</span>
                 </a>
+
               </div>
+
             </div>
 
-            {/* Bottom trust footnote */}
-            <div className="mt-8 border-t border-white/10 pt-6 flex items-center justify-between text-xs text-gray-400">
-              <span className="font-medium">Direct Industrial Line</span>
-              <span className="font-semibold text-white tracking-wide">Fast Response</span>
+            {/* Bottom info */}
+            <div className="mt-8 flex items-center justify-between border-t border-white/10 pt-5">
+
+              <span className="text-[9px] font-bold uppercase tracking-wider text-gray-500">
+                Direct Industrial Line
+              </span>
+
+              <span className="text-[9px] font-extrabold uppercase tracking-wider text-white">
+                Fast Response
+              </span>
+
             </div>
+
           </div>
 
-          {/* Right Column: Office Location & Business Hours */}
-          <div className="flex flex-col justify-between gap-6 lg:col-span-6">
-            {/* Location Card */}
-            <div className="rounded-3xl border border-gray-200/90 bg-[#fafbfc] p-6 sm:p-8 shadow-sm transition-all hover:border-gray-300">
-              <div className="flex items-start gap-4">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#d31820] text-white shadow-md shadow-red-600/20">
-                  <MapPinIcon className="h-6 w-6" />
+          {/* ================= RIGHT SIDE ================= */}
+          <div className="flex flex-col gap-4 lg:col-span-6">
+
+            {/* Location */}
+            <div className="border border-white/10 bg-[#101114] p-6 sm:p-8">
+
+              <div className="flex items-start gap-5">
+
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center bg-[#e21b23] text-white">
+                  <MapPinIcon className="h-5 w-5" />
                 </div>
-                <div className="min-w-0 flex-1">
-                  <span className="text-[11px] font-black uppercase tracking-widest text-[#d31820]">
+
+                <div className="min-w-0">
+
+                  <span className="text-[9px] font-extrabold uppercase tracking-[0.2em] text-[#e21b23]">
                     CORPORATE &amp; MANUFACTURING FACILITY
                   </span>
-                  <h3 className="mt-1 text-lg sm:text-xl font-bold uppercase tracking-tight text-gray-950">
+
+                  <h3 className="mt-2 text-lg font-black uppercase tracking-tight text-white sm:text-xl">
                     {APP_CONFIG.business.name}
                   </h3>
-                  <address className="mt-2 text-xs sm:text-sm leading-relaxed text-gray-600 not-italic font-medium">
+
+                  <address className="mt-2 text-xs leading-5 text-gray-400 not-italic sm:text-sm">
                     {APP_CONFIG.business.addressLines.map((line) => (
                       <span key={line} className="block">
                         {line}
                       </span>
                     ))}
                   </address>
+
                 </div>
+
               </div>
+
             </div>
 
-            {/* Operating Hours Card */}
-            <div className="rounded-3xl border border-gray-200/90 bg-[#fafbfc] p-6 sm:p-8 shadow-sm">
-              <div className="flex items-center justify-between border-b border-gray-200/80 pb-4 mb-4">
+            {/* Working Hours */}
+            <div className="border border-white/10 bg-[#101114] p-6 sm:p-8">
+
+              <div className="mb-5 flex items-center justify-between border-b border-white/10 pb-4">
+
                 <div className="flex items-center gap-3">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gray-900 text-white">
+
+                  <div className="flex h-10 w-10 items-center justify-center bg-[#e21b23] text-white">
                     <ClockIcon className="h-4 w-4" />
                   </div>
+
                   <div>
-                    <h3 className="text-sm font-bold uppercase tracking-wide text-gray-950">
+                    <h3 className="text-xs font-extrabold uppercase tracking-wider text-white">
                       Working Hours
                     </h3>
-                    <p className="text-[11px] text-gray-500">Standard IST Timezone</p>
+
+                    <p className="mt-0.5 text-[9px] text-gray-500">
+                      Standard IST Timezone
+                    </p>
                   </div>
+
                 </div>
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-bold text-emerald-700 border border-emerald-200">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-600" />
+
+                <span className="hidden border border-emerald-500/20 bg-emerald-500/5 px-2.5 py-1 text-[8px] font-extrabold uppercase tracking-wider text-emerald-400 sm:block">
                   Mon - Fri
                 </span>
+
               </div>
 
-              {/* Hours Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+              {/* Hours */}
+              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+
                 {APP_CONFIG.businessHours.map((item) => {
+
                   const isClosed = item.hours === "Closed";
+
                   return (
                     <div
                       key={item.day}
-                      className={`flex items-center justify-between rounded-lg px-3 py-2 ${
+                      className={`flex items-center justify-between border px-3 py-2.5 ${
                         isClosed
-                          ? "bg-red-50/60 text-red-700"
-                          : "bg-white border border-gray-100 text-gray-800"
+                          ? "border-red-500/20 bg-red-500/5"
+                          : "border-white/5 bg-white/[0.025]"
                       }`}
                     >
-                      <span className="font-bold">{item.day}</span>
-                      <span className={isClosed ? "font-bold text-red-600" : "font-medium text-gray-600"}>
+
+                      <span className="text-[10px] font-bold text-gray-300">
+                        {item.day}
+                      </span>
+
+                      <span
+                        className={`text-[10px] font-bold ${
+                          isClosed
+                            ? "text-[#e21b23]"
+                            : "text-gray-400"
+                        }`}
+                      >
                         {item.hours}
                       </span>
+
                     </div>
                   );
+
                 })}
+
               </div>
+
             </div>
+
           </div>
+
         </div>
+
       </div>
+
+      {/* Bottom red line */}
+      <div className="absolute bottom-0 left-0 h-[2px] w-full bg-[#e21b23]" />
+
     </section>
   );
 }
