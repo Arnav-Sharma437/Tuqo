@@ -36,7 +36,7 @@ export function CategorySection() {
               </span>
             </div>
 
-            <h2 className="text-3xl font-black uppercase leading-none tracking-tight text-[#111214] sm:text-4xl">
+            <h2 className="text-2xl font-black uppercase leading-none tracking-tight text-[#111214] sm:text-3xl">
               EXPLORE OUR RANGE
             </h2>
           </div>
