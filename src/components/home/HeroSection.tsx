@@ -65,7 +65,7 @@ export function HeroSection() {
               {/* Explore Products */}
               <Link
                 href="#categories"
-                className="group inline-flex min-w-[175px] items-center justify-center gap-2 rounded-md bg-[#e21b23] px-6 py-3.5 text-[11px] font-extrabold uppercase tracking-wider text-white shadow-[0_10px_30px_rgba(226,27,35,0.25)] transition-all duration-300 hover:bg-[#ff252d] hover:shadow-[0_12px_35px_rgba(226,27,35,0.40)]"
+                className=className=className="group inline-flex h-11 min-w-[175px] items-center justify-center gap-2 rounded-md bg-[#e21b23] px-6 text-[10px] font-extrabold uppercase tracking-wider text-white shadow-[0_10px_30px_rgba(226,27,35,0.25)] transition-all duration-300 hover:bg-[#ff252d] hover:shadow-[0_12px_35px_rgba(226,27,35,0.40)]"
               >
                 <span>Explore Products</span>
 
