@@ -11,40 +11,46 @@ export function TrustStrip() {
   const getIcon = (iconName: string) => {
     switch (iconName) {
       case "shield":
-        return <ShieldCheckIcon className="h-6 w-6 text-gray-900" />;
+        return <ShieldCheckIcon className="h-7 w-7 text-white" />;
       case "cog":
-        return <CogIcon className="h-6 w-6 text-gray-900" />;
+        return <CogIcon className="h-7 w-7 text-white" />;
       case "diamond":
-        return <QualityDiamondIcon className="h-6 w-6 text-gray-900" />;
+        return <QualityDiamondIcon className="h-7 w-7 text-white" />;
       case "support":
-        return <UsersSupportIcon className="h-6 w-6 text-gray-900" />;
+        return <UsersSupportIcon className="h-7 w-7 text-white" />;
       default:
-        return <ShieldCheckIcon className="h-6 w-6 text-gray-900" />;
+        return <ShieldCheckIcon className="h-7 w-7 text-white" />;
     }
   };
 
   return (
-    <section className="w-full border-y border-gray-200 bg-white py-6 shadow-sm">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+    <section className="w-full border-y border-white/10 bg-[#101114] text-white">
+      <div className="mx-auto max-w-[1500px] px-5 sm:px-8 lg:px-12">
+        <div className="grid grid-cols-1 divide-y divide-white/10 sm:grid-cols-2 sm:divide-y-0 lg:grid-cols-4 lg:divide-x lg:divide-white/10">
+
           {TRUST_FEATURES.map((item) => (
             <div
               key={item.title}
-              className="flex items-center gap-3.5 px-2 py-1 transition hover:translate-x-0.5"
+              className="group flex items-center gap-4 px-4 py-6 transition-all duration-300 hover:bg-white/[0.03] sm:px-6 lg:py-7"
             >
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-gray-50 border border-gray-100 shadow-sm">
+              {/* Icon */}
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-[#e21b23]/40 bg-[#e21b23]/10 transition-all duration-300 group-hover:border-[#e21b23] group-hover:bg-[#e21b23]">
                 {getIcon(item.icon)}
               </div>
-              <div className="min-w-0 flex-1">
-                <h3 className="text-xs font-bold uppercase tracking-tight text-gray-900 sm:text-sm">
+
+              {/* Content */}
+              <div className="min-w-0">
+                <h3 className="text-xs font-extrabold uppercase tracking-wide text-white sm:text-sm">
                   {item.title}
                 </h3>
-                <p className="mt-0.5 text-[11px] text-gray-500 leading-tight">
+
+                <p className="mt-1 text-[10px] leading-4 text-gray-400 sm:text-[11px]">
                   {item.description}
                 </p>
               </div>
             </div>
           ))}
+
         </div>
       </div>
     </section>
