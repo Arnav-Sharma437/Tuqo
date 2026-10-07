@@ -5,73 +5,113 @@ import { ArrowRightIcon } from "@/components/common/Icons";
 
 export function FeatureBanner() {
   return (
-    <section className="relative w-full overflow-hidden bg-[#090a0d] text-white">
-      {/* Full-width Edge-to-Edge Grid */}
-      <div className="w-full grid grid-cols-1 lg:grid-cols-12 min-h-[360px] md:min-h-[420px]">
-        {/* Left Full-bleed Action Shot */}
-        <div className="relative h-72 sm:h-96 lg:h-auto lg:col-span-7 overflow-hidden">
+    <section className="relative w-full overflow-hidden bg-[#08090b] text-white">
+
+      <div className="grid min-h-[420px] grid-cols-1 lg:grid-cols-2">
+
+        {/* ================= IMAGE ================= */}
+        <div className="relative min-h-[300px] overflow-hidden lg:min-h-[500px]">
+
           <Image
             src="/images/banner-action.png"
-            alt="TUQO Power Tool in Action"
+            alt="TUQO Professional Tools in Action"
             fill
-            sizes="(max-width: 1024px) 100vw, 60vw"
-            className="object-cover object-center scale-105 transition-transform duration-700 hover:scale-110"
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            className="object-cover object-center transition-transform duration-700 hover:scale-105"
           />
 
-          {/* Full-width dark & red angle transitions */}
-          <div className="hidden lg:block absolute inset-y-0 right-0 w-32 bg-gradient-to-r from-transparent via-[#090a0d]/60 to-[#090a0d]" />
-          <div className="hidden lg:block absolute inset-y-0 right-16 w-3.5 bg-[#d31820] -skew-x-12 shadow-[0_0_25px_rgba(211,24,32,0.6)]" />
+          {/* Dark overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/10 via-black/10 to-[#08090b]/90 lg:from-transparent lg:via-black/10 lg:to-[#08090b]" />
 
-          {/* Mobile Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#090a0d] via-transparent to-transparent lg:hidden" />
+          {/* Red accent */}
+          <div className="absolute bottom-0 left-0 h-1 w-full bg-[#e21b23] lg:bottom-auto lg:right-0 lg:left-auto lg:h-full lg:w-1" />
+
         </div>
 
-        {/* Right Content Area with Full-width padding align */}
-        <div className="relative z-10 flex flex-col justify-center px-6 py-12 sm:px-12 md:px-16 lg:col-span-5 lg:py-16 bg-[#090a0d]">
-          <div className="max-w-xl">
-            <div className="flex items-center gap-2 mb-3">
-              <span className="h-1.5 w-6 rounded-full bg-[#d31820]" />
-              <span className="text-xs font-black uppercase tracking-[0.25em] text-[#d31820]">
+        {/* ================= CONTENT ================= */}
+        <div className="relative flex items-center bg-[#08090b] px-6 py-14 sm:px-10 lg:px-14 xl:px-20">
+
+          {/* Red glow */}
+          <div className="pointer-events-none absolute right-0 top-1/2 h-[300px] w-[300px] -translate-y-1/2 rounded-full bg-red-600/10 blur-[100px]" />
+
+          <div className="relative z-10 max-w-xl">
+
+            {/* Label */}
+            <div className="mb-4 flex items-center gap-2">
+
+              <span className="h-[3px] w-7 bg-[#e21b23]" />
+
+              <span className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-[#e21b23] sm:text-xs">
                 TUQO TOOLS
               </span>
+
             </div>
 
-            <h2 className="text-3xl font-black uppercase tracking-tight text-white sm:text-4xl lg:text-5xl leading-[1.08]">
-              ENGINEERED
-              <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-gray-400">
+            {/* Heading */}
+            <h2 className="text-4xl font-black uppercase leading-[0.95] tracking-tight sm:text-5xl lg:text-6xl">
+
+              <span className="block text-white">
+                ENGINEERED
+              </span>
+
+              <span className="block text-[#e21b23]">
                 FOR REAL WORK
               </span>
+
             </h2>
 
-            <p className="mt-5 text-sm sm:text-base text-gray-300 leading-relaxed font-normal">
-              From heavy-duty machines to precision tools, TUQO empowers you to work smarter, faster and better with industrial-grade reliability.
+            {/* Description */}
+            <p className="mt-6 max-w-lg text-sm leading-6 text-gray-300 sm:text-base sm:leading-7">
+              From heavy-duty machines to precision tools, TUQO empowers
+              professionals to work smarter, faster and better with
+              reliable equipment built for demanding jobs.
             </p>
 
-            {/* Industrial Spec Badges */}
-            <div className="mt-8 grid grid-cols-2 gap-4 border-y border-white/10 py-5 text-xs">
+            {/* Features */}
+            <div className="mt-7 grid grid-cols-2 gap-5 border-y border-white/10 py-5">
+
               <div>
-                <span className="block font-bold text-white text-lg sm:text-xl">100%</span>
-                <span className="text-gray-400 uppercase tracking-wider text-[11px]">Copper Motor Units</span>
+                <p className="text-2xl font-black text-white sm:text-3xl">
+                  100%
+                </p>
+
+                <p className="mt-1 text-[9px] font-bold uppercase tracking-wider text-gray-400 sm:text-[10px]">
+                  Copper Motor Units
+                </p>
               </div>
+
               <div>
-                <span className="block font-bold text-[#d31820] text-lg sm:text-xl">Heavy-Duty</span>
-                <span className="text-gray-400 uppercase tracking-wider text-[11px]">Continuous Duty Cycle</span>
+                <p className="text-2xl font-black text-[#e21b23] sm:text-3xl">
+                  HEAVY-DUTY
+                </p>
+
+                <p className="mt-1 text-[9px] font-bold uppercase tracking-wider text-gray-400 sm:text-[10px]">
+                  Continuous Duty Cycle
+                </p>
               </div>
+
             </div>
 
-            <div className="mt-8">
+            {/* CTA */}
+            <div className="mt-7">
+
               <Link
                 href="#categories"
-                className="inline-flex items-center gap-2 rounded-lg bg-[#d31820] px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-white shadow-lg shadow-red-950/40 transition-all duration-200 hover:bg-[#b8141a] hover:scale-105 active:scale-95"
+                className="group inline-flex items-center gap-3 bg-[#e21b23] px-6 py-3.5 text-[10px] font-extrabold uppercase tracking-wider text-white transition-all duration-300 hover:bg-[#ff252d]"
               >
-                <span>Discover Equipment</span>
-                <ArrowRightIcon className="h-4 w-4" />
+                Discover Equipment
+
+                <ArrowRightIcon className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
+
             </div>
+
           </div>
+
         </div>
+
       </div>
+
     </section>
   );
 }
