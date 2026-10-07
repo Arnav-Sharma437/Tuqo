@@ -35,6 +35,7 @@ export function HeroSection() {
 
             {/* Main Heading */}
             <h1 className="text-5xl font-black uppercase leading-[0.92] tracking-[-0.035em] sm:text-6xl md:text-7xl lg:text-6xl xl:text-[78px]">
+
               <span className="block text-white">
                 POWERING
               </span>
@@ -50,6 +51,7 @@ export function HeroSection() {
               <span className="block text-[#e21b23]">
                 PERFORMANCE.
               </span>
+
             </h1>
 
             {/* Description */}
@@ -65,7 +67,7 @@ export function HeroSection() {
               {/* Explore Products */}
               <Link
                 href="#categories"
-                className=className=className="group inline-flex h-11 min-w-[175px] items-center justify-center gap-2 rounded-md bg-[#e21b23] px-6 text-[10px] font-extrabold uppercase tracking-wider text-white shadow-[0_10px_30px_rgba(226,27,35,0.25)] transition-all duration-300 hover:bg-[#ff252d] hover:shadow-[0_12px_35px_rgba(226,27,35,0.40)]"
+                className="group inline-flex h-11 min-w-[175px] items-center justify-center gap-2 rounded-md bg-[#e21b23] px-6 text-[10px] font-extrabold uppercase tracking-wider text-white shadow-[0_10px_30px_rgba(226,27,35,0.25)] transition-all duration-300 hover:bg-[#ff252d] hover:shadow-[0_12px_35px_rgba(226,27,35,0.40)]"
               >
                 <span>Explore Products</span>
 
@@ -75,12 +77,13 @@ export function HeroSection() {
               {/* Download Catalog */}
               <Link
                 href="#catalog"
-                className="inline-flex min-w-[175px] items-center justify-center gap-2 rounded-md border border-white/30 bg-white/[0.04] px-6 py-3.5 text-[11px] font-extrabold uppercase tracking-wider text-white backdrop-blur-sm transition-all duration-300 hover:border-white/60 hover:bg-white/10"
+                className="inline-flex h-11 min-w-[175px] items-center justify-center gap-2 rounded-md border border-white/30 bg-white/[0.04] px-6 text-[10px] font-extrabold uppercase tracking-wider text-white backdrop-blur-sm transition-all duration-300 hover:border-white/60 hover:bg-white/10"
               >
                 Download Catalog
               </Link>
 
             </div>
+
           </div>
 
           {/* ================= RIGHT PRODUCT IMAGE ================= */}
@@ -105,9 +108,11 @@ export function HeroSection() {
               </div>
 
             </div>
+
           </div>
 
         </div>
+
       </div>
 
       {/* Bottom red line */}
