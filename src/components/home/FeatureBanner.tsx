@@ -43,7 +43,7 @@ export function FeatureBanner() {
             </div>
 
             {/* Heading */}
-            <h2 className="text-4xl font-black uppercase leading-[0.95] tracking-tight sm:text-5xl lg:text-6xl">
+            <h2 className="text-3xl font-black uppercase leading-[0.95] tracking-tight sm:text-4xl lg:text-5xl">
               <span className="block text-white">
                 ENGINEERED
               </span>
