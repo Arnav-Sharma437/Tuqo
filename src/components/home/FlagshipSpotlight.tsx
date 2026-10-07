@@ -61,7 +61,7 @@ export function FlagshipSpotlight() {
               </span>
             </div>
 
-            <h2 className="text-3xl font-black uppercase leading-none tracking-tight text-[#111214] sm:text-4xl lg:text-5xl">
+            <h2 className="text-2xl font-black uppercase leading-none tracking-tight text-[#111214] sm:text-3xl lg:text-4xl">
               HEAVY-DUTY MACHINERY
               <br className="hidden sm:block" />
               <span className="text-[#e21b23]"> BUILT FOR PROS</span>
