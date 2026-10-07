@@ -71,7 +71,7 @@ export function FlagshipSpotlight() {
           {/* Desktop button */}
           <Link
             href="/products"
-            className="group hidden h-11 min-w-[175px] items-center justify-center gap-2 border border-[#111214] px-5 text-[10px] font-extrabold uppercase tracking-wide text-[#111214] transition-all duration-300 hover:border-[#e21b23] hover:bg-[#e21b23] hover:text-white sm:inline-flex"
+            className="group hidden h-11 min-w-[175px] items-center justify-center gap-2 rounded-md border border-[#111214] px-5 text-[10px] font-extrabold uppercase tracking-wide text-[#111214] transition-all duration-300 hover:border-[#e21b23] hover:bg-[#e21b23] hover:text-white sm:inline-flex"
           >
             Explore All Machinery
 
@@ -118,7 +118,8 @@ export function FlagshipSpotlight() {
               {/* Product Information */}
               <div className="flex flex-1 flex-col p-5 sm:p-6">
 
-                <h3 className="text-base font-black uppercase leading-tight tracking-tight text-[#111214] transition-colors group-hover:text-[#e21b23] sm:text-lg">
+                {/* Fixed title height */}
+                <h3 className="min-h-[44px] text-base font-black uppercase leading-tight tracking-tight text-[#111214] transition-colors group-hover:text-[#e21b23] sm:text-lg">
                   {machine.title}
                 </h3>
 
@@ -141,14 +142,14 @@ export function FlagshipSpotlight() {
                 </div>
 
                 {/* CTA */}
-                <div className="mt-5 flex items-center justify-between gap-3">
+                <div className="mt-auto flex items-center justify-between gap-3 pt-5">
                   <span className="text-[9px] font-bold uppercase tracking-wider text-gray-400">
                     Technical Details
                   </span>
 
                   <Link
                     href={machine.href}
-                    className="group/button inline-flex h-11 min-w-[175px] shrink-0 items-center justify-center gap-2 rounded-sm bg-[#111214] px-5 text-[10px] font-extrabold uppercase tracking-wider text-white transition-all duration-300 hover:bg-[#e21b23]"
+                    className="group/button inline-flex h-11 min-w-[175px] shrink-0 items-center justify-center gap-2 rounded-md bg-[#111214] px-5 text-[10px] font-extrabold uppercase tracking-wider text-white transition-all duration-300 hover:bg-[#e21b23]"
                   >
                     View Product
 
@@ -165,7 +166,7 @@ export function FlagshipSpotlight() {
         <div className="mt-7 flex justify-center sm:hidden">
           <Link
             href="/products"
-            className="inline-flex h-11 min-w-[175px] items-center justify-center gap-2 border border-[#111214] px-5 text-[10px] font-extrabold uppercase tracking-wide text-[#111214] transition-all hover:border-[#e21b23] hover:bg-[#e21b23] hover:text-white"
+            className="inline-flex h-11 min-w-[175px] items-center justify-center gap-2 rounded-md border border-[#111214] px-5 text-[10px] font-extrabold uppercase tracking-wide text-[#111214] transition-all hover:border-[#e21b23] hover:bg-[#e21b23] hover:text-white"
           >
             Explore All Machinery
 
