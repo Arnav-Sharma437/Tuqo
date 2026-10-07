@@ -97,7 +97,7 @@ export function FeatureBanner() {
 
               <Link
                 href="#categories"
-                className="group inline-flex items-center gap-3 bg-[#e21b23] px-6 py-3.5 text-[10px] font-extrabold uppercase tracking-wider text-white transition-all duration-300 hover:bg-[#ff252d]"
+                className="group inline-flex h-11 min-w-[175px] items-center justify-center gap-2 bg-[#e21b23] px-6 text-[10px] font-extrabold uppercase tracking-wider text-white transition-all duration-300 hover:bg-[#ff252d]"
               >
                 Discover Equipment
 
