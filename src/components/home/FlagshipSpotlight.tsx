@@ -48,12 +48,10 @@ export function FlagshipSpotlight() {
 
   return (
     <section className="w-full bg-[#f5f5f5] py-14 sm:py-16 lg:py-20">
-
       <div className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-10">
 
         {/* ================= HEADER ================= */}
         <div className="mb-8 flex items-end justify-between gap-6">
-
           <div>
             <div className="mb-2 flex items-center gap-2">
               <span className="h-[3px] w-7 bg-[#e21b23]" />
@@ -79,12 +77,10 @@ export function FlagshipSpotlight() {
 
             <ArrowRightIcon className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
           </Link>
-
         </div>
 
         {/* ================= PRODUCT GRID ================= */}
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
-
           {flagships.map((machine) => (
             <article
               key={machine.title}
@@ -117,7 +113,6 @@ export function FlagshipSpotlight() {
                     className="object-contain"
                   />
                 </div>
-
               </div>
 
               {/* Product Information */}
@@ -129,7 +124,6 @@ export function FlagshipSpotlight() {
 
                 {/* Specs */}
                 <div className="mt-5 divide-y divide-gray-100 border-y border-gray-100">
-
                   {machine.specs.map((spec) => (
                     <div
                       key={spec.label}
@@ -144,32 +138,27 @@ export function FlagshipSpotlight() {
                       </span>
                     </div>
                   ))}
-
                 </div>
 
                 {/* CTA */}
                 <div className="mt-5 flex items-center justify-between gap-3">
-
                   <span className="text-[9px] font-bold uppercase tracking-wider text-gray-400">
                     Technical Details
                   </span>
 
                   <Link
                     href={machine.href}
-                    className="group/button inline-flex h-11 min-w-[140px] shrink-0 items-center justify-center gap-2 rounded-sm bg-[#111214] px-4 text-[9px] font-extrabold uppercase tracking-wider text-white transition-all duration-300 hover:bg-[#e21b23]"
+                    className="group/button inline-flex h-11 min-w-[175px] shrink-0 items-center justify-center gap-2 rounded-sm bg-[#111214] px-5 text-[10px] font-extrabold uppercase tracking-wider text-white transition-all duration-300 hover:bg-[#e21b23]"
                   >
                     View Product
 
                     <ArrowRightIcon className="h-3 w-3 transition-transform group-hover/button:translate-x-1" />
                   </Link>
-
                 </div>
 
               </div>
-
             </article>
           ))}
-
         </div>
 
         {/* Mobile link */}
@@ -185,7 +174,6 @@ export function FlagshipSpotlight() {
         </div>
 
       </div>
-
     </section>
   );
 }
