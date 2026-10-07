@@ -90,7 +90,7 @@ export function ContactSection() {
                   href={APP_CONFIG.whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group inline-flex h-11 min-w-[175px] items-center justify-center gap-2.5 bg-[#25D366] px-6 text-[10px] font-extrabold uppercase tracking-wider text-black transition-all duration-300 hover:bg-[#20bd5a] hover:shadow-[0_10px_30px_rgba(37,211,102,0.18)]"
+                  className="group inline-flex h-11 w-[210px] min-w-[210px] items-center justify-center gap-2.5 rounded-md bg-[#25D366] px-6 text-[10px] font-extrabold uppercase tracking-wider text-black transition-all duration-300 hover:bg-[#20bd5a] hover:shadow-[0_10px_30px_rgba(37,211,102,0.18)]"
                 >
                   <WhatsAppIcon className="h-4 w-4 text-black" />
                   <span>Message on WhatsApp</span>
@@ -99,7 +99,7 @@ export function ContactSection() {
                 {/* Phone */}
                 <a
                   href={`tel:${APP_CONFIG.phoneRaw}`}
-                  className="group inline-flex h-11 min-w-[175px] items-center justify-center gap-2.5 border border-white/15 bg-white/[0.03] px-6 text-[10px] font-extrabold uppercase tracking-wider text-white transition-all duration-300 hover:border-[#e21b23] hover:bg-white/[0.06]"
+                  className="group inline-flex h-11 w-[210px] min-w-[210px] items-center justify-center gap-2 rounded-md border border-white/15 bg-white/[0.03] px-6 text-[10px] font-extrabold uppercase tracking-wider text-white transition-all duration-300 hover:border-[#e21b23] hover:bg-white/[0.06]"
                 >
                   <PhoneIcon className="h-4 w-4 text-[#e21b23]" />
                   <span>{APP_CONFIG.phone}</span>
