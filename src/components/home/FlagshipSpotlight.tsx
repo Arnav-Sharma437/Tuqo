@@ -61,7 +61,6 @@ export function FlagshipSpotlight() {
               </span>
             </div>
 
-            {/* RESTORED HEADING SIZE */}
             <h2 className="text-3xl font-black uppercase leading-none tracking-tight text-[#111214] sm:text-4xl lg:text-5xl">
               HEAVY-DUTY MACHINERY
               <br className="hidden sm:block" />
@@ -131,11 +130,11 @@ export function FlagshipSpotlight() {
                       key={spec.label}
                       className="flex items-center justify-between gap-4 py-2.5"
                     >
-                      <span className="text-[11px] font-medium uppercase tracking-wide text-gray-500">
+                      <span className="text-[9px] font-medium uppercase tracking-wide text-gray-500">
                         {spec.label}
                       </span>
 
-                      <span className="text-right text-[11px] font-bold text-gray-900">
+                      <span className="text-right text-[9px] font-bold text-gray-900">
                         {spec.value}
                       </span>
                     </div>
@@ -144,7 +143,7 @@ export function FlagshipSpotlight() {
 
                 {/* CTA */}
                 <div className="mt-auto flex items-center justify-between gap-3 pt-5">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400">
+                  <span className="text-[9px] font-bold uppercase tracking-wider text-gray-400">
                     Technical Details
                   </span>
 
