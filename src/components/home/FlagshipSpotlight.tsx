@@ -86,7 +86,6 @@ export function FlagshipSpotlight() {
               key={machine.title}
               className="group flex flex-col overflow-hidden border border-gray-200 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-[#e21b23]/40 hover:shadow-xl hover:shadow-black/10"
             >
-
               {/* Product Image */}
               <div className="relative flex h-[240px] items-center justify-center overflow-hidden bg-[#f8f8f8] sm:h-[260px]">
 
@@ -130,11 +129,11 @@ export function FlagshipSpotlight() {
                       key={spec.label}
                       className="flex items-center justify-between gap-4 py-2.5"
                     >
-                      <span className="text-[9px] font-medium uppercase tracking-wide text-gray-500">
+                      <span className="text-[11px] font-medium uppercase tracking-wide text-gray-500">
                         {spec.label}
                       </span>
 
-                      <span className="text-right text-[9px] font-bold text-gray-900">
+                      <span className="text-right text-[11px] font-bold text-gray-900">
                         {spec.value}
                       </span>
                     </div>
@@ -143,7 +142,7 @@ export function FlagshipSpotlight() {
 
                 {/* CTA */}
                 <div className="mt-auto flex items-center justify-between gap-3 pt-5">
-                  <span className="text-[9px] font-bold uppercase tracking-wider text-gray-400">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400">
                     Technical Details
                   </span>
 
