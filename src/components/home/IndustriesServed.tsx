@@ -5,88 +5,154 @@ import { ArrowRightIcon } from "@/components/common/Icons";
 export function IndustriesServed() {
   const industries = [
     {
+      number: "01",
       title: "Automotive & Car Detailing",
-      description: "Heavy-duty high-pressure washers, snow foam dispensers, and wet extractors built for non-stop wash bay operations.",
+      description:
+        "Heavy-duty high-pressure washers, snow foam dispensers, and wet extractors built for non-stop wash bay operations.",
       icon: "🚗",
       badge: "High Demand",
     },
     {
+      number: "02",
       title: "Metal Fabrication & Welding",
-      description: "High-torque angle grinders, heavy core drills, and pneumatic power lines for structural metal work.",
+      description:
+        "High-torque angle grinders, heavy core drills, and pneumatic power lines for structural metal work.",
       icon: "⚙️",
       badge: "Industrial Heavy",
     },
     {
+      number: "03",
       title: "Construction & Masonry",
-      description: "Continuous-duty air compressors, demolition tools, and rugged cutting equipment for jobsite demands.",
+      description:
+        "Continuous-duty air compressors, demolition tools, and rugged cutting equipment for jobsite demands.",
       icon: "🏗️",
       badge: "Rugged Build",
     },
     {
+      number: "04",
       title: "Manufacturing & Facilities",
-      description: "Plant maintenance equipment, heavy industrial cleaning drums, and high-volume compressed air supply.",
+      description:
+        "Plant maintenance equipment, heavy industrial cleaning drums, and high-volume compressed air supply.",
       icon: "🏭",
       badge: "24/7 Duty",
     },
   ];
 
   return (
-    <section className="relative w-full bg-white py-16 sm:py-20 lg:py-24 border-b border-gray-100">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="max-w-2xl mb-12">
-          <div className="flex items-center gap-2">
-            <span className="h-1.5 w-6 rounded-full bg-[#d31820]" />
-            <span className="text-xs font-black uppercase tracking-[0.25em] text-[#d31820]">
-              APPLICATIONS
+    <section className="relative w-full overflow-hidden bg-[#f4f4f4] py-16 sm:py-20 lg:py-24">
+
+      {/* Background grid */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-40"
+        style={{
+          backgroundImage:
+            "radial-gradient(#c7c7c7 1px, transparent 1px)",
+          backgroundSize: "22px 22px",
+        }}
+      />
+
+      <div className="relative mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-10">
+
+        {/* ================= HEADER ================= */}
+        <div className="mb-10 flex flex-col justify-between gap-5 lg:flex-row lg:items-end">
+
+          <div className="max-w-3xl">
+
+            <div className="mb-3 flex items-center gap-2">
+              <span className="h-[3px] w-7 bg-[#e21b23]" />
+
+              <span className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-[#e21b23] sm:text-xs">
+                APPLICATIONS
+              </span>
+            </div>
+
+            <h2 className="text-3xl font-black uppercase leading-none tracking-tight text-[#111214] sm:text-4xl lg:text-5xl">
+              INDUSTRIES
+              <br className="sm:hidden" />{" "}
+              <span className="text-[#e21b23]">
+                POWERED BY TUQO
+              </span>
+            </h2>
+
+            <p className="mt-5 max-w-2xl text-sm leading-6 text-gray-600 sm:text-base sm:leading-7">
+              Trusted by commercial workshops, detailing studios, factories,
+              and contractors across India.
+            </p>
+
+          </div>
+
+          <div className="hidden lg:block">
+            <span className="text-[9px] font-extrabold uppercase tracking-[0.2em] text-gray-400">
+              BUILT FOR EVERY INDUSTRY
             </span>
           </div>
-          <h2 className="mt-2 text-2xl font-black uppercase tracking-tight text-gray-950 sm:text-3xl lg:text-4xl">
-            INDUSTRIES POWERED BY TUQO
-          </h2>
-          <p className="mt-3 text-sm sm:text-base text-gray-600 leading-relaxed">
-            Trusted by commercial workshops, detailing studios, factories, and contractors across India.
-          </p>
+
         </div>
 
-        {/* 4 Industry Cards */}
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {/* ================= INDUSTRY GRID ================= */}
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+
           {industries.map((ind) => (
-            <div
+            <Link
               key={ind.title}
-              className="group relative flex flex-col justify-between rounded-2xl border border-gray-200/90 bg-[#fafbfc] p-6 transition-all duration-300 hover:border-red-300 hover:bg-white hover:shadow-xl hover:shadow-red-500/5 hover:-translate-y-1"
+              href="#categories"
+              className="group relative flex min-h-[320px] flex-col justify-between overflow-hidden border border-gray-200 bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#e21b23]/50 hover:shadow-2xl hover:shadow-black/10 sm:p-7"
             >
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-3xl p-2 rounded-xl bg-white border border-gray-200/70 shadow-xs">
-                    {ind.icon}
-                  </span>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-gray-500 bg-gray-100 px-2.5 py-1 rounded-full group-hover:bg-red-50 group-hover:text-[#d31820] transition-colors">
+
+              {/* Large Number */}
+              <span className="absolute -right-2 -top-5 text-[90px] font-black leading-none text-gray-100 transition-colors duration-300 group-hover:text-red-50">
+                {ind.number}
+              </span>
+
+              <div className="relative z-10">
+
+                {/* Icon + Badge */}
+                <div className="mb-7 flex items-center justify-between">
+
+                  <div className="flex h-14 w-14 items-center justify-center border border-gray-200 bg-[#f7f7f7] text-2xl transition-all duration-300 group-hover:border-[#e21b23] group-hover:bg-[#e21b23]">
+                    <span className="grayscale transition-all duration-300 group-hover:grayscale-0">
+                      {ind.icon}
+                    </span>
+                  </div>
+
+                  <span className="border border-gray-200 bg-gray-50 px-2.5 py-1.5 text-[8px] font-extrabold uppercase tracking-wider text-gray-500 transition-colors group-hover:border-[#e21b23]/30 group-hover:text-[#e21b23]">
                     {ind.badge}
                   </span>
+
                 </div>
 
-                <h3 className="text-base font-bold text-gray-950 leading-snug group-hover:text-[#d31820] transition-colors">
+                {/* Title */}
+                <h3 className="max-w-[230px] text-lg font-black uppercase leading-tight tracking-tight text-[#111214] transition-colors duration-300 group-hover:text-[#e21b23]">
                   {ind.title}
                 </h3>
 
-                <p className="mt-2 text-xs text-gray-600 leading-relaxed">
+                {/* Description */}
+                <p className="mt-4 text-xs leading-5 text-gray-500 sm:text-[13px]">
                   {ind.description}
                 </p>
+
               </div>
 
-              <div className="mt-6 pt-4 border-t border-gray-100 flex items-center justify-between">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-gray-400 group-hover:text-gray-950 transition-colors">
+              {/* Bottom CTA */}
+              <div className="relative z-10 mt-7 flex items-center justify-between border-t border-gray-100 pt-4">
+
+                <span className="text-[9px] font-extrabold uppercase tracking-wider text-gray-400 transition-colors group-hover:text-[#111214]">
                   View Matching Gear
                 </span>
-                <div className="h-6 w-6 rounded-full flex items-center justify-center text-gray-400 group-hover:text-[#d31820] group-hover:translate-x-1 transition-all">
+
+                <span className="flex h-7 w-7 items-center justify-center bg-[#111214] text-white transition-all duration-300 group-hover:bg-[#e21b23] group-hover:translate-x-1">
                   <ArrowRightIcon className="h-3.5 w-3.5" />
-                </div>
+                </span>
+
               </div>
-            </div>
+
+            </Link>
           ))}
+
         </div>
+
       </div>
+
     </section>
   );
 }
