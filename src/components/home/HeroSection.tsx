@@ -5,67 +5,189 @@ import { ArrowRightIcon } from "@/components/common/Icons";
 
 export function HeroSection() {
   return (
-    <section className="relative overflow-hidden bg-[#0c0d10] text-white">
-      {/* Background industrial ambience & glow elements */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(220,38,38,0.18),transparent_55%)] pointer-events-none" />
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#0c0d10_0%,rgba(12,13,16,0.85)_50%,transparent_100%)] pointer-events-none z-10 hidden lg:block" />
+    <section className="relative isolate overflow-hidden bg-[#08090b] text-white">
+      {/* Background image / industrial atmosphere */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_45%,rgba(225,29,38,0.20),transparent_42%)]" />
 
-      {/* Main Container */}
-      <div className="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 md:py-20 lg:py-24 lg:px-8">
-        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-8">
-          {/* Left Content Column */}
-          <div className="z-20 text-center lg:col-span-6 lg:text-left">
-            {/* Red Eyebrow Badge */}
-            <div className="inline-block mb-3">
-              <span className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#e01e2b] sm:text-sm">
-                PROFESSIONAL TOOLS FOR
+      {/* Dark gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#08090b] via-[#08090b]/85 to-[#08090b]/20" />
+
+      {/* Subtle red glow */}
+      <div className="absolute right-[5%] top-[20%] h-[350px] w-[350px] rounded-full bg-red-600/10 blur-[110px]" />
+
+      {/* Main Hero */}
+      <div className="relative mx-auto max-w-[1600px] px-5 sm:px-8 lg:px-12">
+
+        <div className="grid min-h-[560px] items-center lg:grid-cols-12 lg:gap-6 xl:min-h-[650px]">
+
+          {/* ================= LEFT CONTENT ================= */}
+          <div className="relative z-20 py-14 text-center lg:col-span-6 lg:py-20 lg:text-left">
+
+            {/* Eyebrow */}
+            <div className="mb-5 flex items-center justify-center gap-3 lg:justify-start">
+              <span className="h-[2px] w-8 bg-[#e21b23]" />
+
+              <span className="text-[10px] font-extrabold uppercase tracking-[0.25em] text-[#ef2b32] sm:text-xs">
+                PROFESSIONAL CLEANING & POWER SOLUTIONS
               </span>
             </div>
 
-            {/* Main Headline */}
-            <h1 className="text-4xl font-black uppercase tracking-tight text-white sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl leading-[1.05]">
-              HIGHER
-              <br />
-              <span className="text-white">PERFORMANCE</span>
+            {/* Main Heading */}
+            <h1 className="text-5xl font-black uppercase leading-[0.92] tracking-[-0.035em] sm:text-6xl md:text-7xl lg:text-6xl xl:text-[78px]">
+
+              <span className="block text-white">
+                POWERING
+              </span>
+
+              <span className="block text-white">
+                EVERY JOB.
+              </span>
+
+              <span className="block text-[#e21b23]">
+                BUILT FOR
+              </span>
+
+              <span className="block text-[#e21b23]">
+                PERFORMANCE.
+              </span>
+
             </h1>
 
-            {/* Supporting Copy */}
-            <p className="mt-5 text-sm leading-relaxed text-gray-300 sm:text-base sm:leading-relaxed max-w-xl mx-auto lg:mx-0">
-              Powerful. Reliable. Built for every challenge. Explore TUQO&apos;s range of high-quality tools designed for professionals and DIY enthusiasts.
+            {/* Description */}
+            <p className="mx-auto mt-6 max-w-xl text-sm leading-6 text-gray-300 sm:text-base sm:leading-7 lg:mx-0">
+              High Pressure Washers, Vacuum Cleaners, Air Compressors,
+              Power Tools and Accessories for a cleaner, faster and more
+              productive tomorrow.
             </p>
 
-            {/* CTA Button */}
-            <div className="mt-8 flex justify-center lg:justify-start">
+            {/* CTA Buttons */}
+            <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start">
+
               <Link
                 href="#categories"
-                className="group inline-flex items-center gap-2 rounded bg-[#d71920] px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-white shadow-lg transition-all duration-200 hover:bg-[#b8141a] hover:shadow-red-900/30 hover:shadow-xl active:scale-95"
+                className="group inline-flex min-w-[175px] items-center justify-center gap-2 rounded-md bg-[#e21b23] px-6 py-3.5 text-[11px] font-extrabold uppercase tracking-wider text-white shadow-[0_10px_30px_rgba(226,27,35,0.25)] transition-all duration-300 hover:bg-[#ff252d] hover:shadow-[0_12px_35px_rgba(226,27,35,0.40)]"
               >
-                <span>EXPLORE PRODUCTS</span>
-                <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                Explore Products
+
+                <ArrowRightIcon className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
+
+              <Link
+                href="#catalog"
+                className="inline-flex min-w-[175px] items-center justify-center gap-2 rounded-md border border-white/30 bg-white/[0.04] px-6 py-3.5 text-[11px] font-extrabold uppercase tracking-wider text-white backdrop-blur-sm transition-all duration-300 hover:border-white/60 hover:bg-white/10"
+              >
+                Download Catalog
+              </Link>
+
             </div>
+
           </div>
 
-          {/* Right Product Showcase Column */}
-          <div className="relative z-10 flex items-center justify-center lg:col-span-6">
-            <div className="relative w-full max-w-lg lg:max-w-none">
-              {/* Product composite visual with subtle drop shadow and lighting */}
-              <div className="relative overflow-hidden rounded-xl border border-white/5 bg-gradient-to-b from-white/[0.04] to-transparent p-2 shadow-2xl backdrop-blur-sm sm:p-4">
-                <div className="relative aspect-[16/10] w-full sm:aspect-[16/9] lg:aspect-[4/3] max-h-[380px]">
-                  <Image
-                    src="/images/hero-products.png"
-                    alt="TUQO Industrial Tools Collection"
-                    fill
-                    priority
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
-                    className="object-contain object-center drop-shadow-2xl"
-                  />
-                </div>
+          {/* ================= RIGHT PRODUCT IMAGE ================= */}
+          <div className="relative z-10 lg:col-span-6">
+
+            {/* Glow behind products */}
+            <div className="absolute left-1/2 top-1/2 h-[350px] w-[350px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-red-600/10 blur-[90px] sm:h-[450px] sm:w-[450px]" />
+
+            <div className="relative mx-auto w-full max-w-[760px]">
+
+              <div className="relative aspect-[4/3] w-full">
+
+                <Image
+                  src="/images/hero-products.png"
+                  alt="TUQO Professional Cleaning and Power Tools"
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 55vw"
+                  className="object-contain object-center drop-shadow-[0_30px_55px_rgba(0,0,0,0.85)]"
+                />
+
               </div>
+
             </div>
           </div>
         </div>
+
+        {/* ================= TRUST BAR ================= */}
+        <div className="relative z-30 border-t border-white/10">
+
+          <div className="grid grid-cols-2 lg:grid-cols-4">
+
+            {/* Item 1 */}
+            <div className="flex items-center gap-3 border-b border-white/10 px-3 py-5 sm:px-5 lg:border-b-0 lg:border-r">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/20 text-lg">
+                ⚙
+              </div>
+
+              <div>
+                <h3 className="text-[10px] font-extrabold uppercase tracking-wide text-white sm:text-xs">
+                  Wide Range
+                </h3>
+
+                <p className="mt-1 text-[8px] text-gray-400 sm:text-[9px]">
+                  Professional & home use
+                </p>
+              </div>
+            </div>
+
+            {/* Item 2 */}
+            <div className="flex items-center gap-3 border-b border-white/10 px-3 py-5 sm:px-5 lg:border-b-0 lg:border-r">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/20 text-lg">
+                ◇
+              </div>
+
+              <div>
+                <h3 className="text-[10px] font-extrabold uppercase tracking-wide text-white sm:text-xs">
+                  Reliable Performance
+                </h3>
+
+                <p className="mt-1 text-[8px] text-gray-400 sm:text-[9px]">
+                  Built for tough conditions
+                </p>
+              </div>
+            </div>
+
+            {/* Item 3 */}
+            <div className="flex items-center gap-3 px-3 py-5 sm:px-5 lg:border-r lg:border-white/10">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/20 text-lg">
+                ♧
+              </div>
+
+              <div>
+                <h3 className="text-[10px] font-extrabold uppercase tracking-wide text-white sm:text-xs">
+                  Expert Support
+                </h3>
+
+                <p className="mt-1 text-[8px] text-gray-400 sm:text-[9px]">
+                  Assistance before & after purchase
+                </p>
+              </div>
+            </div>
+
+            {/* Item 4 */}
+            <div className="flex items-center gap-3 px-3 py-5 sm:px-5">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/20 text-lg">
+                🚚
+              </div>
+
+              <div>
+                <h3 className="text-[10px] font-extrabold uppercase tracking-wide text-white sm:text-xs">
+                  Pan India Availability
+                </h3>
+
+                <p className="mt-1 text-[8px] text-gray-400 sm:text-[9px]">
+                  Get your tools wherever you are
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
       </div>
+
+      {/* Bottom red line */}
+      <div className="absolute bottom-0 left-0 h-[2px] w-full bg-[#e21b23]" />
     </section>
   );
 }
