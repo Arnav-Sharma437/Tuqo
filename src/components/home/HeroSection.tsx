@@ -9,32 +9,30 @@ export function HeroSection() {
 
       {/* ================= BACKGROUND EFFECTS ================= */}
 
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_78%_45%,rgba(226,27,35,0.18),transparent_38%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_78%_45%,rgba(226,27,35,0.14),transparent_38%)]" />
 
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#08090b] via-[#08090b]/95 to-[#08090b]/35" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#08090b] via-[#08090b]/95 to-[#08090b]/40" />
 
-      <div className="pointer-events-none absolute right-[-100px] top-[-120px] h-[420px] w-[420px] rounded-full bg-red-600/10 blur-[140px]" />
-
-      <div className="pointer-events-none absolute bottom-[-160px] left-[45%] h-[350px] w-[350px] rounded-full bg-red-600/10 blur-[130px]" />
+      <div className="pointer-events-none absolute right-[-80px] top-[-100px] h-[360px] w-[360px] rounded-full bg-red-600/10 blur-[120px]" />
 
 
       {/* ================= MAIN HERO ================= */}
 
       <div className="relative mx-auto max-w-[1500px] px-5 sm:px-8 lg:px-10">
 
-        <div className="grid min-h-[560px] items-center gap-4 py-12 sm:min-h-[600px] sm:py-14 lg:grid-cols-12 lg:py-16">
+        <div className="grid min-h-[500px] items-center gap-6 py-10 sm:min-h-[540px] sm:py-12 lg:grid-cols-12 lg:py-14">
 
           {/* ================= LEFT CONTENT ================= */}
 
-          <div className="relative z-20 lg:col-span-7">
+          <div className="relative z-20 lg:col-span-6">
 
             {/* Small Heading */}
 
-            <div className="mb-5 flex items-center gap-3">
+            <div className="mb-4 flex items-center gap-2.5">
 
-              <span className="h-[3px] w-8 bg-[#e21b23]" />
+              <span className="h-[3px] w-7 bg-[#e21b23]" />
 
-              <span className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#e21b23] sm:text-xs">
+              <span className="text-[9px] font-extrabold uppercase tracking-[0.2em] text-[#e21b23] sm:text-[10px]">
                 PROFESSIONAL MACHINERY & POWER TOOLS
               </span>
 
@@ -43,7 +41,7 @@ export function HeroSection() {
 
             {/* Main Heading */}
 
-            <h1 className="max-w-[850px] text-4xl font-black uppercase leading-[0.92] tracking-[-0.035em] sm:text-5xl md:text-6xl lg:text-[64px] xl:text-[70px]">
+            <h1 className="max-w-[720px] text-3xl font-black uppercase leading-[0.94] tracking-[-0.03em] sm:text-4xl md:text-5xl lg:text-[54px] xl:text-[58px]">
 
               <span className="block text-white">
                 POWERING
@@ -66,7 +64,7 @@ export function HeroSection() {
 
             {/* Description */}
 
-            <p className="mt-6 max-w-[700px] text-sm leading-6 text-gray-300 sm:text-base sm:leading-7">
+            <p className="mt-5 max-w-[600px] text-xs leading-5 text-gray-400 sm:text-sm sm:leading-6">
 
               High Pressure Washers, Vacuum Cleaners, Air Compressors,
               Power Tools and Accessories — professional equipment built
@@ -77,21 +75,19 @@ export function HeroSection() {
 
             {/* ================= BUTTONS ================= */}
 
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
 
               {/* Explore Products */}
 
               <Link
                 href="#categories"
-                className="group inline-flex h-11 w-[210px] min-w-[210px] items-center justify-center gap-3 rounded-md bg-[#e21b23] px-5 text-[12px] font-extrabold uppercase tracking-wider text-white shadow-[0_8px_30px_rgba(226,27,35,0.22)] transition-all duration-300 hover:bg-[#ff252d] hover:shadow-[0_12px_35px_rgba(226,27,35,0.35)]"
+                className="group inline-flex h-11 w-[210px] min-w-[210px] items-center justify-center gap-2 rounded-md bg-[#e21b23] px-5 text-[12px] font-extrabold uppercase tracking-wider text-white shadow-[0_8px_25px_rgba(226,27,35,0.20)] transition-all duration-300 hover:bg-[#ff252d] hover:shadow-[0_10px_30px_rgba(226,27,35,0.30)]"
               >
-
                 <span>
                   Explore Products
                 </span>
 
-                <ArrowRightIcon className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-
+                <ArrowRightIcon className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
 
 
@@ -99,11 +95,9 @@ export function HeroSection() {
 
               <Link
                 href="#catalog"
-                className="inline-flex h-11 w-[210px] min-w-[210px] items-center justify-center gap-2 rounded-md border border-white/25 bg-white/[0.03] px-5 text-[12px] font-extrabold uppercase tracking-wider text-white transition-all duration-300 hover:border-white/60 hover:bg-white/[0.08]"
+                className="inline-flex h-11 w-[210px] min-w-[210px] items-center justify-center gap-2 rounded-md border border-white/20 bg-white/[0.03] px-5 text-[12px] font-extrabold uppercase tracking-wider text-white transition-all duration-300 hover:border-white/50 hover:bg-white/[0.07]"
               >
-
                 Download Catalog
-
               </Link>
 
             </div>
@@ -111,21 +105,21 @@ export function HeroSection() {
 
             {/* ================= TRUST POINTS ================= */}
 
-            <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-2">
+            <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2">
 
-              <span className="text-[9px] font-bold uppercase tracking-[0.15em] text-gray-400">
+              <span className="text-[8px] font-bold uppercase tracking-[0.15em] text-gray-500 sm:text-[9px]">
                 Genuine Products
               </span>
 
               <span className="h-1 w-1 rounded-full bg-[#e21b23]" />
 
-              <span className="text-[9px] font-bold uppercase tracking-[0.15em] text-gray-400">
+              <span className="text-[8px] font-bold uppercase tracking-[0.15em] text-gray-500 sm:text-[9px]">
                 Pan-India Delivery
               </span>
 
               <span className="h-1 w-1 rounded-full bg-[#e21b23]" />
 
-              <span className="text-[9px] font-bold uppercase tracking-[0.15em] text-gray-400">
+              <span className="text-[8px] font-bold uppercase tracking-[0.15em] text-gray-500 sm:text-[9px]">
                 Technical Support
               </span>
 
@@ -136,11 +130,11 @@ export function HeroSection() {
 
           {/* ================= RIGHT PRODUCT IMAGE ================= */}
 
-          <div className="relative z-10 lg:col-span-5">
+          <div className="relative z-10 lg:col-span-6">
 
             {/* Red Glow */}
 
-            <div className="pointer-events-none absolute left-1/2 top-1/2 h-[300px] w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-red-600/15 blur-[100px] sm:h-[430px] sm:w-[430px]" />
+            <div className="pointer-events-none absolute left-1/2 top-1/2 h-[280px] w-[280px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-red-600/10 blur-[90px] sm:h-[400px] sm:w-[400px]" />
 
 
             {/* Product Image */}
@@ -154,8 +148,8 @@ export function HeroSection() {
                   alt="TUQO Professional Cleaning and Power Tools"
                   fill
                   priority
-                  sizes="(max-width: 1024px) 100vw, 45vw"
-                  className="object-contain object-center drop-shadow-[0_30px_60px_rgba(0,0,0,0.85)] transition-transform duration-700 hover:scale-[1.03]"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-contain object-center drop-shadow-[0_25px_50px_rgba(0,0,0,0.8)] transition-transform duration-700 hover:scale-[1.03]"
                 />
 
               </div>
