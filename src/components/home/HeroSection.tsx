@@ -16,10 +16,10 @@ export function HeroSection() {
       {/* Main Container */}
       <div className="relative mx-auto max-w-[1500px] px-5 sm:px-8 lg:px-10">
         <div className="grid min-h-[500px] items-center gap-4 py-10 sm:min-h-[540px] sm:py-12 lg:grid-cols-12 lg:py-14">
-          
+
           {/* LEFT CONTENT */}
           <div className="relative z-20 text-center lg:col-span-6 lg:text-left">
-            
+
             {/* Eyebrow */}
             <div className="mb-4 flex items-center justify-center gap-2.5 lg:justify-start">
               <span className="h-[3px] w-7 bg-[#e21b23]" />
@@ -30,7 +30,7 @@ export function HeroSection() {
             </div>
 
             {/* Heading */}
-            <h1 className="max-w-2xl text-4xl font-black uppercase leading-[0.94] tracking-[-0.03em] sm:text-5xl md:text-6xl lg:text-[62px] xl:text-[70px]">
+            <h1 className="max-w-2xl text-3xl font-black uppercase leading-[0.94] tracking-[-0.03em] sm:text-4xl md:text-5xl lg:text-[54px] xl:text-[58px]">
               <span className="block text-white">
                 POWERING
               </span>
@@ -57,7 +57,7 @@ export function HeroSection() {
 
             {/* Buttons */}
             <div className="mt-7 flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start">
-              
+
               {/* Explore Products */}
               <Link
                 href="#categories"
@@ -93,7 +93,7 @@ export function HeroSection() {
 
           {/* RIGHT PRODUCT IMAGE */}
           <div className="relative z-10 lg:col-span-6">
-            
+
             {/* Product Glow */}
             <div className="pointer-events-none absolute left-1/2 top-1/2 h-[300px] w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-red-600/10 blur-[90px] sm:h-[420px] sm:w-[420px]" />
 
