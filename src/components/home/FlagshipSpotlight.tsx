@@ -68,10 +68,10 @@ export function FlagshipSpotlight() {
             </h2>
           </div>
 
-          {/* Desktop button */}
+          {/* Desktop Button */}
           <Link
             href="/products"
-            className="group hidden h-11 min-w-[175px] items-center justify-center gap-2 rounded-md border border-[#111214] px-5 text-[10px] font-extrabold uppercase tracking-wide text-[#111214] transition-all duration-300 hover:border-[#e21b23] hover:bg-[#e21b23] hover:text-white sm:inline-flex"
+            className="group hidden h-11 min-w-[175px] items-center justify-center gap-2 rounded-md border border-[#111214] px-5 text-[12px] font-extrabold uppercase tracking-wide text-[#111214] transition-all duration-300 hover:border-[#e21b23] hover:bg-[#e21b23] hover:text-white sm:inline-flex"
           >
             Explore All Machinery
 
@@ -90,14 +90,14 @@ export function FlagshipSpotlight() {
               {/* Product Image */}
               <div className="relative flex h-[240px] items-center justify-center overflow-hidden bg-[#f8f8f8] sm:h-[260px]">
 
-                {/* Category label */}
+                {/* Category Label */}
                 <div className="absolute left-4 top-4 z-10">
                   <span className="rounded-sm bg-[#111214] px-3 py-1.5 text-[8px] font-extrabold uppercase tracking-wider text-white">
                     {machine.category}
                   </span>
                 </div>
 
-                {/* Red tag */}
+                {/* Red Tag */}
                 <div className="absolute right-4 top-4 z-10">
                   <span className="rounded-sm bg-[#e21b23] px-2.5 py-1.5 text-[8px] font-extrabold uppercase tracking-wider text-white">
                     {machine.tag}
@@ -118,7 +118,7 @@ export function FlagshipSpotlight() {
               {/* Product Information */}
               <div className="flex flex-1 flex-col p-5 sm:p-6">
 
-                {/* Fixed title height */}
+                {/* Product Title */}
                 <h3 className="min-h-[44px] text-base font-black uppercase leading-tight tracking-tight text-[#111214] transition-colors group-hover:text-[#e21b23] sm:text-lg">
                   {machine.title}
                 </h3>
@@ -149,7 +149,7 @@ export function FlagshipSpotlight() {
 
                   <Link
                     href={machine.href}
-                    className="group/button inline-flex h-11 min-w-[175px] shrink-0 items-center justify-center gap-2 rounded-md bg-[#111214] px-5 text-[10px] font-extrabold uppercase tracking-wider text-white transition-all duration-300 hover:bg-[#e21b23]"
+                    className="group/button inline-flex h-11 min-w-[175px] shrink-0 items-center justify-center gap-2 rounded-md bg-[#111214] px-5 text-[12px] font-extrabold uppercase tracking-wider text-white transition-all duration-300 hover:bg-[#e21b23]"
                   >
                     View Product
 
@@ -162,11 +162,11 @@ export function FlagshipSpotlight() {
           ))}
         </div>
 
-        {/* Mobile link */}
+        {/* ================= MOBILE BUTTON ================= */}
         <div className="mt-7 flex justify-center sm:hidden">
           <Link
             href="/products"
-            className="inline-flex h-11 min-w-[175px] items-center justify-center gap-2 rounded-md border border-[#111214] px-5 text-[10px] font-extrabold uppercase tracking-wide text-[#111214] transition-all hover:border-[#e21b23] hover:bg-[#e21b23] hover:text-white"
+            className="inline-flex h-11 min-w-[175px] items-center justify-center gap-2 rounded-md border border-[#111214] px-5 text-[12px] font-extrabold uppercase tracking-wide text-[#111214] transition-all hover:border-[#e21b23] hover:bg-[#e21b23] hover:text-white"
           >
             Explore All Machinery
 
