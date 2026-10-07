@@ -70,9 +70,10 @@ export function FlagshipSpotlight() {
             </h2>
           </div>
 
+          {/* Desktop button */}
           <Link
             href="/products"
-            className="group hidden items-center gap-2 text-[10px] font-extrabold uppercase tracking-wide text-[#e21b23] sm:flex"
+            className="group hidden h-11 min-w-[175px] items-center justify-center gap-2 border border-[#111214] px-5 text-[10px] font-extrabold uppercase tracking-wide text-[#111214] transition-all duration-300 hover:border-[#e21b23] hover:bg-[#e21b23] hover:text-white sm:inline-flex"
           >
             Explore All Machinery
 
@@ -147,7 +148,7 @@ export function FlagshipSpotlight() {
                 </div>
 
                 {/* CTA */}
-                <div className="mt-5 flex items-center justify-between">
+                <div className="mt-5 flex items-center justify-between gap-3">
 
                   <span className="text-[9px] font-bold uppercase tracking-wider text-gray-400">
                     Technical Details
@@ -155,7 +156,7 @@ export function FlagshipSpotlight() {
 
                   <Link
                     href={machine.href}
-                    className="group/button inline-flex items-center gap-2 rounded-sm bg-[#111214] px-4 py-2.5 text-[9px] font-extrabold uppercase tracking-wider text-white transition-colors hover:bg-[#e21b23]"
+                    className="group/button inline-flex h-11 min-w-[140px] shrink-0 items-center justify-center gap-2 rounded-sm bg-[#111214] px-4 text-[9px] font-extrabold uppercase tracking-wider text-white transition-all duration-300 hover:bg-[#e21b23]"
                   >
                     View Product
 
@@ -175,14 +176,16 @@ export function FlagshipSpotlight() {
         <div className="mt-7 flex justify-center sm:hidden">
           <Link
             href="/products"
-            className="inline-flex items-center gap-2 rounded-full border border-[#e21b23] px-5 py-2.5 text-[10px] font-extrabold uppercase tracking-wide text-[#e21b23]"
+            className="inline-flex h-11 min-w-[175px] items-center justify-center gap-2 border border-[#111214] px-5 text-[10px] font-extrabold uppercase tracking-wide text-[#111214] transition-all hover:border-[#e21b23] hover:bg-[#e21b23] hover:text-white"
           >
             Explore All Machinery
+
             <ArrowRightIcon className="h-3 w-3" />
           </Link>
         </div>
 
       </div>
+
     </section>
   );
 }
