@@ -61,7 +61,7 @@ export function HeroSection() {
               {/* Explore Products */}
               <Link
                 href="#categories"
-                className="group inline-flex h-11 w-[210px] min-w-[210px] items-center justify-center gap-2 rounded-md bg-[#e21b23] px-5 text-[10px] font-extrabold uppercase tracking-wider text-white shadow-[0_8px_25px_rgba(226,27,35,0.22)] transition-all duration-300 hover:bg-[#ff252d] hover:shadow-[0_10px_30px_rgba(226,27,35,0.35)]"
+                className="group inline-flex h-11 w-[210px] min-w-[210px] items-center justify-center gap-2 rounded-md bg-[#e21b23] px-5 text-[12px] font-extrabold uppercase tracking-wider text-white shadow-[0_8px_25px_rgba(226,27,35,0.22)] transition-all duration-300 hover:bg-[#ff252d] hover:shadow-[0_10px_30px_rgba(226,27,35,0.35)]"
               >
                 <span>Explore Products</span>
 
@@ -71,7 +71,7 @@ export function HeroSection() {
               {/* Download Catalog */}
               <Link
                 href="#catalog"
-                className="inline-flex h-11 w-[210px] min-w-[210px] items-center justify-center gap-2 rounded-md border border-white/20 bg-white/[0.04] px-5 text-[10px] font-extrabold uppercase tracking-wider text-white transition-all duration-300 hover:border-white/50 hover:bg-white/[0.08]"
+                className="inline-flex h-11 w-[210px] min-w-[210px] items-center justify-center gap-2 rounded-md border border-white/20 bg-white/[0.04] px-5 text-[12px] font-extrabold uppercase tracking-wider text-white transition-all duration-300 hover:border-white/50 hover:bg-white/[0.08]"
               >
                 Download Catalog
               </Link>
@@ -80,9 +80,13 @@ export function HeroSection() {
             {/* Small Trust Text */}
             <div className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[8px] font-bold uppercase tracking-[0.15em] text-gray-500 lg:justify-start">
               <span>Genuine Products</span>
+
               <span className="h-1 w-1 rounded-full bg-[#e21b23]" />
+
               <span>Pan-India Delivery</span>
+
               <span className="h-1 w-1 rounded-full bg-[#e21b23]" />
+
               <span>Technical Support</span>
             </div>
           </div>
