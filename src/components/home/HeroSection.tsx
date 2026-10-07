@@ -30,7 +30,7 @@ export function HeroSection() {
             </div>
 
             {/* Heading */}
-            <h1 className="max-w-2xl text-4xl font-black uppercase leading-[0.94] tracking-[-0.03em] sm:text-5xl md:text-6xl lg:text-[62px] xl:text-[70px]">
+            <h1 className="max-w-2xl text-4xl font-black uppercase leading-[0.94] tracking-[-0.03em] sm:text-5xl md:text-6xl lg:text-[52px] xl:text-[56px]">
               <span className="block text-white">
                 POWERING
               </span>
