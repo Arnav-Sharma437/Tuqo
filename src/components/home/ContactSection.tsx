@@ -15,7 +15,6 @@ export function ContactSection() {
       id="contact"
       className="relative w-full overflow-hidden bg-[#08090b] py-16 text-white sm:py-20 lg:py-24"
     >
-
       {/* Background grid */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.04]"
@@ -33,7 +32,6 @@ export function ContactSection() {
 
         {/* ================= HEADER ================= */}
         <div className="mb-10 max-w-3xl">
-
           <div className="mb-3 flex items-center gap-2">
             <span className="h-[3px] w-7 bg-[#e21b23]" />
 
@@ -54,7 +52,6 @@ export function ContactSection() {
             Connect directly with our technical support and sales team for
             product catalogs, quotes, service assistance, and dealer inquiries.
           </p>
-
         </div>
 
         {/* ================= MAIN GRID ================= */}
@@ -88,31 +85,31 @@ export function ContactSection() {
               {/* Actions */}
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
 
+                {/* WhatsApp */}
                 <a
                   href={APP_CONFIG.whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group inline-flex items-center justify-center gap-2.5 bg-[#25D366] px-6 py-3.5 text-[10px] font-extrabold uppercase tracking-wider text-black transition-all duration-300 hover:bg-[#20bd5a] hover:shadow-[0_10px_30px_rgba(37,211,102,0.18)]"
+                  className="group inline-flex h-11 min-w-[175px] items-center justify-center gap-2.5 bg-[#25D366] px-6 text-[10px] font-extrabold uppercase tracking-wider text-black transition-all duration-300 hover:bg-[#20bd5a] hover:shadow-[0_10px_30px_rgba(37,211,102,0.18)]"
                 >
                   <WhatsAppIcon className="h-4 w-4 text-black" />
                   <span>Message on WhatsApp</span>
                 </a>
 
+                {/* Phone */}
                 <a
                   href={`tel:${APP_CONFIG.phoneRaw}`}
-                  className="group inline-flex items-center justify-center gap-2.5 border border-white/15 bg-white/[0.03] px-6 py-3.5 text-[10px] font-extrabold uppercase tracking-wider text-white transition-all duration-300 hover:border-[#e21b23] hover:bg-white/[0.06]"
+                  className="group inline-flex h-11 min-w-[175px] items-center justify-center gap-2.5 border border-white/15 bg-white/[0.03] px-6 text-[10px] font-extrabold uppercase tracking-wider text-white transition-all duration-300 hover:border-[#e21b23] hover:bg-white/[0.06]"
                 >
                   <PhoneIcon className="h-4 w-4 text-[#e21b23]" />
                   <span>{APP_CONFIG.phone}</span>
                 </a>
 
               </div>
-
             </div>
 
             {/* Bottom info */}
             <div className="mt-8 flex items-center justify-between border-t border-white/10 pt-5">
-
               <span className="text-[9px] font-bold uppercase tracking-wider text-gray-500">
                 Direct Industrial Line
               </span>
@@ -120,7 +117,6 @@ export function ContactSection() {
               <span className="text-[9px] font-extrabold uppercase tracking-wider text-white">
                 Fast Response
               </span>
-
             </div>
 
           </div>
@@ -130,7 +126,6 @@ export function ContactSection() {
 
             {/* Location */}
             <div className="border border-white/10 bg-[#101114] p-6 sm:p-8">
-
               <div className="flex items-start gap-5">
 
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center bg-[#e21b23] text-white">
@@ -138,7 +133,6 @@ export function ContactSection() {
                 </div>
 
                 <div className="min-w-0">
-
                   <span className="text-[9px] font-extrabold uppercase tracking-[0.2em] text-[#e21b23]">
                     CORPORATE &amp; MANUFACTURING FACILITY
                   </span>
@@ -154,11 +148,9 @@ export function ContactSection() {
                       </span>
                     ))}
                   </address>
-
                 </div>
 
               </div>
-
             </div>
 
             {/* Working Hours */}
@@ -192,9 +184,7 @@ export function ContactSection() {
 
               {/* Hours */}
               <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-
                 {APP_CONFIG.businessHours.map((item) => {
-
                   const isClosed = item.hours === "Closed";
 
                   return (
@@ -206,7 +196,6 @@ export function ContactSection() {
                           : "border-white/5 bg-white/[0.025]"
                       }`}
                     >
-
                       <span className="text-[10px] font-bold text-gray-300">
                         {item.day}
                       </span>
@@ -220,25 +209,19 @@ export function ContactSection() {
                       >
                         {item.hours}
                       </span>
-
                     </div>
                   );
-
                 })}
-
               </div>
 
             </div>
-
           </div>
 
         </div>
-
       </div>
 
       {/* Bottom red line */}
       <div className="absolute bottom-0 left-0 h-[2px] w-full bg-[#e21b23]" />
-
     </section>
   );
 }
