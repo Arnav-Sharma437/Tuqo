@@ -28,7 +28,6 @@ export function CategorySection() {
 
         {/* ================= HEADER ================= */}
         <div className="mb-7 flex items-end justify-between gap-5">
-
           <div>
             <div className="mb-2 flex items-center gap-2">
               <span className="h-[3px] w-7 bg-[#e21b23]" />
@@ -43,16 +42,15 @@ export function CategorySection() {
             </h2>
           </div>
 
+          {/* View All Categories */}
           <Link
             href="/products"
-            className="hidden h-11 min-w-[175px] items-center justify-center gap-2 border border-[#111214] px-5 text-[10px] font-extrabold uppercase tracking-wide text-[#111214] transition-all duration-300 hover:border-[#e21b23] hover:bg-[#e21b23] hover:text-white sm:inline-flex"
+            className="hidden h-11 min-w-[175px] items-center justify-center gap-2 rounded-md border border-[#111214] px-5 text-[10px] font-extrabold uppercase tracking-wide text-[#111214] transition-all duration-300 hover:border-[#e21b23] hover:bg-[#e21b23] hover:text-white sm:inline-flex"
           >
             View All Categories
             <ArrowRightIcon className="h-3.5 w-3.5" />
           </Link>
-
         </div>
-
       </div>
 
       {/* ================= CONTINUOUS SLIDER ================= */}
@@ -65,7 +63,6 @@ export function CategorySection() {
         <div className="pointer-events-none absolute right-0 top-0 z-20 h-full w-12 bg-gradient-to-l from-white to-transparent sm:w-20" />
 
         <div className="flex w-max animate-[categoryScroll_28s_linear_infinite] hover:[animation-play-state:paused]">
-
           {sliderItems.map((category, index) => (
             <Link
               key={`${category.id}-${index}`}
@@ -75,18 +72,15 @@ export function CategorySection() {
 
               {/* Top */}
               <div className="flex items-center justify-between">
-
                 <span className="text-[8px] font-bold uppercase tracking-wider text-gray-400 sm:text-[9px]">
                   TUQO PRO
                 </span>
 
                 <span className="h-1.5 w-1.5 rounded-full bg-gray-300 transition-colors group-hover:bg-[#e21b23]" />
-
               </div>
 
               {/* Product Image */}
               <div className="relative mx-auto my-4 h-[145px] w-full sm:h-[165px]">
-
                 <Image
                   src={category.image}
                   alt={category.name}
@@ -94,7 +88,6 @@ export function CategorySection() {
                   sizes="250px"
                   className="object-contain p-2 transition-transform duration-500 group-hover:scale-110"
                 />
-
               </div>
 
               {/* Bottom */}
@@ -104,34 +97,30 @@ export function CategorySection() {
                   {category.name}
                 </h3>
 
-                <div className="mt-3 flex h-10 w-full items-center justify-center gap-2 bg-[#111214] text-[9px] font-extrabold uppercase tracking-wide text-white transition-colors duration-300 group-hover:bg-[#e21b23]">
+                {/* View Products Button */}
+                <div className="mt-3 flex h-11 w-full items-center justify-center gap-2 rounded-md bg-[#111214] text-[10px] font-extrabold uppercase tracking-wide text-white transition-colors duration-300 group-hover:bg-[#e21b23]">
                   View Products
                   <ArrowRightIcon className="h-3 w-3" />
                 </div>
 
               </div>
-
             </Link>
           ))}
-
         </div>
-
       </div>
 
-      {/* Mobile button */}
+      {/* ================= MOBILE BUTTON ================= */}
       <div className="mt-7 flex justify-center px-5 sm:hidden">
-
         <Link
           href="/products"
-          className="inline-flex h-11 min-w-[175px] items-center justify-center gap-2 border border-[#111214] px-5 text-[10px] font-extrabold uppercase tracking-wide text-[#111214] transition-all hover:border-[#e21b23] hover:bg-[#e21b23] hover:text-white"
+          className="inline-flex h-11 min-w-[175px] items-center justify-center gap-2 rounded-md border border-[#111214] px-5 text-[10px] font-extrabold uppercase tracking-wide text-[#111214] transition-all hover:border-[#e21b23] hover:bg-[#e21b23] hover:text-white"
         >
           View All Categories
           <ArrowRightIcon className="h-3 w-3" />
         </Link>
-
       </div>
 
-      {/* Continuous scroll animation */}
+      {/* ================= CONTINUOUS SCROLL ANIMATION ================= */}
       <style jsx>{`
         @keyframes categoryScroll {
           from {
@@ -143,7 +132,6 @@ export function CategorySection() {
           }
         }
       `}</style>
-
     </section>
   );
 }
