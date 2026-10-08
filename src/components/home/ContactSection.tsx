@@ -153,70 +153,75 @@ export function ContactSection() {
               </div>
             </div>
 
-            {/* Working Hours */}
-            <div className="border border-white/10 bg-[#101114] p-6 sm:p-8">
+            {/* ================= WORKING HOURS ================= */}
+            <div className="border border-white/10 bg-[#101114] p-7 sm:p-9">
 
-              <div className="mb-5 flex items-center justify-between border-b border-white/10 pb-4">
+              {/* Working Hours Header */}
+              <div className="mb-6 flex items-center justify-between border-b border-white/10 pb-5">
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-4">
 
-                  <div className="flex h-10 w-10 items-center justify-center bg-[#e21b23] text-white">
-                    <ClockIcon className="h-4 w-4" />
+                  <div className="flex h-14 w-14 shrink-0 items-center justify-center bg-[#e21b23] text-white">
+                    <ClockIcon className="h-6 w-6" />
                   </div>
 
                   <div>
-                    <h3 className="text-xs font-extrabold uppercase tracking-wider text-white">
+                    <h3 className="text-base font-black uppercase tracking-wide text-white sm:text-lg">
                       Working Hours
                     </h3>
 
-                    <p className="mt-0.5 text-[9px] text-gray-500">
+                    <p className="mt-1 text-[10px] text-gray-500 sm:text-xs">
                       Standard IST Timezone
                     </p>
                   </div>
 
                 </div>
 
-                <span className="hidden border border-emerald-500/20 bg-emerald-500/5 px-2.5 py-1 text-[8px] font-extrabold uppercase tracking-wider text-emerald-400 sm:block">
+                <span className="hidden border border-emerald-500/20 bg-emerald-500/5 px-3 py-1.5 text-[9px] font-extrabold uppercase tracking-wider text-emerald-400 sm:block">
                   Mon - Fri
                 </span>
 
               </div>
 
               {/* Hours */}
-              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+
                 {APP_CONFIG.businessHours.map((item) => {
                   const isClosed = item.hours === "Closed";
 
                   return (
                     <div
                       key={item.day}
-                      className={`flex items-center justify-between border px-3 py-2.5 ${
+                      className={`flex min-h-[58px] items-center justify-between border px-5 py-3.5 transition-all duration-200 ${
                         isClosed
                           ? "border-red-500/20 bg-red-500/5"
-                          : "border-white/5 bg-white/[0.025]"
+                          : "border-white/5 bg-white/[0.025] hover:border-white/15"
                       }`}
                     >
-                      <span className="text-[10px] font-bold text-gray-300">
+
+                      <span className="text-xs font-extrabold uppercase tracking-wide text-gray-200 sm:text-sm">
                         {item.day}
                       </span>
 
                       <span
-                        className={`text-[10px] font-bold ${
+                        className={`text-xs font-bold sm:text-sm ${
                           isClosed
                             ? "text-[#e21b23]"
-                            : "text-gray-400"
+                            : "text-gray-300"
                         }`}
                       >
                         {item.hours}
                       </span>
+
                     </div>
                   );
                 })}
+
               </div>
 
             </div>
-          </div>
 
+          </div>
         </div>
       </div>
 
