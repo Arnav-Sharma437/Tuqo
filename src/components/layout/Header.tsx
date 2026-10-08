@@ -138,17 +138,6 @@ export function Header() {
             })}
           </nav>
 
-          {/* Desktop Phone CTA */}
-          <div className="hidden shrink-0 items-center lg:flex">
-            <a
-              href={`tel:${APP_CONFIG.phoneRaw}`}
-              className="inline-flex h-11 w-[175px] min-w-[175px] items-center justify-center gap-2 rounded-md bg-[#e21b23] px-5 text-[10px] font-extrabold uppercase tracking-wider text-white transition-all duration-300 hover:bg-[#b8141a] hover:shadow-lg"
-            >
-              <PhoneIcon className="h-3.5 w-3.5" />
-              <span>{APP_CONFIG.phone}</span>
-            </a>
-          </div>
-
           {/* Mobile Actions */}
           <div className="ml-auto flex items-center gap-2 lg:hidden">
 
