@@ -476,24 +476,23 @@ export default function ContactPage() {
 
 
             {/* MAP PLACEHOLDER */}
-            <div className="flex min-h-[260px] items-center justify-center border border-gray-200 bg-[#f3f3f3]">
+<div className="flex min-h-[260px] items-center justify-center border border-gray-200 bg-[#f3f3f3]">
 
-              <div className="text-center">
+  <div className="text-center">
 
-                <MapPinIcon className="mx-auto h-12 w-12 text-[#e21b23]" />
+    <MapPinIcon className="mx-auto h-12 w-12 text-[#e21b23]" />
 
-                <p className="mt-3 text-sm font-bold uppercase text-gray-500">
-                  TUQO Location Map
-                </p>
+    <p className="mt-3 text-sm font-bold uppercase text-gray-500">
+      TUQO Location Map
+    </p>
 
-                <p className="mt-1 text-xs text-gray-400">
-                  Google Maps can be added here
-                </p>
+    <p className="mt-1 text-xs text-gray-400">
+      Google Maps can be added here
+    </p>
 
-              </div>
+  </div>
 
-            </div>
-
+</div>
           </div>
 
         </div>
