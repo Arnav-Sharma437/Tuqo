@@ -45,13 +45,6 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full bg-white text-[#111214] shadow-[0_2px_12px_rgba(0,0,0,0.08)]">
 
-      {/* Top Promotional Strip */}
-      <div className="w-full bg-[#111214] px-4 py-2 text-center">
-        <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-white sm:text-[10px]">
-          TUQO PROFESSIONAL MACHINERY • PAN-INDIA DELIVERY • GENUINE PRODUCTS • TECHNICAL SUPPORT
-        </p>
-      </div>
-
       {/* Main Header */}
       <div className="border-b border-gray-100 bg-white">
         <div className="mx-auto flex min-h-[76px] max-w-[1500px] items-center gap-5 px-5 sm:px-8 lg:px-10">
