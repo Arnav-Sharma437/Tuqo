@@ -25,18 +25,23 @@ export function TuqoLogo({
               ? "text-gray-950"
               : "text-red-600"
           }`}
-          style={{ fontStyle: "italic", fontWeight: 900, letterSpacing: "0.05em" }}
+          style={{
+            fontStyle: "italic",
+            fontWeight: 900,
+            letterSpacing: "0.05em",
+          }}
         >
           TUQO
         </span>
       </div>
+
       <span
         className={`text-[7px] md:text-[8px] font-bold tracking-widest uppercase -mt-1 ${
           variant === "white" ? "text-red-100" : "text-gray-400"
         }`}
         style={{ letterSpacing: "0.18em" }}
       >
-        BUILT FOR A STRONGER TOMORROW
+        BE PROUD OF YOUR WORK
       </span>
     </div>
   );
