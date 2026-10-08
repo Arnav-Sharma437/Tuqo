@@ -45,39 +45,27 @@ export default function AboutPage() {
     <main className="w-full bg-white text-[#111214]">
 
       {/* ===================================================== */}
-      {/* HERO */}
-      {/* ===================================================== */}
-
+           {/* HERO */}
       <section className="relative isolate overflow-hidden bg-[#08090b] text-white">
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#08090b] via-[#08090b]/85 to-[#08090b]/30" />
+        {/* Background */}
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_75%_50%,rgba(226,27,35,0.18),transparent_38%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#08090b] via-[#08090b]/90 to-[#08090b]/35" />
 
-        <div className="pointer-events-none absolute right-[5%] top-[10%] h-[420px] w-[420px] rounded-full bg-red-600/10 blur-[130px]" />
-
-        <div className="relative mx-auto grid min-h-[520px] max-w-[1500px] items-center gap-8 px-5 py-14 sm:px-8 lg:grid-cols-12 lg:px-10 lg:py-16">
+        <div className="relative mx-auto grid min-h-[540px] max-w-[1500px] items-center gap-8 px-5 py-14 sm:px-8 lg:grid-cols-12 lg:px-10 lg:py-16">
 
           {/* Hero Content */}
           <div className="relative z-20 lg:col-span-6">
-
-            <div className="mb-4 flex items-center gap-2.5">
-              <span className="h-[3px] w-7 bg-[#e21b23]" />
-
+            <div className="mb-5 flex items-center gap-2.5">
+              <span className="h-[3px] w-8 bg-[#e21b23]" />
               <span className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-[#e21b23]">
                 ABOUT TUQO
               </span>
             </div>
 
-            <h1 className="max-w-[700px] text-4xl font-black uppercase leading-[0.94] tracking-[-0.03em] sm:text-5xl lg:text-[58px]">
-              <span className="block text-white">
-                EQUIPMENT
-              </span>
-
-              <span className="block text-white">
-                BUILT FOR
-              </span>
-
-              <span className="block text-[#e21b23]">
-                REAL WORK.
-              </span>
+            <h1 className="max-w-[680px] text-4xl font-black uppercase leading-[0.92] tracking-[-0.035em] sm:text-5xl md:text-6xl lg:text-[56px] xl:text-[62px]">
+              <span className="block text-white">EQUIPMENT</span>
+              <span className="block text-white">BUILT FOR</span>
+              <span className="block text-[#e21b23]">REAL WORK.</span>
             </h1>
 
             <p className="mt-6 max-w-xl text-sm leading-6 text-gray-400 sm:text-base sm:leading-7">
@@ -86,48 +74,52 @@ export default function AboutPage() {
               smarter, faster and with confidence.
             </p>
 
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/products"
-                className="group inline-flex h-11 w-[210px] items-center justify-center gap-2 rounded-md bg-[#e21b23] px-5 text-[12px] font-extrabold uppercase tracking-wider text-white transition-all duration-300 hover:bg-[#ff252d]"
+                className="group inline-flex h-11 w-[210px] items-center justify-center gap-2 rounded-md bg-[#e21b23] px-5 text-[11px] font-extrabold uppercase tracking-wider text-white transition-all duration-300 hover:bg-[#ff252d] hover:shadow-[0_10px_30px_rgba(226,27,35,0.25)]"
               >
                 Explore Products
-
                 <ArrowRightIcon className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
 
               <Link
                 href="#our-story"
-                className="inline-flex h-11 w-[210px] items-center justify-center rounded-md border border-white/20 bg-white/[0.03] px-5 text-[12px] font-extrabold uppercase tracking-wider text-white transition-all duration-300 hover:border-white/50 hover:bg-white/[0.08]"
+                className="inline-flex h-11 w-[210px] items-center justify-center rounded-md border border-white/20 bg-white/[0.04] px-5 text-[11px] font-extrabold uppercase tracking-wider text-white transition-all duration-300 hover:border-white/50 hover:bg-white/[0.08]"
               >
                 Our Story
               </Link>
+            </div>
 
+            {/* Small highlights */}
+            <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-2 text-[9px] font-bold uppercase tracking-[0.15em] text-gray-500">
+              <span>Professional Equipment</span>
+              <span className="h-1 w-1 rounded-full bg-[#e21b23]" />
+              <span>Genuine Products</span>
+              <span className="h-1 w-1 rounded-full bg-[#e21b23]" />
+              <span>Technical Support</span>
             </div>
           </div>
 
           {/* Hero Image */}
           <div className="relative z-10 lg:col-span-6">
+            <div className="pointer-events-none absolute left-1/2 top-1/2 h-[330px] w-[330px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-red-600/10 blur-[100px] sm:h-[430px] sm:w-[430px]" />
 
-            <div className="pointer-events-none absolute left-1/2 top-1/2 h-[360px] w-[360px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-red-600/10 blur-[100px]" />
-
-            <div className="relative mx-auto aspect-[4/3] w-full max-w-[700px]">
+            <div className="relative mx-auto aspect-[4/3] w-full max-w-[720px]">
               <Image
                 src="/images/hero-products.png"
                 alt="TUQO Professional Machinery and Power Tools"
                 fill
                 priority
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,0.8)]"
+                sizes="(max-width: 1024px) 100vw, 55vw"
+                className="object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,0.85)] transition-transform duration-700 hover:scale-[1.03]"
               />
             </div>
-
           </div>
-
         </div>
 
-        <div className="absolute bottom-0 left-0 h-[2px] w-full bg-[#e21b23]" />
+        {/* Red Bottom Line */}
+        <div className="absolute bottom-0 left-0 h-[3px] w-full bg-[#e21b23]" />
       </section>
 
 
