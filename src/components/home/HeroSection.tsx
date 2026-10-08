@@ -6,6 +6,7 @@ import { ArrowRightIcon } from "@/components/common/Icons";
 export function HeroSection() {
   return (
     <section className="relative isolate overflow-hidden bg-[#08090b] text-white">
+
       {/* Background */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_78%_50%,rgba(225,29,38,0.16),transparent_40%)]" />
 
@@ -16,18 +17,9 @@ export function HeroSection() {
       {/* Main Container */}
       <div className="relative mx-auto max-w-[1500px] px-5 sm:px-8 lg:px-10">
         <div className="grid min-h-[500px] items-center gap-4 py-10 sm:min-h-[540px] sm:py-12 lg:grid-cols-12 lg:py-14">
-          
+
           {/* LEFT CONTENT */}
           <div className="relative z-20 text-center lg:col-span-6 lg:text-left">
-            
-            {/* Eyebrow */}
-            <div className="mb-4 flex items-center justify-center gap-2.5 lg:justify-start">
-              <span className="h-[3px] w-7 bg-[#e21b23]" />
-
-              <span className="text-[9px] font-extrabold uppercase tracking-[0.2em] text-[#e21b23] sm:text-[10px]">
-                PROFESSIONAL MACHINERY & POWER TOOLS
-              </span>
-            </div>
 
             {/* Heading */}
             <h1 className="max-w-2xl text-4xl font-black uppercase leading-[0.94] tracking-[-0.03em] sm:text-5xl md:text-6xl lg:text-[52px] xl:text-[56px]">
@@ -48,16 +40,9 @@ export function HeroSection() {
               </span>
             </h1>
 
-            {/* Description */}
-            <p className="mx-auto mt-5 max-w-xl text-xs leading-5 text-gray-400 sm:text-sm sm:leading-6 lg:mx-0">
-              High Pressure Washers, Vacuum Cleaners, Air Compressors,
-              Power Tools and Accessories — professional equipment built
-              for demanding work.
-            </p>
-
             {/* Buttons */}
             <div className="mt-7 flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start">
-              
+
               {/* Explore Products */}
               <Link
                 href="#categories"
@@ -76,24 +61,11 @@ export function HeroSection() {
                 Download Catalog
               </Link>
             </div>
-
-            {/* Small Trust Text */}
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[8px] font-bold uppercase tracking-[0.15em] text-gray-500 lg:justify-start">
-              <span>Genuine Products</span>
-
-              <span className="h-1 w-1 rounded-full bg-[#e21b23]" />
-
-              <span>Pan-India Delivery</span>
-
-              <span className="h-1 w-1 rounded-full bg-[#e21b23]" />
-
-              <span>Technical Support</span>
-            </div>
           </div>
 
           {/* RIGHT PRODUCT IMAGE */}
           <div className="relative z-10 lg:col-span-6">
-            
+
             {/* Product Glow */}
             <div className="pointer-events-none absolute left-1/2 top-1/2 h-[300px] w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-red-600/10 blur-[90px] sm:h-[420px] sm:w-[420px]" />
 
@@ -110,6 +82,7 @@ export function HeroSection() {
               </div>
             </div>
           </div>
+
         </div>
       </div>
 
