@@ -84,6 +84,7 @@ export default function ContactPage() {
               </div>
             </div>
 
+
             {/* RIGHT PRODUCT IMAGE */}
             <div className="relative z-10 lg:col-span-6">
 
@@ -475,24 +476,27 @@ export default function ContactPage() {
             </div>
 
 
-            {/* MAP PLACEHOLDER */}
-<div className="flex min-h-[260px] items-center justify-center border border-gray-200 bg-[#f3f3f3]">
+            {/* GOOGLE MAP */}
+            <div className="min-h-[260px] overflow-hidden border border-gray-200 bg-[#f3f3f3]">
 
-  <div className="text-center">
+              <iframe
+                src={`https://www.google.com/maps?q=${encodeURIComponent(
+                  APP_CONFIG.business.addressLines.join(", ")
+                )}&output=embed`}
+                width="100%"
+                height="100%"
+                style={{
+                  border: 0,
+                  minHeight: "320px",
+                }}
+                loading="lazy"
+                allowFullScreen
+                referrerPolicy="no-referrer-when-downgrade"
+                title="TUQO Tools Location"
+              />
 
-    <MapPinIcon className="mx-auto h-12 w-12 text-[#e21b23]" />
+            </div>
 
-    <p className="mt-3 text-sm font-bold uppercase text-gray-500">
-      TUQO Location Map
-    </p>
-
-    <p className="mt-1 text-xs text-gray-400">
-      Google Maps can be added here
-    </p>
-
-  </div>
-
-</div>
           </div>
 
         </div>
