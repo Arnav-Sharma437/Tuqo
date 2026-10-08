@@ -15,37 +15,95 @@ export default function ContactPage() {
   return (
     <main className="w-full bg-white">
 
-      {/* HERO */}
-      <section className="relative overflow-hidden bg-[#08090b] py-20 text-white sm:py-24 lg:py-28">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_80%_50%,rgba(226,27,35,0.18),transparent_40%)]" />
+     {/* HERO */}
+<section className="relative isolate overflow-hidden bg-[#08090b] text-white">
 
-        <div className="relative mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-10">
-          <div className="max-w-3xl">
-            <div className="mb-4 flex items-center gap-2">
-              <span className="h-[3px] w-8 bg-[#e21b23]" />
-              <span className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-[#e21b23] sm:text-xs">
-                GET IN TOUCH
-              </span>
-            </div>
+  {/* Background */}
+  <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_78%_50%,rgba(226,27,35,0.18),transparent_40%)]" />
 
-            <h1 className="text-4xl font-black uppercase leading-[0.95] tracking-tight sm:text-5xl lg:text-7xl">
-              LET&apos;S TALK.
-              <br />
-              <span className="text-[#e21b23]">
-                WE&apos;RE HERE TO HELP.
-              </span>
-            </h1>
+  <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#08090b] via-[#08090b]/95 to-[#08090b]/40" />
 
-            <p className="mt-6 max-w-2xl text-sm leading-6 text-gray-400 sm:text-base sm:leading-7">
-              Connect with our team for product information, technical
-              support, quotations, catalogs, service assistance, and dealer
-              inquiries.
-            </p>
-          </div>
+  <div className="pointer-events-none absolute right-[10%] top-1/2 h-[350px] w-[350px] -translate-y-1/2 rounded-full bg-[#e21b23]/10 blur-[120px]" />
+
+  <div className="relative mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-10">
+    <div className="grid min-h-[430px] items-center gap-6 py-12 sm:min-h-[480px] sm:py-14 lg:grid-cols-12 lg:py-16">
+
+      {/* LEFT CONTENT */}
+      <div className="relative z-20 lg:col-span-6">
+
+        <div className="mb-4 flex items-center gap-2">
+          <span className="h-[3px] w-8 bg-[#e21b23]" />
+
+          <span className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-[#e21b23] sm:text-xs">
+            GET IN TOUCH
+          </span>
         </div>
 
-        <div className="absolute bottom-0 left-0 h-[2px] w-full bg-[#e21b23]" />
-      </section>
+        <h1 className="text-4xl font-black uppercase leading-[0.94] tracking-[-0.03em] sm:text-5xl md:text-6xl lg:text-[58px]">
+          <span className="block text-white">
+            LET&apos;S TALK.
+          </span>
+
+          <span className="block text-[#e21b23]">
+            WE&apos;RE HERE
+          </span>
+
+          <span className="block text-[#e21b23]">
+            TO HELP.
+          </span>
+        </h1>
+
+        <p className="mt-6 max-w-xl text-sm leading-6 text-gray-400 sm:text-base sm:leading-7">
+          Connect with our team for product information, technical support,
+          quotations, catalogs, service assistance, and dealer inquiries.
+        </p>
+
+        <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+
+          <a
+            href={APP_CONFIG.whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex h-11 w-[210px] items-center justify-center rounded-md bg-[#25D366] px-5 text-[10px] font-extrabold uppercase tracking-wider text-black transition-all duration-300 hover:bg-[#20bd5a]"
+          >
+            Message on WhatsApp
+          </a>
+
+          <a
+            href={`tel:${APP_CONFIG.phoneRaw}`}
+            className="inline-flex h-11 w-[210px] items-center justify-center rounded-md border border-white/20 bg-white/[0.03] px-5 text-[10px] font-extrabold uppercase tracking-wider text-white transition-all duration-300 hover:border-[#e21b23] hover:bg-[#e21b23]"
+          >
+            Call {APP_CONFIG.phone}
+          </a>
+
+        </div>
+      </div>
+
+      {/* RIGHT PRODUCT IMAGE */}
+      <div className="relative z-10 lg:col-span-6">
+
+        <div className="relative mx-auto h-[280px] w-full max-w-[650px] sm:h-[340px] lg:h-[390px]">
+
+          <Image
+            src="/images/hero-products.png"
+            alt="TUQO Professional Machinery and Power Tools"
+            fill
+            priority
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            className="object-contain drop-shadow-[0_25px_50px_rgba(0,0,0,0.8)] transition-transform duration-700 hover:scale-[1.03]"
+          />
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  {/* Bottom Red Line */}
+  <div className="absolute bottom-0 left-0 h-[2px] w-full bg-[#e21b23]" />
+
+</section>
 
       {/* CONTACT + FORM */}
       <section className="w-full bg-[#f7f7f7] py-14 sm:py-16 lg:py-20">
