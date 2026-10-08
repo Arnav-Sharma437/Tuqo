@@ -2,7 +2,6 @@ import React from "react";
 import {
   HeroSection,
   CategorySection,
-  FlagshipSpotlight,
   CatalogCTA,
   FaqSection,
   ContactSection,
@@ -18,16 +17,13 @@ export default function HomePage() {
       {/* 2. PRODUCT CATEGORIES */}
       <CategorySection />
 
-      {/* 3. FLAGSHIP SPOTLIGHT */}
-      <FlagshipSpotlight />
-
-      {/* 4. E-CATALOG DOWNLOAD CTA STRIP */}
+      {/* 3. E-CATALOG DOWNLOAD CTA STRIP */}
       <CatalogCTA />
 
-      {/* 5. FREQUENTLY ASKED QUESTIONS */}
+      {/* 4. FREQUENTLY ASKED QUESTIONS */}
       <FaqSection />
 
-      {/* 6. CONTACT SECTION */}
+      {/* 5. CONTACT SECTION */}
       <ContactSection />
 
     </div>
