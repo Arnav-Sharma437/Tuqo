@@ -5,33 +5,6 @@ import { ArrowRightIcon } from "@/components/common/Icons";
 import { CATEGORIES } from "@/constants";
 
 export default function AboutPage() {
-  const values = [
-    {
-      number: "01",
-      title: "BUILT FOR PERFORMANCE",
-      description:
-        "Professional equipment designed around demanding jobs, practical performance and dependable operation.",
-    },
-    {
-      number: "02",
-      title: "QUALITY FIRST",
-      description:
-        "We focus on reliable machines, durable components and products made for professional working environments.",
-    },
-    {
-      number: "03",
-      title: "PROFESSIONAL RANGE",
-      description:
-        "From cleaning equipment to power tools and accessories, TUQO brings essential equipment together in one range.",
-    },
-    {
-      number: "04",
-      title: "SUPPORT YOU CAN RELY ON",
-      description:
-        "Our approach goes beyond selling equipment. We aim to provide product guidance, technical assistance and genuine support.",
-    },
-  ];
-
   const industries = [
     "Automotive Workshops",
     "Car Wash & Detailing",
@@ -45,18 +18,24 @@ export default function AboutPage() {
     <main className="w-full bg-white text-[#111214]">
 
       {/* ===================================================== */}
-           {/* HERO */}
+      {/* HERO */}
+      {/* ===================================================== */}
+
       <section className="relative isolate overflow-hidden bg-[#08090b] text-white">
-        {/* Background */}
+
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_75%_50%,rgba(226,27,35,0.18),transparent_38%)]" />
+
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#08090b] via-[#08090b]/90 to-[#08090b]/35" />
 
         <div className="relative mx-auto grid min-h-[540px] max-w-[1500px] items-center gap-8 px-5 py-14 sm:px-8 lg:grid-cols-12 lg:px-10 lg:py-16">
 
           {/* Hero Content */}
+
           <div className="relative z-20 lg:col-span-6">
+
             <div className="mb-5 flex items-center gap-2.5">
               <span className="h-[3px] w-8 bg-[#e21b23]" />
+
               <span className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-[#e21b23]">
                 ABOUT TUQO
               </span>
@@ -75,6 +54,7 @@ export default function AboutPage() {
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+
               <Link
                 href="/products"
                 className="group inline-flex h-11 w-[210px] items-center justify-center gap-2 rounded-md bg-[#e21b23] px-5 text-[11px] font-extrabold uppercase tracking-wider text-white transition-all duration-300 hover:bg-[#ff252d] hover:shadow-[0_10px_30px_rgba(226,27,35,0.25)]"
@@ -89,23 +69,31 @@ export default function AboutPage() {
               >
                 Our Story
               </Link>
+
             </div>
 
-            {/* Small highlights */}
             <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-2 text-[9px] font-bold uppercase tracking-[0.15em] text-gray-500">
               <span>Professional Equipment</span>
+
               <span className="h-1 w-1 rounded-full bg-[#e21b23]" />
+
               <span>Genuine Products</span>
+
               <span className="h-1 w-1 rounded-full bg-[#e21b23]" />
+
               <span>Technical Support</span>
             </div>
+
           </div>
 
           {/* Hero Image */}
+
           <div className="relative z-10 lg:col-span-6">
+
             <div className="pointer-events-none absolute left-1/2 top-1/2 h-[330px] w-[330px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-red-600/10 blur-[100px] sm:h-[430px] sm:w-[430px]" />
 
             <div className="relative mx-auto aspect-[4/3] w-full max-w-[720px]">
+
               <Image
                 src="/images/hero-products.png"
                 alt="TUQO Professional Machinery and Power Tools"
@@ -114,12 +102,15 @@ export default function AboutPage() {
                 sizes="(max-width: 1024px) 100vw, 55vw"
                 className="object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,0.85)] transition-transform duration-700 hover:scale-[1.03]"
               />
+
             </div>
+
           </div>
+
         </div>
 
-        {/* Red Bottom Line */}
         <div className="absolute bottom-0 left-0 h-[3px] w-full bg-[#e21b23]" />
+
       </section>
 
 
@@ -135,6 +126,7 @@ export default function AboutPage() {
         <div className="mx-auto grid max-w-[1400px] items-center gap-10 px-5 sm:px-8 lg:grid-cols-12 lg:gap-16 lg:px-10">
 
           {/* Image */}
+
           <div className="relative lg:col-span-6">
 
             <div className="relative min-h-[380px] overflow-hidden bg-[#08090b] sm:min-h-[480px]">
@@ -150,6 +142,7 @@ export default function AboutPage() {
               <div className="absolute inset-0 bg-gradient-to-t from-[#08090b]/80 via-transparent to-transparent" />
 
               <div className="absolute bottom-6 left-6 sm:bottom-8 sm:left-8">
+
                 <span className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#e21b23]">
                   TUQO TOOLS
                 </span>
@@ -159,22 +152,28 @@ export default function AboutPage() {
                   <br />
                   FOR REAL WORK
                 </p>
+
               </div>
 
               <div className="absolute bottom-0 left-0 h-1 w-full bg-[#e21b23]" />
+
             </div>
 
           </div>
 
+
           {/* Content */}
+
           <div className="lg:col-span-6">
 
             <div className="mb-3 flex items-center gap-2">
+
               <span className="h-[3px] w-7 bg-[#e21b23]" />
 
               <span className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-[#e21b23]">
                 WHO WE ARE
               </span>
+
             </div>
 
             <h2 className="text-3xl font-black uppercase leading-none tracking-tight sm:text-4xl lg:text-5xl">
@@ -207,150 +206,101 @@ export default function AboutPage() {
           </div>
 
         </div>
+
       </section>
 
 
-            {/* ===================================================== */}
-      {/* WHAT DRIVES US */}
+      {/* ===================================================== */}
+      {/* ABOUT TUQO TOOLS */}
       {/* ===================================================== */}
 
-      <section className="relative overflow-hidden bg-white py-16 sm:py-20 lg:py-24">
-
-        <div className="pointer-events-none absolute right-0 top-0 h-[350px] w-[350px] rounded-full bg-red-600/[0.04] blur-[100px]" />
-
-        <div className="relative mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-10">
-
-          {/* Section Heading */}
-          <div className="mb-10 max-w-2xl">
-
-            <div className="mb-3 flex items-center gap-2">
-              <span className="h-[3px] w-8 bg-[#e21b23]" />
-
-              <span className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-[#e21b23]">
-                WHAT DRIVES US
-              </span>
-            </div>
-
-            <h2 className="text-3xl font-black uppercase leading-[0.95] tracking-tight text-[#111214] sm:text-4xl lg:text-5xl">
-              BUILT AROUND
-              <br />
-              <span className="text-[#e21b23]">
-                YOUR WORK.
-              </span>
-            </h2>
-
-            <p className="mt-5 max-w-xl text-sm leading-6 text-gray-500 sm:text-base sm:leading-7">
-              Every TUQO product is selected with one goal in mind —
-              helping professionals get the job done with dependable,
-              practical and performance-focused equipment.
-            </p>
-
-          </div>
-
-          {/* Value Cards */}
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-
-            {values.map((value) => (
-              <div
-                key={value.number}
-                className="group relative overflow-hidden border border-gray-200 bg-[#f7f7f7] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#e21b23]/50 hover:bg-white hover:shadow-[0_18px_45px_rgba(0,0,0,0.08)]"
-              >
-
-                {/* Number */}
-                <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-black tracking-[0.2em] text-[#e21b23]">
-                    {value.number}
-                  </span>
-
-                  <span className="h-2 w-2 rounded-full bg-gray-300 transition-colors duration-300 group-hover:bg-[#e21b23]" />
-                </div>
-
-                {/* Title */}
-                <h3 className="mt-8 min-h-[48px] text-lg font-black uppercase leading-tight tracking-tight text-[#111214]">
-                  {value.title}
-                </h3>
-
-                {/* Description */}
-                <p className="mt-4 min-h-[100px] text-xs leading-6 text-gray-500 sm:text-sm">
-                  {value.description}
-                </p>
-
-                {/* Bottom Line */}
-                <div className="mt-6 h-[3px] w-8 bg-[#e21b23] transition-all duration-300 group-hover:w-16" />
-
-              </div>
-            ))}
-
-          </div>
-
-        </div>
-      </section>
-      {/* ===================================================== */}
-      {/* WHY TUQO */}
-      {/* ===================================================== */}
-
-      <section className="bg-[#08090b] py-16 text-white sm:py-20 lg:py-24">
+      <section className="relative overflow-hidden bg-[#e21b23] py-16 text-white sm:py-20 lg:py-24">
 
         <div className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-10">
 
-          <div className="grid items-center gap-12 lg:grid-cols-12">
+          {/* Heading */}
 
-            <div className="lg:col-span-5">
+          <div className="text-center">
 
-              <div className="mb-3 flex items-center gap-2">
-                <span className="h-[3px] w-7 bg-[#e21b23]" />
+            <div className="mb-4 flex items-center justify-center gap-3">
 
-                <span className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-[#e21b23]">
-                  WHY TUQO
-                </span>
-              </div>
+              <span className="h-[2px] w-8 bg-white/70" />
 
-              <h2 className="text-3xl font-black uppercase leading-[0.95] tracking-tight sm:text-4xl lg:text-5xl">
-                MORE THAN
-                <br />
-                <span className="text-[#e21b23]">
-                  MACHINES.
-                </span>
-              </h2>
+              <span className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-white">
+                ABOUT US
+              </span>
 
-              <p className="mt-6 max-w-lg text-sm leading-7 text-gray-400 sm:text-base">
-                The right equipment can make work easier, faster and more
-                dependable. That is why TUQO focuses on products designed
-                around real professional requirements.
+              <span className="h-[2px] w-8 bg-white/70" />
+
+            </div>
+
+            <h2 className="text-3xl font-black uppercase leading-none tracking-tight sm:text-4xl lg:text-5xl">
+              ABOUT TUQO TOOLS
+            </h2>
+
+          </div>
+
+
+          {/* Three Columns */}
+
+          <div className="mt-12 grid grid-cols-1 md:grid-cols-3">
+
+            {/* Our History */}
+
+            <div className="px-2 py-6 text-center md:px-10 md:py-2 md:border-r md:border-white/25">
+
+              <h3 className="text-2xl font-medium sm:text-3xl">
+                Our History
+              </h3>
+
+              <p className="mx-auto mt-6 max-w-md text-sm leading-7 text-white/90 sm:text-base">
+                Tugo Tools started as a small family-owned business with a
+                passion for providing high-quality machinery to companies in
+                the area. Over the years, we have grown into a leading
+                machinery supplier with a reputation for excellence.
               </p>
 
             </div>
 
 
-            <div className="grid gap-3 sm:grid-cols-2 lg:col-span-7">
+            {/* Our Products */}
 
-              {[
-                "Professional Product Range",
-                "Heavy-Duty Equipment",
-                "Technical Product Support",
-                "Genuine Product Focus",
-                "Workshop & Industrial Applications",
-                "Pan-India Delivery",
-              ].map((item, index) => (
-                <div
-                  key={item}
-                  className="flex items-center gap-4 border border-white/10 bg-[#101114] px-5 py-5"
-                >
-                  <span className="text-[10px] font-black text-[#e21b23]">
-                    0{index + 1}
-                  </span>
+            <div className="px-2 py-6 text-center md:px-10 md:py-2 md:border-r md:border-white/25">
 
-                  <span className="text-xs font-extrabold uppercase tracking-wide text-white">
-                    {item}
-                  </span>
-                </div>
-              ))}
+              <h3 className="text-2xl font-medium sm:text-3xl">
+                Our Products
+              </h3>
+
+              <p className="mx-auto mt-6 max-w-md text-sm leading-7 text-white/90 sm:text-base">
+                We specialize in providing machinery for the manufacturing,
+                construction, and industrial sectors. Our products include
+                everything from heavy machines to DIY tools
+              </p>
+
+            </div>
+
+
+            {/* Our Services */}
+
+            <div className="px-2 py-6 text-center md:px-10 md:py-2">
+
+              <h3 className="text-2xl font-medium sm:text-3xl">
+                Our Services
+              </h3>
+
+              <p className="mx-auto mt-6 max-w-md text-sm leading-7 text-white/90 sm:text-base">
+                At Tugo Tools, we offer a range of services to ensure that your
+                machinery stays in top condition. Our team of experienced
+                technicians can provide maintenance, repairs, and even custom
+                fabrication to meet your unique needs.
+              </p>
 
             </div>
 
           </div>
 
         </div>
+
       </section>
 
 
@@ -365,6 +315,7 @@ export default function AboutPage() {
           <div className="mb-10 text-center">
 
             <div className="mb-3 flex items-center justify-center gap-2">
+
               <span className="h-[3px] w-7 bg-[#e21b23]" />
 
               <span className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-[#e21b23]">
@@ -372,6 +323,7 @@ export default function AboutPage() {
               </span>
 
               <span className="h-[3px] w-7 bg-[#e21b23]" />
+
             </div>
 
             <h2 className="text-3xl font-black uppercase leading-none tracking-tight sm:text-4xl lg:text-5xl">
@@ -385,10 +337,12 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
 
             {industries.map((industry, index) => (
+
               <div
                 key={industry}
                 className="group flex items-center justify-between border border-gray-200 bg-white px-6 py-5 transition-all duration-300 hover:border-[#e21b23]/40 hover:shadow-lg"
               >
+
                 <span className="text-xs font-extrabold uppercase tracking-wide text-[#111214]">
                   {industry}
                 </span>
@@ -396,12 +350,15 @@ export default function AboutPage() {
                 <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#111214] text-[10px] font-black text-white transition-colors group-hover:bg-[#e21b23]">
                   {String(index + 1).padStart(2, "0")}
                 </span>
+
               </div>
+
             ))}
 
           </div>
 
         </div>
+
       </section>
 
 
@@ -418,11 +375,13 @@ export default function AboutPage() {
             <div>
 
               <div className="mb-3 flex items-center gap-2">
+
                 <span className="h-[3px] w-7 bg-[#e21b23]" />
 
                 <span className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-[#e21b23]">
                   OUR RANGE
                 </span>
+
               </div>
 
               <h2 className="text-3xl font-black uppercase leading-none tracking-tight sm:text-4xl">
@@ -437,6 +396,7 @@ export default function AboutPage() {
               className="hidden h-11 w-[175px] items-center justify-center gap-2 rounded-md border border-[#111214] text-[12px] font-extrabold uppercase tracking-wide text-[#111214] transition-all duration-300 hover:border-[#e21b23] hover:bg-[#e21b23] hover:text-white sm:inline-flex"
             >
               View Products
+
               <ArrowRightIcon className="h-3.5 w-3.5" />
             </Link>
 
@@ -446,6 +406,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
 
             {CATEGORIES.slice(0, 6).map((category) => (
+
               <Link
                 key={category.id}
                 href={category.href}
@@ -453,6 +414,7 @@ export default function AboutPage() {
               >
 
                 <div className="relative h-[110px] w-full">
+
                   <Image
                     src={category.image}
                     alt={category.name}
@@ -460,20 +422,25 @@ export default function AboutPage() {
                     sizes="200px"
                     className="object-contain p-2 transition-transform duration-500 group-hover:scale-110"
                   />
+
                 </div>
 
                 <div className="mt-3 border-t border-gray-200 pt-3">
+
                   <h3 className="text-center text-[10px] font-extrabold uppercase leading-tight text-[#111214]">
                     {category.name}
                   </h3>
+
                 </div>
 
               </Link>
+
             ))}
 
           </div>
 
         </div>
+
       </section>
 
 
@@ -488,6 +455,7 @@ export default function AboutPage() {
         <div className="relative mx-auto max-w-[1100px] px-5 text-center sm:px-8">
 
           <div className="mb-3 flex items-center justify-center gap-2">
+
             <span className="h-[3px] w-7 bg-[#e21b23]" />
 
             <span className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-[#e21b23]">
@@ -495,6 +463,7 @@ export default function AboutPage() {
             </span>
 
             <span className="h-[3px] w-7 bg-[#e21b23]" />
+
           </div>
 
           <h2 className="text-3xl font-black uppercase leading-none tracking-tight sm:text-4xl lg:text-5xl">
@@ -518,6 +487,7 @@ export default function AboutPage() {
               className="group inline-flex h-11 w-[210px] items-center justify-center gap-2 rounded-md bg-[#e21b23] px-5 text-[12px] font-extrabold uppercase tracking-wider text-white transition-all duration-300 hover:bg-[#ff252d]"
             >
               Explore Products
+
               <ArrowRightIcon className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
 
@@ -533,6 +503,7 @@ export default function AboutPage() {
         </div>
 
         <div className="absolute bottom-0 left-0 h-[2px] w-full bg-[#e21b23]" />
+
       </section>
 
     </main>
