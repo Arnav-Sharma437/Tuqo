@@ -2,8 +2,8 @@ export const APP_CONFIG = {
   name: "TUQO Tools",
   description: "Professional Tools for Higher Performance",
   tagline: "BUILT FOR A STRONGER TOMORROW",
-  phone: "+91 93424 66860",
-  phoneRaw: "+919342466860",
+  phone: "+91 9342466860",
+phoneRaw: "91 9342466860",
   whatsappUrl: "https://wa.me/919342466860",
   business: {
     name: "A.H HOLDINGS",
