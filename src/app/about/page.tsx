@@ -210,60 +210,73 @@ export default function AboutPage() {
       </section>
 
 
+            {/* ===================================================== */}
+      {/* WHAT DRIVES US */}
       {/* ===================================================== */}
-      {/* VALUES */}
-      {/* ===================================================== */}
 
-      <section className="bg-white py-16 sm:py-20 lg:py-24">
+      <section className="relative overflow-hidden bg-white py-16 sm:py-20 lg:py-24">
 
-        <div className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-10">
+        <div className="pointer-events-none absolute right-0 top-0 h-[350px] w-[350px] rounded-full bg-red-600/[0.04] blur-[100px]" />
 
-          <div className="mb-10 flex items-end justify-between gap-6">
+        <div className="relative mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-10">
 
-            <div>
+          {/* Section Heading */}
+          <div className="mb-10 max-w-2xl">
 
-              <div className="mb-3 flex items-center gap-2">
-                <span className="h-[3px] w-7 bg-[#e21b23]" />
+            <div className="mb-3 flex items-center gap-2">
+              <span className="h-[3px] w-8 bg-[#e21b23]" />
 
-                <span className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-[#e21b23]">
-                  WHAT DRIVES US
-                </span>
-              </div>
-
-              <h2 className="text-3xl font-black uppercase leading-none tracking-tight sm:text-4xl lg:text-5xl">
-                BUILT AROUND
-                <br />
-                <span className="text-[#e21b23]">
-                  YOUR WORK.
-                </span>
-              </h2>
-
+              <span className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-[#e21b23]">
+                WHAT DRIVES US
+              </span>
             </div>
+
+            <h2 className="text-3xl font-black uppercase leading-[0.95] tracking-tight text-[#111214] sm:text-4xl lg:text-5xl">
+              BUILT AROUND
+              <br />
+              <span className="text-[#e21b23]">
+                YOUR WORK.
+              </span>
+            </h2>
+
+            <p className="mt-5 max-w-xl text-sm leading-6 text-gray-500 sm:text-base sm:leading-7">
+              Every TUQO product is selected with one goal in mind —
+              helping professionals get the job done with dependable,
+              practical and performance-focused equipment.
+            </p>
 
           </div>
 
-
+          {/* Value Cards */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
 
             {values.map((value) => (
               <div
                 key={value.number}
-                className="group border border-gray-200 bg-[#f8f8f8] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#e21b23]/40 hover:bg-white hover:shadow-xl hover:shadow-black/10"
+                className="group relative overflow-hidden border border-gray-200 bg-[#f7f7f7] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#e21b23]/50 hover:bg-white hover:shadow-[0_18px_45px_rgba(0,0,0,0.08)]"
               >
 
-                <span className="text-[10px] font-black tracking-[0.2em] text-[#e21b23]">
-                  {value.number}
-                </span>
+                {/* Number */}
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-black tracking-[0.2em] text-[#e21b23]">
+                    {value.number}
+                  </span>
 
-                <h3 className="mt-5 text-lg font-black uppercase leading-tight tracking-tight text-[#111214]">
+                  <span className="h-2 w-2 rounded-full bg-gray-300 transition-colors duration-300 group-hover:bg-[#e21b23]" />
+                </div>
+
+                {/* Title */}
+                <h3 className="mt-8 min-h-[48px] text-lg font-black uppercase leading-tight tracking-tight text-[#111214]">
                   {value.title}
                 </h3>
 
-                <p className="mt-4 text-xs leading-6 text-gray-500 sm:text-sm">
+                {/* Description */}
+                <p className="mt-4 min-h-[100px] text-xs leading-6 text-gray-500 sm:text-sm">
                   {value.description}
                 </p>
 
-                <div className="mt-6 h-[2px] w-8 bg-[#e21b23] transition-all duration-300 group-hover:w-14" />
+                {/* Bottom Line */}
+                <div className="mt-6 h-[3px] w-8 bg-[#e21b23] transition-all duration-300 group-hover:w-16" />
 
               </div>
             ))}
@@ -272,8 +285,6 @@ export default function AboutPage() {
 
         </div>
       </section>
-
-
       {/* ===================================================== */}
       {/* WHY TUQO */}
       {/* ===================================================== */}
