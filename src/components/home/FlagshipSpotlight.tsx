@@ -31,24 +31,11 @@ export function FlagshipSpotlight() {
       ],
       tag: "Workshop Standard",
     },
-    {
-      title: "Stainless Wet & Dry Industrial Vacuum",
-      category: "Extraction & Cleaning",
-      image: "/images/cat-vacuum-cleaner.png",
-      href: "/products/vacuum-cleaner",
-      specs: [
-        { label: "Tank Build", value: "304 Stainless Steel Drum" },
-        { label: "Motor Power", value: "Heavy Multi-Stage Turbine" },
-        { label: "Filtration", value: "Washable HEPA + Foam" },
-        { label: "Portability", value: "360° Reinforced Castor Base" },
-      ],
-      tag: "Garages & Detailing",
-    },
   ];
 
   return (
     <section className="w-full bg-[#f5f5f5] py-14 sm:py-16 lg:py-20">
-      <div className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-10">
+      <div className="mx-auto max-w-[1200px] px-5 sm:px-8 lg:px-10">
 
         {/* ================= HEADER ================= */}
         <div className="mb-8 flex items-end justify-between gap-6">
@@ -80,7 +67,8 @@ export function FlagshipSpotlight() {
         </div>
 
         {/* ================= PRODUCT GRID ================= */}
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+
           {flagships.map((machine) => (
             <article
               key={machine.title}
@@ -88,7 +76,7 @@ export function FlagshipSpotlight() {
             >
 
               {/* Product Image */}
-              <div className="relative flex h-[240px] items-center justify-center overflow-hidden bg-[#f8f8f8] sm:h-[260px]">
+              <div className="relative flex h-[260px] items-center justify-center overflow-hidden bg-[#f8f8f8] sm:h-[280px]">
 
                 {/* Category Label */}
                 <div className="absolute left-4 top-4 z-10">
@@ -104,12 +92,12 @@ export function FlagshipSpotlight() {
                   </span>
                 </div>
 
-                <div className="relative h-[190px] w-[85%] transition-transform duration-500 group-hover:scale-105">
+                <div className="relative h-[210px] w-[80%] transition-transform duration-500 group-hover:scale-105">
                   <Image
                     src={machine.image}
                     alt={machine.title}
                     fill
-                    sizes="400px"
+                    sizes="500px"
                     className="object-contain"
                   />
                 </div>
@@ -160,6 +148,7 @@ export function FlagshipSpotlight() {
               </div>
             </article>
           ))}
+
         </div>
 
         {/* ================= MOBILE BUTTON ================= */}
