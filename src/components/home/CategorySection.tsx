@@ -8,19 +8,23 @@ import { ArrowRightIcon } from "@/components/common/Icons";
 
 export function CategorySection() {
   // Row 1 items (scrolling Left)
-  const row1Items = [...CATEGORIES, ...CATEGORIES];
+  const row1Items = [...CATEGORIES, ...CATEGORIES, ...CATEGORIES];
 
-  // Row 2 items with reversed initial order (scrolling Right)
-  const row2Items = [...CATEGORIES.slice().reverse(), ...CATEGORIES.slice().reverse()];
+  // Row 2 items with reversed order (scrolling Right)
+  const row2Items = [
+    ...CATEGORIES.slice().reverse(),
+    ...CATEGORIES.slice().reverse(),
+    ...CATEGORIES.slice().reverse(),
+  ];
 
   return (
     <section
       id="categories"
-      className="relative w-full overflow-hidden bg-white py-14 sm:py-18 lg:py-20"
+      className="relative w-full overflow-hidden bg-white py-12 sm:py-16 lg:py-20"
     >
-      {/* Background Subtle Blueprint Grid */}
+      {/* Background Subtle Pattern */}
       <div
-        className="pointer-events-none absolute inset-0 opacity-30"
+        className="pointer-events-none absolute inset-0 opacity-25"
         style={{
           backgroundImage: "radial-gradient(#d1d5db 1px, transparent 1px)",
           backgroundSize: "24px 24px",
@@ -52,43 +56,48 @@ export function CategorySection() {
           </Link>
         </div>
 
-        {/* Contained Two-Row Marquee Box with Edge Fades */}
-        <div className="relative w-full overflow-hidden rounded-2xl border border-gray-200/80 bg-gray-50/60 p-4 sm:p-6 backdrop-blur-sm shadow-sm space-y-4">
-          {/* Left & Right Container Edge Fade Masks */}
-          <div className="pointer-events-none absolute left-0 top-0 bottom-0 z-20 w-12 sm:w-20 bg-gradient-to-r from-gray-50 via-gray-50/80 to-transparent" />
-          <div className="pointer-events-none absolute right-0 top-0 bottom-0 z-20 w-12 sm:w-20 bg-gradient-to-l from-gray-50 via-gray-50/80 to-transparent" />
+        {/* Marquee Area (No outer box border, no outer gray bg) */}
+        <div className="relative w-full overflow-hidden space-y-4 py-2">
+          {/* Left & Right Clean White Edge Fades */}
+          <div className="pointer-events-none absolute left-0 top-0 bottom-0 z-20 w-12 sm:w-20 bg-gradient-to-r from-white via-white/80 to-transparent" />
+          <div className="pointer-events-none absolute right-0 top-0 bottom-0 z-20 w-12 sm:w-20 bg-gradient-to-l from-white via-white/80 to-transparent" />
 
           {/* Row 1: Scrolling Left */}
           <div className="fade-mask-x w-full overflow-hidden">
-            <div className="animate-marquee flex items-stretch gap-3.5 sm:gap-4">
+            <div className="animate-marquee flex items-stretch gap-4">
               {row1Items.map((category, index) => (
                 <Link
                   key={`row1-${category.id}-${index}`}
                   href={category.href}
-                  className="group relative flex w-[175px] sm:w-[200px] shrink-0 flex-col justify-between rounded-xl border border-gray-200 bg-white p-3.5 transition-all duration-300 hover:-translate-y-1 hover:border-[#e21b23]/50 hover:shadow-lg hover:shadow-black/5"
+                  className="group relative flex h-[255px] w-[205px] sm:w-[225px] shrink-0 flex-col justify-between rounded-xl border border-gray-200 bg-[#fbfbfb] p-4 transition-all duration-300 hover:-translate-y-1 hover:border-[#e21b23]/50 hover:bg-white hover:shadow-xl hover:shadow-black/5"
                 >
+                  {/* Top Bar */}
                   <div className="flex items-center justify-between">
-                    <span className="text-[8px] font-bold uppercase tracking-wider text-gray-400">
+                    <span className="text-[9px] font-bold uppercase tracking-wider text-gray-400">
                       TUQO PRO
                     </span>
                     <span className="h-1.5 w-1.5 rounded-full bg-gray-300 transition-colors group-hover:bg-[#e21b23]" />
                   </div>
 
-                  <div className="relative mx-auto my-3 h-[105px] w-full sm:h-[115px]">
-                    <Image
-                      src={category.image}
-                      alt={category.name}
-                      fill
-                      sizes="200px"
-                      className="object-contain p-1 transition-transform duration-500 group-hover:scale-110"
-                    />
+                  {/* Image */}
+                  <div className="relative mx-auto my-2 flex h-[110px] w-full items-center justify-center">
+                    <div className="relative h-[95px] w-[95px] sm:h-[105px] sm:w-[105px] transition-transform duration-500 group-hover:scale-110">
+                      <Image
+                        src={category.image}
+                        alt={category.name}
+                        fill
+                        sizes="160px"
+                        className="object-contain"
+                      />
+                    </div>
                   </div>
 
-                  <div className="border-t border-gray-100 pt-2.5">
-                    <h3 className="flex min-h-[30px] items-center justify-center text-center text-[10px] sm:text-[11px] font-extrabold leading-tight text-gray-900 group-hover:text-[#e21b23] transition-colors">
+                  {/* Bottom Text & Button */}
+                  <div className="border-t border-gray-200/80 pt-2.5">
+                    <h3 className="truncate text-center text-xs font-black uppercase tracking-tight text-gray-900 transition-colors group-hover:text-[#e21b23]">
                       {category.name}
                     </h3>
-                    <div className="mt-2.5 flex h-9 w-full items-center justify-center gap-1.5 rounded-md bg-[#111214] text-[10px] font-extrabold uppercase tracking-wide text-white transition-colors duration-300 group-hover:bg-[#e21b23]">
+                    <div className="mt-2.5 flex h-10 w-full items-center justify-center gap-2 rounded-md bg-[#111214] text-[11px] font-extrabold uppercase tracking-wider text-white transition-colors duration-300 group-hover:bg-[#e21b23]">
                       <span>Explore</span>
                       <ArrowRightIcon className="h-3 w-3" />
                     </div>
@@ -100,35 +109,40 @@ export function CategorySection() {
 
           {/* Row 2: Scrolling Right (Opposite Direction) */}
           <div className="fade-mask-x w-full overflow-hidden">
-            <div className="animate-marquee-reverse flex items-stretch gap-3.5 sm:gap-4">
+            <div className="animate-marquee-reverse flex items-stretch gap-4">
               {row2Items.map((category, index) => (
                 <Link
                   key={`row2-${category.id}-${index}`}
                   href={category.href}
-                  className="group relative flex w-[175px] sm:w-[200px] shrink-0 flex-col justify-between rounded-xl border border-gray-200 bg-white p-3.5 transition-all duration-300 hover:-translate-y-1 hover:border-[#e21b23]/50 hover:shadow-lg hover:shadow-black/5"
+                  className="group relative flex h-[255px] w-[205px] sm:w-[225px] shrink-0 flex-col justify-between rounded-xl border border-gray-200 bg-[#fbfbfb] p-4 transition-all duration-300 hover:-translate-y-1 hover:border-[#e21b23]/50 hover:bg-white hover:shadow-xl hover:shadow-black/5"
                 >
+                  {/* Top Bar */}
                   <div className="flex items-center justify-between">
-                    <span className="text-[8px] font-bold uppercase tracking-wider text-gray-400">
+                    <span className="text-[9px] font-bold uppercase tracking-wider text-gray-400">
                       INDUSTRIAL
                     </span>
                     <span className="h-1.5 w-1.5 rounded-full bg-gray-300 transition-colors group-hover:bg-[#e21b23]" />
                   </div>
 
-                  <div className="relative mx-auto my-3 h-[105px] w-full sm:h-[115px]">
-                    <Image
-                      src={category.image}
-                      alt={category.name}
-                      fill
-                      sizes="200px"
-                      className="object-contain p-1 transition-transform duration-500 group-hover:scale-110"
-                    />
+                  {/* Image */}
+                  <div className="relative mx-auto my-2 flex h-[110px] w-full items-center justify-center">
+                    <div className="relative h-[95px] w-[95px] sm:h-[105px] sm:w-[105px] transition-transform duration-500 group-hover:scale-110">
+                      <Image
+                        src={category.image}
+                        alt={category.name}
+                        fill
+                        sizes="160px"
+                        className="object-contain"
+                      />
+                    </div>
                   </div>
 
-                  <div className="border-t border-gray-100 pt-2.5">
-                    <h3 className="flex min-h-[30px] items-center justify-center text-center text-[10px] sm:text-[11px] font-extrabold leading-tight text-gray-900 group-hover:text-[#e21b23] transition-colors">
+                  {/* Bottom Text & Button */}
+                  <div className="border-t border-gray-200/80 pt-2.5">
+                    <h3 className="truncate text-center text-xs font-black uppercase tracking-tight text-gray-900 transition-colors group-hover:text-[#e21b23]">
                       {category.name}
                     </h3>
-                    <div className="mt-2.5 flex h-9 w-full items-center justify-center gap-1.5 rounded-md bg-[#111214] text-[10px] font-extrabold uppercase tracking-wide text-white transition-colors duration-300 group-hover:bg-[#e21b23]">
+                    <div className="mt-2.5 flex h-10 w-full items-center justify-center gap-2 rounded-md bg-[#111214] text-[11px] font-extrabold uppercase tracking-wider text-white transition-colors duration-300 group-hover:bg-[#e21b23]">
                       <span>Explore</span>
                       <ArrowRightIcon className="h-3 w-3" />
                     </div>
