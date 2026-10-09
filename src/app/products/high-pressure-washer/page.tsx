@@ -1,5 +1,4 @@
-```tsx
-import Link from "next/link";
+﻿import Link from "next/link";
 
 const products = [
   {
@@ -144,7 +143,7 @@ export default function HighPressureWasherPage() {
                     View Product Details
                   </span>
                   <span className="text-xl text-[#e21b23] transition-transform group-hover:translate-x-1">
-                    ↗
+                    â†—
                   </span>
                 </div>
               </div>
@@ -161,4 +160,3 @@ export default function HighPressureWasherPage() {
     </main>
   );
 }
-```

@@ -1,5 +1,4 @@
-```tsx
-import Link from "next/link";
+﻿import Link from "next/link";
 
 const products = [
   {
@@ -113,7 +112,7 @@ export default function VacuumCleanerPage() {
                     aria-label={`Open ${product.name}`}
                     className="text-xl text-[#e21b23] transition-transform group-hover:translate-x-1"
                   >
-                    ↗
+                    â†—
                   </Link>
                 </div>
               </div>
@@ -124,4 +123,3 @@ export default function VacuumCleanerPage() {
     </main>
   );
 }
-```

@@ -1,5 +1,4 @@
-```tsx
-"use client";
+﻿"use client";
 
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
@@ -235,4 +234,3 @@ export function Header() {
     </header>
   );
 }
-```
