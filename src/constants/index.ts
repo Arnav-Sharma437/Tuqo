@@ -29,8 +29,8 @@ export const APP_CONFIG = {
 export const NAV_LINKS = [
   { label: "Home", href: "/" },
   {
-    label: "Products",
-    href: "/products",
+    label: "Categories",
+    href: "/categories",
     subItems: [
       {
         label: "High Pressure Washer",
@@ -58,10 +58,9 @@ export const NAV_LINKS = [
       },
     ],
   },
-  { label: "Categories", href: "/categories" },
   { label: "About", href: "/about" },
   { label: "Contact Us", href: "/contact" },
-  { label: "E-Catalog", href: "/catalog" },
+  { label: "E-Catalog", href: "#catalog" },
 ];
 
 export const TRUST_FEATURES = [
@@ -125,3 +124,5 @@ export const CATEGORIES = [
     href: "/products/power-tools-accessories",
   },
 ];
+
+export * from "./products";

@@ -1,161 +1,130 @@
-﻿import Link from "next/link";
+import React from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { getProductsByCategory } from "@/constants/products";
+import { ArrowRightIcon } from "@/components/common/Icons";
 
-const products = [
-  {
-    name: "TUQO PRO HPW 120",
-    image: "/images/cat-pressure-washer.png",
-    model: "HPW 120",
-    description:
-      "Compact cleaning equipment for everyday washing applications.",
-    href: "/products/high-pressure-washer/high-pressure-washer-150",
-  },
-  {
-    name: "TUQO PRO HPW 150",
-    image: "/images/cat-pressure-washer.png",
-    model: "HPW 150",
-    description:
-      "Professional cleaning equipment for workshops and commercial use.",
-    href: "/products/high-pressure-washer/high-pressure-washer-150",
-  },
-  {
-    name: "TUQO PRO HPW 200",
-    image: "/images/cat-pressure-washer.png",
-    model: "HPW 200",
-    description:
-      "Powerful cleaning equipment for demanding cleaning applications.",
-    href: "/products/high-pressure-washer/high-pressure-washer-150",
-  },
-  {
-    name: "TUQO PRO HPW 250",
-    image: "/images/cat-pressure-washer.png",
-    model: "HPW 250",
-    description:
-      "Professional washing equipment for regular cleaning tasks.",
-    href: "/products/high-pressure-washer/high-pressure-washer-150",
-  },
-  {
-    name: "TUQO PRO HPW 300",
-    image: "/images/cat-pressure-washer.png",
-    model: "HPW 300",
-    description:
-      "Heavy-duty style cleaning equipment for workshop applications.",
-    href: "/products/high-pressure-washer/high-pressure-washer-150",
-  },
-  {
-    name: "TUQO PRO HPW 400",
-    image: "/images/cat-pressure-washer.png",
-    model: "HPW 400",
-    description:
-      "Professional cleaning equipment for a variety of cleaning needs.",
-    href: "/products/high-pressure-washer/high-pressure-washer-150",
-  },
-];
+export const metadata = {
+  title: "High Pressure Washers | TUQO Tools",
+  description:
+    "Explore high-performance commercial and industrial induction pressure washers from TUQO.",
+};
 
 export default function HighPressureWasherPage() {
+  const products = getProductsByCategory("high-pressure-washer");
+
   return (
-    <main className="min-h-screen bg-white text-[#111214]">
-      {/* Hero */}
-      <section className="border-b border-gray-200 bg-[#111214] text-white">
-        <div className="mx-auto max-w-[1400px] px-5 py-14 sm:px-8 md:py-20 lg:px-10">
-          <nav className="mb-8 text-xs text-gray-400">
-            <Link href="/" className="hover:text-white">
+    <main className="min-h-screen bg-[#f8f9fc] text-[#111214]">
+      {/* Category Hero Header */}
+      <section className="border-b border-gray-200 bg-[#0c0d10] text-white">
+        <div className="mx-auto max-w-[1400px] px-5 py-12 sm:px-8 md:py-16 lg:px-10">
+          <nav className="mb-6 flex items-center gap-2 text-xs text-gray-400">
+            <Link href="/" className="hover:text-white transition-colors">
               Home
             </Link>
-            <span className="mx-2">/</span>
-            <Link href="/categories" className="hover:text-white">
+            <span>/</span>
+            <Link href="/categories" className="hover:text-white transition-colors">
               Categories
             </Link>
-            <span className="mx-2">/</span>
-            <span className="text-white">High Pressure Washers</span>
+            <span>/</span>
+            <span className="text-white font-bold">High Pressure Washers</span>
           </nav>
 
-          <p className="mb-3 text-xs font-extrabold uppercase tracking-[3px] text-[#e21b23]">
-            TUQO PRO EQUIPMENT
-          </p>
+          <div className="flex items-center gap-2 mb-2">
+            <span className="h-[3px] w-7 bg-[#e21b23]" />
+            <span className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-[#e21b23] sm:text-xs">
+              COMMERCIAL CLEANING RANGE
+            </span>
+          </div>
 
-          <h1 className="max-w-3xl text-4xl font-black uppercase leading-tight sm:text-5xl md:text-6xl">
-            HIGH PRESSURE
-            <span className="block text-[#e21b23]">WASHERS</span>
+          <h1 className="max-w-3xl text-3xl font-black uppercase leading-tight sm:text-4xl md:text-5xl text-white">
+            HIGH PRESSURE <span className="text-[#e21b23]">WASHERS</span>
           </h1>
 
-          <p className="mt-5 max-w-2xl text-sm leading-7 text-gray-300 sm:text-base">
-            Explore our sample range of pressure washers for
-            professional cleaning applications and workshops.
+          <p className="mt-4 max-w-2xl text-xs leading-relaxed text-gray-300 sm:text-sm">
+            Engineered with 100% pure copper induction motors and heavy forged brass pumps for commercial car washes, detailing studios, factories, and heavy machinery wash bays.
           </p>
         </div>
       </section>
 
-      {/* Product Listing - No Filters */}
+      {/* Product Grid */}
       <section className="mx-auto max-w-[1400px] px-5 py-12 sm:px-8 md:py-16 lg:px-10">
         <div className="mb-8 flex flex-col justify-between gap-3 border-b border-gray-200 pb-6 sm:flex-row sm:items-end">
           <div>
-            <p className="mb-2 text-xs font-extrabold uppercase tracking-[2px] text-[#e21b23]">
-              EXPLORE OUR RANGE
-            </p>
-            <h2 className="text-3xl font-black uppercase sm:text-4xl">
-              High Pressure Washers
+            <span className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#e21b23]">
+              ALL MODELS
+            </span>
+            <h2 className="text-2xl font-black uppercase text-gray-900 sm:text-3xl">
+              AVAILABLE MACHINERY ({products.length})
             </h2>
           </div>
-
-          <p className="text-sm text-gray-500">
-            {products.length} Sample Products
-          </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {products.map((product, index) => (
             <Link
-              key={product.model}
-              href={product.href}
-              className="group block overflow-hidden border border-gray-200 bg-white transition duration-300 hover:-translate-y-1 hover:border-[#e21b23] hover:shadow-xl"
+              key={product.id}
+              href={`/products/${product.categorySlug}/${product.slug}`}
+              className="group flex flex-col justify-between overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-xs transition-all duration-300 hover:-translate-y-1.5 hover:border-[#e21b23]/50 hover:shadow-xl hover:shadow-black/5"
             >
-              <div className="relative flex h-[250px] items-center justify-center overflow-hidden bg-[#f5f5f5] p-8">
-                <span className="absolute left-4 top-4 text-xs font-bold text-gray-400">
-                  TUQO PRO
+              <div className="relative flex h-[240px] items-center justify-center overflow-hidden bg-gradient-to-b from-[#f8f8f8] to-gray-50 p-6">
+                <span className="absolute left-4 top-4 rounded-md bg-[#111214] px-2.5 py-1 text-[9px] font-extrabold uppercase tracking-wider text-white">
+                  {product.tag}
                 </span>
 
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="h-full w-full object-contain transition duration-500 group-hover:scale-105"
-                />
+                <div className="relative h-44 w-44 transition-transform duration-500 group-hover:scale-110">
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    fill
+                    sizes="220px"
+                    className="object-contain"
+                  />
+                </div>
 
-                <span className="absolute bottom-3 right-4 text-xs font-bold text-gray-400">
-                  {String(index + 1).padStart(2, "0")}
+                <span className="absolute bottom-3 right-4 text-[10px] font-bold text-gray-400">
+                  0{index + 1}
                 </span>
               </div>
 
-              <div className="p-5">
-                <p className="text-[10px] font-extrabold uppercase tracking-[2px] text-[#e21b23]">
-                  {product.model}
-                </p>
-
-                <h3 className="mt-2 text-lg font-black uppercase transition-colors group-hover:text-[#e21b23]">
-                  {product.name}
-                </h3>
-
-                <p className="mt-3 text-sm leading-6 text-gray-500">
-                  {product.description}
-                </p>
-
-                <div className="mt-5 flex items-center justify-between border-t border-gray-200 pt-4">
-                  <span className="text-xs font-bold uppercase tracking-wide">
-                    View Product Details
+              <div className="flex flex-1 flex-col justify-between p-6">
+                <div>
+                  <span className="text-[10px] font-black uppercase tracking-wider text-[#e21b23]">
+                    {product.model}
                   </span>
-                  <span className="text-xl text-[#e21b23] transition-transform group-hover:translate-x-1">
-                    â†—
+
+                  <h3 className="mt-1 text-base font-black uppercase tracking-tight text-gray-900 transition-colors group-hover:text-[#e21b23]">
+                    {product.name}
+                  </h3>
+
+                  <p className="mt-2 text-xs leading-relaxed text-gray-600 line-clamp-2">
+                    {product.shortDesc}
+                  </p>
+
+                  <div className="mt-4 flex flex-wrap gap-1.5">
+                    {product.specs.slice(0, 2).map((s) => (
+                      <span
+                        key={s.label}
+                        className="rounded-md bg-gray-100 px-2 py-1 text-[9px] font-bold text-gray-700"
+                      >
+                        {s.value}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="mt-6 flex items-center justify-between border-t border-gray-100 pt-4">
+                  <span className="text-xs font-bold uppercase tracking-wide text-gray-500 group-hover:text-gray-900 transition-colors">
+                    View Specifications
                   </span>
+                  <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gray-100 text-gray-700 transition-all duration-300 group-hover:bg-[#e21b23] group-hover:text-white group-hover:translate-x-1">
+                    <ArrowRightIcon className="h-3.5 w-3.5" />
+                  </div>
                 </div>
               </div>
             </Link>
           ))}
         </div>
-
-        <p className="mt-8 text-xs leading-6 text-gray-400">
-          Sample product names and images are for layout demonstration only.
-          Final products and specifications will be updated after receiving
-          the actual product catalogue.
-        </p>
       </section>
     </main>
   );

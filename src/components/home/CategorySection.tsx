@@ -7,132 +7,149 @@ import { CATEGORIES } from "@/constants";
 import { ArrowRightIcon } from "@/components/common/Icons";
 
 export function CategorySection() {
-  const sliderItems = [...CATEGORIES, ...CATEGORIES];
+  // Row 1 items (scrolling Left)
+  const row1Items = [...CATEGORIES, ...CATEGORIES];
+
+  // Row 2 items with reversed initial order (scrolling Right)
+  const row2Items = [...CATEGORIES.slice().reverse(), ...CATEGORIES.slice().reverse()];
 
   return (
     <section
       id="categories"
-      className="relative w-full overflow-hidden bg-white py-12 sm:py-14 lg:py-16"
+      className="relative w-full overflow-hidden bg-white py-14 sm:py-18 lg:py-20"
     >
-      {/* Background Pattern */}
+      {/* Background Subtle Blueprint Grid */}
       <div
         className="pointer-events-none absolute inset-0 opacity-30"
         style={{
-          backgroundImage:
-            "radial-gradient(#d1d5db 1px, transparent 1px)",
-          backgroundSize: "22px 22px",
+          backgroundImage: "radial-gradient(#d1d5db 1px, transparent 1px)",
+          backgroundSize: "24px 24px",
         }}
       />
 
-      {/* Section Heading */}
+      {/* Main Container */}
       <div className="relative mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-10">
-        <div className="mb-7 flex items-end justify-between gap-5">
+        {/* Section Heading */}
+        <div className="mb-8 flex items-end justify-between gap-5">
           <div>
             <div className="mb-2 flex items-center gap-2">
               <span className="h-[3px] w-7 bg-[#e21b23]" />
-
               <span className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#e21b23] sm:text-xs">
                 OUR CATEGORIES
               </span>
             </div>
-
-            <h2 className="text-2xl font-black uppercase leading-none tracking-tight text-[#111214] sm:text-3xl">
+            <h2 className="text-2xl font-black uppercase leading-none tracking-tight text-[#111214] sm:text-3xl lg:text-4xl">
               EXPLORE OUR RANGE
             </h2>
           </div>
 
           <Link
-            href="/products"
-            className="hidden h-11 w-[175px] shrink-0 items-center justify-center gap-2 rounded-md border border-[#111214] px-4 text-[12px] font-extrabold uppercase tracking-wide text-[#111214] transition-all duration-300 hover:border-[#e21b23] hover:bg-[#e21b23] hover:text-white sm:inline-flex"
+            href="/categories"
+            className="hidden h-11 w-[185px] shrink-0 items-center justify-center gap-2 rounded-md border border-[#111214] px-4 text-[12px] font-extrabold uppercase tracking-wide text-[#111214] transition-all duration-300 hover:border-[#e21b23] hover:bg-[#e21b23] hover:text-white sm:inline-flex"
           >
-            View All Categories
+            <span>View All Categories</span>
+            <ArrowRightIcon className="h-3.5 w-3.5" />
+          </Link>
+        </div>
+
+        {/* Contained Two-Row Marquee Box with Edge Fades */}
+        <div className="relative w-full overflow-hidden rounded-2xl border border-gray-200/80 bg-gray-50/60 p-4 sm:p-6 backdrop-blur-sm shadow-sm space-y-4">
+          {/* Left & Right Container Edge Fade Masks */}
+          <div className="pointer-events-none absolute left-0 top-0 bottom-0 z-20 w-12 sm:w-20 bg-gradient-to-r from-gray-50 via-gray-50/80 to-transparent" />
+          <div className="pointer-events-none absolute right-0 top-0 bottom-0 z-20 w-12 sm:w-20 bg-gradient-to-l from-gray-50 via-gray-50/80 to-transparent" />
+
+          {/* Row 1: Scrolling Left */}
+          <div className="fade-mask-x w-full overflow-hidden">
+            <div className="animate-marquee flex items-stretch gap-3.5 sm:gap-4">
+              {row1Items.map((category, index) => (
+                <Link
+                  key={`row1-${category.id}-${index}`}
+                  href={category.href}
+                  className="group relative flex w-[175px] sm:w-[200px] shrink-0 flex-col justify-between rounded-xl border border-gray-200 bg-white p-3.5 transition-all duration-300 hover:-translate-y-1 hover:border-[#e21b23]/50 hover:shadow-lg hover:shadow-black/5"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-[8px] font-bold uppercase tracking-wider text-gray-400">
+                      TUQO PRO
+                    </span>
+                    <span className="h-1.5 w-1.5 rounded-full bg-gray-300 transition-colors group-hover:bg-[#e21b23]" />
+                  </div>
+
+                  <div className="relative mx-auto my-3 h-[105px] w-full sm:h-[115px]">
+                    <Image
+                      src={category.image}
+                      alt={category.name}
+                      fill
+                      sizes="200px"
+                      className="object-contain p-1 transition-transform duration-500 group-hover:scale-110"
+                    />
+                  </div>
+
+                  <div className="border-t border-gray-100 pt-2.5">
+                    <h3 className="flex min-h-[30px] items-center justify-center text-center text-[10px] sm:text-[11px] font-extrabold leading-tight text-gray-900 group-hover:text-[#e21b23] transition-colors">
+                      {category.name}
+                    </h3>
+                    <div className="mt-2.5 flex h-9 w-full items-center justify-center gap-1.5 rounded-md bg-[#111214] text-[10px] font-extrabold uppercase tracking-wide text-white transition-colors duration-300 group-hover:bg-[#e21b23]">
+                      <span>Explore</span>
+                      <ArrowRightIcon className="h-3 w-3" />
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Row 2: Scrolling Right (Opposite Direction) */}
+          <div className="fade-mask-x w-full overflow-hidden">
+            <div className="animate-marquee-reverse flex items-stretch gap-3.5 sm:gap-4">
+              {row2Items.map((category, index) => (
+                <Link
+                  key={`row2-${category.id}-${index}`}
+                  href={category.href}
+                  className="group relative flex w-[175px] sm:w-[200px] shrink-0 flex-col justify-between rounded-xl border border-gray-200 bg-white p-3.5 transition-all duration-300 hover:-translate-y-1 hover:border-[#e21b23]/50 hover:shadow-lg hover:shadow-black/5"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-[8px] font-bold uppercase tracking-wider text-gray-400">
+                      INDUSTRIAL
+                    </span>
+                    <span className="h-1.5 w-1.5 rounded-full bg-gray-300 transition-colors group-hover:bg-[#e21b23]" />
+                  </div>
+
+                  <div className="relative mx-auto my-3 h-[105px] w-full sm:h-[115px]">
+                    <Image
+                      src={category.image}
+                      alt={category.name}
+                      fill
+                      sizes="200px"
+                      className="object-contain p-1 transition-transform duration-500 group-hover:scale-110"
+                    />
+                  </div>
+
+                  <div className="border-t border-gray-100 pt-2.5">
+                    <h3 className="flex min-h-[30px] items-center justify-center text-center text-[10px] sm:text-[11px] font-extrabold leading-tight text-gray-900 group-hover:text-[#e21b23] transition-colors">
+                      {category.name}
+                    </h3>
+                    <div className="mt-2.5 flex h-9 w-full items-center justify-center gap-1.5 rounded-md bg-[#111214] text-[10px] font-extrabold uppercase tracking-wide text-white transition-colors duration-300 group-hover:bg-[#e21b23]">
+                      <span>Explore</span>
+                      <ArrowRightIcon className="h-3 w-3" />
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile View All Button */}
+        <div className="mt-6 flex justify-center sm:hidden">
+          <Link
+            href="/categories"
+            className="inline-flex h-11 w-[185px] items-center justify-center gap-2 rounded-md border border-[#111214] px-4 text-[12px] font-extrabold uppercase tracking-wide text-[#111214] transition-all hover:border-[#e21b23] hover:bg-[#e21b23] hover:text-white"
+          >
+            <span>View All Categories</span>
             <ArrowRightIcon className="h-3.5 w-3.5" />
           </Link>
         </div>
       </div>
-
-      {/* Continuous Slider */}
-      <div className="relative mt-2 w-full overflow-hidden">
-        {/* Left fade */}
-        <div className="pointer-events-none absolute left-0 top-0 z-20 h-full w-5 bg-gradient-to-r from-white to-transparent sm:w-8" />
-
-        {/* Right fade */}
-        <div className="pointer-events-none absolute right-0 top-0 z-20 h-full w-5 bg-gradient-to-l from-white to-transparent sm:w-8" />
-
-        <div className="category-slider flex w-max">
-          {sliderItems.map((category, index) => (
-            <Link
-              key={`${category.id}-${index}`}
-              href={category.href}
-              className="group mx-1.5 block w-[185px] shrink-0 overflow-hidden border border-gray-200 bg-[#f8f8f8] p-3.5 transition-all duration-300 hover:-translate-y-1 hover:border-[#e21b23]/50 hover:bg-white hover:shadow-xl hover:shadow-black/10 sm:mx-2 sm:w-[205px] sm:p-4"
-            >
-              {/* Card Top */}
-              <div className="flex items-center justify-between">
-                <span className="text-[8px] font-bold uppercase tracking-wider text-gray-400">
-                  TUQO PRO
-                </span>
-
-                <span className="h-1.5 w-1.5 rounded-full bg-gray-300 transition-colors group-hover:bg-[#e21b23]" />
-              </div>
-
-              {/* Product Image */}
-              <div className="relative mx-auto my-4 h-[125px] w-full sm:h-[135px]">
-                <Image
-                  src={category.image}
-                  alt={category.name}
-                  fill
-                  sizes="205px"
-                  className="object-contain p-1 transition-transform duration-500 group-hover:scale-110"
-                />
-              </div>
-
-              {/* Product Name + Button */}
-              <div className="border-t border-gray-200 pt-3">
-                <h3 className="flex min-h-[32px] items-center justify-center text-center text-[10px] font-extrabold leading-tight text-gray-900 sm:text-[11px]">
-                  {category.name}
-                </h3>
-
-                <div className="mt-3 flex h-10 w-full items-center justify-center gap-2 rounded-md bg-[#111214] text-[11px] font-extrabold uppercase tracking-wide text-white transition-colors duration-300 group-hover:bg-[#e21b23]">
-                  View Products
-                  <ArrowRightIcon className="h-3 w-3" />
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </div>
-
-      {/* Mobile Button */}
-      <div className="mt-7 flex justify-center px-5 sm:hidden">
-        <Link
-          href="/products"
-          className="inline-flex h-11 w-[175px] items-center justify-center gap-2 rounded-md border border-[#111214] px-4 text-[12px] font-extrabold uppercase tracking-wide text-[#111214] transition-all hover:border-[#e21b23] hover:bg-[#e21b23] hover:text-white"
-        >
-          View All Categories
-          <ArrowRightIcon className="h-3 w-3" />
-        </Link>
-      </div>
-
-      {/* Slider Animation */}
-      <style jsx>{`
-        .category-slider {
-          animation: categoryScroll 32s linear infinite;
-        }
-
-        .category-slider:hover {
-          animation-play-state: paused;
-        }
-
-        @keyframes categoryScroll {
-          from {
-            transform: translateX(0);
-          }
-
-          to {
-            transform: translateX(-50%);
-          }
-        }
-      `}</style>
     </section>
   );
 }

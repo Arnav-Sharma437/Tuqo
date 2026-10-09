@@ -23,13 +23,13 @@ body {
 }
 
 html {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -39,16 +39,21 @@ body {
   box-sizing: border-box;
 }
 
-/* Global typography */
+/* Typography styles using Instrument Sans & Inter */
 h1,
 h2,
 h3,
 h4,
 h5,
-h6,
+h6 {
+  font-family: var(--font-instrument), var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  letter-spacing: -0.02em;
+}
+
 button,
-a {
-  font-family: Arial, Helvetica, sans-serif;
+a,
+nav {
+  font-family: var(--font-instrument), var(--font-inter), sans-serif;
 }
 
 /* Infinite Marquee animations */
@@ -56,7 +61,6 @@ a {
   0% {
     transform: translateX(0%);
   }
-
   100% {
     transform: translateX(-50%);
   }
@@ -66,7 +70,6 @@ a {
   0% {
     transform: translateX(-50%);
   }
-
   100% {
     transform: translateX(0%);
   }
@@ -75,10 +78,17 @@ a {
 .animate-marquee {
   display: flex;
   width: max-content;
-  animation: marquee 28s linear infinite;
+  animation: marquee 32s linear infinite;
 }
 
-.animate-marquee:hover {
+.animate-marquee-reverse {
+  display: flex;
+  width: max-content;
+  animation: marquee-reverse 32s linear infinite;
+}
+
+.animate-marquee:hover,
+.animate-marquee-reverse:hover {
   animation-play-state: paused;
 }
 
@@ -91,7 +101,6 @@ a {
     black 94%,
     transparent 100%
   );
-
   mask-image: linear-gradient(
     to right,
     transparent 0%,
@@ -106,16 +115,13 @@ a {
   width: 8px;
   height: 8px;
 }
-
 ::-webkit-scrollbar-track {
   background: #f1f1f1;
 }
-
 ::-webkit-scrollbar-thumb {
   background: #c1c1c1;
   border-radius: 4px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
   background: #a1a1a1;
 }

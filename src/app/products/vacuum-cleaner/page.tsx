@@ -1,122 +1,128 @@
-﻿import Link from "next/link";
+import React from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { getProductsByCategory } from "@/constants/products";
+import { ArrowRightIcon } from "@/components/common/Icons";
 
-const products = [
-  {
-    name: "Vacuum Cleaner",
-    image: "/images/cat-vacuum-cleaner.png",
-    description:
-      "Professional cleaning equipment designed for reliable dust collection and everyday cleaning applications.",
-    model: "TUQO PRO",
-    href: "/products/vacuum-cleaner/vacuum-cleaner-150",
-  },
-];
+export const metadata = {
+  title: "Vacuum Cleaners | TUQO Tools",
+  description:
+    "Explore commercial and industrial stainless steel wet and dry vacuum cleaners from TUQO.",
+};
 
 export default function VacuumCleanerPage() {
+  const products = getProductsByCategory("vacuum-cleaner");
+
   return (
-    <main className="min-h-screen bg-white text-[#111214]">
-      {/* Category Hero */}
-      <section className="border-b border-gray-200 bg-[#111214] text-white">
-        <div className="mx-auto max-w-[1400px] px-5 py-14 sm:px-8 md:py-20 lg:px-10">
-          <nav className="mb-8 text-xs text-gray-400">
-            <Link href="/" className="hover:text-white">
+    <main className="min-h-screen bg-[#f8f9fc] text-[#111214]">
+      {/* Category Hero Header */}
+      <section className="border-b border-gray-200 bg-[#0c0d10] text-white">
+        <div className="mx-auto max-w-[1400px] px-5 py-12 sm:px-8 md:py-16 lg:px-10">
+          <nav className="mb-6 flex items-center gap-2 text-xs text-gray-400">
+            <Link href="/" className="hover:text-white transition-colors">
               Home
             </Link>
-            <span className="mx-2">/</span>
-            <Link href="/categories" className="hover:text-white">
+            <span>/</span>
+            <Link href="/categories" className="hover:text-white transition-colors">
               Categories
             </Link>
-            <span className="mx-2">/</span>
-            <span className="text-white">Vacuum Cleaners</span>
+            <span>/</span>
+            <span className="text-white font-bold">Vacuum Cleaners</span>
           </nav>
 
-          <p className="mb-3 text-xs font-extrabold uppercase tracking-[3px] text-[#e21b23]">
-            TUQO PRO EQUIPMENT
-          </p>
+          <div className="flex items-center gap-2 mb-2">
+            <span className="h-[3px] w-7 bg-[#e21b23]" />
+            <span className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-[#e21b23] sm:text-xs">
+              HEAVY EXTRACTION &amp; CLEANING
+            </span>
+          </div>
 
-          <h1 className="max-w-3xl text-4xl font-black uppercase leading-tight sm:text-5xl md:text-6xl">
-            VACUUM
-            <span className="block text-[#e21b23]">CLEANERS</span>
+          <h1 className="max-w-3xl text-3xl font-black uppercase leading-tight sm:text-4xl md:text-5xl text-white">
+            WET &amp; DRY <span className="text-[#e21b23]">VACUUM CLEANERS</span>
           </h1>
 
-          <p className="mt-5 max-w-2xl text-sm leading-7 text-gray-300 sm:text-base">
-            Explore our range of vacuum cleaners for professional
-            cleaning, workshops and everyday cleaning applications.
+          <p className="mt-4 max-w-2xl text-xs leading-relaxed text-gray-300 sm:text-sm">
+            High-lift copper turbine vacuum systems with SS304 stainless steel drums, multi-stage HEPA filtration, and dual/triple motor setups for workshops and factories.
           </p>
         </div>
       </section>
 
-      {/* Product Showcase */}
-      <section className="mx-auto max-w-[1400px] px-5 py-14 sm:px-8 md:py-20 lg:px-10">
-        <div className="mb-10 flex flex-col justify-between gap-3 border-b border-gray-200 pb-6 sm:flex-row sm:items-end">
+      {/* Product Grid */}
+      <section className="mx-auto max-w-[1400px] px-5 py-12 sm:px-8 md:py-16 lg:px-10">
+        <div className="mb-8 flex flex-col justify-between gap-3 border-b border-gray-200 pb-6 sm:flex-row sm:items-end">
           <div>
-            <p className="mb-2 text-xs font-extrabold uppercase tracking-[2px] text-[#e21b23]">
-              OUR PRODUCT RANGE
-            </p>
-            <h2 className="text-3xl font-black uppercase sm:text-4xl">
-              Vacuum Cleaners
+            <span className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#e21b23]">
+              ALL MODELS
+            </span>
+            <h2 className="text-2xl font-black uppercase text-gray-900 sm:text-3xl">
+              AVAILABLE MACHINERY ({products.length})
             </h2>
           </div>
-
-          <p className="text-sm text-gray-500">
-            Professional Cleaning Equipment
-          </p>
         </div>
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {products.map((product, index) => (
-            <article
-              key={product.name}
-              className="group overflow-hidden border border-gray-200 bg-white transition duration-300 hover:-translate-y-1 hover:border-[#e21b23] hover:shadow-xl"
+            <Link
+              key={product.id}
+              href={`/products/${product.categorySlug}/${product.slug}`}
+              className="group flex flex-col justify-between overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-xs transition-all duration-300 hover:-translate-y-1.5 hover:border-[#e21b23]/50 hover:shadow-xl hover:shadow-black/5"
             >
-              {/* Clickable Product Image */}
-              <Link
-                href={product.href}
-                aria-label={`View ${product.name} details`}
-                className="relative flex h-[280px] items-center justify-center overflow-hidden bg-[#f5f5f5] p-8"
-              >
-                <span className="absolute left-4 top-4 text-xs font-bold text-gray-400">
-                  TUQO PRO
+              <div className="relative flex h-[240px] items-center justify-center overflow-hidden bg-gradient-to-b from-[#f8f8f8] to-gray-50 p-6">
+                <span className="absolute left-4 top-4 rounded-md bg-[#111214] px-2.5 py-1 text-[9px] font-extrabold uppercase tracking-wider text-white">
+                  {product.tag}
                 </span>
 
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="h-full w-full object-contain transition duration-500 group-hover:scale-105"
-                />
-              </Link>
+                <div className="relative h-44 w-44 transition-transform duration-500 group-hover:scale-110">
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    fill
+                    sizes="220px"
+                    className="object-contain"
+                  />
+                </div>
 
-              {/* Product Information */}
-              <div className="p-6">
-                <p className="text-[10px] font-extrabold uppercase tracking-[2px] text-[#e21b23]">
-                  {product.model}
-                </p>
+                <span className="absolute bottom-3 right-4 text-[10px] font-bold text-gray-400">
+                  0{index + 1}
+                </span>
+              </div>
 
-                <Link
-                  href={product.href}
-                  className="mt-3 block text-xl font-black uppercase transition-colors hover:text-[#e21b23]"
-                >
-                  {product.name}
-                </Link>
-
-                <p className="mt-3 text-sm leading-6 text-gray-500">
-                  {product.description}
-                </p>
-
-                <div className="mt-5 flex items-center justify-between border-t border-gray-200 pt-4">
-                  <span className="text-xs font-bold uppercase tracking-wide">
-                    Product {String(index + 1).padStart(2, "0")}
+              <div className="flex flex-1 flex-col justify-between p-6">
+                <div>
+                  <span className="text-[10px] font-black uppercase tracking-wider text-[#e21b23]">
+                    {product.model}
                   </span>
 
-                  <Link
-                    href={product.href}
-                    aria-label={`Open ${product.name}`}
-                    className="text-xl text-[#e21b23] transition-transform group-hover:translate-x-1"
-                  >
-                    â†—
-                  </Link>
+                  <h3 className="mt-1 text-base font-black uppercase tracking-tight text-gray-900 transition-colors group-hover:text-[#e21b23]">
+                    {product.name}
+                  </h3>
+
+                  <p className="mt-2 text-xs leading-relaxed text-gray-600 line-clamp-2">
+                    {product.shortDesc}
+                  </p>
+
+                  <div className="mt-4 flex flex-wrap gap-1.5">
+                    {product.specs.slice(0, 2).map((s) => (
+                      <span
+                        key={s.label}
+                        className="rounded-md bg-gray-100 px-2 py-1 text-[9px] font-bold text-gray-700"
+                      >
+                        {s.value}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="mt-6 flex items-center justify-between border-t border-gray-100 pt-4">
+                  <span className="text-xs font-bold uppercase tracking-wide text-gray-500 group-hover:text-gray-900 transition-colors">
+                    View Specifications
+                  </span>
+                  <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gray-100 text-gray-700 transition-all duration-300 group-hover:bg-[#e21b23] group-hover:text-white group-hover:translate-x-1">
+                    <ArrowRightIcon className="h-3.5 w-3.5" />
+                  </div>
                 </div>
               </div>
-            </article>
+            </Link>
           ))}
         </div>
       </section>
