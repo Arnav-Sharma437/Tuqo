@@ -1,3 +1,4 @@
+```tsx
 import Link from "next/link";
 
 const products = [
@@ -7,6 +8,7 @@ const products = [
     description:
       "Professional cleaning equipment designed for powerful performance and reliable everyday use.",
     model: "TUQO PRO",
+    href: "/products/high-pressure-washer/high-pressure-washer-150",
   },
 ];
 
@@ -20,12 +22,18 @@ export default function HighPressureWasherPage() {
             <Link href="/" className="hover:text-white">
               Home
             </Link>
+
             <span className="mx-2">/</span>
+
             <Link href="/categories" className="hover:text-white">
               Categories
             </Link>
+
             <span className="mx-2">/</span>
-            <span className="text-white">High Pressure Washers</span>
+
+            <span className="text-white">
+              High Pressure Washers
+            </span>
           </nav>
 
           <p className="mb-3 text-xs font-extrabold uppercase tracking-[3px] text-[#e21b23]">
@@ -34,12 +42,15 @@ export default function HighPressureWasherPage() {
 
           <h1 className="max-w-3xl text-4xl font-black uppercase leading-tight sm:text-5xl md:text-6xl">
             HIGH PRESSURE
-            <span className="block text-[#e21b23]">WASHERS</span>
+            <span className="block text-[#e21b23]">
+              WASHERS
+            </span>
           </h1>
 
           <p className="mt-5 max-w-2xl text-sm leading-7 text-gray-300 sm:text-base">
-            Explore our range of high pressure washers for professional
-            cleaning applications, workshops and demanding cleaning tasks.
+            Explore our range of high pressure washers for
+            professional cleaning applications, workshops and
+            demanding cleaning tasks.
           </p>
         </div>
       </section>
@@ -51,6 +62,7 @@ export default function HighPressureWasherPage() {
             <p className="mb-2 text-xs font-extrabold uppercase tracking-[2px] text-[#e21b23]">
               OUR PRODUCT RANGE
             </p>
+
             <h2 className="text-3xl font-black uppercase sm:text-4xl">
               High Pressure Washers
             </h2>
@@ -67,7 +79,12 @@ export default function HighPressureWasherPage() {
               key={product.name}
               className="group overflow-hidden border border-gray-200 bg-white transition duration-300 hover:-translate-y-1 hover:border-[#e21b23] hover:shadow-xl"
             >
-              <div className="relative flex h-[280px] items-center justify-center overflow-hidden bg-[#f5f5f5] p-8">
+              {/* Clickable Product Image */}
+              <Link
+                href={product.href}
+                aria-label={`View ${product.name} details`}
+                className="relative flex h-[280px] items-center justify-center overflow-hidden bg-[#f5f5f5] p-8"
+              >
                 <span className="absolute left-4 top-4 text-xs font-bold text-gray-400">
                   TUQO PRO
                 </span>
@@ -77,16 +94,21 @@ export default function HighPressureWasherPage() {
                   alt={product.name}
                   className="h-full w-full object-contain transition duration-500 group-hover:scale-105"
                 />
-              </div>
+              </Link>
 
+              {/* Product Information */}
               <div className="p-6">
                 <p className="text-[10px] font-extrabold uppercase tracking-[2px] text-[#e21b23]">
                   {product.model}
                 </p>
 
-                <h3 className="mt-3 text-xl font-black uppercase">
+                {/* Clickable Product Name */}
+                <Link
+                  href={product.href}
+                  className="mt-3 block text-xl font-black uppercase transition-colors hover:text-[#e21b23]"
+                >
                   {product.name}
-                </h3>
+                </Link>
 
                 <p className="mt-3 text-sm leading-6 text-gray-500">
                   {product.description}
@@ -97,12 +119,13 @@ export default function HighPressureWasherPage() {
                     Product {String(index + 1).padStart(2, "0")}
                   </span>
 
-                  <span
-                    aria-hidden="true"
-                    className="text-xl text-[#e21b23]"
+                  <Link
+                    href={product.href}
+                    aria-label={`Open ${product.name}`}
+                    className="text-xl text-[#e21b23] transition-transform group-hover:translate-x-1"
                   >
                     ↗
-                  </span>
+                  </Link>
                 </div>
               </div>
             </article>
@@ -112,3 +135,4 @@ export default function HighPressureWasherPage() {
     </main>
   );
 }
+```
