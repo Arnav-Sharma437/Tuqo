@@ -3,7 +3,7 @@ export const APP_CONFIG = {
   description: "Professional Tools for Higher Performance",
   tagline: "BUILT FOR A STRONGER TOMORROW",
   phone: "+91 9342466860",
-phoneRaw: "91 9342466860",
+  phoneRaw: "91 9342466860",
   whatsappUrl: "https://wa.me/919342466860",
   business: {
     name: "A.H HOLDINGS",
@@ -12,7 +12,8 @@ phoneRaw: "91 9342466860",
       "Coimbatore - 641021,",
       "Tamil Nadu, India",
     ],
-    fullAddress: "E-45, Sidco Industrial Estate, Coimbatore - 641021, Tamil Nadu, India",
+    fullAddress:
+      "E-45, Sidco Industrial Estate, Coimbatore - 641021, Tamil Nadu, India",
   },
   businessHours: [
     { day: "Mon", hours: "09:00 am – 05:00 pm" },
@@ -31,14 +32,33 @@ export const NAV_LINKS = [
     label: "Products",
     href: "/products",
     subItems: [
-      { label: "High Pressure Washer", href: "/products/high-pressure-washer" },
-      { label: "Vacuum Cleaner", href: "/products/vacuum-cleaner" },
-      { label: "Air Compressor", href: "/products/air-compressor" },
-      { label: "Foam Dispenser", href: "/products/foam-dispenser" },
-      { label: "Power Tools", href: "/products/power-tools" },
-      { label: "Power Tools Accessories", href: "/products/power-tools-accessories" },
+      {
+        label: "High Pressure Washer",
+        href: "/products/high-pressure-washer",
+      },
+      {
+        label: "Vacuum Cleaner",
+        href: "/products/vacuum-cleaner",
+      },
+      {
+        label: "Air Compressor",
+        href: "/products/air-compressor",
+      },
+      {
+        label: "Foam Dispenser",
+        href: "/products/foam-dispenser",
+      },
+      {
+        label: "Power Tools",
+        href: "/products/power-tools",
+      },
+      {
+        label: "Power Tools Accessories",
+        href: "/products/power-tools-accessories",
+      },
     ],
   },
+  { label: "Categories", href: "/categories" },
   { label: "About", href: "/about" },
   { label: "Contact Us", href: "/contact" },
   { label: "E-Catalog", href: "/catalog" },
