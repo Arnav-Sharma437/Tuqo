@@ -7,7 +7,6 @@ export function FeatureBanner() {
   return (
     <section className="relative w-full overflow-hidden bg-[#08090b] text-white">
       <div className="grid min-h-[420px] grid-cols-1 lg:grid-cols-2">
-
         {/* ================= IMAGE ================= */}
         <div className="relative min-h-[300px] overflow-hidden lg:min-h-[500px]">
           <Image
@@ -27,16 +26,13 @@ export function FeatureBanner() {
 
         {/* ================= CONTENT ================= */}
         <div className="relative flex items-center bg-[#08090b] px-6 py-14 sm:px-10 lg:px-14 xl:px-20">
-
           {/* Red glow */}
           <div className="pointer-events-none absolute right-0 top-1/2 h-[300px] w-[300px] -translate-y-1/2 rounded-full bg-red-600/10 blur-[100px]" />
 
           <div className="relative z-10 max-w-xl">
-
             {/* Label */}
             <div className="mb-4 flex items-center gap-2">
               <span className="h-[3px] w-7 bg-[#e21b23]" />
-
               <span className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-[#e21b23] sm:text-xs">
                 TUQO TOOLS
               </span>
@@ -47,7 +43,6 @@ export function FeatureBanner() {
               <span className="block text-white">
                 ENGINEERED
               </span>
-
               <span className="block text-[#e21b23]">
                 FOR REAL WORK
               </span>
@@ -66,7 +61,6 @@ export function FeatureBanner() {
                 <p className="text-2xl font-black text-white sm:text-3xl">
                   100%
                 </p>
-
                 <p className="mt-1 text-[9px] font-bold uppercase tracking-wider text-gray-400 sm:text-[10px]">
                   Copper Motor Units
                 </p>
@@ -76,7 +70,6 @@ export function FeatureBanner() {
                 <p className="text-2xl font-black text-[#e21b23] sm:text-3xl">
                   HEAVY-DUTY
                 </p>
-
                 <p className="mt-1 text-[9px] font-bold uppercase tracking-wider text-gray-400 sm:text-[10px]">
                   Continuous Duty Cycle
                 </p>
@@ -87,14 +80,12 @@ export function FeatureBanner() {
             <div className="mt-7">
               <Link
                 href="#categories"
-                className="group inline-flex h-11 min-w-[175px] items-center justify-center gap-2 rounded-md bg-[#e21b23] px-6 text-[10px] font-extrabold uppercase tracking-wider text-white transition-all duration-300 hover:bg-[#ff252d]"
+                className="group inline-flex h-11 min-w-[175px] items-center justify-center gap-2 rounded-md bg-[#e21b23] px-6 text-[13px] font-bold text-white transition-all duration-300 hover:bg-[#ff252d]"
               >
-                Discover Equipment
-
+                <span>Discover Equipment</span>
                 <ArrowRightIcon className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
             </div>
-
           </div>
         </div>
       </div>

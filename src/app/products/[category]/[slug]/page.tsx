@@ -162,7 +162,7 @@ export default async function ProductDetailPage({
                   href={whatsappInquiryUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group inline-flex h-12 flex-1 items-center justify-center gap-2.5 rounded-xl bg-[#25D366] px-6 text-xs font-extrabold uppercase tracking-wider text-black shadow-lg shadow-emerald-950/20 transition-all hover:bg-[#20bd5a] hover:scale-[1.02] active:scale-95"
+                  className="group inline-flex h-12 flex-1 items-center justify-center gap-2.5 rounded-xl bg-[#25D366] px-6 text-sm font-bold text-black shadow-lg shadow-emerald-950/20 transition-all hover:bg-[#20bd5a] hover:scale-[1.02] active:scale-95"
                 >
                   <WhatsAppIcon className="h-4 w-4 text-black" />
                   <span>Inquire on WhatsApp</span>
@@ -170,7 +170,7 @@ export default async function ProductDetailPage({
 
                 <a
                   href={`tel:${APP_CONFIG.phoneRaw}`}
-                  className="inline-flex h-12 flex-1 items-center justify-center gap-2.5 rounded-xl border border-gray-300 bg-white px-6 text-xs font-extrabold uppercase tracking-wider text-[#111214] transition-all hover:border-[#e21b23] hover:bg-red-50 hover:text-[#e21b23] active:scale-95"
+                  className="inline-flex h-12 flex-1 items-center justify-center gap-2.5 rounded-xl border border-gray-300 bg-white px-6 text-sm font-bold text-[#111214] transition-all hover:border-[#e21b23] hover:bg-red-50 hover:text-[#e21b23] active:scale-95"
                 >
                   <PhoneIcon className="h-4 w-4 text-[#e21b23]" />
                   <span>Call Technical Desk</span>

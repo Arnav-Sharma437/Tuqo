@@ -49,14 +49,14 @@ export function CategorySection() {
 
           <Link
             href="/categories"
-            className="hidden h-11 w-[185px] shrink-0 items-center justify-center gap-2 rounded-md border border-[#111214] px-4 text-[12px] font-extrabold uppercase tracking-wide text-[#111214] transition-all duration-300 hover:border-[#e21b23] hover:bg-[#e21b23] hover:text-white sm:inline-flex"
+            className="hidden h-11 w-[185px] shrink-0 items-center justify-center gap-2 rounded-md border border-[#111214] px-4 text-[13px] font-bold text-[#111214] transition-all duration-300 hover:border-[#e21b23] hover:bg-[#e21b23] hover:text-white sm:inline-flex"
           >
             <span>View All Categories</span>
             <ArrowRightIcon className="h-3.5 w-3.5" />
           </Link>
         </div>
 
-        {/* Marquee Area (No outer box border, no outer gray bg) */}
+        {/* Marquee Area */}
         <div className="relative w-full overflow-hidden space-y-4 py-2">
           {/* Left & Right Clean White Edge Fades */}
           <div className="pointer-events-none absolute left-0 top-0 bottom-0 z-20 w-12 sm:w-20 bg-gradient-to-r from-white via-white/80 to-transparent" />
@@ -97,7 +97,7 @@ export function CategorySection() {
                     <h3 className="truncate text-center text-xs font-black uppercase tracking-tight text-gray-900 transition-colors group-hover:text-[#e21b23]">
                       {category.name}
                     </h3>
-                    <div className="mt-2.5 flex h-10 w-full items-center justify-center gap-2 rounded-md bg-[#111214] text-[11px] font-extrabold uppercase tracking-wider text-white transition-colors duration-300 group-hover:bg-[#e21b23]">
+                    <div className="mt-2.5 flex h-10 w-full items-center justify-center gap-2 rounded-md bg-[#111214] text-xs font-bold text-white transition-colors duration-300 group-hover:bg-[#e21b23]">
                       <span>Explore</span>
                       <ArrowRightIcon className="h-3 w-3" />
                     </div>
@@ -142,7 +142,7 @@ export function CategorySection() {
                     <h3 className="truncate text-center text-xs font-black uppercase tracking-tight text-gray-900 transition-colors group-hover:text-[#e21b23]">
                       {category.name}
                     </h3>
-                    <div className="mt-2.5 flex h-10 w-full items-center justify-center gap-2 rounded-md bg-[#111214] text-[11px] font-extrabold uppercase tracking-wider text-white transition-colors duration-300 group-hover:bg-[#e21b23]">
+                    <div className="mt-2.5 flex h-10 w-full items-center justify-center gap-2 rounded-md bg-[#111214] text-xs font-bold text-white transition-colors duration-300 group-hover:bg-[#e21b23]">
                       <span>Explore</span>
                       <ArrowRightIcon className="h-3 w-3" />
                     </div>
@@ -157,7 +157,7 @@ export function CategorySection() {
         <div className="mt-6 flex justify-center sm:hidden">
           <Link
             href="/categories"
-            className="inline-flex h-11 w-[185px] items-center justify-center gap-2 rounded-md border border-[#111214] px-4 text-[12px] font-extrabold uppercase tracking-wide text-[#111214] transition-all hover:border-[#e21b23] hover:bg-[#e21b23] hover:text-white"
+            className="inline-flex h-11 w-[185px] items-center justify-center gap-2 rounded-md border border-[#111214] px-4 text-[13px] font-bold text-[#111214] transition-all hover:border-[#e21b23] hover:bg-[#e21b23] hover:text-white"
           >
             <span>View All Categories</span>
             <ArrowRightIcon className="h-3.5 w-3.5" />

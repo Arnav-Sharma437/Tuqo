@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
@@ -58,7 +58,7 @@ export function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="ml-auto hidden items-center gap-7 lg:flex">
+          <nav className="ml-auto hidden items-center gap-6 lg:flex">
             {NAV_LINKS.map((link) => {
               const isActive = pathname === link.href;
 
@@ -76,7 +76,7 @@ export function Header() {
                       onClick={() =>
                         setProductsDropdownOpen(!productsDropdownOpen)
                       }
-                      className={`flex h-11 items-center gap-1.5 rounded-md px-3 text-[11px] font-extrabold uppercase tracking-wide transition-all duration-200 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#e21b23] ${
+                      className={`flex h-11 items-center gap-1.5 rounded-md px-3 text-[13px] font-bold transition-all duration-200 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#e21b23] ${
                         productsDropdownOpen
                           ? "bg-[#e21b23] text-white"
                           : "text-[#111214] hover:bg-gray-100 hover:text-[#e21b23]"
@@ -98,7 +98,7 @@ export function Header() {
                             <Link
                               key={sub.label}
                               href={sub.href}
-                              className="block rounded-md px-4 py-3 text-[10px] font-extrabold uppercase tracking-wide text-gray-700 transition-all duration-200 hover:bg-red-50 hover:text-[#e21b23] focus:outline-none focus-visible:bg-red-50 focus-visible:text-[#e21b23]"
+                              className="block rounded-md px-4 py-2.5 text-[12px] font-bold text-gray-700 transition-all duration-200 hover:bg-red-50 hover:text-[#e21b23] focus:outline-none focus-visible:bg-red-50 focus-visible:text-[#e21b23]"
                               onClick={() =>
                                 setProductsDropdownOpen(false)
                               }
@@ -118,7 +118,7 @@ export function Header() {
                   key={link.label}
                   href={link.href}
                   aria-current={isActive ? "page" : undefined}
-                  className={`relative flex h-11 items-center rounded-md px-3 text-[11px] font-extrabold uppercase tracking-wide transition-all duration-200 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#e21b23] ${
+                  className={`relative flex h-11 items-center rounded-md px-3 text-[13px] font-bold transition-all duration-200 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#e21b23] ${
                     isActive
                       ? "bg-[#e21b23] text-white"
                       : "text-[#111214] hover:bg-gray-100 hover:text-[#e21b23]"
@@ -173,7 +173,7 @@ export function Header() {
                       onClick={() =>
                         setMobileProductsOpen(!mobileProductsOpen)
                       }
-                      className="flex h-12 w-full items-center justify-between text-[11px] font-extrabold uppercase tracking-wide text-[#111214] focus:outline-none focus-visible:text-[#e21b23]"
+                      className="flex h-12 w-full items-center justify-between text-[13px] font-bold text-[#111214] focus:outline-none focus-visible:text-[#e21b23]"
                       aria-expanded={mobileProductsOpen}
                     >
                       <span>{link.label}</span>
@@ -190,7 +190,7 @@ export function Header() {
                           <Link
                             key={sub.label}
                             href={sub.href}
-                            className="block py-2.5 text-[10px] font-bold uppercase tracking-wide text-gray-600 transition-colors hover:text-[#e21b23] focus:outline-none focus-visible:text-[#e21b23]"
+                            className="block py-2 text-[12px] font-bold text-gray-600 transition-colors hover:text-[#e21b23] focus:outline-none focus-visible:text-[#e21b23]"
                           >
                             {sub.label}
                           </Link>
@@ -208,7 +208,7 @@ export function Header() {
                   key={link.label}
                   href={link.href}
                   aria-current={isActive ? "page" : undefined}
-                  className={`flex h-12 items-center border-b border-gray-100 text-[11px] font-extrabold uppercase tracking-wide transition-colors focus:outline-none focus-visible:text-[#e21b23] ${
+                  className={`flex h-12 items-center border-b border-gray-100 text-[13px] font-bold transition-colors focus:outline-none focus-visible:text-[#e21b23] ${
                     isActive
                       ? "text-[#e21b23]"
                       : "text-[#111214] hover:text-[#e21b23]"
@@ -222,7 +222,7 @@ export function Header() {
             <div className="pt-5">
               <a
                 href={`tel:${APP_CONFIG.phoneRaw}`}
-                className="flex h-11 w-full items-center justify-center gap-2 rounded-md bg-[#e21b23] text-[10px] font-extrabold uppercase tracking-wider text-white transition-colors hover:bg-[#b8141a] focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#e21b23]"
+                className="flex h-11 w-full items-center justify-center gap-2 rounded-md bg-[#e21b23] text-[13px] font-bold text-white transition-colors hover:bg-[#b8141a] focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#e21b23]"
               >
                 <PhoneIcon className="h-4 w-4" />
                 <span>Call {APP_CONFIG.phone}</span>

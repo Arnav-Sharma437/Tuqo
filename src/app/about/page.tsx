@@ -56,16 +56,16 @@ export default function AboutPage() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
 
               <Link
-                href="/products"
-                className="group inline-flex h-11 w-[210px] items-center justify-center gap-2 rounded-md bg-[#e21b23] px-5 text-[11px] font-extrabold uppercase tracking-wider text-white transition-all duration-300 hover:bg-[#ff252d] hover:shadow-[0_10px_30px_rgba(226,27,35,0.25)]"
+                href="/categories"
+                className="group inline-flex h-11 w-[210px] items-center justify-center gap-2 rounded-md bg-[#e21b23] px-5 text-[13px] font-bold text-white transition-all duration-300 hover:bg-[#ff252d] hover:shadow-[0_10px_30px_rgba(226,27,35,0.25)]"
               >
-                Explore Products
+                <span>Explore Products</span>
                 <ArrowRightIcon className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
 
               <Link
                 href="#our-story"
-                className="inline-flex h-11 w-[210px] items-center justify-center rounded-md border border-white/20 bg-white/[0.04] px-5 text-[11px] font-extrabold uppercase tracking-wider text-white transition-all duration-300 hover:border-white/50 hover:bg-white/[0.08]"
+                className="inline-flex h-11 w-[210px] items-center justify-center rounded-md border border-white/20 bg-white/[0.04] px-5 text-[13px] font-bold text-white transition-all duration-300 hover:border-white/50 hover:bg-white/[0.08]"
               >
                 Our Story
               </Link>
@@ -392,11 +392,10 @@ export default function AboutPage() {
             </div>
 
             <Link
-              href="/products"
-              className="hidden h-11 w-[175px] items-center justify-center gap-2 rounded-md border border-[#111214] text-[12px] font-extrabold uppercase tracking-wide text-[#111214] transition-all duration-300 hover:border-[#e21b23] hover:bg-[#e21b23] hover:text-white sm:inline-flex"
+              href="/categories"
+              className="hidden h-11 w-[175px] items-center justify-center gap-2 rounded-md border border-[#111214] text-[13px] font-bold text-[#111214] transition-all duration-300 hover:border-[#e21b23] hover:bg-[#e21b23] hover:text-white sm:inline-flex"
             >
-              View Products
-
+              <span>View Products</span>
               <ArrowRightIcon className="h-3.5 w-3.5" />
             </Link>
 
@@ -483,17 +482,16 @@ export default function AboutPage() {
           <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
 
             <Link
-              href="/products"
-              className="group inline-flex h-11 w-[210px] items-center justify-center gap-2 rounded-md bg-[#e21b23] px-5 text-[12px] font-extrabold uppercase tracking-wider text-white transition-all duration-300 hover:bg-[#ff252d]"
+              href="/categories"
+              className="group inline-flex h-11 w-[210px] items-center justify-center gap-2 rounded-md bg-[#e21b23] px-5 text-[13px] font-bold text-white transition-all duration-300 hover:bg-[#ff252d]"
             >
-              Explore Products
-
+              <span>Explore Products</span>
               <ArrowRightIcon className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
 
             <Link
               href="/#contact"
-              className="inline-flex h-11 w-[210px] items-center justify-center rounded-md border border-white/20 bg-white/[0.03] px-5 text-[12px] font-extrabold uppercase tracking-wider text-white transition-all duration-300 hover:border-white/50 hover:bg-white/[0.08]"
+              className="inline-flex h-11 w-[210px] items-center justify-center rounded-md border border-white/20 bg-white/[0.03] px-5 text-[13px] font-bold text-white transition-all duration-300 hover:border-white/50 hover:bg-white/[0.08]"
             >
               Contact TUQO
             </Link>

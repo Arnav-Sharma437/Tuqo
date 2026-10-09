@@ -60,7 +60,7 @@ export function HeroSection() {
             {/* Explore Products */}
             <Link
               href="#categories"
-              className="group inline-flex h-12 w-[210px] min-w-[210px] items-center justify-center gap-2 rounded-md bg-[#e21b23] px-5 text-[12px] font-extrabold uppercase tracking-wider text-white shadow-[0_8px_25px_rgba(226,27,35,0.4)] transition-all duration-300 hover:bg-[#ff252d] hover:shadow-[0_12px_32px_rgba(226,27,35,0.5)] hover:scale-[1.02] active:scale-95"
+              className="group inline-flex h-12 w-[210px] min-w-[210px] items-center justify-center gap-2 rounded-md bg-[#e21b23] px-5 text-[14px] font-bold text-white shadow-[0_8px_25px_rgba(226,27,35,0.4)] transition-all duration-300 hover:bg-[#ff252d] hover:shadow-[0_12px_32px_rgba(226,27,35,0.5)] hover:scale-[1.02] active:scale-95"
             >
               <span>Explore Products</span>
               <ArrowRightIcon className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
@@ -69,7 +69,7 @@ export function HeroSection() {
             {/* Download Catalog */}
             <Link
               href="#catalog"
-              className="inline-flex h-12 w-[210px] min-w-[210px] items-center justify-center gap-2 rounded-md border border-white/30 bg-black/40 backdrop-blur-md px-5 text-[12px] font-extrabold uppercase tracking-wider text-white transition-all duration-300 hover:border-white/70 hover:bg-black/60 hover:scale-[1.02] active:scale-95"
+              className="inline-flex h-12 w-[210px] min-w-[210px] items-center justify-center gap-2 rounded-md border border-white/30 bg-black/40 backdrop-blur-md px-5 text-[14px] font-bold text-white transition-all duration-300 hover:border-white/70 hover:bg-black/60 hover:scale-[1.02] active:scale-95"
             >
               Download Catalog
             </Link>
