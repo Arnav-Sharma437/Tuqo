@@ -1,4 +1,4 @@
-```tsx
+
 export const APP_CONFIG = {
   name: "TUQO Tools",
   description: "Professional Tools for Higher Performance",
@@ -29,36 +29,7 @@ export const APP_CONFIG = {
 
 export const NAV_LINKS = [
   { label: "Home", href: "/" },
-  {
-    label: "Categories",
-    href: "/categories",
-    subItems: [
-      {
-        label: "High Pressure Washer",
-        href: "/products/high-pressure-washer",
-      },
-      {
-        label: "Air Compressor",
-        href: "/products/air-compressor",
-      },
-      {
-        label: "Power Tools",
-        href: "/products/power-tools",
-      },
-      {
-        label: "High Pressure Washer Accessories",
-        href: "/products/high-pressure-washer-accessories",
-      },
-      {
-        label: "Auto Detailing",
-        href: "/products/auto-detailing",
-      },
-      {
-        label: "Power Tools Accessories",
-        href: "/products/power-tools-accessories",
-      },
-    ],
-  },
+  { label: "Categories", href: "/categories" },
   { label: "About", href: "/about" },
   { label: "Contact Us", href: "/contact" },
   { label: "E-Catalog", href: "#catalog" },
@@ -127,4 +98,3 @@ export const CATEGORIES = [
 ];
 
 export * from "./products";
-```
