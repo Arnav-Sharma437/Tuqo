@@ -9,25 +9,8 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   try {
     await connectToDatabase();
-    const dbCategories = await Category.find().sort({ order: 1, createdAt: 1 }).lean();
-
-    // Default static system categories to ensure dropdowns always have full equipment lists
-    const defaultCategories = [
-      { name: "High Pressure Washer", slug: "high-pressure-washer", image: "/images/cat-pressure-washer.png", order: 1, featured: true },
-      { name: "Air Compressor", slug: "air-compressor", image: "/images/cat-air-compressor.png", order: 2, featured: true },
-      { name: "Power Tools", slug: "power-tools", image: "/images/cat-power-tools.png", order: 3, featured: true },
-      { name: "High Pressure Washer Accessories", slug: "high-pressure-washer-accessories", image: "/images/cat-accessories.png", order: 4, featured: true },
-      { name: "Auto Detailing", slug: "auto-detailing", image: "/images/cat-foam-dispenser.png", order: 5, featured: true },
-      { name: "Power Tools Accessories", slug: "power-tools-accessories", image: "/images/cat-accessories.png", order: 6, featured: true },
-      { name: "Vacuum Cleaner", slug: "vacuum-cleaner", image: "/images/cat-pressure-washer.png", order: 7, featured: true },
-      { name: "Foam Dispenser", slug: "foam-dispenser", image: "/images/cat-foam-dispenser.png", order: 8, featured: true },
-    ];
-
-    const map = new Map<string, any>();
-    defaultCategories.forEach((c) => map.set(c.slug, c));
-    dbCategories.forEach((c: any) => map.set(c.slug, c));
-
-    return NextResponse.json({ success: true, categories: Array.from(map.values()) });
+    const categories = await Category.find().sort({ order: 1, createdAt: 1 });
+    return NextResponse.json({ success: true, categories });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : "Failed to fetch categories";
     return NextResponse.json({ success: false, error: message }, { status: 500 });

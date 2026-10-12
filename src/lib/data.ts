@@ -79,30 +79,15 @@ export async function getLiveBanners(): Promise<UnifiedBanner[]> {
   ];
 }
 
-// 2. Fetch all categories merging MongoDB categories with static categories
+// 2. Fetch categories directly from MongoDB tuqo_db with fallback
 export async function getLiveCategories(): Promise<UnifiedCategory[]> {
-  const map = new Map<string, UnifiedCategory>();
-
-  // Add default static categories
-  for (const c of STATIC_CATEGORIES) {
-    map.set(c.id, {
-      id: c.id,
-      name: c.name,
-      slug: c.href.replace("/products/", ""),
-      image: c.image,
-      href: c.href,
-      featured: true,
-      order: 0,
-    });
-  }
-
   try {
     await connectToDatabase();
     const docs = await Category.find().sort({ order: 1, createdAt: 1 }).lean();
-    if (docs) {
-      for (const d of docs as any[]) {
+    if (docs && docs.length > 0) {
+      return (docs as any[]).map((d) => {
         const slug = d.slug || d.name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-        map.set(slug, {
+        return {
           id: String(d._id),
           name: d.name,
           slug: slug,
@@ -111,60 +96,59 @@ export async function getLiveCategories(): Promise<UnifiedCategory[]> {
           href: `/products/${slug}`,
           featured: d.featured !== false,
           order: d.order || 0,
-        });
-      }
+        };
+      });
     }
   } catch (err) {
     console.error("Failed to load categories from DB:", err);
   }
 
-  return Array.from(map.values());
+  // Fallback if DB is completely empty
+  return STATIC_CATEGORIES.map((c) => ({
+    id: c.id,
+    name: c.name,
+    slug: c.href.replace("/products/", ""),
+    image: c.image,
+    href: c.href,
+    featured: true,
+    order: 0,
+  }));
 }
 
-// 3. Fetch products merging MongoDB products with static catalog
+// 3. Fetch products directly from MongoDB tuqo_db with fallback
 export async function getLiveProducts(categorySlug?: string): Promise<StaticProduct[]> {
-  const map = new Map<string, StaticProduct>();
-
-  // Load static products
-  const staticList = categorySlug
-    ? ALL_PRODUCTS.filter((p) => p.categorySlug === categorySlug)
-    : ALL_PRODUCTS;
-
-  for (const p of staticList) {
-    map.set(p.slug, p);
-  }
-
   try {
     await connectToDatabase();
     const query = categorySlug ? { categorySlug } : {};
     const docs = await Product.find(query).sort({ order: 1, createdAt: -1 }).lean();
-    if (docs) {
-      for (const d of docs as any[]) {
-        map.set(d.slug, {
-          id: String(d._id),
-          slug: d.slug,
-          name: d.name,
-          model: d.model || "",
-          category: d.category,
-          categorySlug: d.categorySlug,
-          image: d.image,
-          shortDesc: d.shortDesc || "",
-          description: d.description || "",
-          tag: d.tag || "",
-          features: Array.isArray(d.features) ? d.features : [],
-          specs: Array.isArray(d.specs)
-            ? d.specs.map((s: any) => ({ label: s.label, value: s.value }))
-            : [],
-          applications: Array.isArray(d.applications) ? d.applications : [],
-          inStock: d.inStock !== false,
-        });
-      }
+    if (docs && docs.length > 0) {
+      return (docs as any[]).map((d) => ({
+        id: String(d._id),
+        slug: d.slug,
+        name: d.name,
+        model: d.model || "",
+        category: d.category,
+        categorySlug: d.categorySlug,
+        image: d.image,
+        shortDesc: d.shortDesc || "",
+        description: d.description || "",
+        tag: d.tag || "",
+        features: Array.isArray(d.features) ? d.features : [],
+        specs: Array.isArray(d.specs)
+          ? d.specs.map((s: any) => ({ label: s.label, value: s.value }))
+          : [],
+        applications: Array.isArray(d.applications) ? d.applications : [],
+        inStock: d.inStock !== false,
+      }));
     }
   } catch (err) {
     console.error("Failed to load products from DB:", err);
   }
 
-  return Array.from(map.values());
+  // Fallback static products
+  return categorySlug
+    ? ALL_PRODUCTS.filter((p) => p.categorySlug === categorySlug)
+    : ALL_PRODUCTS;
 }
 
 // 4. Fetch single product by slug (checks MongoDB first, then static catalog)
