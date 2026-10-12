@@ -14,11 +14,18 @@ export default function AdminDashboardPage() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<TabType>("banners");
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+  const [notification, setNotification] = useState<{ type: "success" | "error"; message: string } | null>(null);
   const [user, setUser] = useState<{ email: string; name: string } | null>(null);
 
   const [banners, setBanners] = useState<BannerItem[]>([]);
   const [categories, setCategories] = useState<CategoryItem[]>([]);
   const [products, setProducts] = useState<ProductItem[]>([]);
+
+  const showNotification = (message: string, type: "success" | "error" = "success") => {
+    setNotification({ message, type });
+    setTimeout(() => setNotification(null), 4000);
+  };
 
   // Check auth session
   const checkSession = useCallback(async () => {
@@ -39,6 +46,7 @@ export default function AdminDashboardPage() {
 
   // Fetch all dashboard data
   const fetchData = useCallback(async () => {
+    setRefreshing(true);
     try {
       const [bannersRes, catRes, prodRes] = await Promise.all([
         fetch("/api/admin/banners"),
@@ -60,8 +68,10 @@ export default function AdminDashboardPage() {
       }
     } catch (err) {
       console.error("Failed to load dashboard data:", err);
+      showNotification("Failed to refresh some data from server", "error");
     } finally {
       setLoading(false);
+      setRefreshing(false);
     }
   }, []);
 
@@ -94,8 +104,22 @@ export default function AdminDashboardPage() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0c] text-white">
+      {/* Toast Notification */}
+      {notification && (
+        <div
+          className={`fixed top-4 right-4 z-50 flex items-center gap-2 rounded-xl px-4 py-3 text-xs font-bold shadow-2xl transition-all ${
+            notification.type === "success"
+              ? "bg-emerald-600 text-white border border-emerald-400"
+              : "bg-red-600 text-white border border-red-400"
+          }`}
+        >
+          <span>{notification.type === "success" ? "✓" : "⚠"}</span>
+          <span>{notification.message}</span>
+        </div>
+      )}
+
       {/* Top Admin Bar */}
-      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#121418]/90 backdrop-blur-md">
+      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#121418]/95 backdrop-blur-md">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
           <div className="flex items-center gap-6">
             <Link href="/" className="flex items-center gap-2">
@@ -116,7 +140,7 @@ export default function AdminDashboardPage() {
                 onClick={() => setActiveTab("banners")}
                 className={`rounded-lg px-3 py-1.5 text-xs font-bold uppercase tracking-wider transition ${
                   activeTab === "banners"
-                    ? "bg-[#d31820] text-white"
+                    ? "bg-[#d31820] text-white shadow-md shadow-red-900/30"
                     : "text-gray-400 hover:text-white"
                 }`}
               >
@@ -126,7 +150,7 @@ export default function AdminDashboardPage() {
                 onClick={() => setActiveTab("categories")}
                 className={`rounded-lg px-3 py-1.5 text-xs font-bold uppercase tracking-wider transition ${
                   activeTab === "categories"
-                    ? "bg-[#d31820] text-white"
+                    ? "bg-[#d31820] text-white shadow-md shadow-red-900/30"
                     : "text-gray-400 hover:text-white"
                 }`}
               >
@@ -136,7 +160,7 @@ export default function AdminDashboardPage() {
                 onClick={() => setActiveTab("products")}
                 className={`rounded-lg px-3 py-1.5 text-xs font-bold uppercase tracking-wider transition ${
                   activeTab === "products"
-                    ? "bg-[#d31820] text-white"
+                    ? "bg-[#d31820] text-white shadow-md shadow-red-900/30"
                     : "text-gray-400 hover:text-white"
                 }`}
               >
@@ -146,6 +170,16 @@ export default function AdminDashboardPage() {
           </div>
 
           <div className="flex items-center gap-3">
+            <button
+              onClick={fetchData}
+              disabled={refreshing}
+              title="Refresh live data"
+              className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-2.5 py-1.5 text-xs font-semibold text-gray-300 hover:bg-white/10 disabled:opacity-50"
+            >
+              <span className={refreshing ? "animate-spin" : ""}>🔄</span>
+              <span className="hidden md:inline">Refresh</span>
+            </button>
+
             <div className="hidden md:flex flex-col text-right">
               <span className="text-xs font-bold text-white">{user?.name || "Admin"}</span>
               <span className="text-[10px] text-gray-500 font-mono">{user?.email}</span>
@@ -154,7 +188,7 @@ export default function AdminDashboardPage() {
             <Link
               href="/"
               target="_blank"
-              className="hidden sm:inline-flex rounded-lg border border-white/10 bg-white/5 px-2.5 py-1.5 text-xs font-semibold text-gray-300 hover:bg-white/10"
+              className="hidden sm:inline-flex rounded-lg border border-white/10 bg-white/5 px-2.5 py-1.5 text-xs font-semibold text-gray-300 hover:bg-white/10 hover:text-white"
             >
               View Site ↗
             </Link>
@@ -200,16 +234,31 @@ export default function AdminDashboardPage() {
       {/* Main Content Area */}
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
         {activeTab === "banners" && (
-          <BannerManager banners={banners} onRefresh={fetchData} />
+          <BannerManager
+            banners={banners}
+            onRefresh={() => {
+              fetchData();
+              showNotification("Banner updated successfully");
+            }}
+          />
         )}
         {activeTab === "categories" && (
-          <CategoryManager categories={categories} onRefresh={fetchData} />
+          <CategoryManager
+            categories={categories}
+            onRefresh={() => {
+              fetchData();
+              showNotification("Category updated successfully");
+            }}
+          />
         )}
         {activeTab === "products" && (
           <ProductManager
             products={products}
             categories={categories}
-            onRefresh={fetchData}
+            onRefresh={() => {
+              fetchData();
+              showNotification("Product catalog updated successfully");
+            }}
           />
         )}
       </main>
