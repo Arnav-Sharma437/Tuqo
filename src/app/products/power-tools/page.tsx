@@ -1,8 +1,10 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { getProductsByCategory } from "@/constants/products";
+import { getLiveProducts } from "@/lib/data";
 import { ArrowRightIcon } from "@/components/common/Icons";
+
+export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "Power Tools | TUQO Tools",
@@ -10,8 +12,8 @@ export const metadata = {
     "Explore heavy-duty brushless drills, angle grinders, and diamond core drill machinery from TUQO.",
 };
 
-export default function PowerToolsPage() {
-  const products = getProductsByCategory("power-tools");
+export default async function PowerToolsPage() {
+  const products = await getLiveProducts("power-tools");
 
   return (
     <main className="min-h-screen bg-[#f8f9fc] text-[#111214]">

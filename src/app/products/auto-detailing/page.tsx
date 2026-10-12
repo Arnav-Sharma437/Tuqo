@@ -1,7 +1,9 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { getProductsByCategory } from "@/constants/products";
+import { getLiveProducts } from "@/lib/data";
+
+export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "Auto Detailing Equipment | TUQO Tools",
@@ -9,10 +11,9 @@ export const metadata = {
     "Explore professional auto detailing equipment, foam dispensers and car cleaning solutions from TUQO Tools.",
 };
 
-export default function AutoDetailingPage() {
-  // Reuse existing Foam Dispenser products.
-  // The same products will remain available on their original category page.
-  const products = getProductsByCategory("foam-dispenser");
+export default async function AutoDetailingPage() {
+  const products = await getLiveProducts("auto-detailing");
+  const fallbackProducts = products.length > 0 ? products : await getLiveProducts("foam-dispenser");
 
   return (
     <main className="min-h-screen bg-[#f8f9fc] text-[#111214]">
@@ -104,7 +105,7 @@ export default function AutoDetailingPage() {
           </span>
 
           <h2 className="mt-2 text-2xl font-black uppercase sm:text-3xl">
-            AUTO DETAILING EQUIPMENT ({products.length})
+            AUTO DETAILING EQUIPMENT ({fallbackProducts.length})
           </h2>
 
           <p className="mt-3 max-w-2xl text-sm leading-6 text-gray-600">
@@ -113,7 +114,7 @@ export default function AutoDetailingPage() {
           </p>
         </div>
 
-        {products.length === 0 ? (
+        {fallbackProducts.length === 0 ? (
           <div className="rounded-xl border border-gray-200 bg-white p-8 text-center">
             <h3 className="text-lg font-bold">Products Coming Soon</h3>
             <p className="mt-2 text-sm text-gray-600">
@@ -132,7 +133,7 @@ export default function AutoDetailingPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {products.map((product) => (
+            {fallbackProducts.map((product) => (
               <article
                 key={product.id}
                 className="group overflow-hidden rounded-xl border border-gray-200 bg-white transition duration-300 hover:-translate-y-1 hover:border-[#e21b23] hover:shadow-lg"

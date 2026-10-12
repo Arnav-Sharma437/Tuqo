@@ -1,8 +1,10 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { getProductsByCategory } from "@/constants/products";
+import { getLiveProducts } from "@/lib/data";
 import { ArrowRightIcon } from "@/components/common/Icons";
+
+export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "Foam Dispensers | TUQO Tools",
@@ -10,8 +12,8 @@ export const metadata = {
     "Explore professional brass snow foam cannons and pneumatic stainless foam tanks from TUQO.",
 };
 
-export default function FoamDispenserPage() {
-  const products = getProductsByCategory("foam-dispenser");
+export default async function FoamDispenserPage() {
+  const products = await getLiveProducts("foam-dispenser");
 
   return (
     <main className="min-h-screen bg-[#f8f9fc] text-[#111214]">

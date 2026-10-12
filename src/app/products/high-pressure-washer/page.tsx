@@ -1,8 +1,10 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { getProductsByCategory } from "@/constants/products";
+import { getLiveProducts } from "@/lib/data";
 import { ArrowRightIcon } from "@/components/common/Icons";
+
+export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "High Pressure Washers | TUQO Tools",
@@ -10,8 +12,8 @@ export const metadata = {
     "Explore high-performance commercial and industrial induction pressure washers from TUQO.",
 };
 
-export default function HighPressureWasherPage() {
-  const products = getProductsByCategory("high-pressure-washer");
+export default async function HighPressureWasherPage() {
+  const products = await getLiveProducts("high-pressure-washer");
 
   return (
     <main className="min-h-screen bg-[#f8f9fc] text-[#111214]">

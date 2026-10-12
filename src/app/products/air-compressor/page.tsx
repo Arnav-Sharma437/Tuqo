@@ -1,8 +1,10 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { getProductsByCategory } from "@/constants/products";
+import { getLiveProducts } from "@/lib/data";
 import { ArrowRightIcon } from "@/components/common/Icons";
+
+export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "Air Compressors | TUQO Tools",
@@ -10,8 +12,8 @@ export const metadata = {
     "Explore direct drive, belt driven, and silent oil-free industrial air compressors from TUQO.",
 };
 
-export default function AirCompressorPage() {
-  const products = getProductsByCategory("air-compressor");
+export default async function AirCompressorPage() {
+  const products = await getLiveProducts("air-compressor");
 
   return (
     <main className="min-h-screen bg-[#f8f9fc] text-[#111214]">

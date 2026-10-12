@@ -1,8 +1,10 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { getProductsByCategory } from "@/constants/products";
+import { getLiveProducts } from "@/lib/data";
 import { ArrowRightIcon } from "@/components/common/Icons";
+
+export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "Power Tools Accessories | TUQO Tools",
@@ -10,8 +12,8 @@ export const metadata = {
     "Explore precision TCT core cutters, diamond turbo blades, and steel-braided pressure hoses from TUQO.",
 };
 
-export default function PowerToolsAccessoriesPage() {
-  const products = getProductsByCategory("power-tools-accessories");
+export default async function PowerToolsAccessoriesPage() {
+  const products = await getLiveProducts("power-tools-accessories");
 
   return (
     <main className="min-h-screen bg-[#f8f9fc] text-[#111214]">

@@ -1,7 +1,9 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { getProductsByCategory } from "@/constants/products";
+import { getLiveProducts } from "@/lib/data";
+
+export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "High Pressure Washer Accessories | TUQO Tools",
@@ -9,8 +11,8 @@ export const metadata = {
     "Explore TUQO high pressure washer accessories and attachments for professional cleaning.",
 };
 
-export default function HighPressureWasherAccessoriesPage() {
-  const products = getProductsByCategory(
+export default async function HighPressureWasherAccessoriesPage() {
+  const products = await getLiveProducts(
     "high-pressure-washer-accessories"
   );
 

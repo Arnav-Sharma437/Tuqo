@@ -1,15 +1,48 @@
-
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { CATEGORIES } from "@/constants";
+import { CATEGORIES as DEFAULT_CATEGORIES } from "@/constants";
 import { ArrowRightIcon } from "@/components/common/Icons";
 
+interface CategoryItem {
+  id: string;
+  name: string;
+  image: string;
+  href: string;
+}
+
 export function CategorySection() {
+  const [categories, setCategories] = useState<CategoryItem[]>(DEFAULT_CATEGORIES);
+
+  useEffect(() => {
+    fetch("/api/admin/categories")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success && Array.isArray(data.categories) && data.categories.length > 0) {
+          const formatted: CategoryItem[] = data.categories.map((c: any) => ({
+            id: c.slug || c._id,
+            name: c.name,
+            image: c.image,
+            href: `/products/${c.slug}`,
+          }));
+
+          // Merge: ensure standard categories and any new backend-added categories are both present
+          const map = new Map<string, CategoryItem>();
+          DEFAULT_CATEGORIES.forEach((cat) => map.set(cat.href, cat));
+          formatted.forEach((cat) => map.set(cat.href, cat));
+
+          setCategories(Array.from(map.values()));
+        }
+      })
+      .catch((err) => {
+        console.error("Could not fetch live categories:", err);
+      });
+  }, []);
+
   // Repeat categories for continuous horizontal scrolling
-  const rowItems = [...CATEGORIES, ...CATEGORIES, ...CATEGORIES];
+  const rowItems = [...categories, ...categories, ...categories];
 
   return (
     <section
@@ -120,3 +153,5 @@ export function CategorySection() {
     </section>
   );
 }
+
+export default CategorySection;

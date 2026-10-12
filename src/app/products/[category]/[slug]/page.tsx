@@ -2,7 +2,8 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ALL_PRODUCTS, getProductBySlug, getProductsByCategory } from "@/constants/products";
+import { ALL_PRODUCTS } from "@/constants/products";
+import { getLiveProductBySlug, getLiveProducts } from "@/lib/data";
 import { APP_CONFIG } from "@/constants";
 import {
   WhatsAppIcon,
@@ -13,12 +14,7 @@ import {
   ClockIcon,
 } from "@/components/common/Icons";
 
-export async function generateStaticParams() {
-  return ALL_PRODUCTS.map((product) => ({
-    category: product.categorySlug,
-    slug: product.slug,
-  }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
@@ -26,7 +22,7 @@ export async function generateMetadata({
   params: Promise<{ category: string; slug: string }>;
 }) {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const product = await getLiveProductBySlug(slug);
 
   if (!product) {
     return {
@@ -46,13 +42,14 @@ export default async function ProductDetailPage({
   params: Promise<{ category: string; slug: string }>;
 }) {
   const { category: categorySlug, slug } = await params;
-  const product = getProductBySlug(slug);
+  const product = await getLiveProductBySlug(slug);
 
   if (!product) {
     notFound();
   }
 
-  const relatedProducts = getProductsByCategory(categorySlug)
+  const categoryProducts = await getLiveProducts(categorySlug);
+  const relatedProducts = categoryProducts
     .filter((p) => p.slug !== product.slug)
     .slice(0, 3);
 

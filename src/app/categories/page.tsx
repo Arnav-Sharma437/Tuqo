@@ -3,6 +3,9 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRightIcon } from "@/components/common/Icons";
+import { getLiveCategories } from "@/lib/data";
+
+export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "Product Categories | TUQO Tools",
@@ -97,7 +100,17 @@ const faqs = [
   },
 ];
 
-export default function CategoriesPage() {
+export default async function CategoriesPage() {
+  const liveCategories = await getLiveCategories();
+
+  const formattedCategories = liveCategories.map((c, idx) => ({
+    no: String(idx + 1).padStart(2, "0"),
+    title: c.name,
+    desc: c.description || "Professional equipment engineered for high performance.",
+    image: c.image,
+    href: c.href,
+  }));
+
   return (
     <main className="min-h-screen bg-white text-[#171717]">
       {/* HERO */}
@@ -181,12 +194,12 @@ export default function CategoriesPage() {
           </div>
 
           <span className="text-xs font-bold tracking-widest text-gray-500">
-            06 CATEGORIES
+            {String(formattedCategories.length).padStart(2, "0")} CATEGORIES
           </span>
         </div>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {categories.map((cat) => (
+          {formattedCategories.map((cat) => (
             <article
               key={cat.no}
               className="group flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-[#e21b23]/50 hover:shadow-lg"
