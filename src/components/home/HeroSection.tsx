@@ -39,42 +39,25 @@ const slides = [
 
 export function HeroSection() {
   const [activeSlide, setActiveSlide] = useState(0);
-  const [paused, setPaused] = useState(false);
 
   useEffect(() => {
-    if (paused) return;
-
     const timer = window.setInterval(() => {
       setActiveSlide((current) => (current + 1) % slides.length);
-    }, 5000);
+    }, 2000);
 
     return () => window.clearInterval(timer);
-  }, [paused]);
+  }, []);
 
   const currentSlide = slides[activeSlide];
 
-  const showPrevious = () => {
-    setActiveSlide(
-      (current) => (current - 1 + slides.length) % slides.length
-    );
-  };
-
-  const showNext = () => {
-    setActiveSlide((current) => (current + 1) % slides.length);
-  };
-
   return (
-    <section
-      className="relative isolate flex min-h-[540px] w-full items-center overflow-hidden bg-[#08090b] text-white sm:min-h-[600px] lg:min-h-[660px]"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-    >
-      {/* Sliding Background Images */}
+    <section className="relative isolate flex min-h-[540px] w-full items-center overflow-hidden bg-[#08090b] text-white sm:min-h-[600px] lg:min-h-[660px]">
+      {/* Automatic Sliding Background Images */}
       <div className="absolute inset-0 z-0">
         {slides.map((slide, index) => (
           <div
             key={slide.image}
-            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+            className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
               activeSlide === index ? "opacity-100" : "opacity-0"
             }`}
             aria-hidden={activeSlide !== index}
@@ -85,16 +68,16 @@ export function HeroSection() {
               fill
               priority={index === 0}
               sizes="100vw"
-              className={`object-cover ${
+              className={`${
                 index === 0
-                  ? "object-center brightness-90 contrast-105"
-                  : "object-contain p-8 brightness-90 sm:p-12 lg:p-16"
-              }`}
+                  ? "object-cover object-center"
+                  : "object-contain p-8 sm:p-12 lg:p-16"
+              } brightness-90 contrast-105`}
             />
           </div>
         ))}
 
-        {/* Readable Dark Overlays */}
+        {/* Dark overlays for text readability */}
         <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/65 to-black/25" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#08090b] via-transparent to-black/30" />
       </div>
@@ -112,7 +95,7 @@ export function HeroSection() {
 
           {/* Main Heading */}
           <h1
-            key={activeSlide}
+            key={`heading-${activeSlide}`}
             className="animate-hero-content text-4xl font-black uppercase leading-[0.94] tracking-[-0.03em] sm:text-5xl md:text-6xl lg:text-[56px] xl:text-[62px]"
           >
             <span className="block text-white drop-shadow-md">
@@ -166,45 +149,7 @@ export function HeroSection() {
         </div>
       </div>
 
-      {/* Previous / Next Controls */}
-      <div className="absolute bottom-7 right-5 z-20 flex items-center gap-3 sm:bottom-9 sm:right-9">
-        <button
-          type="button"
-          onClick={showPrevious}
-          aria-label="Previous slide"
-          className="flex h-10 w-10 items-center justify-center rounded-full border border-white/40 bg-black/40 text-white backdrop-blur transition hover:border-[#e21b23] hover:bg-[#e21b23]"
-        >
-          <span className="text-xl leading-none">‹</span>
-        </button>
-
-        <div className="flex items-center gap-1.5">
-          {slides.map((slide, index) => (
-            <button
-              key={slide.image}
-              type="button"
-              onClick={() => setActiveSlide(index)}
-              aria-label={`Go to slide ${index + 1}`}
-              aria-current={activeSlide === index ? "true" : undefined}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
-                activeSlide === index
-                  ? "w-7 bg-[#e21b23]"
-                  : "w-1.5 bg-white/60 hover:bg-white"
-              }`}
-            />
-          ))}
-        </div>
-
-        <button
-          type="button"
-          onClick={showNext}
-          aria-label="Next slide"
-          className="flex h-10 w-10 items-center justify-center rounded-full border border-white/40 bg-black/40 text-white backdrop-blur transition hover:border-[#e21b23] hover:bg-[#e21b23]"
-        >
-          <span className="text-xl leading-none">›</span>
-        </button>
-      </div>
-
-      {/* Bottom Accent */}
+      {/* Bottom Red Accent */}
       <div className="absolute bottom-0 left-0 z-10 h-[2px] w-full bg-[#e21b23]" />
     </section>
   );
