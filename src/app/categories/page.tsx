@@ -129,7 +129,7 @@ export default function CategoriesPage() {
               href="#category-grid"
               className="mt-6 inline-flex items-center gap-3 border-b-2 border-[#e21b23] pb-2 text-sm font-bold"
             >
-              Explore Categories
+              Explore Products
               <span className="text-[#e21b23]">↓</span>
             </a>
           </div>
@@ -185,7 +185,7 @@ export default function CategoriesPage() {
           </span>
         </div>
 
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {categories.map((cat) => (
             <article
               key={cat.no}
@@ -193,7 +193,7 @@ export default function CategoriesPage() {
             >
               <Link
                 href={cat.href}
-                className="relative flex h-[135px] items-center justify-center bg-gray-50 p-3"
+                className="relative flex h-[120px] items-center justify-center bg-gray-50 p-2 sm:h-[135px]"
                 aria-label={`View ${cat.title} products`}
               >
                 <span className="absolute left-3 top-3 z-10 bg-white px-2 py-1 text-[10px] font-bold">
