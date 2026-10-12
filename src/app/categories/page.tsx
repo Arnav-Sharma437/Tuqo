@@ -102,8 +102,8 @@ export default function CategoriesPage() {
     <main className="min-h-screen bg-white text-[#171717]">
       {/* HERO */}
       <section className="relative overflow-hidden border-b border-gray-200 bg-gradient-to-r from-gray-100 to-white">
-        <div className="mx-auto max-w-[1400px] px-5 py-14 sm:px-8 md:py-20 lg:px-10">
-          <nav className="mb-7 flex items-center gap-2 text-xs text-gray-500">
+        <div className="mx-auto max-w-[1400px] px-5 py-12 sm:px-8 md:py-16 lg:px-10">
+          <nav className="mb-6 flex items-center gap-2 text-xs text-gray-500">
             <Link href="/" className="hover:text-[#e21b23]">
               Home
             </Link>
@@ -120,14 +120,14 @@ export default function CategoriesPage() {
               OUR <span className="text-[#e21b23]">PRODUCT RANGE</span>
             </h1>
 
-            <p className="mt-5 max-w-2xl text-sm leading-7 text-gray-600 sm:text-base">
+            <p className="mt-4 max-w-2xl text-sm leading-7 text-gray-600 sm:text-base">
               Explore TUQO professional machinery, power tools and accessories
               designed for performance, reliability and everyday professional use.
             </p>
 
             <a
               href="#category-grid"
-              className="mt-7 inline-flex items-center gap-3 border-b-2 border-[#e21b23] pb-2 text-sm font-bold"
+              className="mt-6 inline-flex items-center gap-3 border-b-2 border-[#e21b23] pb-2 text-sm font-bold"
             >
               Explore Categories
               <span className="text-[#e21b23]">↓</span>
@@ -145,7 +145,7 @@ export default function CategoriesPage() {
 
       {/* BENEFITS */}
       <section className="border-b border-gray-200">
-        <div className="mx-auto grid max-w-[1400px] grid-cols-2 gap-5 px-5 py-7 sm:px-8 md:grid-cols-4 lg:px-10">
+        <div className="mx-auto grid max-w-[1400px] grid-cols-2 gap-4 px-5 py-5 sm:px-8 md:grid-cols-4 lg:px-10">
           {benefits.map((item) => (
             <div key={item.no} className="flex gap-3">
               <span className="text-xl font-black text-[#e21b23]">
@@ -160,22 +160,22 @@ export default function CategoriesPage() {
         </div>
       </section>
 
-      {/* CATEGORY CARDS */}
+      {/* COMPACT CATEGORY CARDS */}
       <section
         id="category-grid"
-        className="mx-auto max-w-[1400px] px-5 py-10 sm:px-8 md:py-14 lg:px-10"
+        className="mx-auto max-w-[1400px] px-5 py-8 sm:px-8 md:py-10 lg:px-10"
       >
-        <div className="mb-7 flex flex-wrap items-end justify-between gap-4">
+        <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="mb-3 text-xs font-extrabold uppercase tracking-[0.2em] text-[#e21b23]">
+            <p className="mb-2 text-xs font-extrabold uppercase tracking-[0.2em] text-[#e21b23]">
               FIND THE RIGHT EQUIPMENT
             </p>
 
-            <h2 className="text-3xl font-black tracking-tight md:text-4xl">
+            <h2 className="text-2xl font-black tracking-tight md:text-3xl">
               Explore Our <span className="text-[#e21b23]">Products</span>
             </h2>
 
-            <p className="mt-3 text-sm leading-6 text-gray-500">
+            <p className="mt-2 text-sm leading-6 text-gray-500">
               Select a category to explore its product range.
             </p>
           </div>
@@ -185,22 +185,22 @@ export default function CategoriesPage() {
           </span>
         </div>
 
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {categories.map((cat) => (
             <article
               key={cat.no}
-              className="group flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-[#e21b23]/50 hover:shadow-xl"
+              className="group flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-[#e21b23]/50 hover:shadow-lg"
             >
               <Link
                 href={cat.href}
-                className="relative flex h-[170px] items-center justify-center bg-gray-50 p-4"
+                className="relative flex h-[135px] items-center justify-center bg-gray-50 p-3"
                 aria-label={`View ${cat.title} products`}
               >
-                <span className="absolute left-3 top-3 z-10 bg-white px-2.5 py-1.5 text-xs font-bold">
+                <span className="absolute left-3 top-3 z-10 bg-white px-2 py-1 text-[10px] font-bold">
                   {cat.no}
                 </span>
 
-                <div className="relative h-32 w-full transition-transform duration-300 group-hover:scale-105">
+                <div className="relative h-24 w-full transition-transform duration-300 group-hover:scale-105">
                   <Image
                     src={cat.image}
                     alt={cat.title}
@@ -211,29 +211,29 @@ export default function CategoriesPage() {
                 </div>
               </Link>
 
-              <div className="flex flex-1 flex-col p-3">
-                <p className="text-[10px] font-extrabold uppercase tracking-widest text-[#e21b23]">
+              <div className="flex flex-1 flex-col p-2.5">
+                <p className="text-[9px] font-extrabold uppercase tracking-widest text-[#e21b23]">
                   TUQO PROFESSIONAL RANGE
                 </p>
 
-                <h3 className="mt-2 text-base font-black uppercase leading-6">
+                <h3 className="mt-1.5 text-sm font-black uppercase leading-5">
                   {cat.title}
                 </h3>
 
-                <p className="mt-2 flex-1 text-sm leading-6 text-gray-500">
+                <p className="mt-1.5 flex-1 text-xs leading-5 text-gray-500">
                   {cat.desc}
                 </p>
 
                 <Link
                   href={cat.href}
-                  className="mt-4 flex items-center justify-between border-t border-gray-100 pt-3 text-xs font-bold uppercase tracking-wider"
+                  className="mt-3 flex items-center justify-between border-t border-gray-100 pt-2.5 text-[10px] font-bold uppercase tracking-wider"
                 >
                   <span className="text-gray-600 transition-colors group-hover:text-black">
                     View Products
                   </span>
 
-                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 transition-all group-hover:translate-x-1 group-hover:bg-[#e21b23] group-hover:text-white">
-                    <ArrowRightIcon className="h-4 w-4" />
+                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-gray-100 transition-all group-hover:translate-x-1 group-hover:bg-[#e21b23] group-hover:text-white">
+                    <ArrowRightIcon className="h-3.5 w-3.5" />
                   </span>
                 </Link>
               </div>
@@ -243,15 +243,15 @@ export default function CategoriesPage() {
       </section>
 
       {/* E-CATALOG */}
-      <section className="mx-auto max-w-[1400px] px-5 pb-14 sm:px-8 lg:px-10">
+      <section className="mx-auto max-w-[1400px] px-5 pb-10 sm:px-8 lg:px-10">
         <div className="grid overflow-hidden border border-gray-200 md:grid-cols-2">
-          <div className="flex min-h-64 items-center bg-gradient-to-br from-red-800 via-red-600 to-red-900 p-8 text-white md:p-12">
+          <div className="flex min-h-56 items-center bg-gradient-to-br from-red-800 via-red-600 to-red-900 p-7 text-white md:p-10">
             <div>
               <p className="text-xs font-bold tracking-[4px]">
                 TUQO / RESOURCES
               </p>
 
-              <h2 className="mt-5 text-4xl font-black tracking-tight sm:text-5xl">
+              <h2 className="mt-4 text-3xl font-black tracking-tight sm:text-4xl">
                 E-CATALOG
               </h2>
 
@@ -261,22 +261,22 @@ export default function CategoriesPage() {
             </div>
           </div>
 
-          <div className="flex flex-col items-start justify-center bg-gray-50 p-8 md:p-12">
+          <div className="flex flex-col items-start justify-center bg-gray-50 p-7 md:p-10">
             <p className="text-xs font-extrabold uppercase tracking-widest text-[#e21b23]">
               EXPLORE OUR COMPLETE RANGE
             </p>
 
-            <h2 className="mt-3 text-3xl font-black">
+            <h2 className="mt-3 text-2xl font-black">
               TUQO <span className="text-[#e21b23]">E-CATALOG</span>
             </h2>
 
-            <p className="mt-4 text-sm leading-7 text-gray-600">
+            <p className="mt-3 text-sm leading-6 text-gray-600">
               Contact our team to request product information and the latest catalogue.
             </p>
 
             <Link
               href="/contact"
-              className="mt-6 inline-flex items-center gap-5 bg-[#e21b23] px-6 py-4 text-sm font-bold text-white transition hover:bg-red-700"
+              className="mt-5 inline-flex items-center gap-5 bg-[#e21b23] px-5 py-3 text-sm font-bold text-white transition hover:bg-red-700"
             >
               Request E-Catalog <span>→</span>
             </Link>
@@ -285,25 +285,25 @@ export default function CategoriesPage() {
       </section>
 
       {/* WHY CHOOSE TUQO */}
-      <section className="border-y border-gray-200 bg-[#f6f6f6] py-14 md:py-20">
-        <div className="mx-auto grid max-w-[1400px] gap-10 px-5 sm:px-8 md:grid-cols-2 md:gap-16 lg:px-10">
+      <section className="border-y border-gray-200 bg-[#f6f6f6] py-10 md:py-14">
+        <div className="mx-auto grid max-w-[1400px] gap-8 px-5 sm:px-8 md:grid-cols-2 md:gap-12 lg:px-10">
           <div>
             <p className="text-xs font-extrabold uppercase tracking-widest text-[#e21b23]">
               WHY CHOOSE TUQO
             </p>
 
-            <h2 className="mt-4 text-4xl font-black leading-tight md:text-5xl">
+            <h2 className="mt-3 text-3xl font-black leading-tight md:text-4xl">
               BUILT FOR <span className="text-[#e21b23]">PROFESSIONALS.</span>
             </h2>
 
-            <p className="mt-5 max-w-md text-sm leading-7 text-gray-600">
+            <p className="mt-4 max-w-md text-sm leading-7 text-gray-600">
               Explore practical machinery, power tools and accessories for
               professional cleaning and workshop requirements.
             </p>
 
             <Link
               href="/contact"
-              className="mt-5 inline-flex items-center gap-3 text-sm font-bold text-[#e21b23]"
+              className="mt-4 inline-flex items-center gap-3 text-sm font-bold text-[#e21b23]"
             >
               Talk to Our Team <span>→</span>
             </Link>
@@ -317,15 +317,15 @@ export default function CategoriesPage() {
             ].map(([no, title, desc]) => (
               <div
                 key={no}
-                className="flex items-center gap-5 border-b border-gray-300 py-6"
+                className="flex items-center gap-4 border-b border-gray-300 py-4"
               >
                 <span className="text-sm font-bold text-[#e21b23]">
                   {no}
                 </span>
 
                 <div className="flex-1">
-                  <h3 className="font-bold">{title}</h3>
-                  <p className="mt-2 text-sm text-gray-500">{desc}</p>
+                  <h3 className="text-sm font-bold">{title}</h3>
+                  <p className="mt-1 text-sm text-gray-500">{desc}</p>
                 </div>
 
                 <span className="text-xl text-[#e21b23]">↗</span>
@@ -336,23 +336,23 @@ export default function CategoriesPage() {
       </section>
 
       {/* FAQ */}
-      <section className="mx-auto grid max-w-[1400px] gap-8 px-5 py-14 sm:px-8 md:grid-cols-[0.8fr_1.2fr] md:gap-16 md:py-20 lg:px-10">
+      <section className="mx-auto grid max-w-[1400px] gap-7 px-5 py-10 sm:px-8 md:grid-cols-[0.8fr_1.2fr] md:gap-12 md:py-14 lg:px-10">
         <div>
           <p className="text-xs font-extrabold uppercase tracking-widest text-[#e21b23]">
             NEED HELP?
           </p>
 
-          <h2 className="mt-4 text-3xl font-black leading-tight md:text-4xl">
+          <h2 className="mt-3 text-2xl font-black leading-tight md:text-3xl">
             FREQUENTLY ASKED <span className="text-[#e21b23]">QUESTIONS</span>
           </h2>
 
-          <p className="mt-4 text-sm leading-7 text-gray-500">
+          <p className="mt-3 text-sm leading-7 text-gray-500">
             Find answers about our categories and product information.
           </p>
 
           <Link
             href="/contact"
-            className="mt-5 inline-flex items-center gap-3 text-sm font-bold text-[#e21b23]"
+            className="mt-4 inline-flex items-center gap-3 text-sm font-bold text-[#e21b23]"
           >
             Contact Us <span>→</span>
           </Link>
@@ -363,14 +363,14 @@ export default function CategoriesPage() {
             <details
               key={faq.q}
               open={index === 0}
-              className="border-b border-gray-200 py-5"
+              className="border-b border-gray-200 py-4"
             >
               <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-bold">
                 {faq.q}
                 <span className="text-xl text-[#e21b23]">+</span>
               </summary>
 
-              <p className="mt-4 pr-8 text-sm leading-7 text-gray-500">
+              <p className="mt-3 pr-8 text-sm leading-6 text-gray-500">
                 {faq.a}
               </p>
             </details>
@@ -379,25 +379,25 @@ export default function CategoriesPage() {
       </section>
 
       {/* CONTACT CTA */}
-      <section className="bg-[#171717] py-10 text-white">
-        <div className="mx-auto flex max-w-[1400px] flex-col items-start justify-between gap-6 px-5 sm:px-8 md:flex-row md:items-center lg:px-10">
+      <section className="bg-[#171717] py-8 text-white">
+        <div className="mx-auto flex max-w-[1400px] flex-col items-start justify-between gap-5 px-5 sm:px-8 md:flex-row md:items-center lg:px-10">
           <div>
             <p className="text-xs font-extrabold uppercase tracking-widest text-[#e21b23]">
               LET&apos;S GET STARTED
             </p>
 
-            <h2 className="mt-3 text-2xl font-black md:text-3xl">
+            <h2 className="mt-2 text-xl font-black md:text-2xl">
               Looking for the right equipment?
             </h2>
 
-            <p className="mt-3 text-sm text-gray-400">
+            <p className="mt-2 text-sm text-gray-400">
               Talk to our team about your product requirements.
             </p>
           </div>
 
           <Link
             href="/contact"
-            className="inline-flex items-center gap-5 bg-[#e21b23] px-6 py-4 text-sm font-bold text-white transition hover:bg-red-700"
+            className="inline-flex items-center gap-5 bg-[#e21b23] px-5 py-3 text-sm font-bold text-white transition hover:bg-red-700"
           >
             Get in Touch <span>→</span>
           </Link>
