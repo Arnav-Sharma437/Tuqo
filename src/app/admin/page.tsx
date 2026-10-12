@@ -1,0 +1,218 @@
+"use client";
+
+import { useEffect, useState, useCallback } from "react";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import Link from "next/link";
+import { BannerManager, BannerItem } from "@/components/admin/BannerManager";
+import { CategoryManager, CategoryItem } from "@/components/admin/CategoryManager";
+import { ProductManager, ProductItem } from "@/components/admin/ProductManager";
+
+type TabType = "banners" | "categories" | "products";
+
+export default function AdminDashboardPage() {
+  const router = useRouter();
+  const [activeTab, setActiveTab] = useState<TabType>("banners");
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<{ email: string; name: string } | null>(null);
+
+  const [banners, setBanners] = useState<BannerItem[]>([]);
+  const [categories, setCategories] = useState<CategoryItem[]>([]);
+  const [products, setProducts] = useState<ProductItem[]>([]);
+
+  // Check auth session
+  const checkSession = useCallback(async () => {
+    try {
+      const res = await fetch("/api/admin/session");
+      if (!res.ok) {
+        router.push("/admin/login");
+        return false;
+      }
+      const data = await res.json();
+      setUser(data.user);
+      return true;
+    } catch {
+      router.push("/admin/login");
+      return false;
+    }
+  }, [router]);
+
+  // Fetch all dashboard data
+  const fetchData = useCallback(async () => {
+    try {
+      const [bannersRes, catRes, prodRes] = await Promise.all([
+        fetch("/api/admin/banners"),
+        fetch("/api/admin/categories"),
+        fetch("/api/admin/products"),
+      ]);
+
+      if (bannersRes.ok) {
+        const b = await bannersRes.json();
+        setBanners(b.banners || []);
+      }
+      if (catRes.ok) {
+        const c = await catRes.json();
+        setCategories(c.categories || []);
+      }
+      if (prodRes.ok) {
+        const p = await prodRes.json();
+        setProducts(p.products || []);
+      }
+    } catch (err) {
+      console.error("Failed to load dashboard data:", err);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    checkSession().then((authenticated) => {
+      if (authenticated) {
+        fetchData();
+      }
+    });
+  }, [checkSession, fetchData]);
+
+  const handleLogout = async () => {
+    await fetch("/api/admin/logout", { method: "POST" });
+    router.push("/admin/login");
+    router.refresh();
+  };
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[#0a0a0c] text-white">
+        <div className="flex flex-col items-center gap-3">
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#d31820] border-t-transparent" />
+          <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">
+            Loading Tuqo Admin...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-[#0a0a0c] text-white">
+      {/* Top Admin Bar */}
+      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#121418]/90 backdrop-blur-md">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
+          <div className="flex items-center gap-6">
+            <Link href="/" className="flex items-center gap-2">
+              <Image
+                src="/images/logo.png"
+                alt="TUQO"
+                width={100}
+                height={30}
+                className="h-7 w-auto"
+              />
+              <span className="rounded bg-[#d31820] px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
+                CMS
+              </span>
+            </Link>
+
+            <nav className="hidden sm:flex items-center gap-1">
+              <button
+                onClick={() => setActiveTab("banners")}
+                className={`rounded-lg px-3 py-1.5 text-xs font-bold uppercase tracking-wider transition ${
+                  activeTab === "banners"
+                    ? "bg-[#d31820] text-white"
+                    : "text-gray-400 hover:text-white"
+                }`}
+              >
+                Banners ({banners.length})
+              </button>
+              <button
+                onClick={() => setActiveTab("categories")}
+                className={`rounded-lg px-3 py-1.5 text-xs font-bold uppercase tracking-wider transition ${
+                  activeTab === "categories"
+                    ? "bg-[#d31820] text-white"
+                    : "text-gray-400 hover:text-white"
+                }`}
+              >
+                Categories ({categories.length})
+              </button>
+              <button
+                onClick={() => setActiveTab("products")}
+                className={`rounded-lg px-3 py-1.5 text-xs font-bold uppercase tracking-wider transition ${
+                  activeTab === "products"
+                    ? "bg-[#d31820] text-white"
+                    : "text-gray-400 hover:text-white"
+                }`}
+              >
+                Products ({products.length})
+              </button>
+            </nav>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <div className="hidden md:flex flex-col text-right">
+              <span className="text-xs font-bold text-white">{user?.name || "Admin"}</span>
+              <span className="text-[10px] text-gray-500 font-mono">{user?.email}</span>
+            </div>
+
+            <Link
+              href="/"
+              target="_blank"
+              className="hidden sm:inline-flex rounded-lg border border-white/10 bg-white/5 px-2.5 py-1.5 text-xs font-semibold text-gray-300 hover:bg-white/10"
+            >
+              View Site ↗
+            </Link>
+
+            <button
+              onClick={handleLogout}
+              className="rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-1.5 text-xs font-semibold text-red-400 transition hover:bg-red-500/20"
+            >
+              Logout
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Navigation Pills */}
+        <div className="flex sm:hidden border-t border-white/5 px-4 py-2 gap-2 overflow-x-auto">
+          <button
+            onClick={() => setActiveTab("banners")}
+            className={`rounded-lg px-3 py-1 text-xs font-bold whitespace-nowrap ${
+              activeTab === "banners" ? "bg-[#d31820] text-white" : "text-gray-400"
+            }`}
+          >
+            Banners ({banners.length})
+          </button>
+          <button
+            onClick={() => setActiveTab("categories")}
+            className={`rounded-lg px-3 py-1 text-xs font-bold whitespace-nowrap ${
+              activeTab === "categories" ? "bg-[#d31820] text-white" : "text-gray-400"
+            }`}
+          >
+            Categories ({categories.length})
+          </button>
+          <button
+            onClick={() => setActiveTab("products")}
+            className={`rounded-lg px-3 py-1 text-xs font-bold whitespace-nowrap ${
+              activeTab === "products" ? "bg-[#d31820] text-white" : "text-gray-400"
+            }`}
+          >
+            Products ({products.length})
+          </button>
+        </div>
+      </header>
+
+      {/* Main Content Area */}
+      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
+        {activeTab === "banners" && (
+          <BannerManager banners={banners} onRefresh={fetchData} />
+        )}
+        {activeTab === "categories" && (
+          <CategoryManager categories={categories} onRefresh={fetchData} />
+        )}
+        {activeTab === "products" && (
+          <ProductManager
+            products={products}
+            categories={categories}
+            onRefresh={fetchData}
+          />
+        )}
+      </main>
+    </div>
+  );
+}

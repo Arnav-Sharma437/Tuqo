@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Instrument_Sans } from "next/font/google";
-import { Header, Footer } from "@/components/layout";
+import { SiteShell } from "@/components/layout";
 import { APP_CONFIG } from "@/constants";
 import "./globals.css";
 
@@ -39,10 +39,8 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} ${instrumentSans.variable}`}
     >
-      <body className="flex min-h-screen flex-col bg-background text-foreground antialiased font-sans">
-        <Header />
-        <div className="flex-1">{children}</div>
-        <Footer />
+      <body className="min-h-screen bg-background text-foreground antialiased font-sans">
+        <SiteShell>{children}</SiteShell>
       </body>
     </html>
   );
