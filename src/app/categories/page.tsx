@@ -115,9 +115,11 @@ export default function CategoriesPage() {
             <p className="mb-3 text-xs font-extrabold uppercase tracking-[0.22em] text-[#e21b23]">
               EXPLORE OUR RANGE
             </p>
-            <h1 className="text-3xl font-black uppercase leading-tight sm:text-4xl md:text-6xl">
-              OUR <span className="text-[#e21b23]">CATEGORIES</span>
-            </h1>
+            
+<h1 className="text-3xl font-black uppercase leading-tight sm:text-4xl md:text-6xl">
+  OUR <span className="text-[#e21b23]">PRODUCT RANGE</span>
+</h1>
+
             <p className="mt-5 max-w-2xl text-sm leading-7 text-gray-600 sm:text-base">
               Explore TUQO professional machinery, power tools and accessories
               designed for performance, reliability and everyday professional use.
