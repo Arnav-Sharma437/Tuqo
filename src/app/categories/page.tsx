@@ -160,7 +160,7 @@ export default function CategoriesPage() {
         </div>
       </section>
 
-      {/* COMPACT CATEGORY CARDS */}
+      {/* PRODUCT CATEGORIES */}
       <section
         id="category-grid"
         className="mx-auto max-w-[1400px] px-5 py-8 sm:px-8 md:py-10 lg:px-10"
@@ -185,22 +185,23 @@ export default function CategoriesPage() {
           </span>
         </div>
 
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {categories.map((cat) => (
             <article
               key={cat.no}
               className="group flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-[#e21b23]/50 hover:shadow-lg"
             >
+              {/* Taller Image Area */}
               <Link
                 href={cat.href}
-                className="relative flex h-[120px] items-center justify-center bg-gray-50 p-2 sm:h-[135px]"
+                className="relative flex h-[220px] items-center justify-center bg-gray-50 p-4 sm:h-[250px]"
                 aria-label={`View ${cat.title} products`}
               >
                 <span className="absolute left-3 top-3 z-10 bg-white px-2 py-1 text-[10px] font-bold">
                   {cat.no}
                 </span>
 
-                <div className="relative h-24 w-full transition-transform duration-300 group-hover:scale-105">
+                <div className="relative h-[180px] w-full transition-transform duration-300 group-hover:scale-105">
                   <Image
                     src={cat.image}
                     alt={cat.title}
@@ -211,22 +212,23 @@ export default function CategoriesPage() {
                 </div>
               </Link>
 
-              <div className="flex flex-1 flex-col p-2.5">
+              {/* Category Details */}
+              <div className="flex flex-1 flex-col p-4">
                 <p className="text-[9px] font-extrabold uppercase tracking-widest text-[#e21b23]">
                   TUQO PROFESSIONAL RANGE
                 </p>
 
-                <h3 className="mt-1.5 text-sm font-black uppercase leading-5">
+                <h3 className="mt-2 text-sm font-black uppercase leading-5">
                   {cat.title}
                 </h3>
 
-                <p className="mt-1.5 flex-1 text-xs leading-5 text-gray-500">
+                <p className="mt-2 flex-1 text-xs leading-5 text-gray-500">
                   {cat.desc}
                 </p>
 
                 <Link
                   href={cat.href}
-                  className="mt-3 flex items-center justify-between border-t border-gray-100 pt-2.5 text-[10px] font-bold uppercase tracking-wider"
+                  className="mt-4 flex items-center justify-between border-t border-gray-100 pt-3 text-[10px] font-bold uppercase tracking-wider"
                 >
                   <span className="text-gray-600 transition-colors group-hover:text-black">
                     View Products
