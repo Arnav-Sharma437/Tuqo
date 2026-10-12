@@ -76,6 +76,7 @@ export function ImageUploader({
               src={value}
               alt="Preview"
               fill
+              unoptimized={value.startsWith("http")}
               className="object-cover"
               sizes="160px"
             />

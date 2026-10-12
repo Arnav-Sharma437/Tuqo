@@ -324,6 +324,7 @@ export function BannerManager({ banners, onRefresh }: BannerManagerProps) {
                     src={b.desktopImage}
                     alt={b.title}
                     fill
+                    unoptimized={b.desktopImage.startsWith("http")}
                     className="object-cover"
                     sizes="(max-width: 768px) 100vw, 50vw"
                   />

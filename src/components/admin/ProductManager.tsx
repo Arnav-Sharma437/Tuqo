@@ -631,6 +631,7 @@ export function ProductManager({
                       src={p.image}
                       alt={p.name}
                       fill
+                      unoptimized={p.image.startsWith("http")}
                       className="object-contain p-2"
                       sizes="(max-width: 768px) 100vw, 33vw"
                     />

@@ -13,8 +13,14 @@ interface CategoryItem {
   href: string;
 }
 
-export function CategorySection() {
-  const [categories, setCategories] = useState<CategoryItem[]>(DEFAULT_CATEGORIES);
+export function CategorySection({
+  initialCategories,
+}: {
+  initialCategories?: CategoryItem[];
+}) {
+  const [categories, setCategories] = useState<CategoryItem[]>(
+    initialCategories && initialCategories.length > 0 ? initialCategories : DEFAULT_CATEGORIES
+  );
 
   useEffect(() => {
     fetch("/api/admin/categories")

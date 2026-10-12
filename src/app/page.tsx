@@ -6,16 +6,24 @@ import {
   FaqSection,
   ContactSection,
 } from "@/components/home";
+import { getLiveBanners, getLiveCategories } from "@/lib/data";
 
-export default function HomePage() {
+export const dynamic = "force-dynamic";
+
+export default async function HomePage() {
+  const [banners, categories] = await Promise.all([
+    getLiveBanners(),
+    getLiveCategories(),
+  ]);
+
   return (
     <div className="flex w-full flex-col">
 
       {/* 1. HERO SECTION */}
-      <HeroSection />
+      <HeroSection initialBanners={banners} />
 
       {/* 2. PRODUCT CATEGORIES */}
-      <CategorySection />
+      <CategorySection initialCategories={categories} />
 
       {/* 3. E-CATALOG DOWNLOAD CTA STRIP */}
       <CatalogCTA />

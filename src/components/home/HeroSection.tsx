@@ -37,8 +37,14 @@ const defaultSlides: HeroBanner[] = [
   },
 ];
 
-export function HeroSection() {
-  const [banners, setBanners] = useState<HeroBanner[]>(defaultSlides);
+export function HeroSection({
+  initialBanners,
+}: {
+  initialBanners?: HeroBanner[];
+}) {
+  const [banners, setBanners] = useState<HeroBanner[]>(
+    initialBanners && initialBanners.length > 0 ? initialBanners : defaultSlides
+  );
   const [activeSlide, setActiveSlide] = useState(0);
 
   useEffect(() => {
@@ -88,6 +94,7 @@ export function HeroSection() {
                 alt={slide.title || "TUQO Banner"}
                 fill
                 priority={index === 0}
+                unoptimized={slide.desktopImage.startsWith("http")}
                 sizes="100vw"
                 className="object-cover object-center brightness-90 contrast-105"
               />
@@ -100,6 +107,7 @@ export function HeroSection() {
                 alt={slide.title || "TUQO Banner"}
                 fill
                 priority={index === 0}
+                unoptimized={(slide.mobileImage || slide.desktopImage).startsWith("http")}
                 sizes="100vw"
                 className="object-cover object-center brightness-90 contrast-105"
               />

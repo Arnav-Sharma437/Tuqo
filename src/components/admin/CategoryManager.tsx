@@ -279,6 +279,7 @@ export function CategoryManager({ categories, onRefresh }: CategoryManagerProps)
                     src={c.image}
                     alt={c.name}
                     fill
+                    unoptimized={c.image.startsWith("http")}
                     className="object-contain p-2"
                     sizes="64px"
                   />
