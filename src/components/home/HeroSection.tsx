@@ -8,32 +8,52 @@ import { ArrowRightIcon } from "@/components/common/Icons";
 
 const slides = [
   {
-    image: "/images/hero-banner-bg.png",
-    alt: "TUQO professional machinery and power tools",
-    eyebrow: "PROFESSIONAL MACHINERY & POWER TOOLS",
-    description:
-      "High Pressure Washers, Air Compressors, Power Tools and Accessories — professional equipment built for demanding work.",
-  },
-  {
     image: "/images/cat-pressure-washer.png",
     alt: "TUQO professional high pressure washer",
-    eyebrow: "POWERFUL CLEANING SOLUTIONS",
+    label: "01 / POWERFUL CLEANING",
+    eyebrow: "ENGINEERED FOR PERFORMANCE",
+    title: "POWERING",
+    highlight: "EVERY JOB.",
     description:
-      "Explore professional high pressure washers engineered for powerful cleaning and reliable performance.",
+      "Professional high pressure washers designed for powerful cleaning, reliability and demanding daily use.",
+    category: "HIGH PRESSURE WASHERS",
+    href: "/products/high-pressure-washer",
   },
   {
     image: "/images/cat-air-compressor.png",
     alt: "TUQO professional air compressor",
-    eyebrow: "INDUSTRIAL AIR SOLUTIONS",
+    label: "02 / INDUSTRIAL AIR",
+    eyebrow: "POWER YOUR WORKSHOP",
+    title: "BUILT TO",
+    highlight: "PERFORM.",
     description:
-      "Discover dependable air compressors designed for workshops and demanding professional applications.",
+      "Dependable compressed-air solutions designed for workshops and professional applications.",
+    category: "AIR COMPRESSORS",
+    href: "/products/air-compressor",
   },
   {
     image: "/images/cat-power-tools.png",
     alt: "TUQO professional power tools",
-    eyebrow: "TOOLS FOR PROFESSIONALS",
+    label: "03 / PRECISION TOOLS",
+    eyebrow: "MADE FOR THE DEMANDING",
+    title: "WORK",
+    highlight: "SMARTER.",
     description:
-      "Discover professional power tools and accessories built to support demanding jobs.",
+      "Discover professional power tools built to deliver dependable performance on every job.",
+    category: "POWER TOOLS",
+    href: "/products/power-tools",
+  },
+  {
+    image: "/images/cat-accessories.png",
+    alt: "TUQO professional equipment accessories",
+    label: "04 / THE RIGHT ACCESSORIES",
+    eyebrow: "COMPLETE YOUR SETUP",
+    title: "DETAILS",
+    highlight: "MATTER.",
+    description:
+      "Explore practical accessories designed to complement your professional equipment.",
+    category: "EQUIPMENT ACCESSORIES",
+    href: "/products/power-tools-accessories",
   },
 ];
 
@@ -43,114 +63,168 @@ export function HeroSection() {
   useEffect(() => {
     const timer = window.setInterval(() => {
       setActiveSlide((current) => (current + 1) % slides.length);
-    }, 2000);
+    }, 4000);
 
     return () => window.clearInterval(timer);
   }, []);
 
-  const currentSlide = slides[activeSlide];
+  const slide = slides[activeSlide];
 
   return (
-    <section className="relative isolate flex min-h-[540px] w-full items-center overflow-hidden bg-[#08090b] text-white sm:min-h-[600px] lg:min-h-[660px]">
-      {/* Automatic Sliding Background Images */}
-      <div className="absolute inset-0 z-0">
-        {slides.map((slide, index) => (
-          <div
-            key={slide.image}
-            className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
-              activeSlide === index ? "opacity-100" : "opacity-0"
-            }`}
-            aria-hidden={activeSlide !== index}
-          >
-            <Image
-              src={slide.image}
-              alt={slide.alt}
-              fill
-              priority={index === 0}
-              sizes="100vw"
-              className={`${
-                index === 0
-                  ? "object-cover object-center"
-                  : "object-contain p-8 sm:p-12 lg:p-16"
-              } brightness-90 contrast-105`}
-            />
-          </div>
-        ))}
+    <section className="relative isolate min-h-[570px] overflow-hidden bg-[#090a0c] text-white sm:min-h-[630px] lg:min-h-[690px]">
+      {/* Background design */}
+      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_75%_45%,rgba(226,27,35,0.17),transparent_48%)]" />
 
-        {/* Dark overlays for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/65 to-black/25" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#08090b] via-transparent to-black/30" />
+        <div
+          className="absolute inset-0 opacity-[0.045]"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,0.5) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.5) 1px,transparent 1px)",
+            backgroundSize: "55px 55px",
+          }}
+        />
+
+        <div className="absolute -right-32 top-10 h-[420px] w-[420px] rounded-full border border-white/[0.06] sm:h-[560px] sm:w-[560px]" />
+
+        <div className="absolute -right-16 top-24 h-[320px] w-[320px] rounded-full border border-[#e21b23]/20 sm:h-[450px] sm:w-[450px]" />
+
+        <div className="absolute bottom-0 left-0 h-40 w-full bg-gradient-to-t from-black/60 to-transparent" />
       </div>
 
-      {/* Hero Content */}
-      <div className="relative z-10 mx-auto w-full max-w-[1500px] px-5 py-16 sm:px-8 sm:py-20 lg:px-10 lg:py-24">
-        <div className="max-w-2xl text-left">
-          {/* Eyebrow */}
-          <div className="mb-4 flex items-center gap-2.5">
-            <span className="h-[3px] w-7 bg-[#e21b23]" />
-            <span className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#e21b23] sm:text-xs">
-              {currentSlide.eyebrow}
+      {/* Main layout */}
+      <div className="relative mx-auto grid min-h-[570px] max-w-[1500px] grid-cols-1 items-center gap-4 px-5 py-12 sm:min-h-[630px] sm:px-8 lg:min-h-[690px] lg:grid-cols-[0.95fr_1.05fr] lg:gap-0 lg:px-12 lg:py-10">
+        {/* Left content */}
+        <div className="relative z-10 flex flex-col items-start justify-center">
+          <div
+            key={`eyebrow-${activeSlide}`}
+            className="animate-hero-content mb-5 flex items-center gap-3"
+          >
+            <span className="h-[2px] w-9 bg-[#e21b23]" />
+
+            <span className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-[#ff4a50] sm:text-xs">
+              {slide.eyebrow}
             </span>
           </div>
 
-          {/* Main Heading */}
-          <h1
-            key={`heading-${activeSlide}`}
-            className="animate-hero-content text-4xl font-black uppercase leading-[0.94] tracking-[-0.03em] sm:text-5xl md:text-6xl lg:text-[56px] xl:text-[62px]"
+          <div
+            key={`title-${activeSlide}`}
+            className="animate-hero-content"
           >
-            <span className="block text-white drop-shadow-md">
-              POWERING
-            </span>
-            <span className="block text-white drop-shadow-md">
-              EVERY JOB.
-            </span>
-            <span className="mt-1 block text-[#e21b23] drop-shadow-md">
-              BUILT FOR
-            </span>
-            <span className="block text-[#e21b23] drop-shadow-md">
-              PERFORMANCE.
-            </span>
-          </h1>
+            <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 sm:text-xs">
+              PROFESSIONAL MACHINERY &amp; POWER TOOLS
+            </p>
 
-          {/* Description */}
+            <h1 className="max-w-[700px] text-[43px] font-black uppercase leading-[0.91] tracking-[-0.055em] sm:text-6xl md:text-7xl xl:text-[82px]">
+              <span className="block">{slide.title}</span>
+
+              <span className="mt-2 block text-[#e21b23]">
+                {slide.highlight}
+              </span>
+            </h1>
+          </div>
+
           <p
             key={`description-${activeSlide}`}
-            className="mt-5 max-w-xl text-xs font-medium leading-5 text-gray-200 drop-shadow-sm sm:text-sm sm:leading-6"
+            className="animate-hero-content mt-6 max-w-[440px] text-sm leading-6 text-gray-300 sm:text-base sm:leading-7"
           >
-            {currentSlide.description}
+            {slide.description}
           </p>
 
-          {/* CTA Buttons */}
-          <div className="mt-8 flex flex-col items-start gap-3.5 sm:flex-row">
+          {/* Buttons */}
+          <div className="mt-7 flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
             <Link
-              href="#categories"
-              className="group inline-flex h-12 w-[210px] min-w-[210px] items-center justify-center gap-2 rounded-md bg-[#e21b23] px-5 text-[14px] font-bold text-white shadow-[0_8px_25px_rgba(226,27,35,0.4)] transition-all duration-300 hover:scale-[1.02] hover:bg-[#ff252d] hover:shadow-[0_12px_32px_rgba(226,27,35,0.5)] active:scale-95"
+              href={slide.href}
+              className="group inline-flex h-12 items-center justify-center gap-4 rounded-sm bg-[#e21b23] px-6 text-xs font-extrabold uppercase tracking-wide text-white shadow-[0_8px_30px_rgba(226,27,35,0.22)] transition duration-300 hover:bg-red-600 hover:shadow-[0_10px_35px_rgba(226,27,35,0.4)] sm:min-w-[190px]"
             >
-              <span>Explore Products</span>
-              <ArrowRightIcon className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+              Explore Products
+              <ArrowRightIcon className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
 
             <Link
               href="#catalog"
-              className="inline-flex h-12 w-[210px] min-w-[210px] items-center justify-center gap-2 rounded-md border border-white/30 bg-black/40 px-5 text-[14px] font-bold text-white backdrop-blur-md transition-all duration-300 hover:scale-[1.02] hover:border-white/70 hover:bg-black/60 active:scale-95"
+              className="inline-flex h-12 items-center justify-center gap-3 border border-white/20 bg-white/[0.03] px-6 text-xs font-extrabold uppercase tracking-wide text-white transition duration-300 hover:border-white/50 hover:bg-white/[0.08] sm:min-w-[175px]"
             >
               Download Catalog
+              <span className="text-base text-[#e21b23]">↗</span>
             </Link>
           </div>
 
-          {/* Trust Indicators */}
-          <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-2 text-[9px] font-bold uppercase tracking-[0.16em] text-gray-300">
+          {/* Trust indicators */}
+          <div className="mt-8 flex flex-wrap items-center gap-x-4 gap-y-3 border-t border-white/10 pt-5 text-[9px] font-bold uppercase tracking-[0.12em] text-gray-400 sm:gap-x-5">
             <span>Genuine Products</span>
-            <span className="h-1.5 w-1.5 rounded-full bg-[#e21b23]" />
+            <span className="h-1 w-1 rounded-full bg-[#e21b23]" />
             <span>Pan-India Delivery</span>
-            <span className="h-1.5 w-1.5 rounded-full bg-[#e21b23]" />
+            <span className="h-1 w-1 rounded-full bg-[#e21b23]" />
             <span>Technical Support</span>
+          </div>
+        </div>
+
+        {/* Right product showcase */}
+        <div className="relative flex min-h-[270px] items-center justify-center sm:min-h-[350px] lg:min-h-[490px]">
+          {/* Decorative circle */}
+          <div className="absolute left-1/2 top-1/2 aspect-square w-[78%] max-w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/[0.07]" />
+
+          <div className="absolute left-1/2 top-1/2 aspect-square w-[62%] max-w-[390px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#e21b23]/20" />
+
+          {/* Red glow behind product */}
+          <div className="absolute left-1/2 top-1/2 h-[180px] w-[180px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#e21b23]/20 blur-[70px] sm:h-[280px] sm:w-[280px] sm:blur-[100px]" />
+
+          {/* Product image */}
+          {slides.map((item, index) => (
+            <div
+              key={item.image}
+              className={`absolute inset-0 flex items-center justify-center transition-all duration-700 ease-in-out ${
+                activeSlide === index
+                  ? "translate-y-0 scale-100 opacity-100"
+                  : "translate-y-3 scale-[0.97] opacity-0"
+              }`}
+              aria-hidden={activeSlide !== index}
+            >
+              <div className="relative h-[250px] w-full sm:h-[340px] lg:h-[440px]">
+                <Image
+                  src={item.image}
+                  alt={item.alt}
+                  fill
+                  priority={index === 0}
+                  sizes="(max-width: 1024px) 100vw, 55vw"
+                  className="object-contain drop-shadow-[0_25px_35px_rgba(0,0,0,0.35)]"
+                />
+              </div>
+            </div>
+          ))}
+
+          {/* Category label */}
+          <div className="absolute bottom-1 right-0 hidden max-w-[240px] border-l-2 border-[#e21b23] bg-black/40 px-5 py-3 backdrop-blur-sm sm:block lg:bottom-5 lg:right-3">
+            <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-gray-400">
+              CURRENT COLLECTION
+            </p>
+
+            <p
+              key={`category-${activeSlide}`}
+              className="mt-1 text-xs font-extrabold uppercase tracking-wide text-white"
+            >
+              {slide.category}
+            </p>
+          </div>
+
+          {/* Slide number */}
+          <div className="absolute right-1 top-1 hidden items-center gap-3 sm:flex lg:right-4 lg:top-4">
+            <span className="text-3xl font-black tracking-tighter text-white/90">
+              {String(activeSlide + 1).padStart(2, "0")}
+            </span>
+
+            <span className="h-px w-10 bg-[#e21b23]" />
+
+            <span className="text-xs font-bold text-white/35">
+              {String(slides.length).padStart(2, "0")}
+            </span>
           </div>
         </div>
       </div>
 
-      {/* Bottom Red Accent */}
-      <div className="absolute bottom-0 left-0 z-10 h-[2px] w-full bg-[#e21b23]" />
+      {/* Bottom edge */}
+      <div className="absolute bottom-0 left-0 h-[2px] w-full bg-gradient-to-r from-transparent via-[#e21b23] to-transparent" />
     </section>
   );
 }
