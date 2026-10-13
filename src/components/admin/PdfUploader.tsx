@@ -41,72 +41,46 @@ export function PdfUploader({
       file.size > 1024 * 1024 ? `${sizeInMB} MB` : `${Math.max(1, Math.round(file.size / 1024))} KB`;
 
     try {
-      // 1. First get a signed token from our backend (avoids sending large file bytes through Vercel serverless)
+      // 1. Request secure signed token from backend
       const signRes = await fetch("/api/admin/cloudinary-sign", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ folder }),
       });
 
-      if (signRes.ok) {
-        const signData = await signRes.json();
-        if (signData.success && signData.signature && signData.cloudName) {
-          // 2. Direct upload to Cloudinary (bypasses Vercel 4.5MB payload limit completely!)
-          const cloudinaryFormData = new FormData();
-          cloudinaryFormData.append("file", file);
-          cloudinaryFormData.append("api_key", signData.apiKey);
-          cloudinaryFormData.append("timestamp", String(signData.timestamp));
-          cloudinaryFormData.append("signature", signData.signature);
-          cloudinaryFormData.append("folder", signData.folder);
+      if (!signRes.ok) {
+        const signErr = await signRes.json().catch(() => ({}));
+        throw new Error(signErr.error || "Failed to generate upload signature");
+      }
 
-          const directRes = await fetch(
-            `https://api.cloudinary.com/v1_1/${signData.cloudName}/auto/upload`,
-            {
-              method: "POST",
-              body: cloudinaryFormData,
-            }
-          );
+      const signData = await signRes.json();
+      if (!signData.success || !signData.signature || !signData.cloudName) {
+        throw new Error(signData.error || "Invalid upload signature response");
+      }
 
-          if (directRes.ok) {
-            const result = await directRes.json();
-            onChange(result.secure_url, formattedSize);
-            return;
-          }
+      // 2. Direct upload to Cloudinary raw/upload endpoint
+      // Bypasses Vercel's 4.5MB payload limit completely!
+      const cloudinaryFormData = new FormData();
+      cloudinaryFormData.append("file", file);
+      cloudinaryFormData.append("api_key", signData.apiKey);
+      cloudinaryFormData.append("timestamp", String(signData.timestamp));
+      cloudinaryFormData.append("signature", signData.signature);
+      cloudinaryFormData.append("folder", signData.folder);
+
+      const directRes = await fetch(
+        `https://api.cloudinary.com/v1_1/${signData.cloudName}/raw/upload`,
+        {
+          method: "POST",
+          body: cloudinaryFormData,
         }
+      );
+
+      const directData = await directRes.json();
+      if (!directRes.ok || !directData.secure_url) {
+        throw new Error(directData.error?.message || "Cloudinary direct upload failed");
       }
 
-      // 3. Fallback: Proxy upload through API route if direct signing wasn't possible
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("folder", folder);
-
-      const res = await fetch("/api/admin/upload", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!res.ok) {
-        const text = await res.text();
-        let errMsg = "Failed to upload PDF";
-        try {
-          const parsed = JSON.parse(text);
-          errMsg = parsed.error || errMsg;
-        } catch {
-          if (res.status === 413 || text.includes("Entity Too Large")) {
-            errMsg = "File is too large for proxy. Direct upload will be used.";
-          } else {
-            errMsg = `Upload error (${res.status}): ${text.slice(0, 100)}`;
-          }
-        }
-        throw new Error(errMsg);
-      }
-
-      const data = await res.json();
-      if (!data.success) {
-        throw new Error(data.error || "Failed to upload PDF");
-      }
-
-      onChange(data.url, data.fileSize || formattedSize);
+      onChange(directData.secure_url, formattedSize);
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "PDF upload failed";
       setError(msg);
@@ -145,7 +119,7 @@ export function PdfUploader({
             </div>
             <div className="min-w-0">
               <p className="text-xs font-bold text-white truncate max-w-xs">
-                PDF Attached & Ready
+                PDF Attached &amp; Ready
               </p>
               <a
                 href={value}

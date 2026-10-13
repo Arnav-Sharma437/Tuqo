@@ -12,6 +12,63 @@ interface ImageUploaderProps {
   aspectHint?: string;
 }
 
+// Client-side automatic image compression function
+async function compressImageFile(file: File, maxWidth = 1920, quality = 0.85): Promise<File> {
+  // If not a raster image, return original
+  if (!file.type.startsWith("image/") || file.type === "image/svg+xml" || file.type === "image/gif") {
+    return file;
+  }
+
+  return new Promise((resolve) => {
+    const img = new window.Image();
+    const objectUrl = URL.createObjectURL(file);
+
+    img.onload = () => {
+      URL.revokeObjectURL(objectUrl);
+      let { width, height } = img;
+
+      // Scale down proportionally if larger than maxWidth
+      if (width > maxWidth) {
+        height = Math.round((height * maxWidth) / width);
+        width = maxWidth;
+      }
+
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) {
+        resolve(file);
+        return;
+      }
+
+      ctx.drawImage(img, 0, 0, width, height);
+      canvas.toBlob(
+        (blob) => {
+          if (!blob || blob.size >= file.size) {
+            resolve(file);
+          } else {
+            const compressed = new File([blob], file.name.replace(/\.[^.]+$/, ".jpg"), {
+              type: "image/jpeg",
+              lastModified: Date.now(),
+            });
+            resolve(compressed);
+          }
+        },
+        "image/jpeg",
+        quality
+      );
+    };
+
+    img.onerror = () => {
+      URL.revokeObjectURL(objectUrl);
+      resolve(file);
+    };
+
+    img.src = objectUrl;
+  });
+}
+
 export function ImageUploader({
   label,
   sublabel,
@@ -25,74 +82,55 @@ export function ImageUploader({
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const originalFile = e.target.files?.[0];
+    if (!originalFile) return;
 
     setError("");
     setUploading(true);
 
     try {
-      // 1. Try direct upload to Cloudinary (avoids Vercel 4.5MB payload limit)
+      // 1. Automatically compress the image on the client
+      const file = await compressImageFile(originalFile);
+
+      // 2. Request signed token from backend
       const signRes = await fetch("/api/admin/cloudinary-sign", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ folder }),
       });
 
-      if (signRes.ok) {
-        const signData = await signRes.json();
-        if (signData.success && signData.signature && signData.cloudName) {
-          const cloudinaryFormData = new FormData();
-          cloudinaryFormData.append("file", file);
-          cloudinaryFormData.append("api_key", signData.apiKey);
-          cloudinaryFormData.append("timestamp", String(signData.timestamp));
-          cloudinaryFormData.append("signature", signData.signature);
-          cloudinaryFormData.append("folder", signData.folder);
+      if (!signRes.ok) {
+        const signErr = await signRes.json().catch(() => ({}));
+        throw new Error(signErr.error || "Failed to generate upload signature");
+      }
 
-          const directRes = await fetch(
-            `https://api.cloudinary.com/v1_1/${signData.cloudName}/auto/upload`,
-            {
-              method: "POST",
-              body: cloudinaryFormData,
-            }
-          );
+      const signData = await signRes.json();
+      if (!signData.success || !signData.signature || !signData.cloudName) {
+        throw new Error(signData.error || "Invalid upload signature response");
+      }
 
-          if (directRes.ok) {
-            const result = await directRes.json();
-            onChange(result.secure_url);
-            return;
-          }
+      // 3. Direct upload to Cloudinary image/upload endpoint
+      const cloudinaryFormData = new FormData();
+      cloudinaryFormData.append("file", file);
+      cloudinaryFormData.append("api_key", signData.apiKey);
+      cloudinaryFormData.append("timestamp", String(signData.timestamp));
+      cloudinaryFormData.append("signature", signData.signature);
+      cloudinaryFormData.append("folder", signData.folder);
+
+      const directRes = await fetch(
+        `https://api.cloudinary.com/v1_1/${signData.cloudName}/image/upload`,
+        {
+          method: "POST",
+          body: cloudinaryFormData,
         }
+      );
+
+      const result = await directRes.json();
+      if (!directRes.ok || !result.secure_url) {
+        throw new Error(result.error?.message || "Cloudinary image upload failed");
       }
 
-      // 2. Fallback: Proxy upload
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("folder", folder);
-
-      const res = await fetch("/api/admin/upload", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!res.ok) {
-        const text = await res.text();
-        let errMsg = "Failed to upload image";
-        try {
-          const parsed = JSON.parse(text);
-          errMsg = parsed.error || errMsg;
-        } catch {
-          errMsg = `Upload error (${res.status})`;
-        }
-        throw new Error(errMsg);
-      }
-
-      const data = await res.json();
-      if (!data.success) {
-        throw new Error(data.error || "Failed to upload image");
-      }
-
-      onChange(data.url);
+      onChange(result.secure_url);
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Upload failed";
       setError(msg);
@@ -109,10 +147,11 @@ export function ImageUploader({
           {label}
         </label>
         {aspectHint && (
-          <span className="text-[11px] text-gray-500 font-mono">{aspectHint}</span>
+          <span className="rounded bg-white/5 px-2 py-0.5 text-[10px] text-gray-400 font-mono">
+            {aspectHint}
+          </span>
         )}
       </div>
-
       {sublabel && <p className="text-[11px] text-gray-400">{sublabel}</p>}
 
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
@@ -154,7 +193,7 @@ export function ImageUploader({
               onClick={() => inputRef.current?.click()}
               className="rounded-lg border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-white/10 hover:border-white/30 disabled:opacity-50"
             >
-              {uploading ? "Uploading to Cloudinary..." : "Choose Image File"}
+              {uploading ? "Compressing & Uploading..." : "Choose Image File"}
             </button>
             <input
               ref={inputRef}
