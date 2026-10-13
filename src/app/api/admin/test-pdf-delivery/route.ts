@@ -9,38 +9,43 @@ export async function GET() {
   }
 
   try {
-    const existingRawUrl = "https://res.cloudinary.com/dnm67cqe/raw/upload/v1791875525/tuqo/catalogs/jsysceghaapab6di8asp.pdf";
     const publicId = "tuqo/catalogs/jsysceghaapab6di8asp";
 
-    // Method 1: Signed delivery URL
-    const signedRawUrl = cloudinary.url(publicId + ".pdf", {
-      resource_type: "raw",
-      sign_url: true,
-      secure: true,
-    });
+    // Method 3: private_download_url
+    const privateUrl = cloudinary.utils.private_download_url(
+      publicId,
+      "pdf",
+      {
+        resource_type: "raw",
+        type: "upload",
+      }
+    );
 
-    const testSignedRes = await fetch(signedRawUrl);
+    const testPrivateRes = await fetch(privateUrl);
 
-    // Method 2: Test uploading a dummy PDF as resource_type: "image" with format "pdf"
-    const dummyPdf = Buffer.from("%PDF-1.4\n1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj\n2 0 obj<</Type/Pages/Kids[3 0 R]/Count 1>>endobj\n3 0 obj<</Type/Page/MediaBox[0 0 3 3]>>endobj\nxref\n0 4\n0000000000 65535 f\n0000000010 00000 n\n0000000053 00000 n\n0000000102 00000 n\ntrailer<</Size 4/Root 1 0 R>>\nstartxref\n149\n%%EOF");
-    const base64Data = "data:application/pdf;base64," + dummyPdf.toString("base64");
+    // Method 4: Authenticated REST API call
+    const authHeader = Buffer.from(
+      `${process.env.CLOUDINARY_API_KEY}:${process.env.CLOUDINARY_API_SECRET}`
+    ).toString("base64");
 
-    const imgUpload = await cloudinary.uploader.upload(base64Data, {
-      folder: "tuqo/test",
-      resource_type: "image",
-      format: "pdf",
-    });
-
-    const testImgRes = await fetch(imgUpload.secure_url);
+    const apiRes = await fetch(
+      `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/resources/raw/upload/${publicId}`,
+      {
+        headers: {
+          Authorization: `Basic ${authHeader}`,
+        },
+      }
+    );
+    const apiData = await apiRes.json();
 
     return NextResponse.json({
-      method1_signed_raw: {
-        url: signedRawUrl,
-        status: testSignedRes.status,
+      method3_private_download_url: {
+        url: privateUrl,
+        status: testPrivateRes.status,
       },
-      method2_image_pdf: {
-        url: imgUpload.secure_url,
-        status: testImgRes.status,
+      method4_api: {
+        status: apiRes.status,
+        url: apiData.secure_url,
       },
     });
   } catch (error: unknown) {
