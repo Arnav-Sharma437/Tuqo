@@ -10,6 +10,8 @@ export interface Product {
   model: string;
   category: string;
   categorySlug: string;
+  subcategory?: string;
+  subcategorySlug?: string;
   image: string;
   shortDesc: string;
   description: string;

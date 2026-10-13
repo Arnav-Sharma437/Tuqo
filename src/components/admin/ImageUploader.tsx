@@ -32,6 +32,40 @@ export function ImageUploader({
     setUploading(true);
 
     try {
+      // 1. Try direct upload to Cloudinary (avoids Vercel 4.5MB payload limit)
+      const signRes = await fetch("/api/admin/cloudinary-sign", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ folder }),
+      });
+
+      if (signRes.ok) {
+        const signData = await signRes.json();
+        if (signData.success && signData.signature && signData.cloudName) {
+          const cloudinaryFormData = new FormData();
+          cloudinaryFormData.append("file", file);
+          cloudinaryFormData.append("api_key", signData.apiKey);
+          cloudinaryFormData.append("timestamp", String(signData.timestamp));
+          cloudinaryFormData.append("signature", signData.signature);
+          cloudinaryFormData.append("folder", signData.folder);
+
+          const directRes = await fetch(
+            `https://api.cloudinary.com/v1_1/${signData.cloudName}/auto/upload`,
+            {
+              method: "POST",
+              body: cloudinaryFormData,
+            }
+          );
+
+          if (directRes.ok) {
+            const result = await directRes.json();
+            onChange(result.secure_url);
+            return;
+          }
+        }
+      }
+
+      // 2. Fallback: Proxy upload
       const formData = new FormData();
       formData.append("file", file);
       formData.append("folder", folder);
@@ -41,8 +75,20 @@ export function ImageUploader({
         body: formData,
       });
 
+      if (!res.ok) {
+        const text = await res.text();
+        let errMsg = "Failed to upload image";
+        try {
+          const parsed = JSON.parse(text);
+          errMsg = parsed.error || errMsg;
+        } catch {
+          errMsg = `Upload error (${res.status})`;
+        }
+        throw new Error(errMsg);
+      }
+
       const data = await res.json();
-      if (!res.ok || !data.success) {
+      if (!data.success) {
         throw new Error(data.error || "Failed to upload image");
       }
 

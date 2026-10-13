@@ -32,16 +32,50 @@ export function PdfUploader({
       return;
     }
 
-    // 50MB limit check
-    if (file.size > 50 * 1024 * 1024) {
-      setError("File exceeds 50MB limit. Please compress or optimize the PDF.");
-      return;
-    }
-
     setUploading(true);
     setError("");
 
+    // Calculate human-readable size
+    const sizeInMB = (file.size / (1024 * 1024)).toFixed(1);
+    const formattedSize =
+      file.size > 1024 * 1024 ? `${sizeInMB} MB` : `${Math.max(1, Math.round(file.size / 1024))} KB`;
+
     try {
+      // 1. First get a signed token from our backend (avoids sending large file bytes through Vercel serverless)
+      const signRes = await fetch("/api/admin/cloudinary-sign", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ folder }),
+      });
+
+      if (signRes.ok) {
+        const signData = await signRes.json();
+        if (signData.success && signData.signature && signData.cloudName) {
+          // 2. Direct upload to Cloudinary (bypasses Vercel 4.5MB payload limit completely!)
+          const cloudinaryFormData = new FormData();
+          cloudinaryFormData.append("file", file);
+          cloudinaryFormData.append("api_key", signData.apiKey);
+          cloudinaryFormData.append("timestamp", String(signData.timestamp));
+          cloudinaryFormData.append("signature", signData.signature);
+          cloudinaryFormData.append("folder", signData.folder);
+
+          const directRes = await fetch(
+            `https://api.cloudinary.com/v1_1/${signData.cloudName}/auto/upload`,
+            {
+              method: "POST",
+              body: cloudinaryFormData,
+            }
+          );
+
+          if (directRes.ok) {
+            const result = await directRes.json();
+            onChange(result.secure_url, formattedSize);
+            return;
+          }
+        }
+      }
+
+      // 3. Fallback: Proxy upload through API route if direct signing wasn't possible
       const formData = new FormData();
       formData.append("file", file);
       formData.append("folder", folder);
@@ -51,12 +85,28 @@ export function PdfUploader({
         body: formData,
       });
 
+      if (!res.ok) {
+        const text = await res.text();
+        let errMsg = "Failed to upload PDF";
+        try {
+          const parsed = JSON.parse(text);
+          errMsg = parsed.error || errMsg;
+        } catch {
+          if (res.status === 413 || text.includes("Entity Too Large")) {
+            errMsg = "File is too large for proxy. Direct upload will be used.";
+          } else {
+            errMsg = `Upload error (${res.status}): ${text.slice(0, 100)}`;
+          }
+        }
+        throw new Error(errMsg);
+      }
+
       const data = await res.json();
-      if (!res.ok || !data.success) {
+      if (!data.success) {
         throw new Error(data.error || "Failed to upload PDF");
       }
 
-      onChange(data.url, data.fileSize);
+      onChange(data.url, data.fileSize || formattedSize);
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "PDF upload failed";
       setError(msg);
@@ -115,7 +165,7 @@ export function PdfUploader({
               onClick={() => inputRef.current?.click()}
               className="rounded-lg border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-semibold text-gray-200 transition hover:bg-white/10 disabled:opacity-50"
             >
-              {uploading ? "Replacing..." : "Replace PDF"}
+              {uploading ? "Uploading..." : "Replace PDF"}
             </button>
             <button
               type="button"
@@ -147,7 +197,7 @@ export function PdfUploader({
             onClick={() => inputRef.current?.click()}
             className="mt-3 rounded-lg bg-[#d31820] px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-white transition hover:bg-[#b0141b] disabled:opacity-50 shadow-md shadow-red-900/30"
           >
-            {uploading ? "Uploading PDF..." : "Upload PDF Document"}
+            {uploading ? "Uploading PDF directly to Cloudinary..." : "Upload PDF Document"}
           </button>
         </div>
       )}
