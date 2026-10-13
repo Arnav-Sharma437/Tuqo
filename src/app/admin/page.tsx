@@ -2,13 +2,15 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
+import { TuqoLogo } from "@/components/common/TuqoLogo";
 import { BannerManager, BannerItem } from "@/components/admin/BannerManager";
 import { CategoryManager, CategoryItem } from "@/components/admin/CategoryManager";
+import { SubcategoryManager, SubcategoryItem } from "@/components/admin/SubcategoryManager";
 import { ProductManager, ProductItem } from "@/components/admin/ProductManager";
+import { CatalogManager, CatalogItem } from "@/components/admin/CatalogManager";
 
-type TabType = "banners" | "categories" | "products";
+type TabType = "banners" | "categories" | "subcategories" | "products" | "catalogs";
 
 export default function AdminDashboardPage() {
   const router = useRouter();
@@ -20,7 +22,9 @@ export default function AdminDashboardPage() {
 
   const [banners, setBanners] = useState<BannerItem[]>([]);
   const [categories, setCategories] = useState<CategoryItem[]>([]);
+  const [subcategories, setSubcategories] = useState<SubcategoryItem[]>([]);
   const [products, setProducts] = useState<ProductItem[]>([]);
+  const [catalogs, setCatalogs] = useState<CatalogItem[]>([]);
 
   const showNotification = (message: string, type: "success" | "error" = "success") => {
     setNotification({ message, type });
@@ -48,10 +52,12 @@ export default function AdminDashboardPage() {
   const fetchData = useCallback(async () => {
     setRefreshing(true);
     try {
-      const [bannersRes, catRes, prodRes] = await Promise.all([
+      const [bannersRes, catRes, subcatRes, prodRes, catlogRes] = await Promise.all([
         fetch("/api/admin/banners"),
         fetch("/api/admin/categories"),
+        fetch("/api/admin/subcategories"),
         fetch("/api/admin/products"),
+        fetch("/api/admin/catalogs"),
       ]);
 
       if (bannersRes.ok) {
@@ -62,9 +68,17 @@ export default function AdminDashboardPage() {
         const c = await catRes.json();
         setCategories(c.categories || []);
       }
+      if (subcatRes.ok) {
+        const s = await subcatRes.json();
+        setSubcategories(s.subcategories || []);
+      }
       if (prodRes.ok) {
         const p = await prodRes.json();
         setProducts(p.products || []);
+      }
+      if (catlogRes.ok) {
+        const cl = await catlogRes.json();
+        setCatalogs(cl.catalogs || []);
       }
     } catch (err) {
       console.error("Failed to load dashboard data:", err);
@@ -122,20 +136,14 @@ export default function AdminDashboardPage() {
       <header className="sticky top-0 z-40 border-b border-white/10 bg-[#121418]/95 backdrop-blur-md">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
           <div className="flex items-center gap-6">
-            <Link href="/" className="flex items-center gap-2">
-              <Image
-                src="/images/logo.png"
-                alt="TUQO"
-                width={100}
-                height={30}
-                className="h-7 w-auto"
-              />
+            <Link href="/" className="flex items-center gap-2.5">
+              <TuqoLogo variant="white" width={110} />
               <span className="rounded bg-[#d31820] px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
                 CMS
               </span>
             </Link>
 
-            <nav className="hidden sm:flex items-center gap-1">
+            <nav className="hidden lg:flex items-center gap-1">
               <button
                 onClick={() => setActiveTab("banners")}
                 className={`rounded-lg px-3 py-1.5 text-xs font-bold uppercase tracking-wider transition ${
@@ -157,6 +165,16 @@ export default function AdminDashboardPage() {
                 Categories ({categories.length})
               </button>
               <button
+                onClick={() => setActiveTab("subcategories")}
+                className={`rounded-lg px-3 py-1.5 text-xs font-bold uppercase tracking-wider transition ${
+                  activeTab === "subcategories"
+                    ? "bg-[#d31820] text-white shadow-md shadow-red-900/30"
+                    : "text-gray-400 hover:text-white"
+                }`}
+              >
+                Subcategories ({subcategories.length})
+              </button>
+              <button
                 onClick={() => setActiveTab("products")}
                 className={`rounded-lg px-3 py-1.5 text-xs font-bold uppercase tracking-wider transition ${
                   activeTab === "products"
@@ -165,6 +183,16 @@ export default function AdminDashboardPage() {
                 }`}
               >
                 Products ({products.length})
+              </button>
+              <button
+                onClick={() => setActiveTab("catalogs")}
+                className={`rounded-lg px-3 py-1.5 text-xs font-bold uppercase tracking-wider transition ${
+                  activeTab === "catalogs"
+                    ? "bg-[#d31820] text-white shadow-md shadow-red-900/30"
+                    : "text-gray-400 hover:text-white"
+                }`}
+              >
+                E-Catalog ({catalogs.length})
               </button>
             </nav>
           </div>
@@ -202,8 +230,8 @@ export default function AdminDashboardPage() {
           </div>
         </div>
 
-        {/* Mobile Navigation Pills */}
-        <div className="flex sm:hidden border-t border-white/5 px-4 py-2 gap-2 overflow-x-auto">
+        {/* Secondary / Mobile Navigation Bar */}
+        <div className="flex lg:hidden border-t border-white/5 px-4 py-2 gap-2 overflow-x-auto scrollbar-none">
           <button
             onClick={() => setActiveTab("banners")}
             className={`rounded-lg px-3 py-1 text-xs font-bold whitespace-nowrap ${
@@ -221,12 +249,28 @@ export default function AdminDashboardPage() {
             Categories ({categories.length})
           </button>
           <button
+            onClick={() => setActiveTab("subcategories")}
+            className={`rounded-lg px-3 py-1 text-xs font-bold whitespace-nowrap ${
+              activeTab === "subcategories" ? "bg-[#d31820] text-white" : "text-gray-400"
+            }`}
+          >
+            Subcategories ({subcategories.length})
+          </button>
+          <button
             onClick={() => setActiveTab("products")}
             className={`rounded-lg px-3 py-1 text-xs font-bold whitespace-nowrap ${
               activeTab === "products" ? "bg-[#d31820] text-white" : "text-gray-400"
             }`}
           >
             Products ({products.length})
+          </button>
+          <button
+            onClick={() => setActiveTab("catalogs")}
+            className={`rounded-lg px-3 py-1 text-xs font-bold whitespace-nowrap ${
+              activeTab === "catalogs" ? "bg-[#d31820] text-white" : "text-gray-400"
+            }`}
+          >
+            E-Catalog ({catalogs.length})
           </button>
         </div>
       </header>
@@ -251,13 +295,33 @@ export default function AdminDashboardPage() {
             }}
           />
         )}
+        {activeTab === "subcategories" && (
+          <SubcategoryManager
+            subcategories={subcategories}
+            categories={categories}
+            onRefresh={() => {
+              fetchData();
+              showNotification("Subcategory updated successfully");
+            }}
+          />
+        )}
         {activeTab === "products" && (
           <ProductManager
             products={products}
             categories={categories}
+            subcategories={subcategories}
             onRefresh={() => {
               fetchData();
               showNotification("Product catalog updated successfully");
+            }}
+          />
+        )}
+        {activeTab === "catalogs" && (
+          <CatalogManager
+            catalogs={catalogs}
+            onRefresh={() => {
+              fetchData();
+              showNotification("Catalogue updated successfully");
             }}
           />
         )}

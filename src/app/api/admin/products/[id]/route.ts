@@ -28,6 +28,8 @@ export async function PUT(
         model: data.model,
         category: data.category,
         categorySlug: data.categorySlug,
+        subcategory: data.subcategory || "",
+        subcategorySlug: data.subcategorySlug || "",
         image: data.image,
         images: Array.isArray(data.images) ? data.images : [],
         shortDesc: data.shortDesc,

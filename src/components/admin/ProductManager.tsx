@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { ImageUploader } from "./ImageUploader";
 import { CategoryItem } from "./CategoryManager";
+import { SubcategoryItem } from "./SubcategoryManager";
 
 export interface ProductSpecItem {
   label: string;
@@ -17,6 +18,8 @@ export interface ProductItem {
   model: string;
   category: string;
   categorySlug: string;
+  subcategory?: string;
+  subcategorySlug?: string;
   image: string;
   shortDesc: string;
   description: string;
@@ -32,12 +35,14 @@ export interface ProductItem {
 interface ProductManagerProps {
   products: ProductItem[];
   categories: CategoryItem[];
+  subcategories?: SubcategoryItem[];
   onRefresh: () => void;
 }
 
 export function ProductManager({
   products,
   categories,
+  subcategories = [],
   onRefresh,
 }: ProductManagerProps) {
   const [editingProduct, setEditingProduct] = useState<ProductItem | null>(null);
@@ -52,6 +57,8 @@ export function ProductManager({
     model: "",
     category: categories[0]?.name || "High Pressure Washer",
     categorySlug: categories[0]?.slug || "high-pressure-washer",
+    subcategory: "",
+    subcategorySlug: "",
     image: "",
     shortDesc: "",
     description: "",
@@ -69,6 +76,8 @@ export function ProductManager({
       ...initialProduct,
       category: categories[0]?.name || "High Pressure Washer",
       categorySlug: categories[0]?.slug || "high-pressure-washer",
+      subcategory: "",
+      subcategorySlug: "",
     });
     setIsCreating(true);
     setError("");
@@ -101,6 +110,8 @@ export function ProductManager({
         ...editingProduct,
         category: found.name,
         categorySlug: found.slug,
+        subcategory: "",
+        subcategorySlug: "",
       });
     }
   };
@@ -327,7 +338,7 @@ export function ProductManager({
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div>
               <label className="block text-xs font-semibold uppercase tracking-wider text-gray-300">
                 Category *
@@ -347,6 +358,36 @@ export function ProductManager({
 
             <div>
               <label className="block text-xs font-semibold uppercase tracking-wider text-gray-300">
+                Subcategory (Optional)
+              </label>
+              <select
+                value={editingProduct.subcategorySlug || ""}
+                onChange={(e) => {
+                  const slug = e.target.value;
+                  const matched = subcategories.find(
+                    (s) => s.categorySlug === editingProduct.categorySlug && s.slug === slug
+                  );
+                  setEditingProduct({
+                    ...editingProduct,
+                    subcategorySlug: slug,
+                    subcategory: matched ? matched.name : "",
+                  });
+                }}
+                className="mt-1.5 w-full rounded-xl border border-white/10 bg-[#181a20] px-4 py-2.5 text-xs text-white focus:border-[#d31820] focus:outline-none"
+              >
+                <option value="">None / General</option>
+                {subcategories
+                  .filter((s) => s.categorySlug === editingProduct.categorySlug)
+                  .map((s) => (
+                    <option key={s.slug} value={s.slug}>
+                      {s.name}
+                    </option>
+                  ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold uppercase tracking-wider text-gray-300">
                 URL Slug *
               </label>
               <input
@@ -357,7 +398,7 @@ export function ProductManager({
                 }
                 placeholder="high-pressure-washer-180"
                 required
-                className="mt-1.5 w-full rounded-xl border border-white/10 bg-[#181a20] px-4 py-2.5 text-xs text-white placeholder-gray-500 focus:border-[#d31820] focus:outline-none"
+                className="mt-1.5 w-full rounded-xl border border-white/10 bg-[#181a20] px-4 py-2.5 text-xs text-white placeholder-gray-500 focus:border-[#d31820] focus:outline-none font-mono"
               />
             </div>
 
@@ -648,7 +689,12 @@ export function ProductManager({
                 </div>
 
                 <div className="flex items-center justify-between text-[11px] text-[#d31820] font-semibold uppercase tracking-wider">
-                  <span>{p.category}</span>
+                  <div className="flex items-center gap-1.5 truncate">
+                    <span>{p.category}</span>
+                    {p.subcategory && (
+                      <span className="text-gray-400 font-normal">/ {p.subcategory}</span>
+                    )}
+                  </div>
                   {p.model && <span className="font-mono text-gray-400">{p.model}</span>}
                 </div>
 

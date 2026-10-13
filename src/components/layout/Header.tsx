@@ -24,14 +24,12 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full bg-white text-[#111214] shadow-[0_2px_12px_rgba(0,0,0,0.08)]">
       <div className="border-b border-gray-100 bg-white">
         <div className="mx-auto flex min-h-[76px] max-w-[1500px] items-center gap-5 px-5 sm:px-8 lg:px-10">
-          {/* Logo */}
+          {/* Logo - Black logo on light header */}
           <Link
             href="/"
-            className="flex shrink-0 items-center transition-opacity duration-200 hover:opacity-80"
+            className="flex shrink-0 items-center py-2 transition-opacity duration-200 hover:opacity-85"
           >
-            <div className="rounded-sm bg-[#111214] px-3 py-2">
-              <TuqoLogo variant="white" />
-            </div>
+            <TuqoLogo variant="black" width={155} priority />
           </Link>
 
           {/* Desktop Navigation */}

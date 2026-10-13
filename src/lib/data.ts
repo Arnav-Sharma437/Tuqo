@@ -2,6 +2,8 @@ import connectToDatabase from "@/lib/db/mongodb";
 import Banner, { IBanner } from "@/models/Banner";
 import Category, { ICategory } from "@/models/Category";
 import Product, { IProduct } from "@/models/Product";
+import Catalog, { ICatalog } from "@/models/Catalog";
+import Subcategory, { ISubcategory } from "@/models/Subcategory";
 import { CATEGORIES as STATIC_CATEGORIES } from "@/constants";
 import { ALL_PRODUCTS, Product as StaticProduct } from "@/constants/products";
 
@@ -183,4 +185,106 @@ export async function getLiveProductBySlug(slug: string): Promise<StaticProduct 
 
   const staticProduct = ALL_PRODUCTS.find((p) => p.slug === slug);
   return staticProduct || null;
+}
+
+export interface UnifiedCatalog {
+  id: string;
+  title: string;
+  description?: string;
+  pdfUrl?: string;
+  coverImage?: string;
+  fileSize?: string;
+  category?: string;
+  order: number;
+}
+
+// 5. Fetch live E-Catalogues from MongoDB
+export async function getLiveCatalogs(): Promise<UnifiedCatalog[]> {
+  try {
+    await connectToDatabase();
+    const docs = await Catalog.find({ active: true }).sort({ order: 1, createdAt: 1 }).lean();
+    if (docs && docs.length > 0) {
+      return (docs as any[]).map((d) => ({
+        id: String(d._id),
+        title: d.title,
+        description: d.description || "",
+        pdfUrl: d.pdfUrl || "",
+        coverImage: d.coverImage || "",
+        fileSize: d.fileSize || "",
+        category: d.category || "General",
+        order: d.order || 0,
+      }));
+    }
+  } catch (err) {
+    console.error("Failed to load catalogs from DB:", err);
+  }
+
+  // Fallback defaults
+  return [
+    {
+      id: "product-catalog",
+      title: "TUQO PRODUCT CATALOG 2025",
+      description: "Complete range of professional machinery, high pressure washers, air compressors and power tools.",
+      coverImage: "/images/hero-banner-bg.png",
+      category: "Machinery & Power Tools",
+      pdfUrl: "",
+      order: 1,
+    },
+    {
+      id: "cleaning-accessories",
+      title: "TUQO CLEANING EQUIPMENT ACCESSORIES 2025",
+      description: "Explore our range of high pressure washer accessories, cleaning equipment and car detailing products.",
+      coverImage: "/images/cat-accessories.png",
+      category: "Accessories",
+      pdfUrl: "",
+      order: 2,
+    },
+    {
+      id: "auto-detailing",
+      title: "TUQO AUTO DETAILING AND CLEANING 2025",
+      description: "Discover our professional auto detailing and vehicle cleaning equipment range.",
+      coverImage: "/images/cat-foam-dispenser.png",
+      category: "Auto Detailing",
+      pdfUrl: "",
+      order: 3,
+    },
+  ];
+}
+
+export interface UnifiedSubcategory {
+  id: string;
+  name: string;
+  slug: string;
+  categorySlug: string;
+  categoryName: string;
+  image?: string;
+  description?: string;
+  order: number;
+}
+
+// 6. Fetch live Subcategories from MongoDB
+export async function getLiveSubcategories(categorySlug?: string): Promise<UnifiedSubcategory[]> {
+  try {
+    await connectToDatabase();
+    const query: any = { active: true };
+    if (categorySlug) {
+      query.categorySlug = categorySlug;
+    }
+    const docs = await Subcategory.find(query).sort({ order: 1, createdAt: 1 }).lean();
+    if (docs) {
+      return (docs as any[]).map((d) => ({
+        id: String(d._id),
+        name: d.name,
+        slug: d.slug,
+        categorySlug: d.categorySlug,
+        categoryName: d.categoryName,
+        image: d.image || "",
+        description: d.description || "",
+        order: d.order || 0,
+      }));
+    }
+  } catch (err) {
+    console.error("Failed to load subcategories from DB:", err);
+  }
+  return [];
 }

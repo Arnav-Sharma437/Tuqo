@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getLiveCategories, getLiveProducts } from "@/lib/data";
+import { getLiveCategories, getLiveProducts, getLiveSubcategories } from "@/lib/data";
 import { ArrowRightIcon } from "@/components/common/Icons";
 
 export const dynamic = "force-dynamic";
@@ -36,6 +36,7 @@ export default async function DynamicCategoryPage({
   }
 
   const products = await getLiveProducts(slug);
+  const subcategories = await getLiveSubcategories(slug);
 
   return (
     <main className="min-h-screen bg-[#f8f9fc] text-[#111214]">
@@ -84,6 +85,33 @@ export default async function DynamicCategoryPage({
             </h2>
           </div>
         </div>
+
+        {subcategories.length > 0 && (
+          <div className="mb-8 flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+            <span className="text-xs font-bold text-gray-500 uppercase tracking-wider mr-1">
+              Subcategories:
+            </span>
+            {subcategories.map((sub) => (
+              <span
+                key={sub.id}
+                className="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs font-bold text-gray-800 shadow-sm transition hover:border-[#e21b23] hover:text-[#e21b23]"
+              >
+                {sub.image && (
+                  <span className="relative h-4 w-4 overflow-hidden rounded">
+                    <Image
+                      src={sub.image}
+                      alt={sub.name}
+                      fill
+                      unoptimized={sub.image.startsWith("http")}
+                      className="object-contain"
+                    />
+                  </span>
+                )}
+                <span>{sub.name}</span>
+              </span>
+            ))}
+          </div>
+        )}
 
         {products.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-gray-300 bg-white p-12 text-center text-gray-500">

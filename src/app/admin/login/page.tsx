@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import { TuqoLogo } from "@/components/common/TuqoLogo";
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -44,15 +45,8 @@ export default function AdminLoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-[#0a0a0c] px-4 py-12 text-white">
       <div className="w-full max-w-md space-y-8 rounded-2xl border border-white/10 bg-[#121418] p-8 shadow-2xl">
         <div className="text-center">
-          <Link href="/" className="inline-block transition hover:opacity-80">
-            <Image
-              src="/images/logo.png"
-              alt="TUQO"
-              width={130}
-              height={40}
-              className="mx-auto h-10 w-auto"
-              priority
-            />
+          <Link href="/" className="inline-block transition hover:opacity-85">
+            <TuqoLogo variant="white" width={160} priority />
           </Link>
           <div className="mt-4 flex items-center justify-center gap-2">
             <span className="h-1.5 w-1.5 rounded-full bg-[#d31820]" />
