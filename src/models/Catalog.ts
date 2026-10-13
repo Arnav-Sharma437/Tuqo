@@ -17,7 +17,7 @@ const CatalogSchema = new Schema<ICatalog>(
   {
     title: { type: String, required: true },
     description: { type: String, default: "" },
-    pdfUrl: { type: String, required: true },
+    pdfUrl: { type: String, default: "" },
     coverImage: { type: String, default: "" },
     fileSize: { type: String, default: "" },
     category: { type: String, default: "General" },
