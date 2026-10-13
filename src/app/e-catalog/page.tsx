@@ -14,21 +14,22 @@ export const metadata = {
 
 function DownloadButton({
   pdfUrl,
-  fileSize,
-  title,
+  id,
 }: {
   pdfUrl?: string;
   fileSize?: string;
   title: string;
+  id?: string;
 }) {
   if (pdfUrl) {
+    const downloadHref = id ? `/api/catalogs/${id}/download` : pdfUrl;
     return (
       <a
-        href={pdfUrl}
+        href={downloadHref}
         target="_blank"
         rel="noopener noreferrer"
         download
-        className="mt-4 inline-flex h-11 w-full max-w-[270px] items-center justify-center gap-2 bg-[#e21b23] px-5 text-sm font-bold text-white transition hover:bg-[#b8141a] shadow-lg shadow-red-900/20 rounded-sm"
+        className="mt-4 inline-flex h-11 w-full max-w-[260px] items-center justify-center gap-2.5 bg-[#e21b23] px-6 text-sm font-bold text-white transition hover:bg-[#b8141a] shadow-lg shadow-red-900/20 rounded-sm"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -46,7 +47,7 @@ function DownloadButton({
           <path d="M14 2v6h6" />
           <path d="M8 13h8M8 17h5" />
         </svg>
-        <span>Download PDF {fileSize ? `(${fileSize})` : ""}</span>
+        <span>Download PDF</span>
       </a>
     );
   }
@@ -104,8 +105,8 @@ function CatalogueCard({ catalogue }: { catalogue: UnifiedCatalog }) {
         )}
 
         <DownloadButton
+          id={catalogue.id}
           pdfUrl={catalogue.pdfUrl}
-          fileSize={catalogue.fileSize}
           title={catalogue.title}
         />
       </div>
