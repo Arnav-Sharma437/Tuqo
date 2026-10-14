@@ -1,4 +1,3 @@
-```tsx
 import React from "react";
 import Link from "next/link";
 
@@ -14,34 +13,32 @@ export default function AboutPage() {
 
   return (
     <main className="w-full bg-white text-[#111214]">
-      ```tsx
-{/* PAGE BANNER - SAME AS CONTACT PAGE */}
-<section className="w-full bg-[#cf0000] px-5 py-12 text-white sm:px-8 sm:py-14 lg:px-10">
-  <div className="mx-auto max-w-[1400px]">
-    <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
-      About TUQO Tools
-    </h1>
+      {/* PAGE BANNER */}
+      <section className="w-full bg-[#cf0000] px-5 py-12 text-white sm:px-8 sm:py-14 lg:px-10">
+        <div className="mx-auto max-w-[1400px]">
+          <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
+            About TUQO Tools
+          </h1>
 
-    <nav
-      aria-label="Breadcrumb"
-      className="mt-3 flex items-center gap-3 text-sm"
-    >
-      <Link
-        href="/"
-        className="text-white transition-opacity hover:opacity-80"
-      >
-        Home
-      </Link>
+          <nav
+            aria-label="Breadcrumb"
+            className="mt-3 flex items-center gap-3 text-sm"
+          >
+            <Link
+              href="/"
+              className="text-white transition-opacity hover:opacity-80"
+            >
+              Home
+            </Link>
 
-      <span aria-hidden="true" className="text-white/80">
-        ›
-      </span>
+            <span aria-hidden="true" className="text-white/80">
+              ›
+            </span>
 
-      <span className="text-white/80">About Us</span>
-    </nav>
-  </div>
-</section>
-```
+            <span className="text-white/80">About Us</span>
+          </nav>
+        </div>
+      </section>
 
       {/* OUR STORY */}
       <section
@@ -107,10 +104,10 @@ export default function AboutPage() {
               </h3>
 
               <p className="mx-auto mt-4 max-w-md text-sm leading-7 text-white/90 sm:text-base">
-                Tugo Tools started as a small family-owned business with a
-                passion for providing high-quality machinery to companies in
-                the area. Over the years, we have grown into a leading
-                machinery supplier with a reputation for excellence.
+                TUQO Tools started as a focused machinery business with a
+                passion for providing high-quality equipment to workshops and industries.
+                Over the years, we have grown into a trusted equipment supplier with a
+                reputation for durability and performance.
               </p>
             </div>
 
@@ -120,9 +117,9 @@ export default function AboutPage() {
               </h3>
 
               <p className="mx-auto mt-4 max-w-md text-sm leading-7 text-white/90 sm:text-base">
-                We specialize in providing machinery for the manufacturing,
-                construction, and industrial sectors. Our products include
-                everything from heavy machines to DIY tools.
+                We specialize in machinery and equipment for automotive workshops,
+                cleaning &amp; detailing, construction, and manufacturing units. Our products include
+                high-pressure washers, air compressors, industrial vacuum cleaners, and accessories.
               </p>
             </div>
 
@@ -132,10 +129,9 @@ export default function AboutPage() {
               </h3>
 
               <p className="mx-auto mt-4 max-w-md text-sm leading-7 text-white/90 sm:text-base">
-                At Tugo Tools, we offer a range of services to ensure that your
-                machinery stays in top condition. Our team of experienced
-                technicians can provide maintenance, repairs, and even custom
-                fabrication to meet your unique needs.
+                At TUQO Tools, we offer dedicated technical support to ensure that your
+                machinery stays in top operating condition. Our team provides genuine spare
+                parts, maintenance advice, and prompt pan-India service assistance.
               </p>
             </div>
           </div>
@@ -182,4 +178,3 @@ export default function AboutPage() {
     </main>
   );
 }
-```

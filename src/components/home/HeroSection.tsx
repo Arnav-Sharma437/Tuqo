@@ -81,7 +81,7 @@ export function HeroSection({
       <div className="absolute inset-0 z-0">
         {banners.map((slide, index) => (
           <div
-            key={slide._id || ${slide.desktopImage}-${index}}
+            key={slide._id || `${slide.desktopImage}-${index}`}
             className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
               activeSlide === index ? "opacity-100" : "opacity-0"
             }`}
@@ -182,7 +182,7 @@ export function HeroSection({
                       ? "w-8 bg-[#e21b23]"
                       : "w-2 bg-white/40 hover:bg-white/80"
                   }`}
-                  aria-label={Go to slide ${idx + 1}}
+                  aria-label={`Go to slide ${idx + 1}`}
                 />
               ))}
             </div>
