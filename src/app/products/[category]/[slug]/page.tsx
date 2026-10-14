@@ -122,9 +122,9 @@ export default async function ProductDetailPage({
             <div className="lg:col-span-7 flex flex-col justify-between">
               <div>
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#e21b23]">
-                    MODEL: {product.model}
-                  </span>
+                  <span className="text-sm sm:text-base font-black uppercase tracking-[0.2em] text-[#e21b23]">
+  MODEL: {product.model}
+</span>
                 </div>
 
                 <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tight text-[#111214] leading-tight">
