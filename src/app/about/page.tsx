@@ -73,15 +73,7 @@ export default function AboutPage() {
             </div>
 
             <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-2 text-[9px] font-bold uppercase tracking-[0.15em] text-gray-500">
-              <span>Professional Equipment</span>
-
-              <span className="h-1 w-1 rounded-full bg-[#e21b23]" />
-
-              <span>Genuine Products</span>
-
-              <span className="h-1 w-1 rounded-full bg-[#e21b23]" />
-
-              <span>Technical Support</span>
+              
             </div>
 
           </div>
