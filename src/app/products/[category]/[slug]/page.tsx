@@ -112,7 +112,7 @@ export default async function ProductDetailPage({
                     fill
                     priority
                     sizes="(max-width: 768px) 100vw, 400px"
-                    className="object-cover w-full h-full"
+                   className="object-contain w-full h-full scale-110"
                   />
                 </div>
               </div>
