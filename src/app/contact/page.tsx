@@ -4,9 +4,9 @@ import React from "react";
 import Image from "next/image";
 import { APP_CONFIG } from "@/constants";
 import {
-  PhoneIcon,
   MapPinIcon,
   ClockIcon,
+  PhoneIcon,
   WhatsAppIcon,
   ArrowRightIcon,
 } from "@/components/common/Icons";
@@ -190,272 +190,111 @@ export default function ContactPage() {
 
 
       {/* =========================================================
-          CONTACT INFORMATION + FORM
+          WORKING HOURS
       ========================================================= */}
-      <section className="w-full bg-[#f7f7f7] py-14 sm:py-16 lg:py-20">
-
+      <section className="w-full bg-[#f7f7f7] py-10 sm:py-12 lg:py-14">
         <div className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-10">
-
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
-
-            {/* LEFT SIDE */}
-            <div className="lg:col-span-5">
-
-              {/* WORKING HOURS */}
-              <div className="border border-gray-200 bg-white p-6 sm:p-7">
-
-                <div className="mb-5 flex items-center gap-4 border-b border-gray-100 pb-5">
-
-                  <div className="flex h-12 w-12 items-center justify-center bg-[#e21b23] text-white">
-                    <ClockIcon className="h-5 w-5" />
-                  </div>
-
-                  <div>
-
-                    <span className="text-[9px] font-extrabold uppercase tracking-wider text-[#e21b23]">
-                      OUR SCHEDULE
-                    </span>
-
-                    <h3 className="mt-1 text-xl font-black uppercase text-[#111214]">
-                      WORKING HOURS
-                    </h3>
-
-                  </div>
-
-                </div>
-
-                <div className="divide-y divide-gray-100">
-
-                  {APP_CONFIG.businessHours.map((item) => {
-
-                    const isClosed = item.hours === "Closed";
-
-                    return (
-                      <div
-                        key={item.day}
-                        className="flex items-center justify-between py-3"
-                      >
-
-                        <span className="text-xs font-bold text-gray-700 sm:text-sm">
-                          {item.day}
-                        </span>
-
-                        <span
-                          className={`text-xs font-bold sm:text-sm ${
-                            isClosed
-                              ? "text-[#e21b23]"
-                              : "text-gray-900"
-                          }`}
-                        >
-                          {item.hours}
-                        </span>
-
-                      </div>
-                    );
-
-                  })}
-
-                </div>
-
+          <div className="mx-auto max-w-[900px] border border-gray-200 bg-white p-6 sm:p-8">
+            <div className="mb-5 flex items-center gap-4 border-b border-gray-100 pb-5">
+              <div className="flex h-12 w-12 items-center justify-center bg-[#e21b23] text-white">
+                <ClockIcon className="h-5 w-5" />
               </div>
-
+              <div>
+                <span className="text-[9px] font-extrabold uppercase tracking-wider text-[#e21b23]">
+                  OUR SCHEDULE
+                </span>
+                <h2 className="mt-1 text-xl font-black uppercase text-[#111214] sm:text-2xl">
+                  WORKING HOURS
+                </h2>
+              </div>
             </div>
-
-
-            {/* RIGHT SIDE - FORM */}
-            <div className="lg:col-span-7">
-
-              <div className="border border-gray-200 bg-white p-6 sm:p-8 lg:p-10">
-
-                <div className="mb-7">
-
-                  <div className="mb-2 flex items-center gap-2">
-                    <span className="h-[3px] w-7 bg-[#e21b23]" />
-
-                    <span className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#e21b23]">
-                      SEND A MESSAGE
+            <div className="divide-y divide-gray-100">
+              {APP_CONFIG.businessHours.map((item) => {
+                const isClosed = item.hours === "Closed";
+                return (
+                  <div key={item.day} className="flex items-center justify-between py-3">
+                    <span className="text-sm font-bold text-gray-700">{item.day}</span>
+                    <span className={`text-sm font-bold ${isClosed ? "text-[#e21b23]" : "text-gray-900"}`}>
+                      {item.hours}
                     </span>
                   </div>
-
-                  <h2 className="text-3xl font-black uppercase text-[#111214] sm:text-4xl">
-                    CONTACT FORM
-                  </h2>
-
-                  <p className="mt-3 text-sm text-gray-500">
-                    Fill out the form below and our team will get back to you
-                    shortly.
-                  </p>
-
-                </div>
-
-
-                <form className="space-y-5">
-
-                  {/* NAME */}
-                  <div>
-
-                    <label className="mb-2 block text-[10px] font-extrabold uppercase tracking-wide text-gray-700">
-                      Full Name *
-                    </label>
-
-                    <input
-                      type="text"
-                      placeholder="Enter your name"
-                      className="h-12 w-full border border-gray-300 bg-white px-4 text-sm outline-none transition-all focus:border-[#e21b23] focus:ring-1 focus:ring-[#e21b23]"
-                    />
-
-                  </div>
-
-
-                  {/* PHONE */}
-                  <div>
-
-                    <label className="mb-2 block text-[10px] font-extrabold uppercase tracking-wide text-gray-700">
-                      Phone Number *
-                    </label>
-
-                    <input
-                      type="tel"
-                      placeholder="Enter your phone number"
-                      className="h-12 w-full border border-gray-300 bg-white px-4 text-sm outline-none transition-all focus:border-[#e21b23] focus:ring-1 focus:ring-[#e21b23]"
-                    />
-
-                  </div>
-
-
-                  {/* EMAIL */}
-                  <div>
-
-                    <label className="mb-2 block text-[10px] font-extrabold uppercase tracking-wide text-gray-700">
-                      Email Address
-                    </label>
-
-                    <input
-                      type="email"
-                      placeholder="Enter your email address"
-                      className="h-12 w-full border border-gray-300 bg-white px-4 text-sm outline-none transition-all focus:border-[#e21b23] focus:ring-1 focus:ring-[#e21b23]"
-                    />
-
-                  </div>
-
-
-                  {/* ENQUIRY TYPE */}
-                  <div>
-
-                    <label className="mb-2 block text-[10px] font-extrabold uppercase tracking-wide text-gray-700">
-                      Enquiry Type *
-                    </label>
-
-                    <select
-                      defaultValue="Product Information"
-                      className="h-12 w-full border border-gray-300 bg-white px-4 text-sm outline-none transition-all focus:border-[#e21b23] focus:ring-1 focus:ring-[#e21b23]"
-                    >
-                      <option>Product Information</option>
-                      <option>Price / Quotation</option>
-                      <option>Technical Support</option>
-                      <option>Service & Repair</option>
-                      <option>Dealer Enquiry</option>
-                      <option>Other</option>
-                    </select>
-
-                  </div>
-
-
-                  {/* MESSAGE */}
-                  <div>
-
-                    <label className="mb-2 block text-[10px] font-extrabold uppercase tracking-wide text-gray-700">
-                      Message *
-                    </label>
-
-                    <textarea
-                      rows={6}
-                      placeholder="How can we help you?"
-                      className="w-full resize-none border border-gray-300 bg-white px-4 py-4 text-sm outline-none transition-all focus:border-[#e21b23] focus:ring-1 focus:ring-[#e21b23]"
-                    />
-
-                  </div>
-
-
-                  {/* SUBMIT */}
-                  <button
-                    type="submit"
-                    className="group flex h-12 w-full items-center justify-center gap-2 bg-[#e21b23] text-xs font-extrabold uppercase tracking-wider text-white transition-all duration-300 hover:bg-[#b8141a] hover:shadow-lg"
-                  >
-                    Send Enquiry
-
-                    <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </button>
-
-                </form>
-
-              </div>
-
+                );
+              })}
             </div>
-
           </div>
-
         </div>
-
       </section>
-
 
       {/* =========================================================
-          FINAL CTA
+          CONTACT FORM
       ========================================================= */}
-      <section className="relative overflow-hidden bg-[#08090b] py-14 text-white sm:py-16">
-
-        <div className="pointer-events-none absolute right-0 top-0 h-full w-1/3 bg-gradient-to-l from-[#e21b23]/20 to-transparent" />
-
-        <div className="relative mx-auto flex max-w-[1400px] flex-col items-center justify-between gap-7 px-5 sm:px-8 lg:flex-row lg:px-10">
-
-          <div>
-
-            <div className="mb-2 flex items-center gap-2">
-              <span className="h-[3px] w-7 bg-[#e21b23]" />
-
-              <span className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#e21b23]">
-                STILL HAVE QUESTIONS?
-              </span>
+      <section className="w-full bg-[#f7f7f7] pb-14 sm:pb-16 lg:pb-20">
+        <div className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-10">
+          <div className="mx-auto max-w-[900px]">
+            <div className="border border-gray-200 bg-white p-6 sm:p-8 lg:p-10">
+              <div className="mb-7">
+                <div className="mb-2 flex items-center gap-2">
+                  <span className="h-[3px] w-7 bg-[#e21b23]" />
+                  <span className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#e21b23]">
+                    SEND A MESSAGE
+                  </span>
+                </div>
+                <h2 className="text-3xl font-black uppercase text-[#111214] sm:text-4xl">
+                  CONTACT FORM
+                </h2>
+                <p className="mt-3 text-sm text-gray-500">
+                  Fill out the form below and our team will get back to you shortly.
+                </p>
+              </div>
+              <form className="space-y-5">
+                <div>
+                  <label className="mb-2 block text-[10px] font-extrabold uppercase tracking-wide text-gray-700">
+                    Full Name *
+                  </label>
+                  <input type="text" placeholder="Enter your name" required className="h-12 w-full border border-gray-300 bg-white px-4 text-sm outline-none transition-all focus:border-[#e21b23] focus:ring-1 focus:ring-[#e21b23]" />
+                </div>
+                <div>
+                  <label className="mb-2 block text-[10px] font-extrabold uppercase tracking-wide text-gray-700">
+                    Phone Number *
+                  </label>
+                  <input type="tel" placeholder="Enter your phone number" required className="h-12 w-full border border-gray-300 bg-white px-4 text-sm outline-none transition-all focus:border-[#e21b23] focus:ring-1 focus:ring-[#e21b23]" />
+                </div>
+                <div>
+                  <label className="mb-2 block text-[10px] font-extrabold uppercase tracking-wide text-gray-700">
+                    Email Address
+                  </label>
+                  <input type="email" placeholder="Enter your email address" className="h-12 w-full border border-gray-300 bg-white px-4 text-sm outline-none transition-all focus:border-[#e21b23] focus:ring-1 focus:ring-[#e21b23]" />
+                </div>
+                <div>
+                  <label className="mb-2 block text-[10px] font-extrabold uppercase tracking-wide text-gray-700">
+                    Enquiry Type *
+                  </label>
+                  <select defaultValue="Product Information" required className="h-12 w-full border border-gray-300 bg-white px-4 text-sm outline-none transition-all focus:border-[#e21b23] focus:ring-1 focus:ring-[#e21b23]">
+                    <option>Product Information</option>
+                    <option>Price / Quotation</option>
+                    <option>Technical Support</option>
+                    <option>Service &amp; Repair</option>
+                    <option>Dealer Enquiry</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="mb-2 block text-[10px] font-extrabold uppercase tracking-wide text-gray-700">
+                    Message *
+                  </label>
+                  <textarea rows={6} required placeholder="How can we help you?" className="w-full resize-none border border-gray-300 bg-white px-4 py-4 text-sm outline-none transition-all focus:border-[#e21b23] focus:ring-1 focus:ring-[#e21b23]" />
+                </div>
+                <button type="submit" className="group flex h-12 w-full items-center justify-center gap-2 bg-[#e21b23] text-xs font-extrabold uppercase tracking-wider text-white transition-all duration-300 hover:bg-[#b8141a] hover:shadow-lg">
+                  Send Enquiry
+                  <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </button>
+              </form>
             </div>
-
-            <h2 className="text-3xl font-black uppercase sm:text-4xl">
-              NEED PRODUCT DETAILS?
-            </h2>
-
-            <p className="mt-3 max-w-xl text-sm text-gray-400">
-              Get in touch with our team for catalogs, pricing, dealer
-              information, or technical support.
-            </p>
-
           </div>
-
-
-          <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
-
-            <a
-              href={APP_CONFIG.whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex h-12 min-w-[210px] items-center justify-center gap-2 rounded-md bg-[#25D366] px-6 text-xs font-extrabold uppercase tracking-wide text-black transition-all hover:bg-[#20bd5a]"
-            >
-              <WhatsAppIcon className="h-5 w-5" />
-              Message on WhatsApp
-            </a>
-
-            <a
-              href={`tel:${APP_CONFIG.phoneRaw}`}
-              className="inline-flex h-12 min-w-[210px] items-center justify-center gap-2 rounded-md border border-white/20 px-6 text-xs font-extrabold uppercase tracking-wide text-white transition-all hover:border-[#e21b23] hover:bg-[#e21b23]"
-            >
-              <PhoneIcon className="h-4 w-4" />
-              Call {APP_CONFIG.phone}
-            </a>
-
-          </div>
-
         </div>
-
       </section>
+
+
 
     </main>
   );
