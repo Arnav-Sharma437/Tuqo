@@ -358,25 +358,25 @@ export default async function DynamicCategoryPage({
                   className="group flex flex-col justify-between overflow-hidden rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#e21b23]/50 hover:shadow-xl"
                 >
                   <div>
-                    <div className="relative mb-6 flex h-48 w-full items-center justify-center bg-gray-50 rounded-lg p-4">
+                    <div className="relative mb-6 flex h-56 sm:h-64 w-full items-center justify-center bg-gradient-to-b from-gray-50 to-[#f0f2f7] rounded-xl p-3 sm:p-4 overflow-hidden">
                       <span className="absolute left-3 top-3 z-10 bg-white/90 px-2 py-0.5 text-[10px] font-bold text-gray-500 rounded">
                         #{index + 1}
                       </span>
 
                       {product.tag && (
-                        <span className="absolute right-3 top-3 z-10 bg-[#e21b23] px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-white rounded">
+                        <span className="absolute right-3 top-3 z-10 bg-[#e21b23] px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-white rounded shadow-xs">
                           {product.tag}
                         </span>
                       )}
 
-                      <div className="relative h-40 w-40 transition-transform duration-300 group-hover:scale-105">
+                      <div className="relative h-full w-full transition-transform duration-500 group-hover:scale-110">
                         <Image
                           src={product.image}
                           alt={product.name}
                           fill
                           unoptimized={product.image.startsWith("http")}
                           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                          className="object-contain"
+                          className="object-contain p-2 scale-105 sm:scale-110"
                         />
                       </div>
                     </div>

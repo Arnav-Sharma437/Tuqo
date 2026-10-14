@@ -17,7 +17,7 @@ export default function AboutPage() {
       <section className="w-full bg-[#cf0000] px-5 py-12 text-white sm:px-8 sm:py-14 lg:px-10">
         <div className="mx-auto max-w-[1400px]">
           <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            About TUQO Tools
+            About
           </h1>
 
           <nav
@@ -35,7 +35,7 @@ export default function AboutPage() {
               ›
             </span>
 
-            <span className="text-white/80">About Us</span>
+            <span className="text-white/80">About</span>
           </nav>
         </div>
       </section>

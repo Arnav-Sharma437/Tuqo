@@ -13,6 +13,8 @@ import {
   QualityDiamondIcon,
   ClockIcon,
 } from "@/components/common/Icons";
+import { ProductGallery } from "@/components/product/ProductGallery";
+import { ProductShare } from "@/components/product/ProductShare";
 
 export const dynamic = "force-dynamic";
 
@@ -85,21 +87,13 @@ export default async function ProductDetailPage({
         {/* Main Product Hero Box */}
         <div className="overflow-hidden rounded-3xl border border-gray-200/90 bg-white p-6 sm:p-8 lg:p-12 shadow-sm">
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-14 items-center">
-            {/* Left Image Stage */}
+            {/* Left Image Stage & Gallery */}
             <div className="lg:col-span-5">
-              <div className="relative flex aspect-square w-full items-center justify-center rounded-2xl bg-gradient-to-b from-[#f8f8f8] to-gray-50 border border-gray-100 p-2 sm:p-4 shadow-inner">
-
-                <div className="relative h-[82vw] w-[82vw] max-h-[440px] max-w-[440px] sm:h-[380px] sm:w-[380px] lg:h-[440px] lg:w-[440px] transition-transform duration-500 hover:scale-105">
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    fill
-                    priority
-                    sizes="(max-width: 768px) 100vw, 400px"
-                   className="object-contain w-full h-full scale-[1.18]"
-                  />
-                </div>
-              </div>
+              <ProductGallery
+                mainImage={product.image}
+                images={product.images}
+                productName={product.name}
+              />
             </div>
 
             {/* Right Product Summary & Actions */}
@@ -154,6 +148,8 @@ export default async function ProductDetailPage({
                   <PhoneIcon className="h-4 w-4 text-[#e21b23]" />
                   <span>Call Technical Desk</span>
                 </a>
+
+                <ProductShare productName={product.name} productModel={product.model} />
               </div>
             </div>
           </div>

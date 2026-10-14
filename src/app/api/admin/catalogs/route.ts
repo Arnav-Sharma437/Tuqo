@@ -43,14 +43,7 @@ const DEFAULT_CATALOGUES = [
 export async function GET() {
   try {
     await connectToDatabase();
-    let catalogs = await Catalog.find().sort({ order: 1, createdAt: 1 });
-
-    // Prepopulate defaults if collection is empty
-    if (catalogs.length === 0) {
-      await Catalog.insertMany(DEFAULT_CATALOGUES);
-      catalogs = await Catalog.find().sort({ order: 1, createdAt: 1 });
-    }
-
+    const catalogs = await Catalog.find().sort({ order: 1, createdAt: 1 });
     return NextResponse.json({ success: true, catalogs });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : "Failed to fetch catalogs";

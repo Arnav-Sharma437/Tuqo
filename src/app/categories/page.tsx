@@ -81,25 +81,6 @@ const benefits = [
   },
 ];
 
-const faqs = [
-  {
-    q: "What product categories does TUQO offer?",
-    a: "TUQO categories include high pressure washers, air compressors, power tools and their accessories, along with auto detailing products.",
-  },
-  {
-    q: "How can I find products in a category?",
-    a: "Select View Products on a category card to open its dedicated product page.",
-  },
-  {
-    q: "Can I request product information?",
-    a: "Yes. Contact the TUQO team for product details and catalogue information.",
-  },
-  {
-    q: "Are bulk enquiries accepted?",
-    a: "Contact the TUQO team to discuss your product and bulk requirements.",
-  },
-];
-
 export default async function CategoriesPage() {
   const liveCategories = await getLiveCategories();
 
@@ -204,23 +185,23 @@ export default async function CategoriesPage() {
               key={cat.no}
               className="group flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-[#e21b23]/50 hover:shadow-lg"
             >
-              {/* Taller Image Area */}
+              {/* Big, Full Category Image Stage */}
               <Link
                 href={cat.href}
-                className="relative flex h-[220px] items-center justify-center bg-gray-50 p-4 sm:h-[250px]"
+                className="relative flex h-[260px] sm:h-[300px] w-full items-center justify-center overflow-hidden bg-gradient-to-b from-[#fbfbfb] to-[#f3f4f6] p-4 transition-all"
                 aria-label={`View ${cat.title} products`}
               >
-                <span className="absolute left-3 top-3 z-10 bg-white px-2 py-1 text-[10px] font-bold">
+                <span className="absolute left-3 top-3 z-10 rounded bg-white/95 px-2.5 py-1 text-[10px] font-black tracking-wider text-[#111214] shadow-xs border border-gray-100">
                   {cat.no}
                 </span>
 
-                <div className="relative h-[180px] w-full transition-transform duration-300 group-hover:scale-105">
+                <div className="relative h-full w-full transition-transform duration-500 group-hover:scale-110">
                   <Image
                     src={cat.image}
                     alt={cat.title}
                     fill
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                    className="object-contain"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-contain p-2 scale-110"
                   />
                 </div>
               </Link>
@@ -347,49 +328,6 @@ export default async function CategoriesPage() {
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section className="mx-auto grid max-w-[1400px] gap-7 px-5 py-10 sm:px-8 md:grid-cols-[0.8fr_1.2fr] md:gap-12 md:py-14 lg:px-10">
-        <div>
-          <p className="text-xs font-extrabold uppercase tracking-widest text-[#e21b23]">
-            NEED HELP?
-          </p>
-
-          <h2 className="mt-3 text-2xl font-black leading-tight md:text-3xl">
-            FREQUENTLY ASKED <span className="text-[#e21b23]">QUESTIONS</span>
-          </h2>
-
-          <p className="mt-3 text-sm leading-7 text-gray-500">
-            Find answers about our categories and product information.
-          </p>
-
-          <Link
-            href="/contact"
-            className="mt-4 inline-flex items-center gap-3 text-sm font-bold text-[#e21b23]"
-          >
-            Contact Us <span>→</span>
-          </Link>
-        </div>
-
-        <div>
-          {faqs.map((faq, index) => (
-            <details
-              key={faq.q}
-              open={index === 0}
-              className="border-b border-gray-200 py-4"
-            >
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-bold">
-                {faq.q}
-                <span className="text-xl text-[#e21b23]">+</span>
-              </summary>
-
-              <p className="mt-3 pr-8 text-sm leading-6 text-gray-500">
-                {faq.a}
-              </p>
-            </details>
-          ))}
         </div>
       </section>
 

@@ -1,4 +1,5 @@
 export * from "./HeroSection";
+export * from "./BestSellerSection";
 export * from "./TrustStrip";
 export * from "./CategorySection";
 export * from "./FlagshipSpotlight";

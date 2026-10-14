@@ -13,6 +13,7 @@ export interface Product {
   subcategory?: string;
   subcategorySlug?: string;
   image: string;
+  images?: string[];
   shortDesc: string;
   description: string;
   tag: string;

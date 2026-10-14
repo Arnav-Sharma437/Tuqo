@@ -21,6 +21,7 @@ export interface ProductItem {
   subcategory?: string;
   subcategorySlug?: string;
   image: string;
+  images?: string[];
   shortDesc: string;
   description: string;
   tag: string;
@@ -60,6 +61,7 @@ export function ProductManager({
     subcategory: "",
     subcategorySlug: "",
     image: "",
+    images: [],
     shortDesc: "",
     description: "",
     tag: "",
@@ -86,6 +88,7 @@ export function ProductManager({
   const handleStartEdit = (prod: ProductItem) => {
     setEditingProduct({
       ...prod,
+      images: Array.isArray(prod.images) && prod.images.length > 0 ? prod.images : (prod.image ? [prod.image] : []),
       features: prod.features?.length ? prod.features : [""],
       specs: prod.specs?.length ? prod.specs : [{ label: "", value: "" }],
       applications: prod.applications?.length ? prod.applications : [""],
@@ -206,9 +209,15 @@ export function ProductManager({
     setLoading(true);
     setError("");
 
+    const gallery = Array.isArray(editingProduct.images) ? [...editingProduct.images] : [];
+    if (editingProduct.image && !gallery.includes(editingProduct.image)) {
+      gallery.unshift(editingProduct.image);
+    }
+
     // Filter out empty rows
     const cleanedProduct = {
       ...editingProduct,
+      images: gallery.filter((img) => img && img.trim() !== ""),
       features: editingProduct.features.filter((f) => f.trim() !== ""),
       specs: editingProduct.specs.filter((s) => s.label.trim() && s.value.trim()),
       applications: editingProduct.applications.filter((a) => a.trim() !== ""),
@@ -423,8 +432,129 @@ export function ProductManager({
             sublabel="High quality transparent PNG or workshop photograph"
             folder="tuqo/products"
             value={editingProduct.image}
-            onChange={(url) => setEditingProduct({ ...editingProduct, image: url })}
+            onChange={(url) => {
+              const currentList = editingProduct.images || [];
+              const updated = url && !currentList.includes(url) ? [url, ...currentList] : currentList;
+              setEditingProduct({ ...editingProduct, image: url, images: updated });
+            }}
           />
+
+          {/* Multiple Images Gallery */}
+          <div className="rounded-2xl border border-white/10 bg-[#181a20] p-5 space-y-4">
+            <div className="flex items-center justify-between border-b border-white/10 pb-3">
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-gray-200">
+                  Product Gallery (Multiple Images)
+                </label>
+                <p className="text-[11px] text-gray-400 mt-0.5">
+                  Upload multiple angles, close-ups, and in-use workshop photos for this product.
+                </p>
+              </div>
+              <span className="rounded-full bg-white/5 border border-white/10 px-3 py-1 text-[11px] font-bold text-[#d31820]">
+                {editingProduct.images?.length || 0} images in gallery
+              </span>
+            </div>
+
+            <ImageUploader
+              label="Add Image to Gallery"
+              sublabel="Upload an additional image or enter URL to add to the product gallery"
+              folder="tuqo/products"
+              value=""
+              onChange={(newUrl) => {
+                if (newUrl) {
+                  const currentList = editingProduct.images || [];
+                  if (!currentList.includes(newUrl)) {
+                    const updated = [...currentList, newUrl];
+                    setEditingProduct({
+                      ...editingProduct,
+                      images: updated,
+                      image: editingProduct.image || newUrl,
+                    });
+                  }
+                }
+              }}
+            />
+
+            {/* Gallery Thumbnails List */}
+            {editingProduct.images && editingProduct.images.length > 0 ? (
+              <div className="pt-2">
+                <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-2.5">
+                  Current Gallery Images ({editingProduct.images.length})
+                </p>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+                  {editingProduct.images.map((imgUrl, idx) => {
+                    const isMain = editingProduct.image === imgUrl;
+                    return (
+                      <div
+                        key={`${imgUrl}-${idx}`}
+                        className={`group relative flex flex-col justify-between overflow-hidden rounded-xl border p-2 bg-[#121316] transition-all ${
+                          isMain
+                            ? "border-[#d31820] ring-2 ring-[#d31820]/40 shadow-lg shadow-red-900/20"
+                            : "border-white/10 hover:border-white/30"
+                        }`}
+                      >
+                        <div className="relative aspect-square w-full overflow-hidden rounded-lg bg-black/30">
+                          <Image
+                            src={imgUrl}
+                            alt={`Gallery image ${idx + 1}`}
+                            fill
+                            className="object-contain p-1"
+                            sizes="140px"
+                          />
+                          {isMain && (
+                            <span className="absolute top-1.5 left-1.5 rounded bg-[#d31820] px-1.5 py-0.5 text-[8px] font-black uppercase text-white shadow">
+                              Cover
+                            </span>
+                          )}
+                        </div>
+
+                        <div className="mt-2.5 flex items-center justify-between gap-1 border-t border-white/5 pt-2">
+                          {!isMain ? (
+                            <button
+                              type="button"
+                              onClick={() =>
+                                setEditingProduct({ ...editingProduct, image: imgUrl })
+                              }
+                              className="rounded bg-white/5 hover:bg-[#d31820] hover:text-white px-2 py-1 text-[9px] font-bold text-gray-300 transition"
+                            >
+                              Make Cover
+                            </button>
+                          ) : (
+                            <span className="text-[9px] font-extrabold text-[#d31820] uppercase">
+                              Main Image
+                            </span>
+                          )}
+
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const remaining = (editingProduct.images || []).filter(
+                                (_, i) => i !== idx
+                              );
+                              setEditingProduct({
+                                ...editingProduct,
+                                images: remaining,
+                                image:
+                                  isMain && remaining.length > 0
+                                    ? remaining[0]
+                                    : isMain
+                                    ? ""
+                                    : editingProduct.image,
+                              });
+                            }}
+                            className="rounded p-1 text-[11px] text-gray-400 hover:text-red-400 hover:bg-red-500/10 transition"
+                            title="Remove from gallery"
+                          >
+                            ✕
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ) : null}
+          </div>
 
           <div>
             <label className="block text-xs font-semibold uppercase tracking-wider text-gray-300">

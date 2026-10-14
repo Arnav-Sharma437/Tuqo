@@ -134,6 +134,7 @@ export async function getLiveProducts(categorySlug?: string): Promise<StaticProd
         subcategory: d.subcategory || "",
         subcategorySlug: d.subcategorySlug || "",
         image: d.image,
+        images: Array.isArray(d.images) && d.images.length > 0 ? d.images : (d.image ? [d.image] : []),
         shortDesc: d.shortDesc || "",
         description: d.description || "",
         tag: d.tag || "",
@@ -172,6 +173,7 @@ export async function getLiveProductBySlug(slug: string): Promise<StaticProduct 
         subcategory: d.subcategory || "",
         subcategorySlug: d.subcategorySlug || "",
         image: d.image,
+        images: Array.isArray(d.images) && d.images.length > 0 ? d.images : (d.image ? [d.image] : []),
         shortDesc: d.shortDesc || "",
         description: d.description || "",
         tag: d.tag || "",
@@ -207,7 +209,7 @@ export async function getLiveCatalogs(): Promise<UnifiedCatalog[]> {
   try {
     await connectToDatabase();
     const docs = await Catalog.find({ active: true }).sort({ order: 1, createdAt: 1 }).lean();
-    if (docs && docs.length > 0) {
+    if (docs) {
       return (docs as any[]).map((d) => ({
         id: String(d._id),
         title: d.title,
@@ -223,36 +225,7 @@ export async function getLiveCatalogs(): Promise<UnifiedCatalog[]> {
     console.error("Failed to load catalogs from DB:", err);
   }
 
-  // Fallback defaults
-  return [
-    {
-      id: "product-catalog",
-      title: "TUQO PRODUCT CATALOG 2025",
-      description: "Complete range of professional machinery, high pressure washers, air compressors and power tools.",
-      coverImage: "/images/hero-banner-bg.png",
-      category: "Machinery & Power Tools",
-      pdfUrl: "",
-      order: 1,
-    },
-    {
-      id: "cleaning-accessories",
-      title: "TUQO CLEANING EQUIPMENT ACCESSORIES 2025",
-      description: "Explore our range of high pressure washer accessories, cleaning equipment and car detailing products.",
-      coverImage: "/images/cat-accessories.png",
-      category: "Accessories",
-      pdfUrl: "",
-      order: 2,
-    },
-    {
-      id: "auto-detailing",
-      title: "TUQO AUTO DETAILING AND CLEANING 2025",
-      description: "Discover our professional auto detailing and vehicle cleaning equipment range.",
-      coverImage: "/images/cat-foam-dispenser.png",
-      category: "Auto Detailing",
-      pdfUrl: "",
-      order: 3,
-    },
-  ];
+  return [];
 }
 
 export interface UnifiedSubcategory {

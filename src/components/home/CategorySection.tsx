@@ -34,12 +34,8 @@ export function CategorySection({
             href: `/products/${c.slug}`,
           }));
 
-          // Merge: ensure standard categories and any new backend-added categories are both present
-          const map = new Map<string, CategoryItem>();
-          DEFAULT_CATEGORIES.forEach((cat) => map.set(cat.href, cat));
-          formatted.forEach((cat) => map.set(cat.href, cat));
-
-          setCategories(Array.from(map.values()));
+          // Use live categories directly so deletions remain permanent
+          setCategories(formatted);
         }
       })
       .catch((err) => {
@@ -90,21 +86,15 @@ export function CategorySection({
           </Link>
         </div>
 
-        {/* Single Slider Row */}
+        {/* Single Slider Row without side fades */}
         <div className="relative w-full overflow-hidden py-2">
-          {/* Left Edge Fade */}
-          <div className="pointer-events-none absolute inset-y-0 left-0 z-20 w-12 bg-gradient-to-r from-white via-white/80 to-transparent sm:w-20" />
-
-          {/* Right Edge Fade */}
-          <div className="pointer-events-none absolute inset-y-0 right-0 z-20 w-12 bg-gradient-to-l from-white via-white/80 to-transparent sm:w-20" />
-
-          <div className="fade-mask-x w-full overflow-hidden">
-            <div className="animate-marquee flex w-max items-stretch gap-4">
+          <div className="w-full overflow-hidden">
+            <div className="animate-marquee flex w-max items-stretch gap-4 hover:[animation-play-state:paused]">
               {rowItems.map((category, index) => (
                 <Link
                   key={`${category.id}-${index}`}
                   href={category.href}
-                  className="group relative flex h-[255px] w-[205px] shrink-0 flex-col justify-between rounded-xl border border-gray-200 bg-[#fbfbfb] p-4 transition-all duration-300 hover:-translate-y-1 hover:border-[#e21b23]/50 hover:bg-white hover:shadow-xl hover:shadow-black/5 sm:w-[225px]"
+                  className="group relative flex h-[280px] w-[220px] shrink-0 flex-col justify-between rounded-2xl border border-gray-200 bg-[#fcfcfd] p-4 transition-all duration-300 hover:-translate-y-1.5 hover:border-[#e21b23]/50 hover:bg-white hover:shadow-xl hover:shadow-black/5 sm:w-[240px]"
                 >
                   {/* Top Label */}
                   <div className="flex items-center justify-between">
@@ -115,15 +105,15 @@ export function CategorySection({
                     <span className="h-1.5 w-1.5 rounded-full bg-gray-300 transition-colors group-hover:bg-[#e21b23]" />
                   </div>
 
-                  {/* Category Image */}
-                  <div className="relative mx-auto my-2 flex h-[110px] w-full items-center justify-center">
-                    <div className="relative h-[95px] w-[95px] transition-transform duration-500 group-hover:scale-110 sm:h-[105px] sm:w-[105px]">
+                  {/* Category Image - Large and filling */}
+                  <div className="relative mx-auto my-2 flex h-[140px] w-full items-center justify-center overflow-hidden rounded-xl bg-gradient-to-b from-gray-50 to-[#f3f4f8] p-2">
+                    <div className="relative h-full w-full transition-transform duration-500 group-hover:scale-110">
                       <Image
                         src={category.image}
                         alt={category.name}
                         fill
-                        sizes="(max-width: 640px) 205px, 225px"
-                        className="object-contain"
+                        sizes="(max-width: 640px) 220px, 240px"
+                        className="object-contain p-1 scale-110"
                       />
                     </div>
                   </div>
@@ -134,7 +124,7 @@ export function CategorySection({
                       {category.name}
                     </h3>
 
-                    <div className="mt-2.5 flex h-10 w-full items-center justify-center gap-2 rounded-md bg-[#111214] text-xs font-bold text-white transition-colors duration-300 group-hover:bg-[#e21b23]">
+                    <div className="mt-2.5 flex h-10 w-full items-center justify-center gap-2 rounded-lg bg-[#111214] text-xs font-bold text-white transition-colors duration-300 group-hover:bg-[#e21b23]">
                       <span>Explore</span>
                       <ArrowRightIcon className="h-3 w-3" />
                     </div>
