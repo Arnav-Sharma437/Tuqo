@@ -143,9 +143,7 @@ export default async function ProductDetailPage({
                   <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs text-gray-700 font-medium">
                     {product.features.map((feat) => (
                       <li key={feat} className="flex items-start gap-2">
-                        <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-red-50 text-[#e21b23] text-[10px] font-bold">
-                          ✓
-                        </span>
+                        <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-[#e21b23]" />
                         <span>{feat}</span>
                       </li>
                     ))}
