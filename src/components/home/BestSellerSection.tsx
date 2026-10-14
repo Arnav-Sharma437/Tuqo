@@ -104,7 +104,10 @@ export function BestSellerSection({
 
         {/* Continuous Continuous Slider */}
         <div className="relative w-full overflow-hidden py-2">
-          <div className="animate-marquee flex w-max items-stretch gap-5 hover:[animation-play-state:paused]">
+          <div
+            className="animate-marquee flex w-max items-stretch gap-5 hover:[animation-play-state:paused]"
+            style={{ animationDuration: "55s" }}
+          >
             {sliderItems.map((product, idx) => {
               const productUrl = `/products/${product.categorySlug}/${product.slug}`;
               const whatsappUrl = `https://wa.me/919342466860?text=${encodeURIComponent(
@@ -114,22 +117,12 @@ export function BestSellerSection({
               return (
                 <div
                   key={`${product.slug}-${idx}`}
-                  className="group relative flex h-[410px] w-[275px] sm:w-[305px] shrink-0 flex-col justify-between overflow-hidden rounded-2xl border border-gray-200 bg-white p-4 transition-all duration-300 hover:-translate-y-1.5 hover:border-[#e21b23]/50 hover:shadow-xl hover:shadow-red-950/10"
+                  className="group relative flex h-[380px] w-[270px] sm:w-[295px] shrink-0 flex-col justify-between overflow-hidden rounded-2xl border border-gray-200 bg-white p-4 transition-all duration-300 hover:-translate-y-1.5 hover:border-[#e21b23]/50 hover:shadow-xl hover:shadow-red-950/10"
                 >
-                  {/* Top Bar with Badge & Category */}
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="rounded-md bg-[#e21b23] px-2.5 py-1 text-[9px] font-black uppercase tracking-wider text-white shadow-xs">
-                      {product.tag || "Best Seller"}
-                    </span>
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-gray-600 truncate max-w-[130px]">
-                      {product.category}
-                    </span>
-                  </div>
-
                   {/* Product Image Stage */}
                   <Link
                     href={productUrl}
-                    className="relative my-3 flex h-[190px] w-full items-center justify-center overflow-hidden rounded-xl bg-gradient-to-b from-[#f8f9fc] to-[#f0f2f7] p-3"
+                    className="relative flex h-[210px] w-full items-center justify-center overflow-hidden rounded-xl bg-gradient-to-b from-[#f8f9fc] to-[#f0f2f7] p-3"
                   >
                     <div className="relative h-full w-full transition-transform duration-500 group-hover:scale-110">
                       <Image
@@ -137,7 +130,7 @@ export function BestSellerSection({
                         alt={product.name}
                         fill
                         sizes="300px"
-                        className="object-contain p-2"
+                        className="object-contain p-2 scale-105"
                       />
                     </div>
                   </Link>

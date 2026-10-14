@@ -81,58 +81,104 @@ export default function AboutPage() {
       </section>
 
       {/* ABOUT TUQO TOOLS */}
-      <section className="bg-[#e21b23] py-16 text-white sm:py-20 lg:py-24">
+      <section className="border-y border-gray-200 bg-[#f9fafc] py-16 text-[#111214] sm:py-20 lg:py-24">
         <div className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-10">
-          <div className="text-center">
-            <div className="mb-4 flex items-center justify-center gap-3">
-              <span className="h-[2px] w-8 bg-white/70" />
-              <span className="text-[10px] font-extrabold uppercase tracking-[0.22em]">
-                ABOUT US
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <div className="mb-3 inline-flex items-center gap-2">
+              <span className="h-[3px] w-7 bg-[#e21b23]" />
+              <span className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-[#e21b23] sm:text-xs">
+                CORE PHILOSOPHY
               </span>
-              <span className="h-[2px] w-8 bg-white/70" />
+              <span className="h-[3px] w-7 bg-[#e21b23]" />
             </div>
 
-            <h2 className="text-3xl font-black uppercase leading-none tracking-tight sm:text-4xl lg:text-5xl">
-              ABOUT TUQO TOOLS
+            <h2 className="text-3xl font-black uppercase leading-tight tracking-tight sm:text-4xl lg:text-5xl">
+              ABOUT TUQO <span className="text-[#e21b23]">TOOLS</span>
             </h2>
+
+            <p className="mt-3 text-xs sm:text-sm text-gray-500 max-w-lg mx-auto">
+              Driven by industrial durability, engineering integrity, and dependable customer service.
+            </p>
           </div>
 
-          <div className="mt-12 grid grid-cols-1 md:grid-cols-3">
-            <div className="border-b border-white/25 px-4 py-6 text-center md:border-b-0 md:border-r md:px-5">
-              <h3 className="text-2xl font-medium sm:text-3xl">
-                Our History
-              </h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Card 1: History */}
+            <div className="group flex flex-col justify-between rounded-2xl border border-gray-200 bg-white p-7 sm:p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#e21b23]/50 hover:shadow-xl">
+              <div>
+                <div className="flex items-center justify-between mb-5">
+                  <span className="rounded-full bg-red-50 border border-red-200 px-3 py-1 text-[10px] font-black uppercase tracking-wider text-[#e21b23]">
+                    01 / HERITAGE
+                  </span>
+                  <span className="h-2 w-2 rounded-full bg-gray-300 transition-colors group-hover:bg-[#e21b23]" />
+                </div>
 
-              <p className="mx-auto mt-4 max-w-md text-sm leading-7 text-white/90 sm:text-base">
-                TUQO Tools started as a focused machinery business with a
-                passion for providing high-quality equipment to workshops and industries.
-                Over the years, we have grown into a trusted equipment supplier with a
-                reputation for durability and performance.
-              </p>
+                <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tight text-[#111214]">
+                  Our History
+                </h3>
+
+                <p className="mt-4 text-xs leading-6 text-gray-600 sm:text-sm sm:leading-7">
+                  TUQO Tools started as a focused machinery business with a
+                  passion for providing high-quality equipment to workshops and industries.
+                  Over the years, we have grown into a trusted equipment supplier with a
+                  reputation for durability and performance.
+                </p>
+              </div>
+
+              <div className="mt-6 pt-4 border-t border-gray-100 flex items-center text-[10px] font-black uppercase tracking-wider text-[#e21b23]">
+                <span>Proven Workshop Legacy</span>
+              </div>
             </div>
 
-            <div className="border-b border-white/25 px-4 py-6 text-center md:border-b-0 md:border-r md:px-5">
-              <h3 className="text-2xl font-medium sm:text-3xl">
-                Our Products
-              </h3>
+            {/* Card 2: Products */}
+            <div className="group flex flex-col justify-between rounded-2xl border border-gray-200 bg-white p-7 sm:p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#e21b23]/50 hover:shadow-xl">
+              <div>
+                <div className="flex items-center justify-between mb-5">
+                  <span className="rounded-full bg-red-50 border border-red-200 px-3 py-1 text-[10px] font-black uppercase tracking-wider text-[#e21b23]">
+                    02 / MACHINERY
+                  </span>
+                  <span className="h-2 w-2 rounded-full bg-gray-300 transition-colors group-hover:bg-[#e21b23]" />
+                </div>
 
-              <p className="mx-auto mt-4 max-w-md text-sm leading-7 text-white/90 sm:text-base">
-                We specialize in machinery and equipment for automotive workshops,
-                cleaning &amp; detailing, construction, and manufacturing units. Our products include
-                high-pressure washers, air compressors, industrial vacuum cleaners, and accessories.
-              </p>
+                <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tight text-[#111214]">
+                  Our Products
+                </h3>
+
+                <p className="mt-4 text-xs leading-6 text-gray-600 sm:text-sm sm:leading-7">
+                  We specialize in machinery and equipment for automotive workshops,
+                  cleaning &amp; detailing, construction, and manufacturing units. Our products include
+                  high-pressure washers, air compressors, industrial vacuum cleaners, and accessories.
+                </p>
+              </div>
+
+              <div className="mt-6 pt-4 border-t border-gray-100 flex items-center text-[10px] font-black uppercase tracking-wider text-[#e21b23]">
+                <span>Heavy-Duty Construction</span>
+              </div>
             </div>
 
-            <div className="px-4 py-6 text-center md:px-5">
-              <h3 className="text-2xl font-medium sm:text-3xl">
-                Our Services
-              </h3>
+            {/* Card 3: Services */}
+            <div className="group flex flex-col justify-between rounded-2xl border border-gray-200 bg-white p-7 sm:p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#e21b23]/50 hover:shadow-xl">
+              <div>
+                <div className="flex items-center justify-between mb-5">
+                  <span className="rounded-full bg-red-50 border border-red-200 px-3 py-1 text-[10px] font-black uppercase tracking-wider text-[#e21b23]">
+                    03 / SERVICE
+                  </span>
+                  <span className="h-2 w-2 rounded-full bg-gray-300 transition-colors group-hover:bg-[#e21b23]" />
+                </div>
 
-              <p className="mx-auto mt-4 max-w-md text-sm leading-7 text-white/90 sm:text-base">
-                At TUQO Tools, we offer dedicated technical support to ensure that your
-                machinery stays in top operating condition. Our team provides genuine spare
-                parts, maintenance advice, and prompt pan-India service assistance.
-              </p>
+                <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tight text-[#111214]">
+                  Our Services
+                </h3>
+
+                <p className="mt-4 text-xs leading-6 text-gray-600 sm:text-sm sm:leading-7">
+                  At TUQO Tools, we offer dedicated technical support to ensure that your
+                  machinery stays in top operating condition. Our team provides genuine spare
+                  parts, maintenance advice, and prompt pan-India service assistance.
+                </p>
+              </div>
+
+              <div className="mt-6 pt-4 border-t border-gray-100 flex items-center text-[10px] font-black uppercase tracking-wider text-[#e21b23]">
+                <span>Pan-India Spares &amp; Support</span>
+              </div>
             </div>
           </div>
         </div>
