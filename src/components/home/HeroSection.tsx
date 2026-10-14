@@ -160,33 +160,6 @@ export function HeroSection({
               Download Catalog
             </Link>
           </div>
-
-          {/* Trust Indicators */}
-          <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-2 text-[9px] font-bold uppercase tracking-[0.16em] text-gray-300">
-            <span>Genuine Products</span>
-            <span className="h-1.5 w-1.5 rounded-full bg-[#e21b23]" />
-            <span>Pan-India Delivery</span>
-            <span className="h-1.5 w-1.5 rounded-full bg-[#e21b23]" />
-            <span>Technical Support</span>
-          </div>
-
-          {/* Dots Indicator if multiple banners */}
-          {banners.length > 1 && (
-            <div className="mt-6 flex items-center gap-2">
-              {banners.map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setActiveSlide(idx)}
-                  className={`h-2 rounded-full transition-all ${
-                    activeSlide === idx
-                      ? "w-8 bg-[#e21b23]"
-                      : "w-2 bg-white/40 hover:bg-white/80"
-                  }`}
-                  aria-label={`Go to slide ${idx + 1}`}
-                />
-              ))}
-            </div>
-          )}
         </div>
       </div>
 
