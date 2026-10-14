@@ -12,7 +12,7 @@ import {
 export default function ContactPage() {
   return (
     <main className="w-full bg-white">
-      {/* SIMPLE PAGE BANNER */}
+      {/* PAGE BANNER */}
       <section className="w-full bg-[#cf0000] px-5 py-12 text-white sm:px-8 sm:py-14 lg:px-10">
         <div className="mx-auto max-w-[1400px]">
           <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
@@ -94,9 +94,10 @@ export default function ContactPage() {
 
       {/* WORKING HOURS + CONTACT FORM */}
       <section className="w-full bg-[#f7f7f7] py-10 sm:py-12 lg:py-14">
-        <div className="mx-auto grid max-w-[1200px] grid-cols-1 items-start gap-6 px-5 sm:px-8 lg:grid-cols-2 lg:px-10">
-          {/* WORKING HOURS - LEFT ON DESKTOP */}
-          <div className="border border-gray-200 bg-white p-6 sm:p-8">
+        <div className="mx-auto flex w-full max-w-[900px] flex-col gap-6 px-5 sm:px-8 lg:px-10">
+
+          {/* WORKING HOURS */}
+          <div className="w-full border border-gray-200 bg-white p-6 sm:p-8">
             <div className="mb-5 flex items-center gap-4 border-b border-gray-100 pb-5">
               <div className="flex h-12 w-12 shrink-0 items-center justify-center bg-[#e21b23] text-white">
                 <ClockIcon className="h-5 w-5" />
@@ -138,8 +139,8 @@ export default function ContactPage() {
             </div>
           </div>
 
-          {/* CONTACT FORM - RIGHT ON DESKTOP */}
-          <div className="border border-gray-200 bg-white p-6 sm:p-8 lg:p-10">
+          {/* CONTACT FORM */}
+          <div className="w-full border border-gray-200 bg-white p-6 sm:p-8 lg:p-10">
             <div className="mb-7">
               <div className="mb-2 flex items-center gap-2">
                 <span className="h-[3px] w-7 bg-[#e21b23]" />
@@ -260,6 +261,7 @@ export default function ContactPage() {
               </button>
             </form>
           </div>
+
         </div>
       </section>
     </main>
