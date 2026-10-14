@@ -95,8 +95,7 @@ export default function ContactPage() {
 
       {/* WORKING HOURS + CONTACT FORM */}
       <section className="w-full bg-[#f7f7f7] py-10 sm:py-12 lg:py-14">
-        <div className="mx-auto flex w-full max-w-[1400px] flex-col gap-6 px-5 sm:px-8 lg:flex-row lg:items-start lg:px-10">
-
+       <div className="mx-auto grid w-full max-w-[1400px] grid-cols-1 gap-6 px-5 sm:px-8 lg:grid-cols-2 lg:px-10">
           {/* WORKING HOURS - LEFT */}
           <div className="w-full min-w-0 flex-1 border border-gray-200 bg-white p-6 sm:p-8">
             <div className="mb-5 flex items-center gap-4 border-b border-gray-100 pb-5">
