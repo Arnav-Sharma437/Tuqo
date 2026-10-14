@@ -139,18 +139,18 @@ export default function AboutPage() {
               </span>
             </h2>
 
-            <p className="mt-6 text-sm leading-7 text-gray-700 sm:text-base">
+            <p className="mt-6 text-sm leading-7 text-[#333333] sm:text-base">
               TUQO is focused on providing professional machinery, power tools
               and equipment for businesses, workshops and working professionals.
             </p>
 
-            <p className="mt-4 text-sm leading-7 text-gray-700 sm:text-base">
+            <p className="mt-4 text-sm leading-7 text-[#333333] sm:text-base">
               Our product range is built around practical requirements —
               equipment that can handle demanding environments while delivering
               the performance professionals expect from their machines.
             </p>
 
-            <p className="mt-4 text-sm leading-7 text-gray-700 sm:text-base">
+            <p className="mt-4 text-sm leading-7 text-[#333333] sm:text-base">
               From cleaning and maintenance equipment to power tools and
               accessories, TUQO aims to make professional-grade equipment
               accessible through a focused and reliable product range.
@@ -198,11 +198,11 @@ export default function AboutPage() {
 
           {/* Three Columns */}
 
-          <div className="mt-12 grid grid-cols-1 md:grid-cols-3">
+          <div className="mt-12 grid grid-cols-1">
 
             {/* Our History */}
 
-            <div className="px-2 py-6 text-center md:px-10 md:py-2 md:border-r md:border-white/25">
+            <div className="border-b border-white/25 px-2 py-6 text-center last:border-b-0 md:px-2 md:py-6">
 
               <h3 className="text-2xl font-medium sm:text-3xl">
                 Our History
@@ -220,7 +220,7 @@ export default function AboutPage() {
 
             {/* Our Products */}
 
-            <div className="px-2 py-6 text-center md:px-10 md:py-2 md:border-r md:border-white/25">
+            <div className="border-b border-white/25 px-2 py-6 text-center last:border-b-0 md:px-2 md:py-6">
 
               <h3 className="text-2xl font-medium sm:text-3xl">
                 Our Products
@@ -289,7 +289,7 @@ export default function AboutPage() {
           </div>
 
 
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-3">
 
             {industries.map((industry, index) => (
 
@@ -357,7 +357,7 @@ export default function AboutPage() {
           </div>
 
 
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+          <div className="grid grid-cols-2 gap-3">
 
             {CATEGORIES.slice(0, 6).map((category) => (
 
