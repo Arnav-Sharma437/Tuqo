@@ -94,18 +94,20 @@ export default function AboutPage() {
         className="relative overflow-hidden bg-white text-[#111214]"
       >
 
-        <div className="relative aspect-[16/9] w-full overflow-hidden">
-          <Image
-            src="/images/banner-action.png"
-            alt="TUQO equipment in professional use"
-            fill
-            sizes="100vw"
-            className="object-cover object-center"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-          <div className="absolute bottom-5 left-5 right-5">
-            <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#e21b23]">TUQO TOOLS</p>
-            <h2 className="mt-2 text-2xl font-black uppercase leading-tight text-white">ENGINEERED<br />FOR REAL WORK</h2>
+        <div
+          className="relative flex min-h-[320px] w-full items-end overflow-hidden bg-[#08090b] bg-cover bg-[center_45%] sm:min-h-[420px] lg:min-h-[520px]"
+          style={{ backgroundImage: "url('/images/banner-action.png')" }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/10" aria-hidden="true" />
+          <div className="relative z-10 px-5 pb-8 sm:px-10 sm:pb-12 lg:px-16 lg:pb-16">
+            <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#e21b23]">
+              TUQO TOOLS
+            </p>
+            <h2 className="mt-2 text-2xl font-black uppercase leading-tight text-white sm:text-4xl lg:text-5xl">
+              ENGINEERED
+              <br />
+              FOR REAL WORK
+            </h2>
           </div>
         </div>
 
