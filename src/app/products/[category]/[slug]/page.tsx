@@ -172,10 +172,10 @@ export default async function ProductDetailPage({
             {product.specs.map((spec) => (
               <div
                 key={spec.label}
-               className="flex items-center justify-start gap-4 py-2 border-b border-gray-100 text-xs sm:text-sm"
+              className="flex items-center justify-start gap-2 py-2 border-b border-gray-100 text-xs sm:text-sm"
               >
-                <span className="text-gray-500 font-medium">{spec.label}</span>
-                <span className="font-bold text-gray-900 text-right">{spec.value}</span>
+               <span className="text-gray-500 font-medium whitespace-nowrap">{spec.label}</span>
+<span className="font-bold text-gray-900">{spec.value}</span>
               </div>
             ))}
           </div>
