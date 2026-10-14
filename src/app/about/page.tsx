@@ -29,14 +29,14 @@ export default function AboutPage() {
           fill
           priority
           sizes="100vw"
-          className="absolute inset-0 -z-20 h-full w-full object-cover object-center"
+          className="absolute inset-0 -z-20 hidden h-full w-full object-cover object-center sm:block"
         />
 
         <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_75%_50%,rgba(226,27,35,0.18),transparent_38%)]" />
 
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#08090b] via-[#08090b]/90 to-[#08090b]/35" />
+        <div className="pointer-events-none absolute inset-0 hidden bg-gradient-to-r from-[#08090b] via-[#08090b]/90 to-[#08090b]/35 sm:block" />
 
-        <div className="relative mx-auto grid min-h-[540px] w-full max-w-[1500px] grid-cols-1 items-center gap-8 px-5 py-14 sm:px-8 lg:grid-cols-12 lg:px-10 lg:py-16">
+        <div className="relative mx-auto grid min-h-0 w-full max-w-[1500px] grid-cols-1 items-center gap-8 px-5 py-10 sm:min-h-[540px] sm:px-8 sm:py-14 lg:grid-cols-12 lg:px-10 lg:py-16">
 
           {/* Hero Content */}
 
@@ -87,6 +87,16 @@ export default function AboutPage() {
 
           </div>
 
+          <div className="relative mx-auto aspect-[16/9] w-full max-w-2xl overflow-hidden border-y-2 border-[#e21b23] sm:hidden">
+            <Image
+              src="/images/hero-products.png"
+              alt="TUQO professional equipment"
+              fill
+              sizes="100vw"
+              className="object-cover object-center"
+            />
+          </div>
+
           <div className="hidden lg:col-span-6 lg:block" aria-hidden="true" />
 
         </div>
@@ -102,7 +112,7 @@ export default function AboutPage() {
 
       <section
         id="our-story"
-        className="relative isolate overflow-hidden bg-[#08090b] py-16 text-white sm:py-20 lg:py-24"
+        className="relative isolate overflow-hidden bg-white py-0 text-[#111214] sm:py-0 lg:bg-[#08090b] lg:py-24 lg:text-white"
       >
 
         <Image
@@ -110,12 +120,27 @@ export default function AboutPage() {
           alt=""
           fill
           sizes="100vw"
-          className="absolute inset-0 -z-20 h-full w-full object-cover object-center"
+          className="absolute inset-0 -z-20 hidden h-full w-full object-cover object-center lg:block"
         />
 
-        <div className="pointer-events-none absolute inset-0 -z-10 bg-[#08090b]/80" />
+        <div className="pointer-events-none absolute inset-0 -z-10 hidden bg-[#08090b]/80 lg:block" />
 
-        <div className="relative mx-auto w-full max-w-[1200px] px-5 sm:px-8 lg:px-10">
+        <div className="relative aspect-[16/9] w-full overflow-hidden lg:hidden">
+          <Image
+            src="/images/banner-action.png"
+            alt="TUQO equipment in professional use"
+            fill
+            sizes="100vw"
+            className="object-cover object-center"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+          <div className="absolute bottom-5 left-5 right-5">
+            <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#e21b23]">TUQO TOOLS</p>
+            <h2 className="mt-2 text-2xl font-black uppercase leading-tight text-white">ENGINEERED<br />FOR REAL WORK</h2>
+          </div>
+        </div>
+
+        <div className="relative mx-auto w-full max-w-[1200px] px-5 py-10 sm:px-8 lg:px-10 lg:py-0">
 
           {/* Content */}
 
@@ -131,7 +156,7 @@ export default function AboutPage() {
 
             </div>
 
-            <h2 className="text-3xl font-black uppercase leading-none tracking-tight sm:text-4xl lg:text-5xl">
+            <h2 className="text-3xl font-black uppercase leading-none tracking-tight text-[#111214] sm:text-4xl lg:text-5xl lg:text-white">
               PROFESSIONAL
               <br />
               <span className="text-[#e21b23]">
