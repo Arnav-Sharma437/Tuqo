@@ -200,17 +200,17 @@ export default function AboutPage() {
 
           {/* Three Columns */}
 
-          <div className="mt-12 grid grid-cols-1 gap-0">
+          <div className="mt-12 grid grid-cols-1 gap-0 md:grid-cols-3 md:gap-0">
 
             {/* Our History */}
 
-            <div className="border-b border-white/25 px-4 py-6 text-center last:border-b-0">
+            <div className="border-b border-white/25 px-4 py-6 text-center last:border-b-0 md:border-b-0 md:border-r md:px-5 md:last:border-r-0">
 
               <h3 className="text-2xl font-medium sm:text-3xl">
                 Our History
               </h3>
 
-              <p className="mx-auto mt-6 max-w-md text-sm leading-7 text-white/90 sm:text-base">
+              <p className="mx-auto mt-4 max-w-md text-sm leading-7 text-white/90 sm:text-base">
                 Tugo Tools started as a small family-owned business with a
                 passion for providing high-quality machinery to companies in
                 the area. Over the years, we have grown into a leading
@@ -222,13 +222,13 @@ export default function AboutPage() {
 
             {/* Our Products */}
 
-            <div className="border-b border-white/25 px-4 py-6 text-center last:border-b-0">
+            <div className="border-b border-white/25 px-4 py-6 text-center last:border-b-0 md:border-b-0 md:border-r md:px-5 md:last:border-r-0">
 
               <h3 className="text-2xl font-medium sm:text-3xl">
                 Our Products
               </h3>
 
-              <p className="mx-auto mt-6 max-w-md text-sm leading-7 text-white/90 sm:text-base">
+              <p className="mx-auto mt-4 max-w-md text-sm leading-7 text-white/90 sm:text-base">
                 We specialize in providing machinery for the manufacturing,
                 construction, and industrial sectors. Our products include
                 everything from heavy machines to DIY tools
@@ -239,13 +239,13 @@ export default function AboutPage() {
 
             {/* Our Services */}
 
-            <div className="px-4 py-6 text-center">
+            <div className="px-4 py-6 text-center md:px-5">
 
               <h3 className="text-2xl font-medium sm:text-3xl">
                 Our Services
               </h3>
 
-              <p className="mx-auto mt-6 max-w-md text-sm leading-7 text-white/90 sm:text-base">
+              <p className="mx-auto mt-4 max-w-md text-sm leading-7 text-white/90 sm:text-base">
                 At Tugo Tools, we offer a range of services to ensure that your
                 machinery stays in top condition. Our team of experienced
                 technicians can provide maintenance, repairs, and even custom
