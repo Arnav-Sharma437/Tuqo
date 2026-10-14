@@ -53,7 +53,7 @@ export default function ContactPage() {
             </h2>
           </div>
 
-          {/* ADDRESS + MAP */}
+          {/* ADDRESS + GOOGLE MAP */}
           <div className="grid grid-cols-1 items-stretch gap-6 lg:grid-cols-2">
             {/* ADDRESS CARD */}
             <div className="flex min-h-[320px] flex-col justify-center bg-[#08090b] p-8 text-white sm:p-10">
@@ -95,7 +95,7 @@ export default function ContactPage() {
 
       {/* WORKING HOURS + CONTACT FORM */}
       <section className="w-full bg-[#f7f7f7] py-10 sm:py-12 lg:py-14">
-        <div className="mx-auto flex w-full max-w-[1400px] flex-col items-stretch gap-6 px-5 sm:px-8 lg:flex-row lg:items-start lg:px-10">
+        <div className="mx-auto flex w-full max-w-[1400px] flex-col gap-6 px-5 sm:px-8 lg:flex-row lg:items-start lg:px-10">
 
           {/* WORKING HOURS - LEFT */}
           <div className="w-full min-w-0 flex-1 border border-gray-200 bg-white p-6 sm:p-8">
