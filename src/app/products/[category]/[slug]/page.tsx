@@ -200,11 +200,11 @@ export default async function ProductDetailPage({
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
+         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-1">
             {product.specs.map((spec) => (
               <div
                 key={spec.label}
-                className="flex items-center justify-between py-3 border-b border-gray-100 text-xs sm:text-sm"
+               className="flex items-center justify-start gap-4 py-2 border-b border-gray-100 text-xs sm:text-sm"
               >
                 <span className="text-gray-500 font-medium">{spec.label}</span>
                 <span className="font-bold text-gray-900 text-right">{spec.value}</span>
