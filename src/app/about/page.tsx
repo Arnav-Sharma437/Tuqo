@@ -21,26 +21,13 @@ export default function AboutPage() {
       {/* HERO */}
       {/* ===================================================== */}
 
-      <section className="relative isolate overflow-hidden bg-[#08090b] text-white">
+      <section className="relative overflow-hidden bg-[#08090b] text-white">
 
-        <Image
-          src="/images/hero-products.png"
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="absolute inset-0 -z-20 hidden h-full w-full object-cover object-center sm:block"
-        />
-
-        <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_75%_50%,rgba(226,27,35,0.18),transparent_38%)]" />
-
-        <div className="pointer-events-none absolute inset-0 hidden bg-gradient-to-r from-[#08090b] via-[#08090b]/90 to-[#08090b]/35 sm:block" />
-
-        <div className="relative mx-auto grid min-h-0 w-full max-w-[1500px] grid-cols-1 items-center gap-8 px-5 py-10 sm:min-h-[540px] sm:px-8 sm:py-14 lg:grid-cols-12 lg:px-10 lg:py-16">
+        <div className="relative mx-auto flex w-full max-w-[1500px] flex-col gap-8 px-5 py-10 sm:px-8 sm:py-14 lg:px-10 lg:py-16">
 
           {/* Hero Content */}
 
-          <div className="relative z-20 w-full max-w-[680px] lg:col-span-6">
+          <div className="relative z-20 w-full max-w-[680px]">
 
             <div className="mb-5 flex items-center gap-2.5">
               <span className="h-[3px] w-8 bg-[#e21b23]" />
@@ -87,17 +74,15 @@ export default function AboutPage() {
 
           </div>
 
-          <div className="relative mx-auto aspect-[16/9] w-full max-w-2xl overflow-hidden border-y-2 border-[#e21b23] sm:hidden">
+          <div className="relative mx-auto aspect-[16/9] w-full max-w-[1100px] overflow-hidden border-y-2 border-[#e21b23]">
             <Image
               src="/images/hero-products.png"
               alt="TUQO professional equipment"
               fill
               sizes="100vw"
-              className="object-cover object-center"
+              className="object-contain object-center"
             />
           </div>
-
-          <div className="hidden lg:col-span-6 lg:block" aria-hidden="true" />
 
         </div>
 
@@ -112,20 +97,10 @@ export default function AboutPage() {
 
       <section
         id="our-story"
-        className="relative isolate overflow-hidden bg-white py-0 text-[#111214] sm:py-0 lg:bg-[#08090b] lg:py-24 lg:text-white"
+        className="relative overflow-hidden bg-white text-[#111214]"
       >
 
-        <Image
-          src="/images/banner-action.png"
-          alt=""
-          fill
-          sizes="100vw"
-          className="absolute inset-0 -z-20 hidden h-full w-full object-cover object-center lg:block"
-        />
-
-        <div className="pointer-events-none absolute inset-0 -z-10 hidden bg-[#08090b]/80 lg:block" />
-
-        <div className="relative aspect-[16/9] w-full overflow-hidden lg:hidden">
+        <div className="relative aspect-[16/9] w-full overflow-hidden">
           <Image
             src="/images/banner-action.png"
             alt="TUQO equipment in professional use"
@@ -140,11 +115,11 @@ export default function AboutPage() {
           </div>
         </div>
 
-        <div className="relative mx-auto w-full max-w-[1200px] px-5 py-10 sm:px-8 lg:px-10 lg:py-0">
+        <div className="relative mx-auto w-full max-w-[1200px] px-5 py-10 sm:px-8 lg:px-10 lg:py-14">
 
           {/* Content */}
 
-          <div className="w-full lg:max-w-[680px]">
+          <div className="w-full">
 
             <div className="mb-3 flex items-center gap-2">
 
@@ -156,7 +131,7 @@ export default function AboutPage() {
 
             </div>
 
-            <h2 className="text-3xl font-black uppercase leading-none tracking-tight text-[#111214] sm:text-4xl lg:text-5xl lg:text-white">
+            <h2 className="text-3xl font-black uppercase leading-none tracking-tight text-[#111214] sm:text-4xl lg:text-5xl">
               PROFESSIONAL
               <br />
               <span className="text-[#e21b23]">
@@ -164,18 +139,18 @@ export default function AboutPage() {
               </span>
             </h2>
 
-            <p className="mt-6 text-sm leading-7 text-gray-200 sm:text-base">
+            <p className="mt-6 text-sm leading-7 text-gray-700 sm:text-base">
               TUQO is focused on providing professional machinery, power tools
               and equipment for businesses, workshops and working professionals.
             </p>
 
-            <p className="mt-4 text-sm leading-7 text-gray-200 sm:text-base">
+            <p className="mt-4 text-sm leading-7 text-gray-700 sm:text-base">
               Our product range is built around practical requirements —
               equipment that can handle demanding environments while delivering
               the performance professionals expect from their machines.
             </p>
 
-            <p className="mt-4 text-sm leading-7 text-gray-200 sm:text-base">
+            <p className="mt-4 text-sm leading-7 text-gray-700 sm:text-base">
               From cleaning and maintenance equipment to power tools and
               accessories, TUQO aims to make professional-grade equipment
               accessible through a focused and reliable product range.
