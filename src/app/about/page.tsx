@@ -21,17 +21,20 @@ export default function AboutPage() {
       {/* HERO */}
       {/* ===================================================== */}
 
-      <section className="relative isolate overflow-hidden bg-[#08090b] text-white">
+      <section
+        className="relative isolate overflow-hidden bg-[#08090b] bg-cover bg-center text-white"
+        style={{ backgroundImage: "url('/images/hero-products.png')" }}
+      >
 
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_75%_50%,rgba(226,27,35,0.18),transparent_38%)]" />
 
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#08090b] via-[#08090b]/90 to-[#08090b]/35" />
 
-        <div className="relative mx-auto grid min-h-[540px] max-w-[1500px] items-center gap-8 px-5 py-14 sm:px-8 lg:grid-cols-12 lg:px-10 lg:py-16">
+        <div className="relative mx-auto flex min-h-[540px] max-w-[1500px] items-center px-5 py-14 sm:px-8 lg:px-10 lg:py-16">
 
           {/* Hero Content */}
 
-          <div className="relative z-20 lg:col-span-6">
+          <div className="relative z-20 w-full max-w-[680px]">
 
             <div className="mb-5 flex items-center gap-2.5">
               <span className="h-[3px] w-8 bg-[#e21b23]" />
@@ -78,27 +81,6 @@ export default function AboutPage() {
 
           </div>
 
-          {/* Hero Image */}
-
-          <div className="relative z-10 lg:col-span-6">
-
-            <div className="pointer-events-none absolute left-1/2 top-1/2 h-[330px] w-[330px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-red-600/10 blur-[100px] sm:h-[430px] sm:w-[430px]" />
-
-            <div className="relative mx-auto aspect-[4/3] w-full max-w-[720px]">
-
-              <Image
-                src="/images/hero-products.png"
-                alt="TUQO Professional Machinery and Power Tools"
-                fill
-                priority
-                sizes="(max-width: 1024px) 100vw, 55vw"
-                className="object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,0.85)] transition-transform duration-700 hover:scale-[1.03]"
-              />
-
-            </div>
-
-          </div>
-
         </div>
 
         <div className="absolute bottom-0 left-0 h-[3px] w-full bg-[#e21b23]" />
@@ -112,51 +94,17 @@ export default function AboutPage() {
 
       <section
         id="our-story"
-        className="relative overflow-hidden bg-[#f5f5f5] py-16 sm:py-20 lg:py-24"
+        className="relative isolate overflow-hidden bg-[#08090b] bg-cover bg-center py-16 text-white sm:py-20 lg:py-24"
+        style={{ backgroundImage: "url('/images/banner-action.png')" }}
       >
 
-        <div className="mx-auto grid max-w-[1400px] items-center gap-10 px-5 sm:px-8 lg:grid-cols-12 lg:gap-16 lg:px-10">
+        <div className="pointer-events-none absolute inset-0 bg-[#08090b]/80" />
 
-          {/* Image */}
-
-          <div className="relative lg:col-span-6">
-
-            <div className="relative min-h-[380px] overflow-hidden bg-[#08090b] sm:min-h-[480px]">
-
-              <Image
-                src="/images/banner-action.png"
-                alt="TUQO equipment in action"
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover"
-              />
-
-              <div className="absolute inset-0 bg-gradient-to-t from-[#08090b]/80 via-transparent to-transparent" />
-
-              <div className="absolute bottom-6 left-6 sm:bottom-8 sm:left-8">
-
-                <span className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#e21b23]">
-                  TUQO TOOLS
-                </span>
-
-                <p className="mt-2 max-w-xs text-xl font-black uppercase leading-tight text-white sm:text-2xl">
-                  ENGINEERED
-                  <br />
-                  FOR REAL WORK
-                </p>
-
-              </div>
-
-              <div className="absolute bottom-0 left-0 h-1 w-full bg-[#e21b23]" />
-
-            </div>
-
-          </div>
-
+        <div className="relative mx-auto max-w-[1000px] px-5 sm:px-8 lg:px-10">
 
           {/* Content */}
 
-          <div className="lg:col-span-6">
+          <div className="w-full">
 
             <div className="mb-3 flex items-center gap-2">
 
@@ -176,18 +124,18 @@ export default function AboutPage() {
               </span>
             </h2>
 
-            <p className="mt-6 text-sm leading-7 text-gray-600 sm:text-base">
+            <p className="mt-6 text-sm leading-7 text-gray-200 sm:text-base">
               TUQO is focused on providing professional machinery, power tools
               and equipment for businesses, workshops and working professionals.
             </p>
 
-            <p className="mt-4 text-sm leading-7 text-gray-600 sm:text-base">
+            <p className="mt-4 text-sm leading-7 text-gray-200 sm:text-base">
               Our product range is built around practical requirements —
               equipment that can handle demanding environments while delivering
               the performance professionals expect from their machines.
             </p>
 
-            <p className="mt-4 text-sm leading-7 text-gray-600 sm:text-base">
+            <p className="mt-4 text-sm leading-7 text-gray-200 sm:text-base">
               From cleaning and maintenance equipment to power tools and
               accessories, TUQO aims to make professional-grade equipment
               accessible through a focused and reliable product range.
