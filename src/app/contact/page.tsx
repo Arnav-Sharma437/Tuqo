@@ -113,6 +113,83 @@ export default function ContactPage() {
 
 
       {/* =========================================================
+          LOCATION SECTION
+      ========================================================= */}
+      <section className="w-full bg-white py-14 sm:py-16 lg:py-20">
+
+        <div className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-10">
+
+          <div className="mb-8">
+
+            <div className="mb-2 flex items-center gap-2">
+              <span className="h-[3px] w-7 bg-[#e21b23]" />
+
+              <span className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#e21b23]">
+                OUR LOCATION
+              </span>
+            </div>
+
+            <h2 className="text-3xl font-black uppercase text-[#111214] sm:text-4xl">
+              FIND US HERE
+            </h2>
+
+          </div>
+
+
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+
+            {/* ADDRESS CARD */}
+            <div className="flex min-h-[260px] flex-col justify-center bg-[#08090b] p-8 text-white sm:p-10">
+
+              <div className="flex h-14 w-14 items-center justify-center bg-[#e21b23]">
+                <MapPinIcon className="h-6 w-6" />
+              </div>
+
+              <h3 className="mt-6 text-2xl font-black uppercase">
+                {APP_CONFIG.business.name}
+              </h3>
+
+              <address className="mt-3 text-sm leading-6 text-gray-400 not-italic">
+                {APP_CONFIG.business.addressLines.map((line) => (
+                  <span key={line} className="block">
+                    {line}
+                  </span>
+                ))}
+              </address>
+
+            </div>
+
+
+            {/* GOOGLE MAP */}
+            <div className="min-h-[260px] overflow-hidden border border-gray-200 bg-[#f3f3f3]">
+
+              <iframe
+                src={`https://www.google.com/maps?q=${encodeURIComponent(
+                  APP_CONFIG.business.addressLines.join(", ")
+                )}&output=embed`}
+                width="100%"
+                height="100%"
+                style={{
+                  border: 0,
+                  minHeight: "320px",
+                }}
+                loading="lazy"
+                allowFullScreen
+                referrerPolicy="no-referrer-when-downgrade"
+                title="TUQO Tools Location"
+              />
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+
+      {/* =========================================================
           CONTACT INFORMATION + FORM
       ========================================================= */}
       <section className="w-full bg-[#f7f7f7] py-14 sm:py-16 lg:py-20">
@@ -418,82 +495,6 @@ export default function ContactPage() {
                 </form>
 
               </div>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </section>
-
-
-      {/* =========================================================
-          LOCATION SECTION
-      ========================================================= */}
-      <section className="w-full bg-white py-14 sm:py-16 lg:py-20">
-
-        <div className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-10">
-
-          <div className="mb-8">
-
-            <div className="mb-2 flex items-center gap-2">
-              <span className="h-[3px] w-7 bg-[#e21b23]" />
-
-              <span className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#e21b23]">
-                OUR LOCATION
-              </span>
-            </div>
-
-            <h2 className="text-3xl font-black uppercase text-[#111214] sm:text-4xl">
-              FIND US HERE
-            </h2>
-
-          </div>
-
-
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-
-            {/* ADDRESS CARD */}
-            <div className="flex min-h-[260px] flex-col justify-center bg-[#08090b] p-8 text-white sm:p-10">
-
-              <div className="flex h-14 w-14 items-center justify-center bg-[#e21b23]">
-                <MapPinIcon className="h-6 w-6" />
-              </div>
-
-              <h3 className="mt-6 text-2xl font-black uppercase">
-                {APP_CONFIG.business.name}
-              </h3>
-
-              <address className="mt-3 text-sm leading-6 text-gray-400 not-italic">
-                {APP_CONFIG.business.addressLines.map((line) => (
-                  <span key={line} className="block">
-                    {line}
-                  </span>
-                ))}
-              </address>
-
-            </div>
-
-
-            {/* GOOGLE MAP */}
-            <div className="min-h-[260px] overflow-hidden border border-gray-200 bg-[#f3f3f3]">
-
-              <iframe
-                src={`https://www.google.com/maps?q=${encodeURIComponent(
-                  APP_CONFIG.business.addressLines.join(", ")
-                )}&output=embed`}
-                width="100%"
-                height="100%"
-                style={{
-                  border: 0,
-                  minHeight: "320px",
-                }}
-                loading="lazy"
-                allowFullScreen
-                referrerPolicy="no-referrer-when-downgrade"
-                title="TUQO Tools Location"
-              />
 
             </div>
 
