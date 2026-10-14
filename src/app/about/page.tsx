@@ -21,12 +21,18 @@ export default function AboutPage() {
       {/* HERO */}
       {/* ===================================================== */}
 
-      <section
-        className="relative isolate overflow-hidden bg-[#08090b] bg-cover bg-center text-white"
-        style={{ backgroundImage: "url('/images/hero-products.png')" }}
-      >
+      <section className="relative isolate overflow-hidden bg-[#08090b] text-white">
 
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_75%_50%,rgba(226,27,35,0.18),transparent_38%)]" />
+        <Image
+          src="/images/hero-products.png"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="absolute inset-0 -z-20 h-full w-full object-cover object-center"
+        />
+
+        <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_75%_50%,rgba(226,27,35,0.18),transparent_38%)]" />
 
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#08090b] via-[#08090b]/90 to-[#08090b]/35" />
 
@@ -94,11 +100,18 @@ export default function AboutPage() {
 
       <section
         id="our-story"
-        className="relative isolate overflow-hidden bg-[#08090b] bg-cover bg-center py-16 text-white sm:py-20 lg:py-24"
-        style={{ backgroundImage: "url('/images/banner-action.png')" }}
+        className="relative isolate overflow-hidden bg-[#08090b] py-16 text-white sm:py-20 lg:py-24"
       >
 
-        <div className="pointer-events-none absolute inset-0 bg-[#08090b]/80" />
+        <Image
+          src="/images/banner-action.png"
+          alt=""
+          fill
+          sizes="100vw"
+          className="absolute inset-0 -z-20 h-full w-full object-cover object-center"
+        />
+
+        <div className="pointer-events-none absolute inset-0 -z-10 bg-[#08090b]/80" />
 
         <div className="relative mx-auto max-w-[1000px] px-5 sm:px-8 lg:px-10">
 
