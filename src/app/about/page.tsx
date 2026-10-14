@@ -21,15 +21,21 @@ export default function AboutPage() {
       {/* HERO */}
       {/* ===================================================== */}
 
-      <section
-        className="relative isolate overflow-hidden border-b-[3px] border-[#e21b23] bg-[#08090b] bg-cover bg-center text-white"
-        style={{ backgroundImage: "url('/images/hero-products.png')" }}
-      >
-        {/* Dark overlay keeps the text readable over the image on mobile and desktop */}
-        <div className="absolute inset-0 bg-black/65" aria-hidden="true" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-black/25" aria-hidden="true" />
+      <section className="relative isolate overflow-hidden bg-[#08090b] text-white">
 
-        <div className="relative z-10 mx-auto flex min-h-[560px] w-full max-w-[1500px] flex-col justify-center px-5 py-14 sm:min-h-[620px] sm:px-8 sm:py-16 lg:min-h-[680px] lg:px-10 lg:py-20">
+        <Image
+          src="/images/hero-products.png"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="absolute inset-0 -z-20 h-full w-full object-cover object-center"
+        />
+
+        <div className="pointer-events-none absolute inset-0 -z-10 bg-black/60" />
+        <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-r from-[#08090b]/85 via-[#08090b]/55 to-[#08090b]/20" />
+
+        <div className="relative mx-auto flex min-h-[560px] w-full max-w-[1500px] items-center px-5 py-12 sm:min-h-[620px] sm:px-8 sm:py-14 lg:px-10 lg:py-16">
 
           {/* Hero Content */}
 
@@ -82,6 +88,8 @@ export default function AboutPage() {
 
         </div>
 
+        <div className="absolute bottom-0 left-0 h-[3px] w-full bg-[#e21b23]" />
+
       </section>
 
 
@@ -91,23 +99,21 @@ export default function AboutPage() {
 
       <section
         id="our-story"
-        className="relative overflow-hidden bg-white text-[#111214]"
+        className="relative isolate overflow-hidden bg-white py-0 text-[#111214]"
       >
 
-        <div
-          className="relative flex min-h-[320px] w-full items-end overflow-hidden bg-[#08090b] bg-cover bg-[center_45%] sm:min-h-[420px] lg:min-h-[520px]"
-          style={{ backgroundImage: "url('/images/banner-action.png')" }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/10" aria-hidden="true" />
-          <div className="relative z-10 px-5 pb-8 sm:px-10 sm:pb-12 lg:px-16 lg:pb-16">
-            <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#e21b23]">
-              TUQO TOOLS
-            </p>
-            <h2 className="mt-2 text-2xl font-black uppercase leading-tight text-white sm:text-4xl lg:text-5xl">
-              ENGINEERED
-              <br />
-              FOR REAL WORK
-            </h2>
+        <div className="relative aspect-[16/9] w-full overflow-hidden">
+          <Image
+            src="/images/banner-action.png"
+            alt="TUQO equipment in professional use"
+            fill
+            sizes="100vw"
+            className="object-cover object-center"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+          <div className="absolute bottom-5 left-5 right-5">
+            <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#e21b23]">TUQO TOOLS</p>
+            <h2 className="mt-2 text-2xl font-black uppercase leading-tight text-white">ENGINEERED<br />FOR REAL WORK</h2>
           </div>
         </div>
 
@@ -194,11 +200,11 @@ export default function AboutPage() {
 
           {/* Three Columns */}
 
-          <div className="mt-12 grid grid-cols-1">
+          <div className="mt-12 grid grid-cols-1 gap-0">
 
             {/* Our History */}
 
-            <div className="border-b border-white/25 px-2 py-6 text-center last:border-b-0 md:px-2 md:py-6">
+            <div className="border-b border-white/25 px-4 py-6 text-center last:border-b-0">
 
               <h3 className="text-2xl font-medium sm:text-3xl">
                 Our History
@@ -216,7 +222,7 @@ export default function AboutPage() {
 
             {/* Our Products */}
 
-            <div className="border-b border-white/25 px-2 py-6 text-center last:border-b-0 md:px-2 md:py-6">
+            <div className="border-b border-white/25 px-4 py-6 text-center last:border-b-0">
 
               <h3 className="text-2xl font-medium sm:text-3xl">
                 Our Products
@@ -233,7 +239,7 @@ export default function AboutPage() {
 
             {/* Our Services */}
 
-            <div className="px-2 py-6 text-center md:px-10 md:py-2">
+            <div className="px-4 py-6 text-center">
 
               <h3 className="text-2xl font-medium sm:text-3xl">
                 Our Services
@@ -285,7 +291,7 @@ export default function AboutPage() {
           </div>
 
 
-          <div className="grid grid-cols-1 gap-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
 
             {industries.map((industry, index) => (
 
@@ -353,7 +359,7 @@ export default function AboutPage() {
           </div>
 
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
 
             {CATEGORIES.slice(0, 6).map((category) => (
 
