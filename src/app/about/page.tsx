@@ -36,11 +36,11 @@ export default function AboutPage() {
 
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#08090b] via-[#08090b]/90 to-[#08090b]/35" />
 
-        <div className="relative mx-auto flex min-h-[540px] max-w-[1500px] items-center px-5 py-14 sm:px-8 lg:px-10 lg:py-16">
+        <div className="relative mx-auto grid min-h-[540px] w-full max-w-[1500px] grid-cols-1 items-center gap-8 px-5 py-14 sm:px-8 lg:grid-cols-12 lg:px-10 lg:py-16">
 
           {/* Hero Content */}
 
-          <div className="relative z-20 w-full max-w-[680px]">
+          <div className="relative z-20 w-full max-w-[680px] lg:col-span-6">
 
             <div className="mb-5 flex items-center gap-2.5">
               <span className="h-[3px] w-8 bg-[#e21b23]" />
@@ -87,6 +87,8 @@ export default function AboutPage() {
 
           </div>
 
+          <div className="hidden lg:col-span-6 lg:block" aria-hidden="true" />
+
         </div>
 
         <div className="absolute bottom-0 left-0 h-[3px] w-full bg-[#e21b23]" />
@@ -113,11 +115,11 @@ export default function AboutPage() {
 
         <div className="pointer-events-none absolute inset-0 -z-10 bg-[#08090b]/80" />
 
-        <div className="relative mx-auto max-w-[1000px] px-5 sm:px-8 lg:px-10">
+        <div className="relative mx-auto w-full max-w-[1200px] px-5 sm:px-8 lg:px-10">
 
           {/* Content */}
 
-          <div className="w-full">
+          <div className="w-full lg:max-w-[680px]">
 
             <div className="mb-3 flex items-center gap-2">
 
