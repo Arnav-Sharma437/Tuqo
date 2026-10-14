@@ -171,22 +171,6 @@ export default async function ProductDetailPage({
                   <span>Call Technical Desk</span>
                 </a>
               </div>
-
-              {/* Trust Footer */}
-              <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-[10px] font-bold uppercase tracking-wider text-gray-500">
-                <div className="flex items-center gap-1.5">
-                  <ShieldCheckIcon className="h-4 w-4 text-[#e21b23]" />
-                  <span>Genuine TUQO Machine</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <QualityDiamondIcon className="h-4 w-4 text-[#e21b23]" />
-                  <span>Pan-India Spares Supply</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <ClockIcon className="h-4 w-4 text-[#e21b23]" />
-                  <span>Commercial Warranty</span>
-                </div>
-              </div>
             </div>
           </div>
         </div>
