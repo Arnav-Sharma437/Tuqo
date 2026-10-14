@@ -1,3 +1,163 @@
+import React from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { ALL_PRODUCTS } from "@/constants/products";
+import { getLiveProductBySlug, getLiveProducts } from "@/lib/data";
+import { APP_CONFIG } from "@/constants";
+import {
+  WhatsAppIcon,
+  PhoneIcon,
+  ArrowRightIcon,
+  ShieldCheckIcon,
+  QualityDiamondIcon,
+  ClockIcon,
+} from "@/components/common/Icons";
+
+export const dynamic = "force-dynamic";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ category: string; slug: string }>;
+}) {
+  const { slug } = await params;
+  const product = await getLiveProductBySlug(slug);
+
+  if (!product) {
+    return {
+      title: "Product Not Found | TUQO Tools",
+    };
+  }
+
+  return {
+    title: `${product.name} | TUQO Tools`,
+    description: product.shortDesc,
+  };
+}
+
+export default async function ProductDetailPage({
+  params,
+}: {
+  params: Promise<{ category: string; slug: string }>;
+}) {
+  const { category: categorySlug, slug } = await params;
+  const product = await getLiveProductBySlug(slug);
+
+  if (!product) {
+    notFound();
+  }
+
+  const categoryProducts = await getLiveProducts(categorySlug);
+  const relatedProducts = categoryProducts
+    .filter((p) => p.slug !== product.slug)
+    .slice(0, 3);
+
+  const whatsappInquiryUrl = `https://wa.me/919342466860?text=${encodeURIComponent(
+    `Hello TUQO Team, I am interested in inquiring about ${product.name} (Model: ${product.model}). Please provide technical specifications and pricing/availability details.`
+  )}`;
+
+  return (
+    <main className="w-full bg-[#f8f9fc] py-8 sm:py-12 lg:py-16">
+      <div className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-10">
+        {/* Breadcrumbs */}
+        <nav className="mb-6 flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-gray-400 sm:text-xs">
+          <Link href="/" className="hover:text-[#e21b23] transition-colors">
+            Home
+          </Link>
+          <span>/</span>
+          <Link href="/categories" className="hover:text-[#e21b23] transition-colors">
+            Categories
+          </Link>
+          <span>/</span>
+          <Link
+            href={`/products/${product.categorySlug}`}
+            className="hover:text-[#e21b23] transition-colors"
+          >
+            {product.category}
+          </Link>
+          <span>/</span>
+          <span className="text-gray-900 truncate max-w-[200px] sm:max-w-none">
+            {product.name}
+          </span>
+        </nav>
+
+        {/* Main Product Hero Box */}
+        <div className="overflow-hidden rounded-3xl border border-gray-200/90 bg-white p-6 sm:p-8 lg:p-12 shadow-sm">
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-14 items-center">
+            {/* Left Image Stage */}
+            <div className="lg:col-span-5">
+              <div className="relative flex aspect-square w-full items-center justify-center rounded-2xl bg-gradient-to-b from-[#f8f8f8] to-gray-50 border border-gray-100 p-8 shadow-inner">
+
+                <div className="relative h-64 w-64 sm:h-80 sm:w-80 transition-transform duration-500 hover:scale-105">
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    fill
+                    priority
+                    sizes="(max-width: 768px) 100vw, 400px"
+                   className="object-contain w-full h-full scale-110"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Right Product Summary & Actions */}
+            <div className="lg:col-span-7 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-sm sm:text-base font-black uppercase tracking-[0.2em] text-[#e21b23]">
+  MODEL: {product.model}
+</span>
+                </div>
+
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tight text-[#111214] leading-tight">
+                  {product.name}
+                </h1>
+
+                <p className="mt-4 text-xs sm:text-sm text-gray-600 leading-relaxed font-normal">
+                  {product.description}
+                </p>
+
+                {/* Key Features Checklist */}
+                <div className="mt-6 border-t border-b border-gray-100 py-5">
+                  <h3 className="text-xs font-black uppercase tracking-wider text-gray-900 mb-3">
+                    Key Performance Highlights:
+                  </h3>
+                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs text-gray-700 font-medium">
+                    {product.features.map((feat) => (
+                      <li key={feat} className="flex items-start gap-2">
+                        <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-[#e21b23]" />
+                        <span>{feat}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              {/* Inquiry Action Buttons (No Cart / No E-commerce) */}
+              <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5">
+                <a
+                  href={whatsappInquiryUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group inline-flex h-12 flex-1 items-center justify-center gap-2.5 rounded-xl bg-[#25D366] px-6 text-sm font-bold text-black shadow-lg shadow-emerald-950/20 transition-all hover:bg-[#20bd5a] hover:scale-[1.02] active:scale-95"
+                >
+                  <WhatsAppIcon className="h-4 w-4 text-black" />
+                  <span>Inquire on WhatsApp</span>
+                </a>
+
+                <a
+                  href={`tel:${APP_CONFIG.phoneRaw}`}
+                  className="inline-flex h-12 flex-1 items-center justify-center gap-2.5 rounded-xl border border-gray-300 bg-white px-6 text-sm font-bold text-[#111214] transition-all hover:border-[#e21b23] hover:bg-red-50 hover:text-[#e21b23] active:scale-95"
+                >
+                  <PhoneIcon className="h-4 w-4 text-[#e21b23]" />
+                  <span>Call Technical Desk</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
 
         {/* Detailed Technical Specifications Grid */}
         <div className="mt-10 rounded-3xl border border-gray-200/90 bg-white p-6 sm:p-8 lg:p-10 shadow-sm">
