@@ -53,9 +53,10 @@ export default function ContactPage() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          {/* ADDRESS + MAP */}
+          <div className="grid grid-cols-1 items-stretch gap-6 lg:grid-cols-2">
             {/* ADDRESS CARD */}
-            <div className="flex min-h-[260px] flex-col justify-center bg-[#08090b] p-8 text-white sm:p-10">
+            <div className="flex min-h-[320px] flex-col justify-center bg-[#08090b] p-8 text-white sm:p-10">
               <div className="flex h-14 w-14 items-center justify-center bg-[#e21b23]">
                 <MapPinIcon className="h-6 w-6" />
               </div>
@@ -74,17 +75,14 @@ export default function ContactPage() {
             </div>
 
             {/* GOOGLE MAP */}
-            <div className="min-h-[260px] overflow-hidden border border-gray-200 bg-[#f3f3f3]">
+            <div className="h-[320px] min-w-0 overflow-hidden border border-gray-200 bg-[#f3f3f3]">
               <iframe
                 src={`https://www.google.com/maps?q=${encodeURIComponent(
                   APP_CONFIG.business.addressLines.join(", ")
                 )}&output=embed`}
                 width="100%"
                 height="100%"
-                style={{
-                  border: 0,
-                  minHeight: "320px",
-                }}
+                style={{ border: 0 }}
                 loading="lazy"
                 allowFullScreen
                 referrerPolicy="no-referrer-when-downgrade"
@@ -97,10 +95,10 @@ export default function ContactPage() {
 
       {/* WORKING HOURS + CONTACT FORM */}
       <section className="w-full bg-[#f7f7f7] py-10 sm:py-12 lg:py-14">
-        <div className="mx-auto flex w-full max-w-[1400px] flex-row items-start gap-6 px-5 sm:px-8 lg:px-10">
+        <div className="mx-auto flex w-full max-w-[1400px] flex-col items-stretch gap-6 px-5 sm:px-8 lg:flex-row lg:items-start lg:px-10">
 
           {/* WORKING HOURS - LEFT */}
-          <div className="w-1/2 min-w-0 border border-gray-200 bg-white p-6 sm:p-8">
+          <div className="w-full min-w-0 flex-1 border border-gray-200 bg-white p-6 sm:p-8">
             <div className="mb-5 flex items-center gap-4 border-b border-gray-100 pb-5">
               <div className="flex h-12 w-12 shrink-0 items-center justify-center bg-[#e21b23] text-white">
                 <ClockIcon className="h-5 w-5" />
@@ -143,7 +141,7 @@ export default function ContactPage() {
           </div>
 
           {/* CONTACT FORM - RIGHT */}
-          <div className="w-1/2 min-w-0 border border-gray-200 bg-white p-6 sm:p-8 lg:p-10">
+          <div className="w-full min-w-0 flex-1 border border-gray-200 bg-white p-6 sm:p-8 lg:p-10">
             <div className="mb-7">
               <div className="mb-2 flex items-center gap-2">
                 <span className="h-[3px] w-7 bg-[#e21b23]" />
