@@ -21,9 +21,15 @@ export default function AboutPage() {
       {/* HERO */}
       {/* ===================================================== */}
 
-      <section className="relative overflow-hidden bg-[#08090b] text-white">
+      <section
+        className="relative isolate overflow-hidden border-b-[3px] border-[#e21b23] bg-[#08090b] bg-cover bg-center text-white"
+        style={{ backgroundImage: "url('/images/hero-products.png')" }}
+      >
+        {/* Dark overlay keeps the text readable over the image on mobile and desktop */}
+        <div className="absolute inset-0 bg-black/65" aria-hidden="true" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-black/25" aria-hidden="true" />
 
-        <div className="relative mx-auto flex w-full max-w-[1500px] flex-col gap-8 px-5 py-10 sm:px-8 sm:py-14 lg:px-10 lg:py-16">
+        <div className="relative z-10 mx-auto flex min-h-[560px] w-full max-w-[1500px] flex-col justify-center px-5 py-14 sm:min-h-[620px] sm:px-8 sm:py-16 lg:min-h-[680px] lg:px-10 lg:py-20">
 
           {/* Hero Content */}
 
@@ -74,19 +80,7 @@ export default function AboutPage() {
 
           </div>
 
-          <div className="relative mx-auto aspect-[16/9] w-full max-w-[1100px] overflow-hidden border-y-2 border-[#e21b23]">
-            <Image
-              src="/images/hero-products.png"
-              alt="TUQO professional equipment"
-              fill
-              sizes="100vw"
-              className="object-contain object-center"
-            />
-          </div>
-
         </div>
-
-        <div className="absolute bottom-0 left-0 h-[3px] w-full bg-[#e21b23]" />
 
       </section>
 
