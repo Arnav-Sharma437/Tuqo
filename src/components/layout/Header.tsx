@@ -123,19 +123,19 @@ export function Header() {
     <header
       className={`sticky top-0 z-50 w-full transition-all duration-300 ${
         scrolled
-          ? "bg-white/95 backdrop-blur-md shadow-md border-b border-gray-200"
-          : "bg-white border-b border-gray-100 shadow-xs"
+          ? "bg-[#0a0b0e]/95 backdrop-blur-md shadow-lg border-b border-white/10"
+          : "bg-[#0a0b0e] border-b border-white/10 shadow-sm"
       }`}
     >
       <div className="mx-auto flex h-[72px] sm:h-[78px] max-w-[1440px] items-center justify-between px-5 sm:px-8 lg:px-10">
-        {/* ================= 1. BRAND LOGO ================= */}
+        {/* ================= 1. BRAND LOGO (WHITE LOGO AS IN FOOTER) ================= */}
         <div className="flex shrink-0 items-center">
           <Link
             href="/"
             className="flex items-center py-2 transition-opacity duration-200 hover:opacity-85"
             aria-label="TUQO Tools Home"
           >
-            <TuqoLogo variant="black" width={150} priority />
+            <TuqoLogo variant="white" width={160} priority />
           </Link>
         </div>
 
@@ -147,7 +147,7 @@ export function Header() {
             className={`relative flex h-14 items-center px-3.5 text-[13px] font-bold uppercase tracking-wider transition-colors duration-200 ${
               pathname === "/"
                 ? "text-[#e21b23]"
-                : "text-[#111214] hover:text-[#e21b23]"
+                : "text-gray-200 hover:text-[#e21b23]"
             }`}
           >
             <span>Home</span>
@@ -167,7 +167,7 @@ export function Header() {
               className={`relative flex h-14 items-center gap-1.5 px-3.5 text-[13px] font-bold uppercase tracking-wider transition-colors duration-200 ${
                 pathname.startsWith("/categories") || pathname.startsWith("/products")
                   ? "text-[#e21b23]"
-                  : "text-[#111214] hover:text-[#e21b23]"
+                  : "text-gray-200 hover:text-[#e21b23]"
               }`}
             >
               <span>Products</span>
@@ -181,17 +181,17 @@ export function Header() {
               )}
             </Link>
 
-            {/* Dropdown Menu */}
+            {/* Dropdown Menu (Dark theme) */}
             {categoriesDropdownOpen && (
-              <div className="absolute left-0 top-full w-[420px] rounded-2xl border border-gray-200 bg-white p-3 shadow-xl backdrop-blur-md animate-in fade-in slide-in-from-top-2 duration-200">
+              <div className="absolute left-0 top-full w-[420px] rounded-2xl border border-white/15 bg-[#14161a] p-3 shadow-2xl backdrop-blur-md animate-in fade-in slide-in-from-top-2 duration-200">
                 <div className="space-y-1">
                   {categoryItems.map((item) => (
                     <Link
                       key={item.href}
                       href={item.href}
-                      className="group flex items-center gap-3.5 rounded-xl px-2.5 py-2 transition-all hover:bg-gray-50"
+                      className="group flex items-center gap-3.5 rounded-xl px-2.5 py-2 transition-all hover:bg-white/5"
                     >
-                      <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-xl border border-gray-100 bg-[#f8f9fa] p-1 shadow-2xs group-hover:border-[#e21b23]/30 transition-colors">
+                      <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-xl border border-white/10 bg-[#1c1f26] p-1 shadow-2xs group-hover:border-[#e21b23]/50 transition-colors">
                         <Image
                           src={item.image}
                           alt={item.name}
@@ -201,10 +201,10 @@ export function Header() {
                         />
                       </div>
                       <div className="flex flex-col min-w-0">
-                        <span className="text-xs font-bold text-[#111214] group-hover:text-[#e21b23] transition-colors truncate">
+                        <span className="text-xs font-bold text-white group-hover:text-[#e21b23] transition-colors truncate">
                           {item.name}
                         </span>
-                        <span className="text-[11px] text-gray-500 mt-0.5 truncate">
+                        <span className="text-[11px] text-gray-400 mt-0.5 truncate">
                           {item.desc}
                         </span>
                       </div>
@@ -212,10 +212,10 @@ export function Header() {
                   ))}
                 </div>
 
-                <div className="mt-2 border-t border-gray-100 pt-2 px-1">
+                <div className="mt-2 border-t border-white/10 pt-2 px-1">
                   <Link
                     href="/categories"
-                    className="flex items-center justify-between rounded-lg bg-gray-50 px-3 py-2 text-[11px] font-extrabold uppercase tracking-wider text-gray-800 transition hover:bg-[#e21b23] hover:text-white"
+                    className="flex items-center justify-between rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-[11px] font-extrabold uppercase tracking-wider text-gray-200 transition hover:bg-[#e21b23] hover:text-white hover:border-[#e21b23]"
                   >
                     <span>View All Categories</span>
                     <ArrowRightIcon className="h-3.5 w-3.5" />
@@ -231,11 +231,11 @@ export function Header() {
             className={`relative flex h-14 items-center gap-1.5 px-3.5 text-[13px] font-bold uppercase tracking-wider transition-colors duration-200 ${
               pathname === "/e-catalog"
                 ? "text-[#e21b23]"
-                : "text-[#111214] hover:text-[#e21b23]"
+                : "text-gray-200 hover:text-[#e21b23]"
             }`}
           >
             <span>E-Catalog</span>
-            <span className="rounded bg-red-100 px-1.5 py-0.5 text-[9px] font-black uppercase text-[#e21b23]">
+            <span className="rounded bg-[#e21b23]/20 border border-[#e21b23]/40 px-1.5 py-0.5 text-[9px] font-black uppercase text-[#ff5c62]">
               PDF
             </span>
             {pathname === "/e-catalog" && (
@@ -249,7 +249,7 @@ export function Header() {
             className={`relative flex h-14 items-center px-3.5 text-[13px] font-bold uppercase tracking-wider transition-colors duration-200 ${
               pathname === "/about"
                 ? "text-[#e21b23]"
-                : "text-[#111214] hover:text-[#e21b23]"
+                : "text-gray-200 hover:text-[#e21b23]"
             }`}
           >
             <span>About Us</span>
@@ -264,7 +264,7 @@ export function Header() {
             className={`relative flex h-14 items-center px-3.5 text-[13px] font-bold uppercase tracking-wider transition-colors duration-200 ${
               pathname === "/contact"
                 ? "text-[#e21b23]"
-                : "text-[#111214] hover:text-[#e21b23]"
+                : "text-gray-200 hover:text-[#e21b23]"
             }`}
           >
             <span>Contact</span>
@@ -279,16 +279,16 @@ export function Header() {
           {/* Desktop Helpline */}
           <a
             href={`tel:${APP_CONFIG.phoneRaw}`}
-            className="hidden xl:flex items-center gap-2.5 text-xs font-bold text-gray-700 hover:text-[#e21b23] transition-colors pr-2"
+            className="hidden xl:flex items-center gap-2.5 text-xs font-bold text-gray-300 hover:text-white transition-colors pr-2"
           >
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-red-50 text-[#e21b23] border border-red-100">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/5 text-[#e21b23] border border-white/10">
               <PhoneIcon className="h-4 w-4" />
             </div>
             <div className="text-left">
               <span className="block text-[9px] font-bold uppercase tracking-wider text-gray-400">
                 Direct Desk
               </span>
-              <span className="font-extrabold text-[#111214] tracking-tight">
+              <span className="font-extrabold text-white tracking-tight">
                 {APP_CONFIG.phone}
               </span>
             </div>
@@ -299,7 +299,7 @@ export function Header() {
             href={APP_CONFIG.whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden sm:inline-flex h-10 items-center justify-center gap-2 rounded-xl bg-[#e21b23] px-4 text-xs font-extrabold uppercase tracking-wider text-white shadow-md shadow-red-900/20 transition-all hover:bg-[#b8141a] hover:scale-[1.02] active:scale-95"
+            className="hidden sm:inline-flex h-10 items-center justify-center gap-2 rounded-xl bg-[#e21b23] px-4 text-xs font-extrabold uppercase tracking-wider text-white shadow-md shadow-red-900/30 transition-all hover:bg-[#b8141a] hover:scale-[1.02] active:scale-95"
           >
             <WhatsAppIcon className="h-4 w-4 text-white" />
             <span>Quick Inquiry</span>
@@ -308,7 +308,7 @@ export function Header() {
           {/* Mobile Phone Call Button */}
           <a
             href={`tel:${APP_CONFIG.phoneRaw}`}
-            className="flex h-9 w-9 items-center justify-center rounded-xl bg-red-50 text-[#e21b23] border border-red-200 transition-colors sm:hidden"
+            className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/10 text-white border border-white/15 transition-colors sm:hidden hover:bg-[#e21b23]"
             aria-label="Call TUQO"
           >
             <PhoneIcon className="h-4 w-4" />
@@ -318,7 +318,7 @@ export function Header() {
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="flex h-10 w-10 items-center justify-center rounded-xl border border-gray-200 bg-white text-[#111214] transition-colors hover:border-[#e21b23] hover:text-[#e21b23] lg:hidden"
+            className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/15 bg-white/10 text-white transition-colors hover:border-[#e21b23] hover:text-[#e21b23] lg:hidden"
             aria-label="Toggle Navigation Menu"
             aria-expanded={mobileMenuOpen}
           >
@@ -331,15 +331,15 @@ export function Header() {
         </div>
       </div>
 
-      {/* ================= 4. MOBILE MENU DRAWER ================= */}
+      {/* ================= 4. MOBILE MENU DRAWER (DARK) ================= */}
       {mobileMenuOpen && (
-        <div className="border-t border-gray-200 bg-white px-5 py-6 shadow-2xl lg:hidden max-h-[85vh] overflow-y-auto">
+        <div className="border-t border-white/10 bg-[#0a0b0e] px-5 py-6 shadow-2xl lg:hidden max-h-[85vh] overflow-y-auto">
           <div className="flex flex-col space-y-1">
             {/* Home */}
             <Link
               href="/"
-              className={`flex h-12 items-center justify-between border-b border-gray-100 text-sm font-bold uppercase tracking-wider ${
-                pathname === "/" ? "text-[#e21b23]" : "text-[#111214]"
+              className={`flex h-12 items-center justify-between border-b border-white/10 text-sm font-bold uppercase tracking-wider ${
+                pathname === "/" ? "text-[#e21b23]" : "text-white hover:text-[#e21b23]"
               }`}
             >
               <span>Home</span>
@@ -347,11 +347,11 @@ export function Header() {
             </Link>
 
             {/* Categories Accordion */}
-            <div className="border-b border-gray-100">
+            <div className="border-b border-white/10">
               <button
                 type="button"
                 onClick={() => setMobileCategoriesOpen(!mobileCategoriesOpen)}
-                className="flex h-12 w-full items-center justify-between text-sm font-bold uppercase tracking-wider text-[#111214]"
+                className="flex h-12 w-full items-center justify-between text-sm font-bold uppercase tracking-wider text-white"
               >
                 <span>Products &amp; Categories</span>
                 <ChevronDownIcon
@@ -367,9 +367,9 @@ export function Header() {
                     <Link
                       key={item.href}
                       href={item.href}
-                      className="flex items-center gap-3 rounded-xl p-2 text-xs font-semibold text-gray-700 hover:text-[#e21b23] hover:bg-gray-50 transition-all"
+                      className="flex items-center gap-3 rounded-xl p-2 text-xs font-semibold text-gray-300 hover:text-white hover:bg-white/5 transition-all"
                     >
-                      <div className="relative h-9 w-9 shrink-0 overflow-hidden rounded-lg border border-gray-100 bg-[#f8f9fa] p-1">
+                      <div className="relative h-9 w-9 shrink-0 overflow-hidden rounded-lg border border-white/10 bg-[#1c1f26] p-1">
                         <Image
                           src={item.image}
                           alt={item.name}
@@ -383,7 +383,7 @@ export function Header() {
                   ))}
                   <Link
                     href="/categories"
-                    className="block pt-2 text-xs font-bold uppercase text-[#e21b23] pl-2"
+                    className="block pt-2 text-xs font-bold uppercase text-[#e21b23] pl-2 hover:underline"
                   >
                     View All Categories &rarr;
                   </Link>
@@ -394,13 +394,13 @@ export function Header() {
             {/* E-Catalog */}
             <Link
               href="/e-catalog"
-              className={`flex h-12 items-center justify-between border-b border-gray-100 text-sm font-bold uppercase tracking-wider ${
-                pathname === "/e-catalog" ? "text-[#e21b23]" : "text-[#111214]"
+              className={`flex h-12 items-center justify-between border-b border-white/10 text-sm font-bold uppercase tracking-wider ${
+                pathname === "/e-catalog" ? "text-[#e21b23]" : "text-white hover:text-[#e21b23]"
               }`}
             >
               <div className="flex items-center gap-2">
                 <span>E-Catalog</span>
-                <span className="rounded bg-red-100 px-1.5 py-0.2 text-[9px] font-black text-[#e21b23]">
+                <span className="rounded bg-[#e21b23]/20 border border-[#e21b23]/40 px-1.5 py-0.2 text-[9px] font-black text-[#ff5c62]">
                   PDF
                 </span>
               </div>
@@ -412,8 +412,8 @@ export function Header() {
             {/* About */}
             <Link
               href="/about"
-              className={`flex h-12 items-center justify-between border-b border-gray-100 text-sm font-bold uppercase tracking-wider ${
-                pathname === "/about" ? "text-[#e21b23]" : "text-[#111214]"
+              className={`flex h-12 items-center justify-between border-b border-white/10 text-sm font-bold uppercase tracking-wider ${
+                pathname === "/about" ? "text-[#e21b23]" : "text-white hover:text-[#e21b23]"
               }`}
             >
               <span>About Us</span>
@@ -425,8 +425,8 @@ export function Header() {
             {/* Contact */}
             <Link
               href="/contact"
-              className={`flex h-12 items-center justify-between border-b border-gray-100 text-sm font-bold uppercase tracking-wider ${
-                pathname === "/contact" ? "text-[#e21b23]" : "text-[#111214]"
+              className={`flex h-12 items-center justify-between border-b border-white/10 text-sm font-bold uppercase tracking-wider ${
+                pathname === "/contact" ? "text-[#e21b23]" : "text-white hover:text-[#e21b23]"
               }`}
             >
               <span>Contact Us</span>
@@ -441,7 +441,7 @@ export function Header() {
                 href={APP_CONFIG.whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] text-xs font-extrabold uppercase tracking-wider text-black shadow-md"
+                className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] text-xs font-extrabold uppercase tracking-wider text-black shadow-md hover:bg-[#20bd5a] transition"
               >
                 <WhatsAppIcon className="h-4 w-4" />
                 <span>Chat on WhatsApp</span>
@@ -449,7 +449,7 @@ export function Header() {
 
               <a
                 href={`tel:${APP_CONFIG.phoneRaw}`}
-                className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#111214] text-xs font-extrabold uppercase tracking-wider text-white"
+                className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-white/10 border border-white/15 text-xs font-extrabold uppercase tracking-wider text-white hover:bg-white/20 transition"
               >
                 <PhoneIcon className="h-4 w-4" />
                 <span>Call {APP_CONFIG.phone}</span>
