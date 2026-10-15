@@ -375,6 +375,30 @@ export function WarrantyForm() {
   const [state, setState] = useState("");
   const [address, setAddress] = useState("");
 
+  const [availableModels, setAvailableModels] = useState<string[]>(COMMON_MODELS);
+
+  // Fetch dynamic models configured by Admin in CMS
+  useEffect(() => {
+    async function fetchModels() {
+      try {
+        const res = await fetch("/api/warranty/models");
+        if (res.ok) {
+          const data = await res.json();
+          if (data.models && data.models.length > 0) {
+            const names: string[] = data.models.map((m: any) => m.name);
+            if (!names.includes("Other / Custom TUQO Equipment")) {
+              names.push("Other / Custom TUQO Equipment");
+            }
+            setAvailableModels(names);
+          }
+        }
+      } catch (err) {
+        console.warn("Using fallback warranty models:", err);
+      }
+    }
+    fetchModels();
+  }, []);
+
   const [products, setProducts] = useState<WarrantyProductItem[]>([
     {
       model: COMMON_MODELS[0],
@@ -413,21 +437,21 @@ export function WarrantyForm() {
       if (urlDealer) setDealerName(urlDealer);
       setProducts([
         {
-          model: urlModel || COMMON_MODELS[0],
+          model: urlModel || (availableModels[0] || COMMON_MODELS[0]),
           serialNumber: urlSerial || "",
           productName: "",
           warrantyMonths: 6,
         },
       ]);
     }
-  }, [searchParams]);
+  }, [searchParams, availableModels]);
 
   // Product Row Management
   const addProductRow = () => {
     setProducts((prev) => [
       ...prev,
       {
-        model: COMMON_MODELS[0],
+        model: availableModels[0] || COMMON_MODELS[0],
         serialNumber: "",
         productName: "",
         warrantyMonths: 6,
@@ -484,6 +508,13 @@ export function WarrantyForm() {
         setErrorMsg(`Please select the Equipment Model for Item #${i + 1}.`);
         return;
       }
+      if (
+        products[i].model === "Other / Custom TUQO Equipment" &&
+        !products[i].productName?.trim()
+      ) {
+        setErrorMsg(`Please enter the Custom Equipment / Model Name for Item #${i + 1}.`);
+        return;
+      }
     }
     setStep(3);
     window.scrollTo({ top: 300, behavior: "smooth" });
@@ -526,7 +557,10 @@ export function WarrantyForm() {
         state: state.trim(),
         address: address.trim(),
         products: products.map((p) => ({
-          model: p.model,
+          model:
+            p.model === "Other / Custom TUQO Equipment" && p.productName?.trim()
+              ? p.productName.trim()
+              : p.model,
           serialNumber: (p.serialNumber || "").trim().toUpperCase(),
           warrantyMonths: 6,
         })),
@@ -787,7 +821,7 @@ export function WarrantyForm() {
 
               <form onSubmit={handleProceedToStep2} className="space-y-4">
                 <div>
-                  <label className="block text-xs font-black uppercase tracking-wider text-gray-700 mb-1.5">
+                  <label className="flex items-center text-xs font-black uppercase tracking-wider text-gray-700 mb-1.5 h-5">
                     Full Name *
                   </label>
                   <input
@@ -802,8 +836,9 @@ export function WarrantyForm() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-black uppercase tracking-wider text-gray-700 mb-1.5">
-                      Mobile Number (For Warranty SMS & Status) *
+                    <label className="flex items-center justify-between text-xs font-black uppercase tracking-wider text-gray-700 mb-1.5 h-5">
+                      <span>Mobile Number *</span>
+                      <span className="text-[10px] font-medium text-gray-400 normal-case">(For SMS & Status)</span>
                     </label>
                     <div className="relative">
                       <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-gray-400">
@@ -822,8 +857,9 @@ export function WarrantyForm() {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-black uppercase tracking-wider text-gray-700 mb-1.5">
-                      Email Address (Optional)
+                    <label className="flex items-center justify-between text-xs font-black uppercase tracking-wider text-gray-700 mb-1.5 h-5">
+                      <span>Email Address</span>
+                      <span className="text-[10px] font-medium text-gray-400 normal-case">(Optional)</span>
                     </label>
                     <input
                       type="email"
@@ -837,7 +873,7 @@ export function WarrantyForm() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div>
-                    <label className="block text-xs font-black uppercase tracking-wider text-gray-700 mb-1.5">
+                    <label className="flex items-center text-xs font-black uppercase tracking-wider text-gray-700 mb-1.5 h-5">
                       Postal Pincode *
                     </label>
                     <input
@@ -852,7 +888,7 @@ export function WarrantyForm() {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-black uppercase tracking-wider text-gray-700 mb-1.5">
+                    <label className="flex items-center text-xs font-black uppercase tracking-wider text-gray-700 mb-1.5 h-5">
                       City / District *
                     </label>
                     <input
@@ -866,7 +902,7 @@ export function WarrantyForm() {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-black uppercase tracking-wider text-gray-700 mb-1.5">
+                    <label className="flex items-center text-xs font-black uppercase tracking-wider text-gray-700 mb-1.5 h-5">
                       State *
                     </label>
                     <input
@@ -931,7 +967,7 @@ export function WarrantyForm() {
 
                     <div className="space-y-4">
                       <div>
-                        <label className="block text-xs font-black uppercase tracking-wider text-gray-700 mb-1.5">
+                        <label className="flex items-center text-xs font-black uppercase tracking-wider text-gray-700 mb-1.5 h-5">
                           Select Machine / Equipment Model *
                         </label>
                         <select
@@ -939,13 +975,29 @@ export function WarrantyForm() {
                           onChange={(e) => updateProductRow(idx, "model", e.target.value)}
                           className="w-full rounded-xl border border-gray-300 bg-white px-3.5 py-3 text-xs sm:text-sm font-semibold text-gray-900 focus:border-[#e21b23] focus:outline-none"
                         >
-                          {COMMON_MODELS.map((m) => (
+                          {availableModels.map((m) => (
                             <option key={m} value={m}>
                               {m}
                             </option>
                           ))}
                         </select>
                       </div>
+
+                      {item.model === "Other / Custom TUQO Equipment" && (
+                        <div className="pt-1">
+                          <label className="flex items-center text-xs font-black uppercase tracking-wider text-gray-700 mb-1.5 h-5">
+                            Specify Equipment / Model Name *
+                          </label>
+                          <input
+                            type="text"
+                            required
+                            value={item.productName || ""}
+                            onChange={(e) => updateProductRow(idx, "productName", e.target.value)}
+                            placeholder="e.g. TUQO High Speed Sander 1200W"
+                            className="w-full rounded-xl border border-gray-300 bg-white px-3.5 py-3 text-xs sm:text-sm font-semibold text-gray-900 focus:border-[#e21b23] focus:outline-none"
+                          />
+                        </div>
+                      )}
                     </div>
 
                     <div className="flex items-center gap-2 pt-1 text-[11px] text-emerald-700 font-semibold">
@@ -1001,7 +1053,7 @@ export function WarrantyForm() {
               <form onSubmit={handleProceedToStep4} className="space-y-5">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-black uppercase tracking-wider text-gray-700 mb-1.5">
+                    <label className="flex items-center text-xs font-black uppercase tracking-wider text-gray-700 mb-1.5 h-5">
                       Date of Purchase *
                     </label>
                     <input
@@ -1015,7 +1067,7 @@ export function WarrantyForm() {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-black uppercase tracking-wider text-gray-700 mb-1.5">
+                    <label className="flex items-center text-xs font-black uppercase tracking-wider text-gray-700 mb-1.5 h-5">
                       Source of Purchase *
                     </label>
                     <select
@@ -1042,7 +1094,7 @@ export function WarrantyForm() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-black uppercase tracking-wider text-gray-700 mb-1.5">
+                    <label className="flex items-center text-xs font-black uppercase tracking-wider text-gray-700 mb-1.5 h-5">
                       Dealer / Store Name *
                     </label>
                     <input
@@ -1056,7 +1108,7 @@ export function WarrantyForm() {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-black uppercase tracking-wider text-gray-700 mb-1.5">
+                    <label className="flex items-center text-xs font-black uppercase tracking-wider text-gray-700 mb-1.5 h-5">
                       Dealer City / Location *
                     </label>
                     <input
@@ -1179,8 +1231,12 @@ export function WarrantyForm() {
                     {products.map((p, idx) => (
                       <div key={idx} className="flex items-center justify-between rounded-xl bg-white p-3 border border-gray-200">
                         <div>
-                          <div className="font-bold text-gray-900">{p.model}</div>
-                          {p.productName && <div className="text-gray-400 text-[11px]">{p.productName}</div>}
+                          <div className="font-bold text-gray-900">
+                            {p.model === "Other / Custom TUQO Equipment" && p.productName ? p.productName : p.model}
+                          </div>
+                          {p.model === "Other / Custom TUQO Equipment" && (
+                            <div className="text-gray-400 text-[11px]">Custom Equipment</div>
+                          )}
                         </div>
                         <span className="text-emerald-700 font-bold text-[11px]">6 Months Warranty</span>
                       </div>
