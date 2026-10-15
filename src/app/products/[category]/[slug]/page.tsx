@@ -155,50 +155,66 @@ export default async function ProductDetailPage({
           </div>
         </div>
 
-        {/* Detailed Technical Specifications Grid */}
-        <div className="mt-10 rounded-3xl border border-gray-200/90 bg-white p-6 sm:p-8 lg:p-10 shadow-sm">
-          <div className="flex items-center gap-2 mb-6">
-            <span className="h-[3px] w-7 bg-[#e21b23]" />
-            <h2 className="text-xl font-black uppercase tracking-tight text-[#111214] sm:text-2xl">
-              COMPLETE TECHNICAL SPECIFICATIONS
-            </h2>
+        {/* Specification Table */}
+        <div className="mt-10 overflow-hidden rounded-2xl border border-gray-200/90 bg-white p-6 sm:p-8 lg:p-10 shadow-xs">
+          <div className="mb-6 flex items-center justify-between border-b border-gray-100 pb-4">
+            <div className="flex items-center gap-2.5">
+              <span className="h-[3px] w-7 bg-[#e21b23]" />
+              <h2 className="text-xl font-black uppercase tracking-tight text-[#111214] sm:text-2xl">
+                Specification
+              </h2>
+            </div>
+            <span className="text-xs font-bold uppercase tracking-wider text-gray-400">
+              Technical Data
+            </span>
           </div>
 
-          <div className="flex flex-wrap items-center gap-x-8 gap-y-1">
-            {product.specs.map((spec) => (
-              <div
-                key={spec.label}
-                className="inline-flex items-center justify-start gap-2 border-b border-gray-100 py-2 text-xs sm:text-sm"
-              >
-                <span className="whitespace-nowrap font-medium text-gray-500">{spec.label}</span>
-                <span className="whitespace-nowrap font-bold text-gray-900">{spec.value}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Applications & Industry Use Cases */}
-        <div className="mt-10 rounded-3xl border border-gray-200/90 bg-white p-6 sm:p-8 lg:p-10 shadow-sm">
-          <div className="flex items-center gap-2 mb-6">
-            <span className="h-[3px] w-7 bg-[#e21b23]" />
-            <h2 className="text-xl font-black uppercase tracking-tight text-[#111214] sm:text-2xl">
-              SUITABLE APPLICATIONS &amp; ENVIRONMENTS
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {product.applications.map((app, idx) => (
-              <div
-                key={idx}
-                className="rounded-2xl border border-gray-100 bg-gray-50/70 p-4 text-xs font-semibold text-gray-800"
-              >
-                <div className="flex items-center gap-2 mb-1.5 text-[#e21b23]">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#e21b23]" />
-                  <span className="text-[10px] uppercase tracking-wider font-extrabold">Use Case 0{idx + 1}</span>
-                </div>
-                <p className="leading-snug">{app}</p>
-              </div>
-            ))}
+          <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
+            <table className="w-full text-left text-xs sm:text-sm">
+              <tbody className="divide-y divide-gray-200">
+                <tr className="hover:bg-gray-50/70 transition-colors">
+                  <td className="w-1/3 py-3.5 px-5 font-semibold text-gray-600 bg-gray-50/40 border-r border-gray-200">
+                    Brand
+                  </td>
+                  <td className="py-3.5 px-5 font-bold text-gray-950">
+                    TUQO Tools
+                  </td>
+                </tr>
+                {product.model && (
+                  <tr className="hover:bg-gray-50/70 transition-colors">
+                    <td className="w-1/3 py-3.5 px-5 font-semibold text-gray-600 bg-gray-50/40 border-r border-gray-200">
+                      Model / Series
+                    </td>
+                    <td className="py-3.5 px-5 font-bold text-[#e21b23]">
+                      {product.model}
+                    </td>
+                  </tr>
+                )}
+                {product.category && (
+                  <tr className="hover:bg-gray-50/70 transition-colors">
+                    <td className="w-1/3 py-3.5 px-5 font-semibold text-gray-600 bg-gray-50/40 border-r border-gray-200">
+                      Category
+                    </td>
+                    <td className="py-3.5 px-5 font-bold text-gray-950">
+                      {product.category}
+                    </td>
+                  </tr>
+                )}
+                {product.specs.map((spec, index) => (
+                  <tr
+                    key={`${spec.label}-${index}`}
+                    className="hover:bg-gray-50/70 transition-colors"
+                  >
+                    <td className="w-1/3 py-3.5 px-5 font-semibold text-gray-600 bg-gray-50/40 border-r border-gray-200">
+                      {spec.label}
+                    </td>
+                    <td className="py-3.5 px-5 font-bold text-gray-950">
+                      {spec.value}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
 

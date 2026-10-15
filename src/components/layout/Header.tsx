@@ -184,10 +184,6 @@ export function Header() {
             {/* Dropdown Menu */}
             {categoriesDropdownOpen && (
               <div className="absolute left-0 top-full w-[420px] rounded-2xl border border-gray-200 bg-white p-3 shadow-xl backdrop-blur-md animate-in fade-in slide-in-from-top-2 duration-200">
-                <div className="mb-2 px-3 pt-2 text-[10px] font-black uppercase tracking-wider text-[#e21b23]">
-                  MACHINERY &amp; EQUIPMENT
-                </div>
-
                 <div className="space-y-1">
                   {categoryItems.map((item) => (
                     <Link

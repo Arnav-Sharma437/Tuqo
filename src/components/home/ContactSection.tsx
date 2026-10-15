@@ -124,13 +124,10 @@ export function ContactSection() {
           </div>
 
           {/* Bottom Note */}
-          <div className="mt-8 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left text-xs text-gray-400">
+          <div className="mt-8 pt-6 border-t border-white/10 text-center sm:text-left text-xs text-gray-400">
             <p>
               Service requests and quotation inquiries submitted after business hours are attended to first thing next working morning.
             </p>
-            <span className="shrink-0 text-[11px] font-bold uppercase tracking-wider text-[#e21b23]">
-              TUQO Industrial Standard
-            </span>
           </div>
         </div>
       </div>
