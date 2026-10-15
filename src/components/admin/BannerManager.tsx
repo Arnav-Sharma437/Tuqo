@@ -157,8 +157,10 @@ export function BannerManager({ banners, onRefresh }: BannerManagerProps) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 rounded-xl border border-white/5 bg-[#101215] p-4">
             <ImageUploader
               label="Desktop Banner Image *"
-              sublabel="High-resolution landscape image (1920x650 or 21:9 recommended)"
-              aspectHint="1920 × 650"
+              sublabel="High-resolution landscape hero banner image"
+              recommendedResolution="1920 × 650 px (Full Width)"
+              aspectHint="21:9 or ~3:1 Ratio"
+              maxSizeMB={5}
               folder="tuqo/banners"
               value={editingBanner.desktopImage}
               onChange={(url) =>
@@ -168,8 +170,10 @@ export function BannerManager({ banners, onRefresh }: BannerManagerProps) {
 
             <ImageUploader
               label="Mobile Banner Image (Optional)"
-              sublabel="Portrait / mobile crop image (leave empty to reuse desktop image)"
-              aspectHint="800 × 800"
+              sublabel="Portrait or square mobile banner (leave empty to reuse desktop banner)"
+              recommendedResolution="800 × 800 px or 800 × 1000 px"
+              aspectHint="1:1 or 4:5 Mobile Ratio"
+              maxSizeMB={3}
               folder="tuqo/banners"
               value={editingBanner.mobileImage}
               onChange={(url) =>

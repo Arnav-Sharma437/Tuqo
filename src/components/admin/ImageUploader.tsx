@@ -10,6 +10,8 @@ interface ImageUploaderProps {
   onChange: (url: string) => void;
   folder?: string;
   aspectHint?: string;
+  recommendedResolution?: string;
+  maxSizeMB?: number;
 }
 
 // Client-side automatic image compression function
@@ -76,9 +78,12 @@ export function ImageUploader({
   onChange,
   folder = "tuqo/general",
   aspectHint,
+  recommendedResolution,
+  maxSizeMB = 5,
 }: ImageUploaderProps) {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
+  const [detectedSpecs, setDetectedSpecs] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -89,10 +94,26 @@ export function ImageUploader({
     setUploading(true);
 
     try {
-      // 1. Automatically compress the image on the client
+      // 1. Read natural dimensions of selected image
+      const reader = new FileReader();
+      reader.onload = (loadEvent) => {
+        const testImg = new window.Image();
+        testImg.onload = () => {
+          const originalKb = Math.round(originalFile.size / 1024);
+          setDetectedSpecs(
+            `${testImg.width} × ${testImg.height} px (${originalKb > 1024 ? `${(originalKb / 1024).toFixed(1)} MB` : `${originalKb} KB`})`
+          );
+        };
+        if (loadEvent.target?.result) {
+          testImg.src = loadEvent.target.result as string;
+        }
+      };
+      reader.readAsDataURL(originalFile);
+
+      // 2. Automatically compress the image on the client
       const file = await compressImageFile(originalFile);
 
-      // 2. Request signed token from backend
+      // 3. Request signed token from backend
       const signRes = await fetch("/api/admin/cloudinary-sign", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -109,7 +130,7 @@ export function ImageUploader({
         throw new Error(signData.error || "Invalid upload signature response");
       }
 
-      // 3. Direct upload to Cloudinary image/upload endpoint
+      // 4. Direct upload to Cloudinary image/upload endpoint
       const cloudinaryFormData = new FormData();
       cloudinaryFormData.append("file", file);
       cloudinaryFormData.append("api_key", signData.apiKey);
@@ -141,19 +162,39 @@ export function ImageUploader({
   };
 
   return (
-    <div className="space-y-2">
-      <div className="flex items-center justify-between">
-        <label className="text-xs font-semibold uppercase tracking-wider text-gray-300">
-          {label}
-        </label>
-        {aspectHint && (
-          <span className="rounded bg-white/5 px-2 py-0.5 text-[10px] text-gray-400 font-mono">
-            {aspectHint}
+    <div className="space-y-2.5">
+      {/* Label and Sublabel */}
+      <div>
+        <div className="flex items-center justify-between">
+          <label className="text-xs font-bold uppercase tracking-wider text-gray-200">
+            {label}
+          </label>
+        </div>
+        {sublabel && <p className="text-[11px] text-gray-400 mt-0.5">{sublabel}</p>}
+      </div>
+
+      {/* Resolution & File Size Guidance Box */}
+      <div className="flex flex-wrap items-center gap-1.5 rounded-lg border border-white/5 bg-[#171920] px-3 py-2 text-[10px] text-gray-300">
+        <span className="font-extrabold uppercase text-[#e21b23]">Specs:</span>
+        {recommendedResolution && (
+          <span className="rounded bg-black/40 px-2 py-0.5 font-mono text-emerald-400 border border-emerald-500/20">
+            Resolution: {recommendedResolution}
           </span>
         )}
+        {aspectHint && (
+          <span className="rounded bg-black/40 px-2 py-0.5 font-mono text-cyan-400 border border-cyan-500/20">
+            Ratio: {aspectHint}
+          </span>
+        )}
+        <span className="rounded bg-black/40 px-2 py-0.5 font-mono text-amber-400 border border-amber-500/20">
+          Max Size: &lt; {maxSizeMB} MB
+        </span>
+        <span className="rounded bg-black/40 px-2 py-0.5 font-mono text-gray-400">
+          JPG, PNG, WebP
+        </span>
       </div>
-      {sublabel && <p className="text-[11px] text-gray-400">{sublabel}</p>}
 
+      {/* Preview and Upload Action Area */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
         {value ? (
           <div className="relative h-24 w-40 overflow-hidden rounded-xl border border-white/10 bg-[#181a20]">
@@ -162,12 +203,15 @@ export function ImageUploader({
               alt="Preview"
               fill
               unoptimized={value.startsWith("http")}
-              className="object-cover"
+              className="object-contain p-1"
               sizes="160px"
             />
             <button
               type="button"
-              onClick={() => onChange("")}
+              onClick={() => {
+                onChange("");
+                setDetectedSpecs(null);
+              }}
               className="absolute right-1 top-1 rounded-md bg-black/70 p-1 text-white hover:bg-red-600 transition"
               title="Remove image"
             >
@@ -186,7 +230,7 @@ export function ImageUploader({
         )}
 
         <div className="flex-1 space-y-2 w-full">
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <button
               type="button"
               disabled={uploading}
@@ -198,10 +242,15 @@ export function ImageUploader({
             <input
               ref={inputRef}
               type="file"
-              accept="image/*"
+              accept="image/jpeg,image/png,image/webp,image/jpg"
               onChange={handleFileChange}
               className="hidden"
             />
+            {detectedSpecs && (
+              <span className="text-[10px] text-emerald-400 font-mono">
+                Detected: {detectedSpecs}
+              </span>
+            )}
           </div>
 
           <div className="flex items-center gap-2">
@@ -209,7 +258,7 @@ export function ImageUploader({
               type="text"
               value={value}
               onChange={(e) => onChange(e.target.value)}
-              placeholder="Or paste image URL"
+              placeholder="Or paste external image URL"
               className="w-full rounded-lg border border-white/10 bg-[#16181d] px-3 py-1.5 text-xs text-white placeholder-gray-600 focus:border-[#d31820] focus:outline-none"
             />
           </div>
@@ -220,3 +269,5 @@ export function ImageUploader({
     </div>
   );
 }
+
+export default ImageUploader;

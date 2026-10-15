@@ -429,7 +429,10 @@ export function ProductManager({
 
           <ImageUploader
             label="Product Main Image *"
-            sublabel="High quality transparent PNG or workshop photograph"
+            sublabel="High quality transparent PNG cutout or crisp workshop photograph"
+            recommendedResolution="800 × 800 px or 1000 × 1000 px"
+            aspectHint="1:1 Square (Square ratio)"
+            maxSizeMB={4}
             folder="tuqo/products"
             value={editingProduct.image}
             onChange={(url) => {
@@ -458,6 +461,9 @@ export function ProductManager({
             <ImageUploader
               label="Add Image to Gallery"
               sublabel="Upload an additional image or enter URL to add to the product gallery"
+              recommendedResolution="800 × 800 px or 1000 × 1000 px"
+              aspectHint="1:1 Square"
+              maxSizeMB={4}
               folder="tuqo/products"
               value=""
               onChange={(newUrl) => {

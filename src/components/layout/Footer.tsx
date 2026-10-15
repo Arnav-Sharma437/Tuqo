@@ -13,7 +13,7 @@ export function Footer() {
           {/* Brand Info */}
           <div className="lg:col-span-5 flex flex-col items-start">
             <Link href="/" className="inline-block transition hover:opacity-90">
-              <TuqoLogo variant="red" width={170} />
+              <TuqoLogo variant="white" width={170} />
             </Link>
             <p className="mt-3 text-xs sm:text-sm text-gray-400 max-w-sm leading-relaxed">
               Engineered for high performance and rugged durability. Premium power tools, industrial cleaning systems, and heavy-duty workshop machinery.

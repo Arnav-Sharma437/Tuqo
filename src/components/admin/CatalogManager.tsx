@@ -209,9 +209,11 @@ export function CatalogManager({ catalogs, onRefresh }: CatalogManagerProps) {
           <div className="rounded-xl border border-white/10 bg-[#101215] p-4">
             <PdfUploader
               label="Upload Catalogue PDF *"
-              sublabel="Upload the official PDF file to Cloudinary. It will be downloadable directly on the website."
+              sublabel="Official PDF specification sheet or catalogue document"
+              folder="tuqo/catalogs"
               value={editingCatalog.pdfUrl}
               fileSize={editingCatalog.fileSize}
+              maxSizeMB={25}
               onChange={(url, fileSize) =>
                 setEditingCatalog({
                   ...editingCatalog,
@@ -225,8 +227,11 @@ export function CatalogManager({ catalogs, onRefresh }: CatalogManagerProps) {
           {/* Cover Image Upload */}
           <div className="rounded-xl border border-white/10 bg-[#101215] p-4">
             <ImageUploader
-              label="Cover / Thumbnail Image"
-              sublabel="Thumbnail preview shown on the catalogue download page"
+              label="Catalogue Cover Thumbnail"
+              sublabel="Portrait brochure cover preview shown on the /e-catalog download page"
+              recommendedResolution="800 × 1100 px (A4 Portrait)"
+              aspectHint="3:4 or 1:1.38 Portrait"
+              maxSizeMB={3}
               folder="tuqo/catalogs"
               value={editingCatalog.coverImage || ""}
               onChange={(url) =>

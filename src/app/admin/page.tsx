@@ -144,7 +144,7 @@ export default function AdminDashboardPage() {
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
           <div className="flex items-center gap-6">
             <Link href="/" className="flex items-center gap-2.5">
-              <TuqoLogo variant="red" width={110} />
+              <TuqoLogo variant="white" width={110} />
               <span className="rounded bg-[#d31820] px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
                 CMS
               </span>

@@ -46,7 +46,7 @@ export default function AdminLoginPage() {
       <div className="w-full max-w-md space-y-8 rounded-2xl border border-white/10 bg-[#121418] p-8 shadow-2xl">
         <div className="text-center">
           <Link href="/" className="inline-block transition hover:opacity-85">
-            <TuqoLogo variant="red" width={160} priority />
+            <TuqoLogo variant="white" width={160} priority />
           </Link>
           <div className="mt-4 flex items-center justify-center gap-2">
             <span className="h-1.5 w-1.5 rounded-full bg-[#d31820]" />

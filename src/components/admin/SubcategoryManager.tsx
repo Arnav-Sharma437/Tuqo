@@ -321,7 +321,10 @@ export function SubcategoryManager({
           <div className="rounded-xl border border-white/10 bg-[#101215] p-4">
             <ImageUploader
               label="Subcategory Thumbnail"
-              sublabel="Image shown on category page subcategory pills or navigation"
+              sublabel="Image shown on category page subcategory cards or navigation"
+              recommendedResolution="600 × 600 px (Square)"
+              aspectHint="1:1 Square"
+              maxSizeMB={2}
               folder="tuqo/subcategories"
               value={editingSubcategory.image || ""}
               onChange={(url) =>

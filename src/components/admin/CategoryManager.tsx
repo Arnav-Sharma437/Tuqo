@@ -187,7 +187,10 @@ export function CategoryManager({ categories, onRefresh }: CategoryManagerProps)
 
           <ImageUploader
             label="Category Thumbnail Image *"
-            sublabel="Icon / photo of the equipment category"
+            sublabel="Icon or cutout photo of the machinery category (transparent or clean white background recommended)"
+            recommendedResolution="600 × 600 px (Square)"
+            aspectHint="1:1 Square"
+            maxSizeMB={2}
             folder="tuqo/categories"
             value={editingCategory.image}
             onChange={(url) => setEditingCategory({ ...editingCategory, image: url })}

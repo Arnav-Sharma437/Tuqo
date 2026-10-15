@@ -9,6 +9,7 @@ interface PdfUploaderProps {
   fileSize?: string;
   onChange: (url: string, fileSize?: string) => void;
   folder?: string;
+  maxSizeMB?: number;
 }
 
 export function PdfUploader({
@@ -18,6 +19,7 @@ export function PdfUploader({
   fileSize,
   onChange,
   folder = "tuqo/catalogs",
+  maxSizeMB = 25,
 }: PdfUploaderProps) {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
@@ -91,18 +93,32 @@ export function PdfUploader({
   };
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2.5">
       <div className="flex items-center justify-between">
         <label className="block text-xs font-bold uppercase tracking-wider text-gray-200">
           {label}
         </label>
         {fileSize && (
-          <span className="rounded bg-white/10 px-2 py-0.5 text-[10px] font-mono text-gray-300">
-            {fileSize}
+          <span className="rounded bg-white/10 px-2 py-0.5 text-[10px] font-mono text-emerald-400 border border-emerald-500/20">
+            Size: {fileSize}
           </span>
         )}
       </div>
-      {sublabel && <p className="text-[11px] text-gray-400">{sublabel}</p>}
+      {sublabel && <p className="text-[11px] text-gray-400 mt-0.5">{sublabel}</p>}
+
+      {/* PDF Resolution & Specification Guide */}
+      <div className="flex flex-wrap items-center gap-1.5 rounded-lg border border-white/5 bg-[#171920] px-3 py-2 text-[10px] text-gray-300">
+        <span className="font-extrabold uppercase text-[#e21b23]">Specs:</span>
+        <span className="rounded bg-black/40 px-2 py-0.5 font-mono text-cyan-400 border border-cyan-500/20">
+          Format: PDF (.pdf)
+        </span>
+        <span className="rounded bg-black/40 px-2 py-0.5 font-mono text-amber-400 border border-amber-500/20">
+          Max File Size: &lt; {maxSizeMB} MB
+        </span>
+        <span className="rounded bg-black/40 px-2 py-0.5 font-mono text-emerald-400 border border-emerald-500/20">
+          Direct Cloud Storage
+        </span>
+      </div>
 
       {value ? (
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-xl border border-emerald-500/30 bg-emerald-950/15 p-4">
@@ -199,3 +215,5 @@ export function PdfUploader({
     </div>
   );
 }
+
+export default PdfUploader;
