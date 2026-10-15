@@ -243,6 +243,24 @@ export function Header() {
             )}
           </Link>
 
+          {/* Warranty */}
+          <Link
+            href="/warranty"
+            className={`relative flex h-14 items-center gap-1.5 px-3.5 text-[13px] font-bold uppercase tracking-wider transition-colors duration-200 ${
+              pathname === "/warranty"
+                ? "text-[#e21b23]"
+                : "text-gray-200 hover:text-[#e21b23]"
+            }`}
+          >
+            <span>Warranty</span>
+            <span className="rounded bg-emerald-500/20 border border-emerald-500/40 px-1.5 py-0.5 text-[9px] font-black uppercase text-emerald-400">
+              QR
+            </span>
+            {pathname === "/warranty" && (
+              <span className="absolute bottom-0 left-3 right-3 h-[2.5px] rounded-full bg-[#e21b23]" />
+            )}
+          </Link>
+
           {/* About */}
           <Link
             href="/about"
@@ -405,6 +423,24 @@ export function Header() {
                 </span>
               </div>
               {pathname === "/e-catalog" && (
+                <span className="h-2 w-2 rounded-full bg-[#e21b23]" />
+              )}
+            </Link>
+
+            {/* Warranty */}
+            <Link
+              href="/warranty"
+              className={`flex h-12 items-center justify-between border-b border-white/10 text-sm font-bold uppercase tracking-wider ${
+                pathname === "/warranty" ? "text-[#e21b23]" : "text-white hover:text-[#e21b23]"
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                <span>Warranty</span>
+                <span className="rounded bg-emerald-500/20 border border-emerald-500/40 px-1.5 py-0.2 text-[9px] font-black text-emerald-400">
+                  QR
+                </span>
+              </div>
+              {pathname === "/warranty" && (
                 <span className="h-2 w-2 rounded-full bg-[#e21b23]" />
               )}
             </Link>

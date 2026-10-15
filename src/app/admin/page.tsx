@@ -10,8 +10,9 @@ import { SubcategoryManager, SubcategoryItem } from "@/components/admin/Subcateg
 import { ProductManager, ProductItem } from "@/components/admin/ProductManager";
 import { CatalogManager, CatalogItem } from "@/components/admin/CatalogManager";
 import { FaqManager, FaqItem } from "@/components/admin/FaqManager";
+import { WarrantyManager, WarrantyItem } from "@/components/admin/WarrantyManager";
 
-type TabType = "banners" | "categories" | "subcategories" | "products" | "catalogs" | "faqs";
+type TabType = "banners" | "categories" | "subcategories" | "products" | "catalogs" | "faqs" | "warranties";
 
 export default function AdminDashboardPage() {
   const router = useRouter();
@@ -27,6 +28,7 @@ export default function AdminDashboardPage() {
   const [products, setProducts] = useState<ProductItem[]>([]);
   const [catalogs, setCatalogs] = useState<CatalogItem[]>([]);
   const [faqs, setFaqs] = useState<FaqItem[]>([]);
+  const [warranties, setWarranties] = useState<WarrantyItem[]>([]);
 
   const showNotification = (message: string, type: "success" | "error" = "success") => {
     setNotification({ message, type });
@@ -54,13 +56,14 @@ export default function AdminDashboardPage() {
   const fetchData = useCallback(async () => {
     setRefreshing(true);
     try {
-      const [bannersRes, catRes, subcatRes, prodRes, catlogRes, faqsRes] = await Promise.all([
+      const [bannersRes, catRes, subcatRes, prodRes, catlogRes, faqsRes, warrantiesRes] = await Promise.all([
         fetch("/api/admin/banners"),
         fetch("/api/admin/categories"),
         fetch("/api/admin/subcategories"),
         fetch("/api/admin/products"),
         fetch("/api/admin/catalogs"),
         fetch("/api/admin/faqs"),
+        fetch("/api/admin/warranties"),
       ]);
 
       if (bannersRes.ok) {
@@ -86,6 +89,10 @@ export default function AdminDashboardPage() {
       if (faqsRes.ok) {
         const f = await faqsRes.json();
         setFaqs(f.faqs || []);
+      }
+      if (warrantiesRes.ok) {
+        const w = await warrantiesRes.json();
+        setWarranties(w.warranties || []);
       }
     } catch (err) {
       console.error("Failed to load dashboard data:", err);
@@ -211,6 +218,16 @@ export default function AdminDashboardPage() {
               >
                 FAQs ({faqs.length})
               </button>
+              <button
+                onClick={() => setActiveTab("warranties")}
+                className={`rounded-lg px-3 py-1.5 text-xs font-bold uppercase tracking-wider transition ${
+                  activeTab === "warranties"
+                    ? "bg-[#d31820] text-white shadow-md shadow-red-900/30"
+                    : "text-gray-400 hover:text-white"
+                }`}
+              >
+                Warranties ({warranties.length})
+              </button>
             </nav>
           </div>
 
@@ -297,6 +314,14 @@ export default function AdminDashboardPage() {
           >
             FAQs ({faqs.length})
           </button>
+          <button
+            onClick={() => setActiveTab("warranties")}
+            className={`rounded-lg px-3 py-1 text-xs font-bold whitespace-nowrap ${
+              activeTab === "warranties" ? "bg-[#d31820] text-white" : "text-gray-400"
+            }`}
+          >
+            Warranties ({warranties.length})
+          </button>
         </div>
       </header>
 
@@ -356,6 +381,15 @@ export default function AdminDashboardPage() {
             onRefresh={() => {
               fetchData();
               showNotification("FAQ updated successfully");
+            }}
+          />
+        )}
+        {activeTab === "warranties" && (
+          <WarrantyManager
+            warranties={warranties}
+            onRefresh={() => {
+              fetchData();
+              showNotification("Warranty records refreshed");
             }}
           />
         )}
