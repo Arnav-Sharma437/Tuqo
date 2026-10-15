@@ -27,8 +27,8 @@ export default function WarrantyPage() {
         <div className="absolute top-0 right-0 h-96 w-96 rounded-full bg-red-600/10 blur-[120px] pointer-events-none" />
 
         <div className="relative mx-auto max-w-5xl px-5 text-center sm:px-8">
-          <div className="inline-flex items-center gap-2 rounded-full border border-red-500/30 bg-red-500/10 px-3.5 py-1 text-[11px] font-black uppercase tracking-[0.2em] text-[#ff4f56] mb-4">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#e21b23] animate-pulse" />
+          <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-1 text-[11px] font-black uppercase tracking-[0.2em] text-emerald-400 mb-4">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
             <span>OFFICIAL WARRANTY PROGRAM</span>
           </div>
 
