@@ -11,6 +11,24 @@ export interface ProductSpecItem {
   value: string;
 }
 
+export const SPEC_PRESETS = [
+  "Input Power",
+  "Voltage",
+  "Frequency",
+  "No Load Speed",
+  "Max Working Pressure",
+  "Working Pressure",
+  "Flow Rate",
+  "Motor Type",
+  "Power Source Type",
+  "Colour",
+  "Chuck / Rod Diameter",
+  "Tank Capacity",
+  "Net Weight",
+  "Hose Length",
+  "Warranty",
+];
+
 export interface ProductItem {
   _id?: string;
   name: string;
@@ -47,6 +65,11 @@ export function ProductManager({
   onRefresh,
 }: ProductManagerProps) {
   const [editingProduct, setEditingProduct] = useState<ProductItem | null>(null);
+  const [managingSpecsProduct, setManagingSpecsProduct] = useState<ProductItem | null>(null);
+  const [specsModalList, setSpecsModalList] = useState<ProductSpecItem[]>([]);
+  const [specsModalSaving, setSpecsModalSaving] = useState(false);
+  const [specsModalError, setSpecsModalError] = useState("");
+
   const [isCreating, setIsCreating] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -120,11 +143,11 @@ export function ProductManager({
   };
 
   // Spec rows management
-  const addSpec = () => {
+  const addSpec = (label = "", value = "") => {
     if (!editingProduct) return;
     setEditingProduct({
       ...editingProduct,
-      specs: [...editingProduct.specs, { label: "", value: "" }],
+      specs: [...editingProduct.specs, { label, value }],
     });
   };
 
@@ -141,6 +164,44 @@ export function ProductManager({
       ...editingProduct,
       specs: editingProduct.specs.filter((_, i) => i !== index),
     });
+  };
+
+  const openSpecsModal = (prod: ProductItem) => {
+    setManagingSpecsProduct(prod);
+    setSpecsModalList(
+      prod.specs?.length
+        ? prod.specs.map((s) => ({ ...s }))
+        : [{ label: "", value: "" }]
+    );
+    setSpecsModalError("");
+  };
+
+  const handleSaveSpecsModal = async () => {
+    if (!managingSpecsProduct?._id) return;
+    setSpecsModalSaving(true);
+    setSpecsModalError("");
+    try {
+      const cleaned = specsModalList.filter(
+        (s) => s.label.trim() && s.value.trim()
+      );
+      const res = await fetch(`/api/admin/products/${managingSpecsProduct._id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ specs: cleaned }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || "Failed to update specifications");
+      }
+      setManagingSpecsProduct(null);
+      onRefresh();
+    } catch (err: unknown) {
+      setSpecsModalError(
+        err instanceof Error ? err.message : "Failed to update specifications"
+      );
+    } finally {
+      setSpecsModalSaving(false);
+    }
   };
 
   // Features list
@@ -626,45 +687,81 @@ export function ProductManager({
             ))}
           </div>
 
-          {/* Technical Specs */}
-          <div className="space-y-2 border-t border-white/10 pt-4">
-            <div className="flex items-center justify-between">
-              <label className="text-xs font-semibold uppercase tracking-wider text-gray-300">
-                Technical Specifications
-              </label>
+          {/* Technical Specs Table Builder */}
+          <div className="space-y-3 border-t border-white/10 pt-5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div>
+                <label className="text-xs font-bold uppercase tracking-wider text-gray-200">
+                  Technical Specifications Table
+                </label>
+                <p className="text-[11px] text-gray-400 mt-0.5">
+                  Parameters and values displayed in the clean 2-column table on the live product details page.
+                </p>
+              </div>
               <button
                 type="button"
-                onClick={addSpec}
-                className="text-xs font-semibold text-[#d31820] hover:underline"
+                onClick={() => addSpec()}
+                className="self-start rounded-lg bg-[#d31820] px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-white shadow-sm hover:bg-[#b0141b] transition"
               >
-                + Add Spec
+                + Add Custom Spec
               </button>
             </div>
-            {editingProduct.specs.map((spec, idx) => (
-              <div key={idx} className="grid grid-cols-2 sm:grid-cols-5 gap-2">
-                <input
-                  type="text"
-                  value={spec.label}
-                  onChange={(e) => updateSpec(idx, "label", e.target.value)}
-                  placeholder="Spec Name (e.g. Max Pressure)"
-                  className="sm:col-span-2 rounded-lg border border-white/10 bg-[#181a20] px-3 py-1.5 text-xs text-white placeholder-gray-600 focus:border-[#d31820] focus:outline-none"
-                />
-                <input
-                  type="text"
-                  value={spec.value}
-                  onChange={(e) => updateSpec(idx, "value", e.target.value)}
-                  placeholder="Value (e.g. 180 BAR / 2600 PSI)"
-                  className="sm:col-span-2 rounded-lg border border-white/10 bg-[#181a20] px-3 py-1.5 text-xs text-white placeholder-gray-600 focus:border-[#d31820] focus:outline-none"
-                />
-                <button
-                  type="button"
-                  onClick={() => removeSpec(idx)}
-                  className="rounded-lg border border-red-500/20 px-2 text-xs text-red-400 hover:bg-red-500/10"
-                >
-                  ✕ Remove
-                </button>
+
+            {/* Quick Suggestions Chips */}
+            <div className="rounded-xl border border-white/5 bg-[#121418] p-3 space-y-1.5">
+              <span className="block text-[10px] font-bold uppercase tracking-wider text-[#d31820]">
+                Quick Add Common Parameters:
+              </span>
+              <div className="flex flex-wrap gap-1.5">
+                {SPEC_PRESETS.map((preset) => (
+                  <button
+                    key={preset}
+                    type="button"
+                    onClick={() => addSpec(preset, "")}
+                    className="rounded-md border border-white/10 bg-white/5 px-2 py-0.5 text-[11px] font-medium text-gray-300 hover:bg-[#d31820] hover:text-white hover:border-[#d31820] transition"
+                  >
+                    + {preset}
+                  </button>
+                ))}
               </div>
-            ))}
+            </div>
+
+            {/* Table Header and Rows */}
+            <div className="overflow-hidden rounded-xl border border-white/10 bg-[#14161a]">
+              <div className="grid grid-cols-12 gap-2 bg-[#1a1d24] px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-gray-400 border-b border-white/10">
+                <span className="col-span-5">Parameter / Label (e.g. Voltage)</span>
+                <span className="col-span-6">Value / Rating (e.g. 220V - 240V)</span>
+                <span className="col-span-1 text-center">Action</span>
+              </div>
+              <div className="p-2 space-y-2">
+                {editingProduct.specs.map((spec, idx) => (
+                  <div key={idx} className="grid grid-cols-12 gap-2 items-center">
+                    <input
+                      type="text"
+                      value={spec.label}
+                      onChange={(e) => updateSpec(idx, "label", e.target.value)}
+                      placeholder="Spec Label (e.g. Input Power)"
+                      className="col-span-5 rounded-lg border border-white/10 bg-[#181a20] px-3 py-1.5 text-xs text-white placeholder-gray-600 focus:border-[#d31820] focus:outline-none"
+                    />
+                    <input
+                      type="text"
+                      value={spec.value}
+                      onChange={(e) => updateSpec(idx, "value", e.target.value)}
+                      placeholder="Spec Value (e.g. 1200 Watts)"
+                      className="col-span-6 rounded-lg border border-white/10 bg-[#181a20] px-3 py-1.5 text-xs text-white placeholder-gray-600 focus:border-[#d31820] focus:outline-none font-medium"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeSpec(idx)}
+                      className="col-span-1 flex h-8 w-8 items-center justify-center rounded-lg border border-red-500/20 text-xs text-red-400 hover:bg-red-500/10 mx-auto transition"
+                      title="Delete spec row"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
           {/* Applications */}
@@ -849,16 +946,26 @@ export function ProductManager({
                   {p.inStock ? "● In Stock" : "○ Pre-Order"}
                 </span>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1.5 flex-wrap justify-end">
                   <button
+                    type="button"
+                    onClick={() => openSpecsModal(p)}
+                    className="rounded-md border border-[#d31820]/40 bg-[#d31820]/10 px-2 py-1 text-xs font-semibold text-[#ff5c62] hover:bg-[#d31820]/20 transition flex items-center gap-1"
+                    title="Manage Technical Specifications"
+                  >
+                    <span>⚙ Specs ({p.specs?.length || 0})</span>
+                  </button>
+                  <button
+                    type="button"
                     onClick={() => handleStartEdit(p)}
-                    className="rounded-md border border-white/10 px-2.5 py-1 text-xs font-semibold text-gray-300 hover:bg-white/10"
+                    className="rounded-md border border-white/10 px-2 py-1 text-xs font-semibold text-gray-300 hover:bg-white/10"
                   >
                     Edit
                   </button>
                   <button
+                    type="button"
                     onClick={() => handleDelete(p._id)}
-                    className="rounded-md border border-red-500/30 bg-red-500/10 px-2.5 py-1 text-xs font-semibold text-red-400 hover:bg-red-500/20"
+                    className="rounded-md border border-red-500/30 bg-red-500/10 px-2 py-1 text-xs font-semibold text-red-400 hover:bg-red-500/20"
                   >
                     Delete
                   </button>
@@ -868,6 +975,140 @@ export function ProductManager({
           ))
         )}
       </div>
+
+      {/* Quick Specs Management Modal */}
+      {managingSpecsProduct && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 overflow-y-auto">
+          <div className="relative w-full max-w-2xl rounded-2xl border border-white/15 bg-[#14161a] p-6 shadow-2xl my-8">
+            <div className="flex items-start justify-between border-b border-white/10 pb-4">
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="rounded-md bg-[#d31820]/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#ff5c62]">
+                    Technical Specifications
+                  </span>
+                  {managingSpecsProduct.model && (
+                    <span className="font-mono text-xs text-gray-400">
+                      [{managingSpecsProduct.model}]
+                    </span>
+                  )}
+                </div>
+                <h3 className="mt-1 text-lg font-bold text-white">
+                  {managingSpecsProduct.name}
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setManagingSpecsProduct(null)}
+                className="rounded-lg p-1.5 text-gray-400 hover:bg-white/10 hover:text-white"
+              >
+                ✕
+              </button>
+            </div>
+
+            {specsModalError && (
+              <div className="mt-4 rounded-xl border border-red-500/30 bg-red-500/10 p-3 text-xs text-red-400">
+                {specsModalError}
+              </div>
+            )}
+
+            {/* Presets Chips */}
+            <div className="mt-4 space-y-2">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-gray-400">
+                Quick Add Common Parameters:
+              </span>
+              <div className="flex flex-wrap gap-1.5">
+                {SPEC_PRESETS.map((preset) => (
+                  <button
+                    key={preset}
+                    type="button"
+                    onClick={() =>
+                      setSpecsModalList([...specsModalList, { label: preset, value: "" }])
+                    }
+                    className="rounded-md border border-white/10 bg-white/5 px-2 py-1 text-[11px] text-gray-300 hover:border-[#d31820] hover:text-white transition"
+                  >
+                    + {preset}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Spec rows table */}
+            <div className="mt-4 max-h-[350px] space-y-2 overflow-y-auto pr-1">
+              <div className="grid grid-cols-12 gap-2 text-[11px] font-bold uppercase tracking-wider text-gray-400 px-1">
+                <span className="col-span-5">Parameter Name</span>
+                <span className="col-span-6">Value / Specification</span>
+                <span className="col-span-1 text-center">Del</span>
+              </div>
+              {specsModalList.map((spec, idx) => (
+                <div key={idx} className="grid grid-cols-12 items-center gap-2">
+                  <input
+                    type="text"
+                    value={spec.label}
+                    placeholder="e.g. Input Power"
+                    onChange={(e) => {
+                      const updated = [...specsModalList];
+                      updated[idx].label = e.target.value;
+                      setSpecsModalList(updated);
+                    }}
+                    className="col-span-5 rounded-lg border border-white/10 bg-[#181a20] px-3 py-1.5 text-xs text-white placeholder-gray-500 focus:border-[#d31820] focus:outline-none"
+                  />
+                  <input
+                    type="text"
+                    value={spec.value}
+                    placeholder="e.g. 1800W or 140 Bar"
+                    onChange={(e) => {
+                      const updated = [...specsModalList];
+                      updated[idx].value = e.target.value;
+                      setSpecsModalList(updated);
+                    }}
+                    className="col-span-6 rounded-lg border border-white/10 bg-[#181a20] px-3 py-1.5 text-xs text-white placeholder-gray-500 focus:border-[#d31820] focus:outline-none"
+                  />
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setSpecsModalList(specsModalList.filter((_, i) => i !== idx))
+                    }
+                    className="col-span-1 rounded-lg border border-red-500/20 bg-red-500/10 py-1.5 text-center text-xs text-red-400 hover:bg-red-500/20"
+                    title="Remove specification"
+                  >
+                    ✕
+                  </button>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-4 flex items-center justify-between border-t border-white/10 pt-4">
+              <button
+                type="button"
+                onClick={() =>
+                  setSpecsModalList([...specsModalList, { label: "", value: "" }])
+                }
+                className="rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-semibold text-gray-300 hover:bg-white/10"
+              >
+                + Add Empty Row
+              </button>
+
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setManagingSpecsProduct(null)}
+                  className="rounded-lg border border-white/10 px-4 py-1.5 text-xs font-semibold text-gray-300 hover:bg-white/10"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={handleSaveSpecsModal}
+                  disabled={specsModalSaving}
+                  className="rounded-lg bg-[#d31820] px-5 py-1.5 text-xs font-bold uppercase tracking-wider text-white hover:bg-[#b0141b] disabled:opacity-50"
+                >
+                  {specsModalSaving ? "Saving..." : "Save Specifications"}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

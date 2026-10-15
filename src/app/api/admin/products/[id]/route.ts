@@ -20,28 +20,29 @@ export async function PUT(
     await connectToDatabase();
     const data = await req.json();
 
+    const updateFields: Record<string, any> = {};
+    if (data.name !== undefined) updateFields.name = data.name;
+    if (data.slug !== undefined) updateFields.slug = data.slug;
+    if (data.model !== undefined) updateFields.model = data.model;
+    if (data.category !== undefined) updateFields.category = data.category;
+    if (data.categorySlug !== undefined) updateFields.categorySlug = data.categorySlug;
+    if (data.subcategory !== undefined) updateFields.subcategory = data.subcategory;
+    if (data.subcategorySlug !== undefined) updateFields.subcategorySlug = data.subcategorySlug;
+    if (data.image !== undefined) updateFields.image = data.image;
+    if (data.images !== undefined) updateFields.images = Array.isArray(data.images) ? data.images : [];
+    if (data.shortDesc !== undefined) updateFields.shortDesc = data.shortDesc;
+    if (data.description !== undefined) updateFields.description = data.description;
+    if (data.tag !== undefined) updateFields.tag = data.tag;
+    if (data.features !== undefined) updateFields.features = Array.isArray(data.features) ? data.features : [];
+    if (data.specs !== undefined) updateFields.specs = Array.isArray(data.specs) ? data.specs : [];
+    if (data.applications !== undefined) updateFields.applications = Array.isArray(data.applications) ? data.applications : [];
+    if (data.inStock !== undefined) updateFields.inStock = data.inStock;
+    if (data.featured !== undefined) updateFields.featured = data.featured;
+    if (data.order !== undefined) updateFields.order = Number(data.order) || 0;
+
     const product = await Product.findByIdAndUpdate(
       id,
-      {
-        name: data.name,
-        slug: data.slug,
-        model: data.model,
-        category: data.category,
-        categorySlug: data.categorySlug,
-        subcategory: data.subcategory || "",
-        subcategorySlug: data.subcategorySlug || "",
-        image: data.image,
-        images: Array.isArray(data.images) ? data.images : [],
-        shortDesc: data.shortDesc,
-        description: data.description,
-        tag: data.tag,
-        features: Array.isArray(data.features) ? data.features : [],
-        specs: Array.isArray(data.specs) ? data.specs : [],
-        applications: Array.isArray(data.applications) ? data.applications : [],
-        inStock: data.inStock,
-        featured: data.featured,
-        order: Number(data.order) || 0,
-      },
+      { $set: updateFields },
       { new: true }
     );
 
