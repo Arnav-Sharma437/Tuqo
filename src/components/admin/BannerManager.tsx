@@ -158,8 +158,8 @@ export function BannerManager({ banners, onRefresh }: BannerManagerProps) {
             <ImageUploader
               label="Desktop Banner Image *"
               sublabel="High-resolution landscape hero banner image"
-              recommendedResolution="1920 × 650 px (Full Width)"
-              aspectHint="21:9 or ~3:1 Ratio"
+              recommendedResolution="1920 × 720 px or 2560 × 960 px"
+              aspectHint="~2.66:1 Landscape (xtrapowertools standard)"
               maxSizeMB={5}
               folder="tuqo/banners"
               value={editingBanner.desktopImage}
