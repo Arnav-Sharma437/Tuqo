@@ -37,7 +37,7 @@ export default function WarrantyPage() {
           </h1>
 
           <p className="mt-4 text-xs sm:text-sm text-gray-400 max-w-2xl mx-auto leading-relaxed">
-            Bought TUQO equipment from an authorized dealer or retail store? Fill in your details and upload your purchase invoice below to activate 6 months official warranty coverage and priority pan-India service support.
+            Buy TUQO equipment from an authorized dealer or retail store? Fill in your details and upload your purchase invoice below to activate 6 months official warranty coverage and priority pan-India service support.
           </p>
         </div>
       </section>
