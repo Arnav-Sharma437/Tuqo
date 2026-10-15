@@ -1,5 +1,6 @@
 
 import React from "react";
+import Link from "next/link";
 import { APP_CONFIG } from "@/constants";
 import {
   WhatsAppIcon,
@@ -47,30 +48,14 @@ export function CatalogCTA() {
 
             {/* ACTIONS */}
             <div className="flex w-full shrink-0 flex-col items-center gap-3 sm:w-auto">
-              {/* Download PDF */}
-              <a
-                href="/catalog/tuqo-catalog.pdf"
-                download
+              {/* Go to dedicated E-Catalog page */}
+              <Link
+                href="/e-catalog"
                 className="group inline-flex h-12 w-full min-w-[220px] items-center justify-center gap-2.5 rounded-md bg-[#e21b23] px-6 text-[13px] font-bold text-white transition-all duration-300 hover:bg-[#ff252d] hover:shadow-[0_10px_30px_rgba(226,27,35,0.25)] sm:w-auto"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="17"
-                  height="17"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                  <path d="m7 10 5 5 5-5" />
-                  <path d="M12 15V3" />
-                </svg>
-                <span>Download E-Catalog PDF</span>
-              </a>
+                <span>View E-Catalogues</span>
+                <ArrowRightIcon className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </Link>
 
               {/* WhatsApp */}
               <a

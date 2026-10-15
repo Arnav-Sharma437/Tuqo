@@ -6,7 +6,7 @@ import { ImageUploader } from "./ImageUploader";
 
 export interface BannerItem {
   _id?: string;
-  title: string;
+  title?: string;
   subtitle?: string;
   badge?: string;
   desktopImage: string;
@@ -29,15 +29,10 @@ export function BannerManager({ banners, onRefresh }: BannerManagerProps) {
   const [error, setError] = useState("");
 
   const initialBanner: BannerItem = {
-    title: "",
-    subtitle: "",
-    badge: "",
     desktopImage: "",
     mobileImage: "",
-    buttonText: "Explore Products",
-    buttonLink: "/categories",
     active: true,
-    order: 0,
+    order: banners.length + 1,
   };
 
   const handleStartCreate = () => {
@@ -56,8 +51,8 @@ export function BannerManager({ banners, onRefresh }: BannerManagerProps) {
     e.preventDefault();
     if (!editingBanner) return;
 
-    if (!editingBanner.title || !editingBanner.desktopImage || !editingBanner.mobileImage) {
-      setError("Title, Desktop Image, and Mobile Image are required.");
+    if (!editingBanner.desktopImage) {
+      setError("Desktop Banner Image is required.");
       return;
     }
 
@@ -65,6 +60,12 @@ export function BannerManager({ banners, onRefresh }: BannerManagerProps) {
     setError("");
 
     try {
+      const payload = {
+        ...editingBanner,
+        title: editingBanner.title || `Banner Slide ${editingBanner.order || 1}`,
+        mobileImage: editingBanner.mobileImage || editingBanner.desktopImage,
+      };
+
       const url = isCreating
         ? "/api/admin/banners"
         : `/api/admin/banners/${editingBanner._id}`;
@@ -73,7 +74,7 @@ export function BannerManager({ banners, onRefresh }: BannerManagerProps) {
       const res = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(editingBanner),
+        body: JSON.stringify(payload),
       });
 
       const data = await res.json();
@@ -114,7 +115,7 @@ export function BannerManager({ banners, onRefresh }: BannerManagerProps) {
         <div>
           <h2 className="text-xl font-bold tracking-tight text-white">Homepage Banners</h2>
           <p className="text-xs text-gray-400">
-            Manage full-width hero slides with dedicated desktop and mobile banners uploaded to Cloudinary
+            Upload clean full-width hero banner images for desktop and mobile displays (no text overlay needed)
           </p>
         </div>
         {!editingBanner && (
@@ -135,7 +136,7 @@ export function BannerManager({ banners, onRefresh }: BannerManagerProps) {
         >
           <div className="flex items-center justify-between border-b border-white/10 pb-4">
             <h3 className="text-sm font-bold uppercase tracking-wider text-[#d31820]">
-              {isCreating ? "New Banner" : "Edit Banner"}
+              {isCreating ? "New Banner Image" : "Edit Banner Image"}
             </h3>
             <button
               type="button"
@@ -152,60 +153,12 @@ export function BannerManager({ banners, onRefresh }: BannerManagerProps) {
             </div>
           )}
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-gray-300">
-                Banner Headline / Title *
-              </label>
-              <input
-                type="text"
-                value={editingBanner.title}
-                onChange={(e) =>
-                  setEditingBanner({ ...editingBanner, title: e.target.value })
-                }
-                placeholder="e.g. Engineered For Extreme Industrial Duty"
-                required
-                className="mt-1.5 w-full rounded-xl border border-white/10 bg-[#181a20] px-4 py-2.5 text-xs text-white placeholder-gray-500 focus:border-[#d31820] focus:outline-none"
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-gray-300">
-                Badge / Tag (Optional)
-              </label>
-              <input
-                type="text"
-                value={editingBanner.badge || ""}
-                onChange={(e) =>
-                  setEditingBanner({ ...editingBanner, badge: e.target.value })
-                }
-                placeholder="e.g. COMMERCIAL & INDUSTRIAL GRADE"
-                className="mt-1.5 w-full rounded-xl border border-white/10 bg-[#181a20] px-4 py-2.5 text-xs text-white placeholder-gray-500 focus:border-[#d31820] focus:outline-none"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-300">
-              Subtitle / Description (Optional)
-            </label>
-            <textarea
-              rows={2}
-              value={editingBanner.subtitle || ""}
-              onChange={(e) =>
-                setEditingBanner({ ...editingBanner, subtitle: e.target.value })
-              }
-              placeholder="e.g. Discover high-pressure washers and industrial tools engineered for continuous operation."
-              className="mt-1.5 w-full rounded-xl border border-white/10 bg-[#181a20] px-4 py-2.5 text-xs text-white placeholder-gray-500 focus:border-[#d31820] focus:outline-none"
-            />
-          </div>
-
           {/* Cloudinary Separate Desktop and Mobile Uploads */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 rounded-xl border border-white/5 bg-[#101215] p-4">
             <ImageUploader
               label="Desktop Banner Image *"
-              sublabel="High-resolution landscape image (1920x800 or 16:9 recommended)"
-              aspectHint="1920 × 800"
+              sublabel="High-resolution landscape image (1920x650 or 21:9 recommended)"
+              aspectHint="1920 × 650"
               folder="tuqo/banners"
               value={editingBanner.desktopImage}
               onChange={(url) =>
@@ -214,9 +167,9 @@ export function BannerManager({ banners, onRefresh }: BannerManagerProps) {
             />
 
             <ImageUploader
-              label="Mobile Banner Image *"
-              sublabel="Portrait / square crop image (800x1000 or 4:5 recommended)"
-              aspectHint="800 × 1000"
+              label="Mobile Banner Image (Optional)"
+              sublabel="Portrait / mobile crop image (leave empty to reuse desktop image)"
+              aspectHint="800 × 800"
               folder="tuqo/banners"
               value={editingBanner.mobileImage}
               onChange={(url) =>
@@ -225,35 +178,7 @@ export function BannerManager({ banners, onRefresh }: BannerManagerProps) {
             />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-gray-300">
-                Button Text
-              </label>
-              <input
-                type="text"
-                value={editingBanner.buttonText || ""}
-                onChange={(e) =>
-                  setEditingBanner({ ...editingBanner, buttonText: e.target.value })
-                }
-                placeholder="Explore Products"
-                className="mt-1.5 w-full rounded-xl border border-white/10 bg-[#181a20] px-4 py-2 text-xs text-white focus:border-[#d31820] focus:outline-none"
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-gray-300">
-                Button Target Link
-              </label>
-              <input
-                type="text"
-                value={editingBanner.buttonLink || ""}
-                onChange={(e) =>
-                  setEditingBanner({ ...editingBanner, buttonLink: e.target.value })
-                }
-                placeholder="/categories"
-                className="mt-1.5 w-full rounded-xl border border-white/10 bg-[#181a20] px-4 py-2 text-xs text-white focus:border-[#d31820] focus:outline-none"
-              />
-            </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-semibold uppercase tracking-wider text-gray-300">
                 Display Order
@@ -267,27 +192,28 @@ export function BannerManager({ banners, onRefresh }: BannerManagerProps) {
                     order: Number(e.target.value) || 0,
                   })
                 }
+                min={0}
                 className="mt-1.5 w-full rounded-xl border border-white/10 bg-[#181a20] px-4 py-2 text-xs text-white focus:border-[#d31820] focus:outline-none"
               />
             </div>
+
+            <div className="flex items-center gap-2 pt-6">
+              <input
+                type="checkbox"
+                id="banner-active"
+                checked={editingBanner.active}
+                onChange={(e) =>
+                  setEditingBanner({ ...editingBanner, active: e.target.checked })
+                }
+                className="h-4 w-4 rounded accent-[#d31820]"
+              />
+              <label htmlFor="banner-active" className="text-xs font-semibold text-gray-300 cursor-pointer">
+                Active / Visible on homepage slider
+              </label>
+            </div>
           </div>
 
-          <div className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              id="banner-active"
-              checked={editingBanner.active}
-              onChange={(e) =>
-                setEditingBanner({ ...editingBanner, active: e.target.checked })
-              }
-              className="h-4 w-4 rounded accent-[#d31820]"
-            />
-            <label htmlFor="banner-active" className="text-xs font-semibold text-gray-300">
-              Active / Visible on public site
-            </label>
-          </div>
-
-          <div className="flex justify-end gap-3 pt-2">
+          <div className="flex justify-end gap-3 pt-2 border-t border-white/5">
             <button
               type="button"
               onClick={() => setEditingBanner(null)}
@@ -307,22 +233,22 @@ export function BannerManager({ banners, onRefresh }: BannerManagerProps) {
       )}
 
       {/* List of existing banners */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {banners.length === 0 ? (
           <div className="col-span-full rounded-2xl border border-white/10 bg-[#14161a] p-12 text-center text-gray-400">
-            No banners created yet. Click "+ Add New Banner" to create your first desktop & mobile hero slide.
+            No banners created yet. Click &quot;+ Add New Banner&quot; to upload your first desktop &amp; mobile banner image.
           </div>
         ) : (
-          banners.map((b) => (
+          banners.map((b, idx) => (
             <div
-              key={b._id}
+              key={b._id || idx}
               className="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#14161a] transition hover:border-[#d31820]/40"
             >
-              <div className="relative h-44 w-full bg-[#181a20]">
+              <div className="relative h-48 w-full bg-[#181a20]">
                 {b.desktopImage ? (
                   <Image
                     src={b.desktopImage}
-                    alt={b.title}
+                    alt={`Banner ${idx + 1}`}
                     fill
                     unoptimized={b.desktopImage.startsWith("http")}
                     className="object-cover"
@@ -330,50 +256,43 @@ export function BannerManager({ banners, onRefresh }: BannerManagerProps) {
                   />
                 ) : (
                   <div className="flex h-full items-center justify-center text-xs text-gray-500">
-                    No image
+                    No image uploaded
                   </div>
                 )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
                 <div className="absolute top-3 left-3 flex gap-2">
                   <span
-                    className={`rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${
-                      b.active ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30" : "bg-gray-500/20 text-gray-400"
+                    className={`rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider ${
+                      b.active
+                        ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"
+                        : "bg-gray-500/20 text-gray-400"
                     }`}
                   >
                     {b.active ? "Active" : "Hidden"}
                   </span>
-                  {b.badge && (
-                    <span className="rounded-full bg-[#d31820]/80 px-2 py-0.5 text-[10px] font-bold uppercase text-white">
-                      {b.badge}
-                    </span>
-                  )}
+                  <span className="rounded-full bg-black/60 backdrop-blur-xs px-2.5 py-0.5 text-[10px] font-bold uppercase text-gray-300 border border-white/10">
+                    Slide #{idx + 1}
+                  </span>
                 </div>
               </div>
 
-              <div className="p-4 space-y-3">
-                <div>
-                  <h4 className="text-sm font-bold text-white line-clamp-1">{b.title}</h4>
-                  {b.subtitle && (
-                    <p className="text-xs text-gray-400 line-clamp-1 mt-0.5">{b.subtitle}</p>
-                  )}
-                </div>
+              <div className="p-4 flex items-center justify-between text-xs text-gray-400">
+                <span className="font-semibold text-gray-300">
+                  Display Order: <strong className="text-white">{b.order}</strong>
+                </span>
 
-                <div className="flex items-center justify-between text-[11px] text-gray-500 border-t border-white/5 pt-2">
-                  <span>Order: {b.order}</span>
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => handleStartEdit(b)}
-                      className="rounded-lg border border-white/10 px-2.5 py-1 text-xs font-semibold text-gray-300 hover:bg-white/10 hover:text-white"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleDelete(b._id)}
-                      className="rounded-lg border border-red-500/30 bg-red-500/10 px-2.5 py-1 text-xs font-semibold text-red-400 hover:bg-red-500/20"
-                    >
-                      Delete
-                    </button>
-                  </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => handleStartEdit(b)}
+                    className="rounded-lg border border-white/10 px-3 py-1 text-xs font-semibold text-gray-300 hover:bg-white/10 hover:text-white"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(b._id)}
+                    className="rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-1 text-xs font-semibold text-red-400 hover:bg-red-500/20"
+                  >
+                    Delete
+                  </button>
                 </div>
               </div>
             </div>

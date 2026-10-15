@@ -17,12 +17,12 @@ export const APP_CONFIG = {
       "E-45, Sidco Industrial Estate, Coimbatore - 641021, Tamil Nadu, India",
   },
   businessHours: [
-    { day: "Mon", hours: "09:00 am – 05:00 pm" },
-    { day: "Tue", hours: "09:00 am – 05:00 pm" },
-    { day: "Wed", hours: "09:00 am – 05:00 pm" },
-    { day: "Thu", hours: "09:00 am – 05:00 pm" },
-    { day: "Fri", hours: "09:00 am – 05:00 pm" },
-    { day: "Sat", hours: "Closed" },
+    { day: "Mon", hours: "09:30 am – 06:30 pm" },
+    { day: "Tue", hours: "09:30 am – 06:30 pm" },
+    { day: "Wed", hours: "09:30 am – 06:30 pm" },
+    { day: "Thu", hours: "09:30 am – 06:30 pm" },
+    { day: "Fri", hours: "09:30 am – 06:30 pm" },
+    { day: "Sat", hours: "09:30 am – 06:30 pm" },
     { day: "Sun", hours: "Closed" },
   ],
 } as const;

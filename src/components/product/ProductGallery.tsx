@@ -29,15 +29,15 @@ export function ProductGallery({
   return (
     <div className="flex flex-col gap-4 w-full">
       {/* Main Image Stage */}
-      <div className="relative flex aspect-square w-full items-center justify-center rounded-2xl bg-gradient-to-b from-[#f8f8f8] to-gray-50 border border-gray-100 p-2 sm:p-4 shadow-inner overflow-hidden">
-        <div className="relative h-[82vw] w-[82vw] max-h-[440px] max-w-[440px] sm:h-[380px] sm:w-[380px] lg:h-[440px] lg:w-[440px] transition-transform duration-500 hover:scale-105">
+      <div className="relative flex aspect-square w-full items-center justify-center rounded-2xl bg-[#fafafa] border border-gray-200/80 p-6 sm:p-8 shadow-inner overflow-hidden">
+        <div className="relative h-full w-full max-h-[350px] max-w-[350px] flex items-center justify-center transition-transform duration-300 hover:scale-[1.03]">
           <Image
             src={activeImage}
             alt={productName}
             fill
             priority
-            sizes="(max-width: 768px) 100vw, 440px"
-            className="object-contain w-full h-full scale-[1.18] transition-all duration-300"
+            sizes="(max-width: 768px) 100vw, 380px"
+            className="object-contain p-2"
           />
         </div>
 

@@ -271,62 +271,11 @@ export default async function CategoriesPage() {
             </p>
 
             <Link
-              href="/contact"
+              href="/e-catalog"
               className="mt-5 inline-flex items-center gap-5 bg-[#e21b23] px-5 py-3 text-sm font-bold text-white transition hover:bg-red-700"
             >
-              Request E-Catalog <span>→</span>
+              View E-Catalog <span>→</span>
             </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* WHY CHOOSE TUQO */}
-      <section className="border-y border-gray-200 bg-[#f6f6f6] py-10 md:py-14">
-        <div className="mx-auto grid max-w-[1400px] gap-8 px-5 sm:px-8 md:grid-cols-2 md:gap-12 lg:px-10">
-          <div>
-            <p className="text-xs font-extrabold uppercase tracking-widest text-[#e21b23]">
-              WHY CHOOSE TUQO
-            </p>
-
-            <h2 className="mt-3 text-3xl font-black leading-tight md:text-4xl">
-              BUILT FOR <span className="text-[#e21b23]">PROFESSIONALS.</span>
-            </h2>
-
-            <p className="mt-4 max-w-md text-sm leading-7 text-gray-600">
-              Explore practical machinery, power tools and accessories for
-              professional cleaning and workshop requirements.
-            </p>
-
-            <Link
-              href="/contact"
-              className="mt-4 inline-flex items-center gap-3 text-sm font-bold text-[#e21b23]"
-            >
-              Talk to Our Team <span>→</span>
-            </Link>
-          </div>
-
-          <div>
-            {[
-              ["01", "Performance Focus", "Equipment for demanding tasks."],
-              ["02", "Product Variety", "Six categories in one place."],
-              ["03", "Customer Support", "Help with product enquiries."],
-            ].map(([no, title, desc]) => (
-              <div
-                key={no}
-                className="flex items-center gap-4 border-b border-gray-300 py-4"
-              >
-                <span className="text-sm font-bold text-[#e21b23]">
-                  {no}
-                </span>
-
-                <div className="flex-1">
-                  <h3 className="text-sm font-bold">{title}</h3>
-                  <p className="mt-1 text-sm text-gray-500">{desc}</p>
-                </div>
-
-                <span className="text-xl text-[#e21b23]">↗</span>
-              </div>
-            ))}
           </div>
         </div>
       </section>

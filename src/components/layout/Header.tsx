@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { APP_CONFIG } from "@/constants";
 import { TuqoLogo } from "@/components/common/TuqoLogo";
@@ -14,35 +15,48 @@ import {
   ArrowRightIcon,
 } from "@/components/common/Icons";
 
-const CATEGORY_DROPDOWN_ITEMS = [
+export interface NavCategoryItem {
+  name: string;
+  href: string;
+  image: string;
+  desc: string;
+}
+
+const DEFAULT_CATEGORY_DROPDOWN: NavCategoryItem[] = [
   {
     name: "High Pressure Washers",
     href: "/products/high-pressure-washer",
+    image: "/images/cat-pressure-washer.png",
     desc: "Commercial induction & brass pump washers",
   },
   {
     name: "Air Compressors",
     href: "/products/air-compressor",
+    image: "/images/cat-air-compressor.png",
     desc: "Heavy-duty workshop & industrial compressors",
   },
   {
     name: "Power Tools",
     href: "/products/power-tools",
+    image: "/images/cat-power-tools.png",
     desc: "Drills, angle grinders & demolition tools",
   },
   {
     name: "Washer Accessories",
     href: "/products/high-pressure-washer-accessories",
+    image: "/images/cat-accessories.png",
     desc: "Hoses, guns, foam cannons & brass nozzles",
   },
   {
     name: "Auto Detailing Range",
     href: "/products/auto-detailing",
+    image: "/images/cat-foam-dispenser.png",
     desc: "Professional vehicle washing & detailing units",
   },
   {
     name: "Power Tool Accessories",
     href: "/products/power-tools-accessories",
+    image: "/images/cat-accessories.png",
     desc: "Discs, blades, bits & spare components",
   },
 ];
@@ -52,6 +66,10 @@ export function Header() {
   const [categoriesDropdownOpen, setCategoriesDropdownOpen] = useState(false);
   const [mobileCategoriesOpen, setMobileCategoriesOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [categoryItems, setCategoryItems] = useState<NavCategoryItem[]>(
+    DEFAULT_CATEGORY_DROPDOWN
+  );
+
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const pathname = usePathname();
 
@@ -63,6 +81,24 @@ export function Header() {
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Fetch live categories from backend
+  useEffect(() => {
+    fetch("/api/admin/categories")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success && Array.isArray(data.categories) && data.categories.length > 0) {
+          const mapped: NavCategoryItem[] = data.categories.map((c: any) => ({
+            name: c.name,
+            href: `/products/${c.slug}`,
+            image: c.image || "/images/cat-accessories.png",
+            desc: c.description || "Explore products & specifications",
+          }));
+          setCategoryItems(mapped);
+        }
+      })
+      .catch(() => {});
   }, []);
 
   // Close menus on page change
@@ -80,7 +116,7 @@ export function Header() {
   const handleMouseLeave = () => {
     dropdownTimeoutRef.current = setTimeout(() => {
       setCategoriesDropdownOpen(false);
-    }, 150);
+    }, 180);
   };
 
   return (
@@ -147,24 +183,35 @@ export function Header() {
 
             {/* Dropdown Menu */}
             {categoriesDropdownOpen && (
-              <div className="absolute left-0 top-full w-[380px] rounded-2xl border border-gray-200 bg-white p-3 shadow-xl backdrop-blur-md animate-in fade-in slide-in-from-top-2 duration-200">
+              <div className="absolute left-0 top-full w-[420px] rounded-2xl border border-gray-200 bg-white p-3 shadow-xl backdrop-blur-md animate-in fade-in slide-in-from-top-2 duration-200">
                 <div className="mb-2 px-3 pt-2 text-[10px] font-black uppercase tracking-wider text-[#e21b23]">
                   MACHINERY &amp; EQUIPMENT
                 </div>
 
                 <div className="space-y-1">
-                  {CATEGORY_DROPDOWN_ITEMS.map((item) => (
+                  {categoryItems.map((item) => (
                     <Link
                       key={item.href}
                       href={item.href}
-                      className="group flex flex-col rounded-xl px-3 py-2.5 transition-all hover:bg-gray-50"
+                      className="group flex items-center gap-3.5 rounded-xl px-2.5 py-2 transition-all hover:bg-gray-50"
                     >
-                      <span className="text-xs font-bold text-[#111214] group-hover:text-[#e21b23] transition-colors">
-                        {item.name}
-                      </span>
-                      <span className="text-[11px] text-gray-500 mt-0.5">
-                        {item.desc}
-                      </span>
+                      <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-xl border border-gray-100 bg-[#f8f9fa] p-1 shadow-2xs group-hover:border-[#e21b23]/30 transition-colors">
+                        <Image
+                          src={item.image}
+                          alt={item.name}
+                          fill
+                          sizes="44px"
+                          className="object-contain p-0.5 transition-transform duration-300 group-hover:scale-110"
+                        />
+                      </div>
+                      <div className="flex flex-col min-w-0">
+                        <span className="text-xs font-bold text-[#111214] group-hover:text-[#e21b23] transition-colors truncate">
+                          {item.name}
+                        </span>
+                        <span className="text-[11px] text-gray-500 mt-0.5 truncate">
+                          {item.desc}
+                        </span>
+                      </div>
                     </Link>
                   ))}
                 </div>
@@ -319,19 +366,28 @@ export function Header() {
               </button>
 
               {mobileCategoriesOpen && (
-                <div className="pb-3 pl-3 space-y-2">
-                  {CATEGORY_DROPDOWN_ITEMS.map((item) => (
+                <div className="pb-3 pl-1 space-y-1.5">
+                  {categoryItems.map((item) => (
                     <Link
                       key={item.href}
                       href={item.href}
-                      className="block py-1 text-xs font-semibold text-gray-600 hover:text-[#e21b23]"
+                      className="flex items-center gap-3 rounded-xl p-2 text-xs font-semibold text-gray-700 hover:text-[#e21b23] hover:bg-gray-50 transition-all"
                     >
-                      {item.name}
+                      <div className="relative h-9 w-9 shrink-0 overflow-hidden rounded-lg border border-gray-100 bg-[#f8f9fa] p-1">
+                        <Image
+                          src={item.image}
+                          alt={item.name}
+                          fill
+                          sizes="36px"
+                          className="object-contain"
+                        />
+                      </div>
+                      <span className="truncate">{item.name}</span>
                     </Link>
                   ))}
                   <Link
                     href="/categories"
-                    className="block pt-1 text-xs font-bold uppercase text-[#e21b23]"
+                    className="block pt-2 text-xs font-bold uppercase text-[#e21b23] pl-2"
                   >
                     View All Categories &rarr;
                   </Link>

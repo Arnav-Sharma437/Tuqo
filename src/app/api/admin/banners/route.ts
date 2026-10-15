@@ -28,21 +28,21 @@ export async function POST(req: Request) {
     await connectToDatabase();
     const data = await req.json();
 
-    if (!data.title || !data.desktopImage || !data.mobileImage) {
+    if (!data.desktopImage) {
       return NextResponse.json(
-        { success: false, error: "Title, desktop image, and mobile image are required" },
+        { success: false, error: "Desktop banner image is required" },
         { status: 400 }
       );
     }
 
     const banner = await Banner.create({
-      title: data.title,
+      title: data.title || "Banner",
       subtitle: data.subtitle || "",
       badge: data.badge || "",
       desktopImage: data.desktopImage,
-      mobileImage: data.mobileImage,
-      buttonText: data.buttonText || "Explore Products",
-      buttonLink: data.buttonLink || "/categories",
+      mobileImage: data.mobileImage || data.desktopImage,
+      buttonText: data.buttonText || "",
+      buttonLink: data.buttonLink || "",
       active: data.active !== undefined ? Boolean(data.active) : true,
       order: Number(data.order) || 0,
     });
