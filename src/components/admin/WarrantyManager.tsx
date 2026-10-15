@@ -46,6 +46,25 @@ export function WarrantyManager({ warranties, onRefresh }: WarrantyManagerProps)
   const [editingStatus, setEditingStatus] = useState<WarrantyItem["status"]>("Active");
   const [actionLoading, setActionLoading] = useState(false);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [adminZoomScale, setAdminZoomScale] = useState(1);
+
+  const handleDownloadInvoice = async (url: string, regId: string) => {
+    try {
+      const res = await fetch(url);
+      const blob = await res.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      const isPdf = url.toLowerCase().endsWith(".pdf") || blob.type === "application/pdf";
+      link.download = `tuqo-invoice-${regId}.${isPdf ? "pdf" : "jpg"}`;
+      document.body.appendChild(link);
+      link.click();
+      window.URL.revokeObjectURL(blobUrl);
+      document.body.removeChild(link);
+    } catch {
+      window.open(url, "_blank");
+    }
+  };
 
   // Filtered warranties
   const filtered = useMemo(() => {
@@ -435,13 +454,25 @@ export function WarrantyManager({ warranties, onRefresh }: WarrantyManagerProps)
                       {/* Invoice Link */}
                       <td className="px-4 py-3">
                         {item.invoiceUrl ? (
-                          <button
-                            onClick={() => setPreviewImage(item.invoiceUrl || null)}
-                            className="inline-flex items-center gap-1 rounded-lg border border-white/10 bg-white/5 px-2 py-1 text-[11px] font-bold text-blue-400 hover:bg-white/10 transition"
-                          >
-                            <span>🧾</span>
-                            <span>View Bill</span>
-                          </button>
+                          <div className="flex items-center gap-1.5">
+                            <button
+                              onClick={() => {
+                                setAdminZoomScale(1);
+                                setPreviewImage(item.invoiceUrl || null);
+                              }}
+                              className="inline-flex items-center gap-1 rounded-lg border border-white/10 bg-white/5 px-2 py-1 text-[11px] font-bold text-blue-400 hover:bg-white/10 transition"
+                              title="Click to Zoom & Inspect Bill"
+                            >
+                              <span>🔍 View</span>
+                            </button>
+                            <button
+                              onClick={() => handleDownloadInvoice(item.invoiceUrl!, item.registrationId)}
+                              className="inline-flex items-center rounded-lg border border-emerald-500/20 bg-emerald-500/10 px-2 py-1 text-[11px] font-bold text-emerald-400 hover:bg-emerald-500/20 transition"
+                              title="Download Invoice Copy"
+                            >
+                              <span>📥</span>
+                            </button>
+                          </div>
                         ) : (
                           <span className="text-[10px] text-gray-500 italic">No bill</span>
                         )}
@@ -497,47 +528,97 @@ export function WarrantyManager({ warranties, onRefresh }: WarrantyManagerProps)
       {/* Invoice Image Fullscreen Modal */}
       {previewImage && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4"
           onClick={() => setPreviewImage(null)}
         >
           <div
-            className="relative max-w-4xl max-h-[90vh] overflow-hidden rounded-2xl border border-white/15 bg-[#121418] p-2"
+            className="relative flex flex-col w-full max-w-4xl max-h-[92vh] overflow-hidden rounded-3xl border border-white/20 bg-[#121418] shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between border-b border-white/10 pb-2 px-3">
-              <span className="text-xs font-bold text-white">Purchase Invoice / Tax Bill Preview</span>
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 bg-[#181a20] px-4 py-3">
+              <span className="text-xs font-bold text-white flex items-center gap-2">
+                <span>🧾</span>
+                <span>Purchase Invoice / Tax Bill Preview</span>
+              </span>
+
               <div className="flex items-center gap-2">
+                {!previewImage.toLowerCase().endsWith(".pdf") && !previewImage.includes("/raw/") && (
+                  <div className="flex items-center gap-1 rounded-xl bg-white/10 px-2 py-1 text-xs">
+                    <button
+                      type="button"
+                      onClick={() => setAdminZoomScale((prev) => Math.max(0.5, prev - 0.25))}
+                      className="h-6 w-6 rounded bg-white/10 text-white font-bold hover:bg-white/20 transition flex items-center justify-center"
+                      title="Zoom Out (-)"
+                    >
+                      −
+                    </button>
+                    <span className="min-w-12 text-center font-mono text-[11px] font-bold text-gray-200">
+                      {Math.round(adminZoomScale * 100)}%
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setAdminZoomScale((prev) => Math.min(3, prev + 0.25))}
+                      className="h-6 w-6 rounded bg-white/10 text-white font-bold hover:bg-white/20 transition flex items-center justify-center"
+                      title="Zoom In (+)"
+                    >
+                      +
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setAdminZoomScale(1)}
+                      className="ml-1 rounded px-1.5 py-0.5 text-[10px] text-gray-400 hover:text-white"
+                      title="Reset Zoom"
+                    >
+                      Reset
+                    </button>
+                  </div>
+                )}
+
+                <button
+                  type="button"
+                  onClick={() => handleDownloadInvoice(previewImage, "customer-invoice")}
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-600 px-3 py-1.5 text-xs font-bold text-white hover:bg-emerald-500 transition shadow-sm"
+                >
+                  <span>📥 Download Copy</span>
+                </button>
+
                 <a
                   href={previewImage}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs font-semibold text-blue-400 hover:underline"
+                  className="rounded-xl border border-white/10 bg-white/5 px-2.5 py-1.5 text-xs font-semibold text-blue-400 hover:bg-white/10 hover:underline"
                 >
                   Open in New Tab ↗
                 </a>
+
                 <button
                   onClick={() => setPreviewImage(null)}
-                  className="rounded-lg bg-white/10 px-2 py-1 text-xs text-white hover:bg-white/20"
+                  className="rounded-xl border border-white/15 bg-white/10 px-2.5 py-1.5 text-xs font-bold text-white hover:bg-white/20 transition"
                 >
                   ✕
                 </button>
               </div>
             </div>
-            <div className="relative mt-2 h-[75vh] w-[80vw] max-w-3xl flex items-center justify-center">
+
+            <div className="relative flex-1 overflow-auto p-4 flex items-center justify-center min-h-[60vh] max-h-[78vh] bg-black/60">
               {previewImage.toLowerCase().endsWith(".pdf") || previewImage.includes("/raw/") ? (
                 <iframe
                   src={previewImage}
-                  className="w-full h-full rounded-xl border border-white/10"
+                  className="h-[74vh] w-full rounded-2xl border border-white/10 bg-white"
                   title="PDF Invoice"
                 />
               ) : (
-                <Image
-                  src={previewImage}
-                  alt="Warranty Invoice"
-                  fill
-                  className="object-contain"
-                  unoptimized
-                />
+                <div className="overflow-auto max-h-full max-w-full flex items-center justify-center">
+                  <img
+                    src={previewImage}
+                    alt="Warranty Invoice"
+                    style={{
+                      transform: `scale(${adminZoomScale})`,
+                      transformOrigin: "center center",
+                    }}
+                    className="max-h-[72vh] max-w-full object-contain select-none transition-transform duration-200 rounded-lg shadow-2xl"
+                  />
+                </div>
               )}
             </div>
           </div>

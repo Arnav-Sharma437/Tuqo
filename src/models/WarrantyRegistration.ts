@@ -13,14 +13,14 @@ export interface IWarrantyRegistration extends Document {
   mobile: string;
   email?: string;
   pincode: string;
-  city?: string;
-  state?: string;
+  city: string;
+  state: string;
   address?: string;
   products: IWarrantyProduct[];
   purchaseDate: string;
   source: string;
-  dealerName?: string;
-  dealerCity?: string;
+  dealerName: string;
+  dealerCity: string;
   invoiceUrl: string;
   status: "Active" | "Pending" | "Verified" | "Rejected";
   warrantyExpiryDate?: string;
@@ -46,14 +46,14 @@ const WarrantyRegistrationSchema = new Schema<IWarrantyRegistration>(
     mobile: { type: String, required: true, index: true },
     email: { type: String, default: "" },
     pincode: { type: String, required: true },
-    city: { type: String, default: "" },
-    state: { type: String, default: "" },
+    city: { type: String, required: true },
+    state: { type: String, required: true },
     address: { type: String, default: "" },
     products: { type: [WarrantyProductSchema], required: true },
     purchaseDate: { type: String, required: true },
     source: { type: String, default: "Authorized Dealer" },
-    dealerName: { type: String, default: "" },
-    dealerCity: { type: String, default: "" },
+    dealerName: { type: String, required: true },
+    dealerCity: { type: String, required: true },
     invoiceUrl: { type: String, required: true },
     status: {
       type: String,

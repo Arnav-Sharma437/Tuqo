@@ -44,6 +44,8 @@ function PublicInvoiceUploader({
 }) {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
+  const [zoomModalOpen, setZoomModalOpen] = useState(false);
+  const [zoomScale, setZoomScale] = useState(1);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,7 +81,29 @@ function PublicInvoiceUploader({
     }
   };
 
-  const isPdf = value?.toLowerCase().endsWith(".pdf") || value?.includes("/raw/") || value?.includes(".pdf");
+  const isPdf =
+    value?.toLowerCase().endsWith(".pdf") ||
+    value?.includes("/raw/") ||
+    value?.includes(".pdf");
+
+  const handleDownload = async () => {
+    if (!value) return;
+    try {
+      const res = await fetch(value);
+      const blob = await res.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      const isPdfDoc = isPdf || blob.type === "application/pdf";
+      link.download = `tuqo-purchase-invoice-${Date.now()}.${isPdfDoc ? "pdf" : "jpg"}`;
+      document.body.appendChild(link);
+      link.click();
+      window.URL.revokeObjectURL(blobUrl);
+      document.body.removeChild(link);
+    } catch {
+      window.open(value, "_blank");
+    }
+  };
 
   return (
     <div className="space-y-3">
@@ -101,22 +125,37 @@ function PublicInvoiceUploader({
       {value ? (
         <div className="relative overflow-hidden rounded-2xl border-2 border-emerald-500/40 bg-emerald-50/30 p-4">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              {isPdf ? (
-                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-red-100 text-red-600 font-bold text-sm">
-                  PDF
-                </div>
-              ) : (
-                <div className="relative h-16 w-20 shrink-0 overflow-hidden rounded-xl border border-emerald-200 bg-white">
+            <div className="flex items-center gap-3 w-full sm:w-auto">
+              {/* Click to Zoom Thumbnail */}
+              <div
+                onClick={() => {
+                  setZoomScale(1);
+                  setZoomModalOpen(true);
+                }}
+                className="group relative h-20 w-24 shrink-0 overflow-hidden rounded-xl border-2 border-emerald-300 bg-white cursor-pointer shadow-sm hover:border-[#e21b23] transition-all"
+                title="Click to Zoom & View Fullscreen"
+              >
+                {isPdf ? (
+                  <div className="flex h-full w-full flex-col items-center justify-center bg-red-50 text-red-600 font-bold text-xs">
+                    <span className="text-xl">📄</span>
+                    <span>PDF BILL</span>
+                  </div>
+                ) : (
                   <Image
                     src={value}
                     alt="Uploaded Invoice"
                     fill
-                    className="object-contain"
+                    className="object-contain transition-transform duration-200 group-hover:scale-105"
                     unoptimized
                   />
+                )}
+                <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  <span className="rounded bg-black/70 px-1.5 py-0.5 text-[9px] font-bold text-white">
+                    🔍 Zoom
+                  </span>
                 </div>
-              )}
+              </div>
+
               <div>
                 <div className="flex items-center gap-2">
                   <span className="inline-flex items-center gap-1 rounded-full bg-emerald-600 px-2 py-0.5 text-[10px] font-bold text-white">
@@ -124,31 +163,60 @@ function PublicInvoiceUploader({
                   </span>
                 </div>
                 <p className="mt-1 text-xs font-semibold text-gray-800">
-                  Purchase Invoice / Bill Verified
+                  Purchase Invoice / Tax Bill Verified
                 </p>
-                <a
-                  href={value}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-0.5 inline-block text-[11px] font-bold text-blue-600 hover:underline"
-                >
-                  View Uploaded Bill ↗
-                </a>
+                <div className="mt-1 flex items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setZoomScale(1);
+                      setZoomModalOpen(true);
+                    }}
+                    className="inline-flex items-center gap-1 text-[11px] font-bold text-blue-600 hover:text-blue-800 hover:underline"
+                  >
+                    <span>🔍 Click to Zoom</span>
+                  </button>
+                  <span className="text-gray-300">|</span>
+                  <button
+                    type="button"
+                    onClick={handleDownload}
+                    className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 hover:text-emerald-900 hover:underline"
+                  >
+                    <span>📥 Download Copy</span>
+                  </button>
+                </div>
               </div>
             </div>
 
-            <div className="flex items-center gap-2 w-full sm:w-auto">
+            <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto justify-end">
+              <button
+                type="button"
+                onClick={() => {
+                  setZoomScale(1);
+                  setZoomModalOpen(true);
+                }}
+                className="rounded-xl border border-blue-200 bg-blue-50 px-3 py-2 text-xs font-bold text-blue-700 hover:bg-blue-100 transition"
+              >
+                🔍 Zoom In
+              </button>
+              <button
+                type="button"
+                onClick={handleDownload}
+                className="rounded-xl border border-emerald-300 bg-emerald-100/70 px-3 py-2 text-xs font-bold text-emerald-800 hover:bg-emerald-200 transition"
+              >
+                📥 Download
+              </button>
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="flex-1 sm:flex-none rounded-xl border border-gray-300 bg-white px-3.5 py-2 text-xs font-bold text-gray-700 hover:bg-gray-50 shadow-xs"
+                className="rounded-xl border border-gray-300 bg-white px-3 py-2 text-xs font-bold text-gray-700 hover:bg-gray-50 shadow-xs"
               >
                 Change Photo / PDF
               </button>
               <button
                 type="button"
                 onClick={() => onChange("")}
-                className="rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-xs font-bold text-red-600 hover:bg-red-100"
+                className="rounded-xl border border-red-200 bg-red-50 px-2.5 py-2 text-xs font-bold text-red-600 hover:bg-red-100"
                 title="Remove uploaded bill"
               >
                 ✕
@@ -187,6 +255,104 @@ function PublicInvoiceUploader({
               </span>
             </div>
           )}
+        </div>
+      )}
+
+      {/* FULLSCREEN ZOOM MODAL */}
+      {zoomModalOpen && value && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4"
+          onClick={() => setZoomModalOpen(false)}
+        >
+          <div
+            className="relative flex flex-col w-full max-w-4xl max-h-[92vh] overflow-hidden rounded-3xl border border-white/20 bg-[#121418] shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Top Control Bar */}
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 bg-[#181a20] px-4 py-3">
+              <div className="flex items-center gap-2">
+                <span className="text-base">🧾</span>
+                <span className="text-xs font-bold text-white">
+                  Purchase Invoice / Tax Bill
+                </span>
+              </div>
+
+              {/* Zoom In / Out Controls (for images) */}
+              <div className="flex items-center gap-2">
+                {!isPdf && (
+                  <div className="flex items-center gap-1 rounded-xl bg-white/10 px-2 py-1 text-xs">
+                    <button
+                      type="button"
+                      onClick={() => setZoomScale((prev) => Math.max(0.5, prev - 0.25))}
+                      className="h-6 w-6 rounded bg-white/10 text-white font-bold hover:bg-white/20 transition flex items-center justify-center"
+                      title="Zoom Out (-)"
+                    >
+                      −
+                    </button>
+                    <span className="min-w-12 text-center font-mono text-[11px] font-bold text-gray-200">
+                      {Math.round(zoomScale * 100)}%
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setZoomScale((prev) => Math.min(3, prev + 0.25))}
+                      className="h-6 w-6 rounded bg-white/10 text-white font-bold hover:bg-white/20 transition flex items-center justify-center"
+                      title="Zoom In (+)"
+                    >
+                      +
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setZoomScale(1)}
+                      className="ml-1 rounded px-1.5 py-0.5 text-[10px] text-gray-400 hover:text-white"
+                      title="Reset Zoom"
+                    >
+                      Reset
+                    </button>
+                  </div>
+                )}
+
+                <button
+                  type="button"
+                  onClick={handleDownload}
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-600 px-3 py-1.5 text-xs font-bold text-white hover:bg-emerald-500 transition shadow-sm"
+                >
+                  <span>📥 Download Copy</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setZoomModalOpen(false)}
+                  className="rounded-xl border border-white/15 bg-white/10 px-2.5 py-1.5 text-xs font-bold text-white hover:bg-white/20 transition"
+                  title="Close"
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+
+            {/* Modal Body / Canvas */}
+            <div className="relative flex-1 overflow-auto p-4 flex items-center justify-center min-h-[60vh] max-h-[78vh] bg-black/60">
+              {isPdf ? (
+                <iframe
+                  src={value}
+                  className="h-[74vh] w-full rounded-2xl border border-white/10 bg-white"
+                  title="Invoice PDF Preview"
+                />
+              ) : (
+                <div className="overflow-auto max-h-full max-w-full flex items-center justify-center">
+                  <img
+                    src={value}
+                    alt="Zoomed Invoice"
+                    style={{
+                      transform: `scale(${zoomScale})`,
+                      transformOrigin: "center center",
+                    }}
+                    className="max-h-[72vh] max-w-full object-contain select-none transition-transform duration-200 rounded-lg shadow-2xl"
+                  />
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       )}
     </div>
@@ -298,6 +464,14 @@ export function WarrantyForm() {
       setErrorMsg("Please enter a valid 6-digit postal pincode.");
       return;
     }
+    if (!city.trim()) {
+      setErrorMsg("Please enter your City / District.");
+      return;
+    }
+    if (!state.trim()) {
+      setErrorMsg("Please enter your State.");
+      return;
+    }
     setStep(2);
     window.scrollTo({ top: 300, behavior: "smooth" });
   };
@@ -320,6 +494,14 @@ export function WarrantyForm() {
     setErrorMsg("");
     if (!purchaseDate) {
       setErrorMsg("Please select your date of purchase.");
+      return;
+    }
+    if (!dealerName.trim()) {
+      setErrorMsg("Please enter the Dealer / Store Name.");
+      return;
+    }
+    if (!dealerCity.trim()) {
+      setErrorMsg("Please enter the Dealer City / Location.");
       return;
     }
     if (!invoiceUrl || !invoiceUrl.trim()) {
@@ -671,10 +853,11 @@ export function WarrantyForm() {
 
                   <div>
                     <label className="block text-xs font-black uppercase tracking-wider text-gray-700 mb-1.5">
-                      City / District (Optional)
+                      City / District *
                     </label>
                     <input
                       type="text"
+                      required
                       value={city}
                       onChange={(e) => setCity(e.target.value)}
                       placeholder="e.g. Coimbatore"
@@ -684,10 +867,11 @@ export function WarrantyForm() {
 
                   <div>
                     <label className="block text-xs font-black uppercase tracking-wider text-gray-700 mb-1.5">
-                      State (Optional)
+                      State *
                     </label>
                     <input
                       type="text"
+                      required
                       value={state}
                       onChange={(e) => setState(e.target.value)}
                       placeholder="e.g. Tamil Nadu"
@@ -761,19 +945,6 @@ export function WarrantyForm() {
                             </option>
                           ))}
                         </select>
-                      </div>
-
-                      <div>
-                        <label className="block text-xs font-black uppercase tracking-wider text-gray-700 mb-1.5">
-                          Equipment Name / Nickname (Optional)
-                        </label>
-                        <input
-                          type="text"
-                          value={item.productName || ""}
-                          onChange={(e) => updateProductRow(idx, "productName", e.target.value)}
-                          placeholder="e.g. Workshop Pressure Washer / Car Wash Bay #1"
-                          className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-xs sm:text-sm font-semibold text-gray-900 placeholder-gray-400 focus:border-[#e21b23] focus:outline-none"
-                        />
                       </div>
                     </div>
 
@@ -872,10 +1043,11 @@ export function WarrantyForm() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-black uppercase tracking-wider text-gray-700 mb-1.5">
-                      Dealer / Store Name
+                      Dealer / Store Name *
                     </label>
                     <input
                       type="text"
+                      required
                       value={dealerName}
                       onChange={(e) => setDealerName(e.target.value)}
                       placeholder="e.g. Sidco Industrial Tools"
@@ -885,10 +1057,11 @@ export function WarrantyForm() {
 
                   <div>
                     <label className="block text-xs font-black uppercase tracking-wider text-gray-700 mb-1.5">
-                      Dealer City / Location
+                      Dealer City / Location *
                     </label>
                     <input
                       type="text"
+                      required
                       value={dealerCity}
                       onChange={(e) => setDealerCity(e.target.value)}
                       placeholder="e.g. Coimbatore / Chennai"

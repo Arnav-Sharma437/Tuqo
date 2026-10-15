@@ -9,9 +9,16 @@ export async function POST(req: Request) {
     await dbConnect();
     const data = await req.json();
 
-    if (!data.customerName || !data.mobile || !data.pincode) {
+    if (!data.customerName || !data.mobile || !data.pincode || !data.city || !data.state) {
       return NextResponse.json(
-        { success: false, error: "Name, mobile number, and pincode are required" },
+        { success: false, error: "Full Name, mobile number, pincode, city, and state are required" },
+        { status: 400 }
+      );
+    }
+
+    if (!data.dealerName || !data.dealerCity) {
+      return NextResponse.json(
+        { success: false, error: "Dealer / Store Name and Dealer City / Location are required" },
         { status: 400 }
       );
     }
