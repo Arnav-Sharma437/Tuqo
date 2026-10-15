@@ -14,14 +14,14 @@ import { WarrantyManager, WarrantyItem } from "@/components/admin/WarrantyManage
 import { WarrantyModelManager, WarrantyModelItem } from "@/components/admin/WarrantyModelManager";
 
 type TabType =
-  | "banners"
+  | "warranties"
+  | "warranty_models"
+  | "products"
   | "categories"
   | "subcategories"
-  | "products"
+  | "banners"
   | "catalogs"
-  | "faqs"
-  | "warranty_models"
-  | "warranties";
+  | "faqs";
 
 interface TabConfig {
   id: TabType;
@@ -32,7 +32,8 @@ interface TabConfig {
 
 export default function AdminDashboardPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<TabType>("banners");
+  // Default to warranties tab so customer registration data is shown front-and-center!
+  const [activeTab, setActiveTab] = useState<TabType>("warranties");
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [notification, setNotification] = useState<{ type: "success" | "error"; message: string } | null>(null);
@@ -50,6 +51,36 @@ export default function AdminDashboardPage() {
   const showNotification = (message: string, type: "success" | "error" = "success") => {
     setNotification({ message, type });
     setTimeout(() => setNotification(null), 4000);
+  };
+
+  // Sync tab with URL search parameter if provided (e.g. /admin?tab=warranties)
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const tabParam = params.get("tab") as TabType;
+      const validTabs: TabType[] = [
+        "warranties",
+        "warranty_models",
+        "products",
+        "categories",
+        "subcategories",
+        "banners",
+        "catalogs",
+        "faqs",
+      ];
+      if (tabParam && validTabs.includes(tabParam)) {
+        setActiveTab(tabParam);
+      }
+    }
+  }, []);
+
+  const handleTabChange = (tabId: TabType) => {
+    setActiveTab(tabId);
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      url.searchParams.set("tab", tabId);
+      window.history.replaceState({}, "", url.toString());
+    }
   };
 
   // Check auth session
@@ -148,15 +179,16 @@ export default function AdminDashboardPage() {
     router.refresh();
   };
 
+  // Tab configurations - Warranty Registrations is prominently #1
   const tabs: TabConfig[] = [
-    { id: "banners", label: "Hero Banners", icon: "🖼️", count: banners.length },
+    { id: "warranties", label: "Warranty Registrations", icon: "🛡️", count: warranties.length },
+    { id: "warranty_models", label: "Equipment Models", icon: "⚙️", count: warrantyModels.length },
+    { id: "products", label: "Product Catalog", icon: "⚡", count: products.length },
     { id: "categories", label: "Categories", icon: "📁", count: categories.length },
     { id: "subcategories", label: "Subcategories", icon: "🗂️", count: subcategories.length },
-    { id: "products", label: "Product Catalog", icon: "⚡", count: products.length },
+    { id: "banners", label: "Hero Banners", icon: "🖼️", count: banners.length },
     { id: "catalogs", label: "E-Catalogs", icon: "📄", count: catalogs.length },
     { id: "faqs", label: "FAQs", icon: "❓", count: faqs.length },
-    { id: "warranty_models", label: "Equipment Models", icon: "⚙️", count: warrantyModels.length },
-    { id: "warranties", label: "Warranty Claims", icon: "🛡️", count: warranties.length },
   ];
 
   if (loading) {
@@ -256,7 +288,7 @@ export default function AdminDashboardPage() {
                 return (
                   <button
                     key={tab.id}
-                    onClick={() => setActiveTab(tab.id)}
+                    onClick={() => handleTabChange(tab.id)}
                     className={`group relative flex items-center gap-2 rounded-xl px-3.5 py-2 text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap ${
                       isActive
                         ? "bg-[#d31820] text-white shadow-md shadow-red-900/30 ring-1 ring-red-400/30"
@@ -282,14 +314,59 @@ export default function AdminDashboardPage() {
         </div>
       </header>
 
+      {/* Quick Warranty Registration Banner if not on warranty tab */}
+      {warranties.length > 0 && activeTab !== "warranties" && (
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 pt-5">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-2xl border border-emerald-500/30 bg-emerald-950/20 p-4">
+            <div className="flex items-center gap-3">
+              <span className="text-2xl">🛡️</span>
+              <div>
+                <div className="text-xs font-black uppercase tracking-wider text-emerald-400">
+                  {warranties.length} Customer Warranty Registrations in Live Database
+                </div>
+                <div className="text-xs text-gray-300 mt-0.5">
+                  Latest: <span className="font-bold text-white">{warranties[0]?.customerName}</span> ({warranties[0]?.registrationId}) — {warranties[0]?.products?.[0]?.model || "Equipment"}
+                </div>
+              </div>
+            </div>
+            <button
+              onClick={() => handleTabChange("warranties")}
+              className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-600 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white hover:bg-emerald-500 transition whitespace-nowrap self-start sm:self-auto shadow-md"
+            >
+              <span>View All Registrations ({warranties.length}) →</span>
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Main Content Area */}
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
-        {activeTab === "banners" && (
-          <BannerManager
-            banners={banners}
+        {activeTab === "warranties" && (
+          <WarrantyManager
+            warranties={warranties}
             onRefresh={() => {
               fetchData();
-              showNotification("Hero banners updated");
+              showNotification("Warranty registrations refreshed");
+            }}
+          />
+        )}
+        {activeTab === "warranty_models" && (
+          <WarrantyModelManager
+            models={warrantyModels}
+            onRefresh={() => {
+              fetchData();
+              showNotification("Equipment models updated successfully");
+            }}
+          />
+        )}
+        {activeTab === "products" && (
+          <ProductManager
+            products={products}
+            categories={categories}
+            subcategories={subcategories}
+            onRefresh={() => {
+              fetchData();
+              showNotification("Product catalog updated successfully");
             }}
           />
         )}
@@ -312,14 +389,12 @@ export default function AdminDashboardPage() {
             }}
           />
         )}
-        {activeTab === "products" && (
-          <ProductManager
-            products={products}
-            categories={categories}
-            subcategories={subcategories}
+        {activeTab === "banners" && (
+          <BannerManager
+            banners={banners}
             onRefresh={() => {
               fetchData();
-              showNotification("Product catalog updated successfully");
+              showNotification("Hero banners updated");
             }}
           />
         )}
@@ -338,24 +413,6 @@ export default function AdminDashboardPage() {
             onRefresh={() => {
               fetchData();
               showNotification("FAQs updated successfully");
-            }}
-          />
-        )}
-        {activeTab === "warranty_models" && (
-          <WarrantyModelManager
-            models={warrantyModels}
-            onRefresh={() => {
-              fetchData();
-              showNotification("Equipment models updated successfully");
-            }}
-          />
-        )}
-        {activeTab === "warranties" && (
-          <WarrantyManager
-            warranties={warranties}
-            onRefresh={() => {
-              fetchData();
-              showNotification("Warranty registrations refreshed");
             }}
           />
         )}

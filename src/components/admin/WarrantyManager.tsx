@@ -82,11 +82,11 @@ export function WarrantyManager({ warranties, onRefresh }: WarrantyManagerProps)
         (w.dealerName && w.dealerName.toLowerCase().includes(term)) ||
         (w.city && w.city.toLowerCase().includes(term)) ||
         (w.pincode && w.pincode.includes(term)) ||
-        w.products.some(
+        (w.products || []).some(
           (p) =>
-            (p.serialNumber && p.serialNumber.toLowerCase().includes(term)) ||
-            p.model.toLowerCase().includes(term) ||
-            (p.productName && p.productName.toLowerCase().includes(term))
+            (p?.serialNumber && p.serialNumber.toLowerCase().includes(term)) ||
+            (p?.model && p.model.toLowerCase().includes(term)) ||
+            (p?.productName && p.productName.toLowerCase().includes(term))
         )
       );
     });
@@ -98,8 +98,9 @@ export function WarrantyManager({ warranties, onRefresh }: WarrantyManagerProps)
     const active = warranties.filter((w) => w.status === "Active").length;
     const verified = warranties.filter((w) => w.status === "Verified").length;
     const pending = warranties.filter((w) => w.status === "Pending").length;
+    const withInvoice = warranties.filter((w) => Boolean(w.invoiceUrl)).length;
     const totalUnits = warranties.reduce((acc, curr) => acc + (curr.products?.length || 1), 0);
-    return { total, active, verified, pending, totalUnits };
+    return { total, active, verified, pending, withInvoice, totalUnits };
   }, [warranties]);
 
   // Open inspection modal
@@ -277,11 +278,16 @@ export function WarrantyManager({ warranties, onRefresh }: WarrantyManagerProps)
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-5">
         <div className="rounded-2xl border border-white/10 bg-[#121418] p-4">
           <div className="text-[10px] font-bold uppercase tracking-wider text-gray-400">Total Registered</div>
           <div className="mt-1 text-2xl font-black text-white">{metrics.total}</div>
           <div className="text-[10px] text-gray-500 mt-0.5">{metrics.totalUnits} registered machine units</div>
+        </div>
+        <div className="rounded-2xl border border-purple-500/20 bg-purple-950/10 p-4">
+          <div className="text-[10px] font-bold uppercase tracking-wider text-purple-400">Invoices Attached</div>
+          <div className="mt-1 text-2xl font-black text-purple-400">{metrics.withInvoice}</div>
+          <div className="text-[10px] text-purple-500/70 mt-0.5">Bills uploaded by customer</div>
         </div>
         <div className="rounded-2xl border border-emerald-500/20 bg-emerald-950/10 p-4">
           <div className="text-[10px] font-bold uppercase tracking-wider text-emerald-400">Active / Valid</div>
