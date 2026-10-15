@@ -12,16 +12,16 @@ export async function GET(req: Request) {
 
     if (!query) {
       return NextResponse.json(
-        { success: false, error: "Please provide a Serial Number or Mobile Number to check warranty status" },
+        { success: false, error: "Please provide a Mobile Number or Registration ID to check warranty status" },
         { status: 400 }
       );
     }
 
     const reg = await WarrantyRegistration.findOne({
       $or: [
-        { "products.serialNumber": { $regex: new RegExp(`^${query}$`, "i") } },
         { registrationId: { $regex: new RegExp(`^${query}$`, "i") } },
         { mobile: query },
+        { "products.serialNumber": { $regex: new RegExp(`^${query}$`, "i") } },
       ],
     }).lean();
 
@@ -30,7 +30,7 @@ export async function GET(req: Request) {
         {
           success: false,
           found: false,
-          message: "No active warranty record found for this Serial/Mobile Number. Please ensure it was entered correctly or register your product.",
+          message: "No active warranty record found for this Mobile Number or Registration ID. Please verify your details or register your product.",
         },
         { status: 404 }
       );

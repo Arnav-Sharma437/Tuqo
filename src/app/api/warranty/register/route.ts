@@ -16,38 +16,40 @@ export async function POST(req: Request) {
       );
     }
 
-    if (!Array.isArray(data.products) || data.products.length === 0) {
+    if (!data.invoiceUrl || !data.invoiceUrl.trim()) {
       return NextResponse.json(
-        { success: false, error: "At least one product with serial number is required" },
+        { success: false, error: "Invoice / Tax bill upload is mandatory to register warranty." },
         { status: 400 }
       );
     }
 
-    // Validate that every product has serial number and model
-    for (const p of data.products) {
-      if (!p.serialNumber || !p.serialNumber.trim()) {
-        return NextResponse.json(
-          { success: false, error: "Serial/Barcode number is required for all products" },
-          { status: 400 }
-        );
-      }
+    if (!Array.isArray(data.products) || data.products.length === 0) {
+      return NextResponse.json(
+        { success: false, error: "At least one product selection is required" },
+        { status: 400 }
+      );
     }
 
-    // Check if any serial number is already registered
-    const serials = data.products.map((p: any) => p.serialNumber.trim());
-    const existing = await WarrantyRegistration.findOne({
-      "products.serialNumber": { $in: serials },
-    });
+    // Check if any provided serial number is already registered (only for non-empty serials)
+    const validSerials = data.products
+      .map((p: any) => (p.serialNumber ? p.serialNumber.trim() : ""))
+      .filter((s: string) => s.length > 0);
 
-    if (existing) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: `One of the serial numbers (${serials.join(", ")}) is already registered with registration ID: ${existing.registrationId}`,
-          existingRegistrationId: existing.registrationId,
-        },
-        { status: 409 }
-      );
+    if (validSerials.length > 0) {
+      const existing = await WarrantyRegistration.findOne({
+        "products.serialNumber": { $in: validSerials },
+      });
+
+      if (existing) {
+        return NextResponse.json(
+          {
+            success: false,
+            error: `One of the serial numbers (${validSerials.join(", ")}) is already registered with registration ID: ${existing.registrationId}`,
+            existingRegistrationId: existing.registrationId,
+          },
+          { status: 409 }
+        );
+      }
     }
 
     // Generate unique Registration ID
@@ -55,11 +57,11 @@ export async function POST(req: Request) {
     const randomHex = Math.random().toString(36).substring(2, 6).toUpperCase();
     const registrationId = `TUQO-WR-${year}-${randomHex}`;
 
-    // Calculate expiry date (12 months from purchase date)
+    // Calculate expiry date (6 months from purchase date)
     let warrantyExpiryDate = "";
     try {
       const pDate = new Date(data.purchaseDate || Date.now());
-      pDate.setFullYear(pDate.getFullYear() + 1);
+      pDate.setMonth(pDate.getMonth() + 6);
       warrantyExpiryDate = pDate.toISOString().split("T")[0];
     } catch {
       warrantyExpiryDate = "";
@@ -76,15 +78,15 @@ export async function POST(req: Request) {
       address: data.address?.trim() || "",
       products: data.products.map((p: any) => ({
         model: p.model?.trim() || "TUQO Equipment",
-        serialNumber: p.serialNumber.trim().toUpperCase(),
+        serialNumber: (p.serialNumber || "").trim().toUpperCase(),
         productName: p.productName?.trim() || "",
-        warrantyMonths: p.warrantyMonths || 12,
+        warrantyMonths: p.warrantyMonths || 6,
       })),
       purchaseDate: data.purchaseDate || new Date().toISOString().split("T")[0],
       source: data.source || "Authorized Dealer",
       dealerName: data.dealerName?.trim() || "",
       dealerCity: data.dealerCity?.trim() || "",
-      invoiceUrl: data.invoiceUrl || "",
+      invoiceUrl: data.invoiceUrl.trim(),
       status: "Active",
       warrantyExpiryDate,
       notes: data.notes || "",

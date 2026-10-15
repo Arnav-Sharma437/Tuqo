@@ -37,7 +37,7 @@ export default function WarrantyPage() {
           </h1>
 
           <p className="mt-4 text-xs sm:text-sm text-gray-400 max-w-2xl mx-auto leading-relaxed">
-            Bought TUQO equipment from an authorized dealer or retail store? Scan the QR code on your warranty card or type your machine details below to activate official warranty coverage and priority pan-India service support.
+            Bought TUQO equipment from an authorized dealer or retail store? Fill in your details and upload your purchase invoice below to activate 6 months official warranty coverage and priority pan-India service support.
           </p>
         </div>
       </section>
@@ -65,10 +65,10 @@ export default function WarrantyPage() {
               </div>
               <div>
                 <h4 className="text-sm font-black uppercase text-gray-900">
-                  100% Genuine Spare Parts
+                  6 Months Genuine Warranty
                 </h4>
                 <p className="mt-1 text-xs text-gray-500 leading-relaxed">
-                  Registered tools receive authentic factory-spec replacement parts directly from TUQO inventories.
+                  Direct manufacturer warranty protection covering core components and authentic factory-spec replacement parts.
                 </p>
               </div>
             </div>
@@ -82,7 +82,7 @@ export default function WarrantyPage() {
                   Priority Repair Support
                 </h4>
                 <p className="mt-1 text-xs text-gray-500 leading-relaxed">
-                  Fast turnaround service for registered commercial washers, motors, and demolition tools.
+                  Fast turnaround service for registered commercial washers, motors, air compressors, and demolition tools.
                 </p>
               </div>
             </div>
@@ -118,20 +118,19 @@ export default function WarrantyPage() {
         <div className="space-y-4">
           <div className="rounded-2xl border border-gray-200 bg-white p-5 sm:p-6 shadow-xs">
             <h3 className="text-sm sm:text-base font-bold text-gray-900">
-              Where can I find the Serial Number or QR Code?
+              Why is uploading a purchase invoice mandatory?
             </h3>
             <p className="mt-2 text-xs sm:text-sm text-gray-600 leading-relaxed">
-              Every TUQO machine includes a printed warranty card inside the packaging box with a dedicated QR code.
-              Additionally, a metallic or silver serial number plate is affixed directly to the motor body of your pressure washer or tool.
+              Your dealer purchase invoice or cash bill acts as legal proof of purchase and establishes the exact start date of your 6-month warranty period.
             </p>
           </div>
 
           <div className="rounded-2xl border border-gray-200 bg-white p-5 sm:p-6 shadow-xs">
             <h3 className="text-sm sm:text-base font-bold text-gray-900">
-              What does the TUQO warranty cover?
+              What does the 6-month TUQO warranty cover?
             </h3>
             <p className="mt-2 text-xs sm:text-sm text-gray-600 leading-relaxed">
-              The standard 12-month commercial warranty covers manufacturing defects, motor armature/stator failure, internal pump casting faults, and electrical switches under standard operating conditions.
+              The standard 6-month manufacturer warranty covers manufacturing defects, motor armature/stator failure, internal pump casting faults, and electrical switches under standard operating conditions.
             </p>
           </div>
 
@@ -141,7 +140,7 @@ export default function WarrantyPage() {
             </h3>
             <p className="mt-2 text-xs sm:text-sm text-gray-600 leading-relaxed">
               All machines purchased through our authorized dealers, distributor networks, or retail hardware outlets are fully eligible.
-              Simply mention the store name or upload a photo of the dealer-stamped warranty card.
+              Simply select your equipment model and upload a clear photo or PDF of your dealer purchase invoice.
             </p>
           </div>
         </div>

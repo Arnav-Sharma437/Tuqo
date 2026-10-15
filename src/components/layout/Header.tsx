@@ -243,7 +243,7 @@ export function Header() {
             )}
           </Link>
 
-          {/* Warranty */}
+          {/* Warranty Registration */}
           <Link
             href="/warranty"
             className={`relative flex h-14 items-center gap-1.5 px-3.5 text-[13px] font-bold uppercase tracking-wider transition-colors duration-200 ${
@@ -252,7 +252,7 @@ export function Header() {
                 : "text-gray-200 hover:text-[#e21b23]"
             }`}
           >
-            <span>Warranty</span>
+            <span>Warranty Registration</span>
             <span className="rounded bg-emerald-500/20 border border-emerald-500/40 px-1.5 py-0.5 text-[9px] font-black uppercase text-emerald-400">
               QR
             </span>
@@ -427,7 +427,7 @@ export function Header() {
               )}
             </Link>
 
-            {/* Warranty */}
+            {/* Warranty Registration */}
             <Link
               href="/warranty"
               className={`flex h-12 items-center justify-between border-b border-white/10 text-sm font-bold uppercase tracking-wider ${
@@ -435,7 +435,7 @@ export function Header() {
               }`}
             >
               <div className="flex items-center gap-2">
-                <span>Warranty</span>
+                <span>Warranty Registration</span>
                 <span className="rounded bg-emerald-500/20 border border-emerald-500/40 px-1.5 py-0.2 text-[9px] font-black text-emerald-400">
                   QR
                 </span>

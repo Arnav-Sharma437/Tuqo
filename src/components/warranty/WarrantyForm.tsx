@@ -11,26 +11,187 @@ import {
   WhatsAppIcon,
   ArrowRightIcon,
 } from "@/components/common/Icons";
-import { ImageUploader } from "@/components/admin/ImageUploader";
 
 export interface WarrantyProductItem {
   model: string;
-  serialNumber: string;
+  serialNumber?: string;
   productName?: string;
   warrantyMonths: number;
 }
 
 const COMMON_MODELS = [
-  "HW2020 (145 Bar / 1750W Induction Washer)",
-  "HW2200 (160 Bar / 2200W Commercial Washer)",
+  "HW2020 (145 Bar / 1750W Induction High Pressure Washer)",
+  "HW2200 (160 Bar / 2200W Commercial Pressure Washer)",
   "HW2500 (180 Bar / 2500W Heavy Industrial Washer)",
   "AC-50L (2.5 HP Direct Drive Air Compressor)",
   "AC-100L (3.0 HP Belt Driven Industrial Compressor)",
-  "PT-AG100 (100mm 850W Angle Grinder)",
+  "PT-AG100 (100mm 850W Heavy Angle Grinder)",
   "PT-HD26 (26mm 800W Rotary Hammer Drill)",
-  "PT-DM0810 (1100W Demolition Breaker)",
-  "Other / Custom TUQO Model",
+  "PT-DM0810 (1100W Demolition Breaker Machine)",
+  "VC-30L (Stainless Steel Wet & Dry Industrial Vacuum)",
+  "Other / Custom TUQO Equipment",
 ];
+
+// Dedicated Public Invoice Uploader Component
+function PublicInvoiceUploader({
+  value,
+  onChange,
+  onUploadingChange,
+}: {
+  value: string;
+  onChange: (url: string) => void;
+  onUploadingChange?: (uploading: boolean) => void;
+}) {
+  const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setError("");
+    setUploading(true);
+    onUploadingChange?.(true);
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const res = await fetch("/api/warranty/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || "Failed to upload invoice.");
+      }
+
+      onChange(data.url);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Upload failed.";
+      setError(msg);
+    } finally {
+      setUploading(false);
+      onUploadingChange?.(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+  };
+
+  const isPdf = value?.toLowerCase().endsWith(".pdf") || value?.includes("/raw/") || value?.includes(".pdf");
+
+  return (
+    <div className="space-y-3">
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*,application/pdf"
+        capture="environment"
+        className="hidden"
+        onChange={handleFile}
+      />
+
+      {error && (
+        <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-xs font-semibold text-red-600">
+          ⚠ {error}
+        </div>
+      )}
+
+      {value ? (
+        <div className="relative overflow-hidden rounded-2xl border-2 border-emerald-500/40 bg-emerald-50/30 p-4">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              {isPdf ? (
+                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-red-100 text-red-600 font-bold text-sm">
+                  PDF
+                </div>
+              ) : (
+                <div className="relative h-16 w-20 shrink-0 overflow-hidden rounded-xl border border-emerald-200 bg-white">
+                  <Image
+                    src={value}
+                    alt="Uploaded Invoice"
+                    fill
+                    className="object-contain"
+                    unoptimized
+                  />
+                </div>
+              )}
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-emerald-600 px-2 py-0.5 text-[10px] font-bold text-white">
+                    ✓ Invoice Attached
+                  </span>
+                </div>
+                <p className="mt-1 text-xs font-semibold text-gray-800">
+                  Purchase Invoice / Bill Verified
+                </p>
+                <a
+                  href={value}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-0.5 inline-block text-[11px] font-bold text-blue-600 hover:underline"
+                >
+                  View Uploaded Bill ↗
+                </a>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 w-full sm:w-auto">
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                className="flex-1 sm:flex-none rounded-xl border border-gray-300 bg-white px-3.5 py-2 text-xs font-bold text-gray-700 hover:bg-gray-50 shadow-xs"
+              >
+                Change Photo / PDF
+              </button>
+              <button
+                type="button"
+                onClick={() => onChange("")}
+                className="rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-xs font-bold text-red-600 hover:bg-red-100"
+                title="Remove uploaded bill"
+              >
+                ✕
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div
+          onClick={() => !uploading && fileInputRef.current?.click()}
+          className={`cursor-pointer rounded-2xl border-2 border-dashed p-6 text-center transition-all ${
+            uploading
+              ? "border-[#e21b23] bg-red-50/30"
+              : "border-gray-300 bg-gray-50/50 hover:border-[#e21b23] hover:bg-white"
+          }`}
+        >
+          {uploading ? (
+            <div className="flex flex-col items-center justify-center gap-2 py-4">
+              <div className="h-8 w-8 animate-spin rounded-full border-3 border-[#e21b23] border-t-transparent" />
+              <p className="text-xs font-bold text-gray-700">Uploading & attaching your invoice...</p>
+              <p className="text-[11px] text-gray-400">Please wait a moment</p>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center gap-2 py-2">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white border border-gray-200 text-2xl shadow-xs">
+                🧾
+              </div>
+              <div className="text-xs font-bold text-gray-900">
+                Tap to Take a Photo or Upload Invoice
+              </div>
+              <p className="text-[11px] text-gray-500 max-w-sm">
+                Upload your dealer tax invoice, GST bill, or cash receipt (JPG, PNG, WebP or PDF, Max 10MB)
+              </p>
+              <span className="mt-2 inline-flex items-center gap-1.5 rounded-xl bg-[#111214] px-4 py-2 text-[11px] font-bold text-white shadow-xs">
+                📷 Open Camera / Choose File
+              </span>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export function WarrantyForm() {
   const searchParams = useSearchParams();
@@ -50,10 +211,10 @@ export function WarrantyForm() {
 
   const [products, setProducts] = useState<WarrantyProductItem[]>([
     {
-      model: "HW2020 (145 Bar / 1750W Induction Washer)",
+      model: COMMON_MODELS[0],
       serialNumber: "",
       productName: "",
-      warrantyMonths: 12,
+      warrantyMonths: 6,
     },
   ]);
 
@@ -64,11 +225,6 @@ export function WarrantyForm() {
   const [dealerName, setDealerName] = useState("");
   const [dealerCity, setDealerCity] = useState("");
   const [invoiceUrl, setInvoiceUrl] = useState("");
-
-  // Scanner & Modal States
-  const [scannerOpen, setScannerOpen] = useState(false);
-  const [activeScanProductIdx, setActiveScanProductIdx] = useState(0);
-  const [showSerialGuide, setShowSerialGuide] = useState(false);
 
   // Submission & Result States
   const [submitting, setSubmitting] = useState(false);
@@ -81,26 +237,22 @@ export function WarrantyForm() {
   const [checkResult, setCheckResult] = useState<any>(null);
   const [checkError, setCheckError] = useState("");
 
-  // Pre-fill from QR code URL parameters: ?serial=...&model=...&dealer=...
+  // Pre-fill from URL parameters (e.g. ?model=...&dealer=...)
   useEffect(() => {
-    const urlSerial = searchParams.get("serial") || searchParams.get("s");
     const urlModel = searchParams.get("model") || searchParams.get("m");
     const urlDealer = searchParams.get("dealer") || searchParams.get("d");
+    const urlSerial = searchParams.get("serial") || searchParams.get("s");
 
-    if (urlSerial || urlModel || urlDealer) {
+    if (urlModel || urlDealer || urlSerial) {
       if (urlDealer) setDealerName(urlDealer);
       setProducts([
         {
           model: urlModel || COMMON_MODELS[0],
           serialNumber: urlSerial || "",
           productName: "",
-          warrantyMonths: 12,
+          warrantyMonths: 6,
         },
       ]);
-      // If serial is provided, jump directly to step 2 after user adds their contact
-      if (urlSerial) {
-        // user already has product info scanned from QR!
-      }
     }
   }, [searchParams]);
 
@@ -112,7 +264,7 @@ export function WarrantyForm() {
         model: COMMON_MODELS[0],
         serialNumber: "",
         productName: "",
-        warrantyMonths: 12,
+        warrantyMonths: 6,
       },
     ]);
   };
@@ -154,8 +306,8 @@ export function WarrantyForm() {
     e.preventDefault();
     setErrorMsg("");
     for (let i = 0; i < products.length; i++) {
-      if (!products[i].serialNumber.trim()) {
-        setErrorMsg(`Please enter or scan the Serial / Barcode number for Product #${i + 1}.`);
+      if (!products[i].model.trim()) {
+        setErrorMsg(`Please select the Equipment Model for Item #${i + 1}.`);
         return;
       }
     }
@@ -167,7 +319,11 @@ export function WarrantyForm() {
     e.preventDefault();
     setErrorMsg("");
     if (!purchaseDate) {
-      setErrorMsg("Please select your purchase date.");
+      setErrorMsg("Please select your date of purchase.");
+      return;
+    }
+    if (!invoiceUrl || !invoiceUrl.trim()) {
+      setErrorMsg("Invoice upload is mandatory. Please attach a photo or PDF of your purchase bill to proceed.");
       return;
     }
     setStep(4);
@@ -189,14 +345,14 @@ export function WarrantyForm() {
         address: address.trim(),
         products: products.map((p) => ({
           model: p.model,
-          serialNumber: p.serialNumber.trim().toUpperCase(),
-          warrantyMonths: p.warrantyMonths || 12,
+          serialNumber: (p.serialNumber || "").trim().toUpperCase(),
+          warrantyMonths: 6,
         })),
         purchaseDate,
         source,
         dealerName: dealerName.trim(),
         dealerCity: dealerCity.trim(),
-        invoiceUrl,
+        invoiceUrl: invoiceUrl.trim(),
       };
 
       const res = await fetch("/api/warranty/register", {
@@ -287,7 +443,7 @@ export function WarrantyForm() {
               Check Warranty Status
             </h3>
             <p className="mt-2 text-xs sm:text-sm text-gray-500">
-              Enter your Machine Serial Number, Registration ID, or 10-digit Mobile Number.
+              Enter your Registered Mobile Number or Registration ID (e.g. TUQO-WR-2026-XXXX).
             </p>
           </div>
 
@@ -297,74 +453,78 @@ export function WarrantyForm() {
                 type="text"
                 value={checkQuery}
                 onChange={(e) => setCheckQuery(e.target.value)}
-                placeholder="e.g. TQ-2026-9831 or 9342466860"
-                className="w-full rounded-xl border border-gray-300 bg-gray-50/50 px-4 py-3.5 text-sm font-bold text-gray-900 placeholder-gray-400 focus:border-[#e21b23] focus:bg-white focus:outline-none"
+                placeholder="e.g. 9342466860 or TUQO-WR-2026-XXXX"
+                className="w-full rounded-2xl border-2 border-gray-300 bg-gray-50/50 py-3.5 pl-4 pr-28 text-sm font-bold text-gray-900 placeholder-gray-400 focus:border-[#e21b23] focus:bg-white focus:outline-none"
               />
               <button
                 type="submit"
-                disabled={checking || !checkQuery.trim()}
-                className="absolute right-1.5 top-1.5 bottom-1.5 rounded-lg bg-[#e21b23] px-5 text-xs font-black uppercase tracking-wider text-white hover:bg-[#b8141a] transition disabled:opacity-50"
+                disabled={checking}
+                className="absolute right-2 top-2 bottom-2 rounded-xl bg-[#e21b23] px-5 text-xs font-black uppercase tracking-wider text-white hover:bg-[#b8141a] transition-all disabled:opacity-50"
               >
                 {checking ? "Checking..." : "Verify"}
               </button>
             </div>
           </form>
 
+          {/* Error Message */}
           {checkError && (
-            <div className="mt-6 rounded-2xl border border-amber-500/30 bg-amber-50 p-4 text-xs font-medium text-amber-800">
+            <div className="mt-6 rounded-2xl border border-red-200 bg-red-50 p-4 text-xs font-semibold text-red-700">
+              <div className="font-bold mb-1">⚠ Verification Notice</div>
               {checkError}
             </div>
           )}
 
+          {/* Verification Result */}
           {checkResult && (
-            <div className="mt-8 rounded-2xl border-2 border-emerald-500/30 bg-emerald-50/50 p-6 space-y-4">
-              <div className="flex items-center justify-between border-b border-emerald-200/80 pb-3">
+            <div className="mt-8 rounded-2xl border border-emerald-500/30 bg-emerald-50/20 p-6 space-y-4">
+              <div className="flex items-center justify-between border-b border-emerald-500/20 pb-3">
                 <div>
-                  <span className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-700">
-                    STATUS: {checkResult.status.toUpperCase()}
+                  <span className="text-[10px] font-black uppercase tracking-wider text-emerald-700">
+                    STATUS: ACTIVE
                   </span>
-                  <h4 className="text-base font-black text-gray-900">
-                    Registration ID: {checkResult.registrationId}
+                  <h4 className="text-lg font-black text-gray-900">
+                    TUQO 6-Month Official Warranty
                   </h4>
                 </div>
-                <span className="rounded-full bg-emerald-600 px-3 py-1 text-[11px] font-bold text-white shadow-xs">
-                  ● Active Warranty
+                <span className="rounded-full bg-emerald-600 px-3 py-1 text-xs font-black text-white">
+                  ✓ Protected
                 </span>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+              <div className="grid grid-cols-2 gap-3 text-xs">
                 <div>
-                  <span className="text-gray-500 block">Registered Customer:</span>
+                  <span className="text-gray-400 block">Registration ID:</span>
+                  <span className="font-mono font-bold text-gray-900">{checkResult.registrationId}</span>
+                </div>
+                <div>
+                  <span className="text-gray-400 block">Customer:</span>
                   <span className="font-bold text-gray-900">{checkResult.customerName} ({checkResult.mobile})</span>
                 </div>
                 <div>
-                  <span className="text-gray-500 block">Authorized Dealer:</span>
-                  <span className="font-bold text-gray-900">{checkResult.dealerName || "Authorized Dealer"}</span>
-                </div>
-                <div>
-                  <span className="text-gray-500 block">Purchase Date:</span>
+                  <span className="text-gray-400 block">Purchase Date:</span>
                   <span className="font-bold text-gray-900">{checkResult.purchaseDate}</span>
                 </div>
                 <div>
-                  <span className="text-gray-500 block">Warranty Valid Until:</span>
-                  <span className="font-bold text-emerald-800">{checkResult.warrantyExpiryDate || "1 Year from Purchase"}</span>
+                  <span className="text-gray-400 block">Valid Until:</span>
+                  <span className="font-bold text-emerald-800">{checkResult.warrantyExpiryDate || "6 Months from Purchase"}</span>
                 </div>
+                {checkResult.dealerName && (
+                  <div className="col-span-2">
+                    <span className="text-gray-400 block">Authorized Dealer:</span>
+                    <span className="font-bold text-gray-900">{checkResult.dealerName}</span>
+                  </div>
+                )}
               </div>
 
-              <div className="border-t border-emerald-200/60 pt-3">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-gray-700 block mb-2">
+              <div className="pt-2 border-t border-emerald-500/20">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-gray-600 block mb-2">
                   Covered Equipment:
                 </span>
                 <div className="space-y-1.5">
                   {checkResult.products?.map((p: any, idx: number) => (
-                    <div
-                      key={idx}
-                      className="flex items-center justify-between rounded-lg bg-white p-2.5 border border-emerald-100 text-xs"
-                    >
+                    <div key={idx} className="flex items-center justify-between rounded-xl bg-white p-2.5 border border-emerald-200 text-xs">
                       <span className="font-bold text-gray-900">{p.model}</span>
-                      <span className="font-mono text-gray-600 bg-gray-100 px-2 py-0.5 rounded">
-                        Serial: {p.serialNumber}
-                      </span>
+                      <span className="text-emerald-700 font-semibold text-[11px]">6 Months Warranty</span>
                     </div>
                   ))}
                 </div>
@@ -374,52 +534,61 @@ export function WarrantyForm() {
         </div>
       )}
 
-      {/* ================= SECTION B: REGISTRATION MULTI-STEP FLOW ================= */}
+      {/* ================= SECTION B: REGISTER PRODUCT FLOW ================= */}
       {activeTab === "register" && (
         <div className="mx-auto max-w-3xl">
-          {/* Stepper Progress Header */}
+          {/* Multi-step progress indicator */}
           {step < 5 && (
             <div className="mb-8">
-              <div className="grid grid-cols-4 gap-2 text-center text-xs font-bold uppercase tracking-wider">
-                <div
-                  className={`py-2 border-b-4 transition-colors ${
-                    step >= 1 ? "border-[#e21b23] text-[#e21b23]" : "border-gray-200 text-gray-400"
-                  }`}
-                >
-                  1. Contact
-                </div>
-                <div
-                  className={`py-2 border-b-4 transition-colors ${
-                    step >= 2 ? "border-[#e21b23] text-[#e21b23]" : "border-gray-200 text-gray-400"
-                  }`}
-                >
-                  2. Product / QR
-                </div>
-                <div
-                  className={`py-2 border-b-4 transition-colors ${
-                    step >= 3 ? "border-[#e21b23] text-[#e21b23]" : "border-gray-200 text-gray-400"
-                  }`}
-                >
-                  3. Purchase
-                </div>
-                <div
-                  className={`py-2 border-b-4 transition-colors ${
-                    step >= 4 ? "border-[#e21b23] text-[#e21b23]" : "border-gray-200 text-gray-400"
-                  }`}
-                >
-                  4. Review
-                </div>
+              <div className="flex items-center justify-between">
+                {[
+                  { num: 1, label: "Customer Info" },
+                  { num: 2, label: "Equipment" },
+                  { num: 3, label: "Invoice & Dealer" },
+                  { num: 4, label: "Review & Activate" },
+                ].map((s, idx) => (
+                  <div key={s.num} className="flex-1 flex flex-col items-center relative">
+                    {/* Connecting line */}
+                    {idx > 0 && (
+                      <div
+                        className={`absolute top-4 -left-1/2 w-full h-[3px] -z-0 transition-all ${
+                          step >= s.num ? "bg-[#e21b23]" : "bg-gray-200"
+                        }`}
+                      />
+                    )}
+                    <div
+                      className={`relative z-10 flex h-8 w-8 items-center justify-center rounded-full text-xs font-black transition-all ${
+                        step === s.num
+                          ? "bg-[#e21b23] text-white ring-4 ring-red-100 shadow-md"
+                          : step > s.num
+                          ? "bg-emerald-600 text-white"
+                          : "bg-gray-200 text-gray-500"
+                      }`}
+                    >
+                      {step > s.num ? "✓" : s.num}
+                    </div>
+                    <span
+                      className={`mt-2 text-[10px] sm:text-xs font-bold uppercase tracking-wider text-center ${
+                        step === s.num ? "text-[#e21b23]" : "text-gray-400"
+                      }`}
+                    >
+                      {s.label}
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
           )}
 
+          {/* Error Banner */}
           {errorMsg && (
-            <div className="mb-6 rounded-2xl border border-red-500/30 bg-red-50 p-4 text-xs font-semibold text-red-600">
-              {errorMsg}
+            <div className="mb-6 rounded-2xl border border-red-300 bg-red-50 p-4 text-xs font-bold text-red-700 flex items-center gap-2">
+              <span>⚠</span>
+              <span>{errorMsg}</span>
             </div>
           )}
 
-          {/* STEP 1: CUSTOMER DETAILS */}
+          {/* STEP 1: CUSTOMER CONTACT */}
           {step === 1 && (
             <div className="rounded-3xl border border-gray-200 bg-white p-6 sm:p-10 shadow-sm">
               <div className="mb-6">
@@ -427,35 +596,35 @@ export function WarrantyForm() {
                   STEP 1 OF 4
                 </span>
                 <h3 className="mt-1 text-2xl font-black uppercase text-[#111214]">
-                  Customer Details
+                  Customer Information
                 </h3>
                 <p className="mt-1 text-xs text-gray-500">
-                  Where should we register and send your official warranty protection certificate?
+                  Please enter your contact information to bind warranty ownership.
                 </p>
               </div>
 
               <form onSubmit={handleProceedToStep2} className="space-y-4">
+                <div>
+                  <label className="block text-xs font-black uppercase tracking-wider text-gray-700 mb-1.5">
+                    Full Name *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={customerName}
+                    onChange={(e) => setCustomerName(e.target.value)}
+                    placeholder="e.g. Ramesh Kumar / Precision Auto Workshop"
+                    className="w-full rounded-xl border border-gray-300 bg-gray-50/50 px-4 py-3 text-xs sm:text-sm font-semibold text-gray-900 focus:border-[#e21b23] focus:bg-white focus:outline-none"
+                  />
+                </div>
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-black uppercase tracking-wider text-gray-700 mb-1.5">
-                      Full Name *
+                      Mobile Number (For Warranty SMS & Status) *
                     </label>
-                    <input
-                      type="text"
-                      required
-                      value={customerName}
-                      onChange={(e) => setCustomerName(e.target.value)}
-                      placeholder="e.g. Ramesh Kumar"
-                      className="w-full rounded-xl border border-gray-300 bg-gray-50/50 px-4 py-3 text-xs sm:text-sm font-semibold text-gray-900 focus:border-[#e21b23] focus:bg-white focus:outline-none"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-black uppercase tracking-wider text-gray-700 mb-1.5">
-                      Mobile Number (10 digits) *
-                    </label>
-                    <div className="flex items-center">
-                      <span className="rounded-l-xl border border-r-0 border-gray-300 bg-gray-100 px-3.5 py-3 text-xs font-bold text-gray-700">
+                    <div className="relative">
+                      <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-gray-400">
                         +91
                       </span>
                       <input
@@ -465,29 +634,12 @@ export function WarrantyForm() {
                         value={mobile}
                         onChange={(e) => setMobile(e.target.value.replace(/\D/g, ""))}
                         placeholder="9876543210"
-                        className="w-full rounded-r-xl border border-gray-300 bg-gray-50/50 px-4 py-3 text-xs sm:text-sm font-semibold text-gray-900 focus:border-[#e21b23] focus:bg-white focus:outline-none"
+                        className="w-full rounded-xl border border-gray-300 bg-gray-50/50 py-3 pl-12 pr-4 text-xs sm:text-sm font-bold text-gray-900 focus:border-[#e21b23] focus:bg-white focus:outline-none"
                       />
                     </div>
                   </div>
-                </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <div className="sm:col-span-1">
-                    <label className="block text-xs font-black uppercase tracking-wider text-gray-700 mb-1.5">
-                      Postal Pincode *
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      maxLength={6}
-                      value={pincode}
-                      onChange={(e) => setPincode(e.target.value.replace(/\D/g, ""))}
-                      placeholder="e.g. 641021"
-                      className="w-full rounded-xl border border-gray-300 bg-gray-50/50 px-4 py-3 text-xs sm:text-sm font-semibold text-gray-900 focus:border-[#e21b23] focus:bg-white focus:outline-none"
-                    />
-                  </div>
-
-                  <div className="sm:col-span-2">
+                  <div>
                     <label className="block text-xs font-black uppercase tracking-wider text-gray-700 mb-1.5">
                       Email Address (Optional)
                     </label>
@@ -501,7 +653,22 @@ export function WarrantyForm() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <div>
+                    <label className="block text-xs font-black uppercase tracking-wider text-gray-700 mb-1.5">
+                      Postal Pincode *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      maxLength={6}
+                      value={pincode}
+                      onChange={(e) => setPincode(e.target.value.replace(/\D/g, ""))}
+                      placeholder="e.g. 641021"
+                      className="w-full rounded-xl border border-gray-300 bg-gray-50/50 px-4 py-3 text-xs sm:text-sm font-bold text-gray-900 focus:border-[#e21b23] focus:bg-white focus:outline-none"
+                    />
+                  </div>
+
                   <div>
                     <label className="block text-xs font-black uppercase tracking-wider text-gray-700 mb-1.5">
                       City / District (Optional)
@@ -534,7 +701,7 @@ export function WarrantyForm() {
                     type="submit"
                     className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#e21b23] py-3.5 text-xs sm:text-sm font-black uppercase tracking-wider text-white shadow-md shadow-red-900/20 transition-all hover:bg-[#b8141a]"
                   >
-                    <span>Continue to Product Details</span>
+                    <span>Continue to Equipment Details</span>
                     <ArrowRightIcon className="h-4 w-4" />
                   </button>
                 </div>
@@ -542,29 +709,19 @@ export function WarrantyForm() {
             </div>
           )}
 
-          {/* STEP 2: PRODUCTS TO REGISTER & QR SCANNER */}
+          {/* STEP 2: EQUIPMENT TO REGISTER */}
           {step === 2 && (
             <div className="rounded-3xl border border-gray-200 bg-white p-6 sm:p-10 shadow-sm">
-              <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                <div>
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#e21b23]">
-                    STEP 2 OF 4
-                  </span>
-                  <h3 className="mt-1 text-2xl font-black uppercase text-[#111214]">
-                    Products to Register
-                  </h3>
-                  <p className="mt-1 text-xs text-gray-500">
-                    Scan the QR code from the warranty card or type the serial number manually.
-                  </p>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={() => setShowSerialGuide(true)}
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-[#e21b23] hover:underline"
-                >
-                  <span>ℹ️ Where is my Serial / QR?</span>
-                </button>
+              <div className="mb-6">
+                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#e21b23]">
+                  STEP 2 OF 4
+                </span>
+                <h3 className="mt-1 text-2xl font-black uppercase text-[#111214]">
+                  Equipment to Register
+                </h3>
+                <p className="mt-1 text-xs text-gray-500">
+                  Select your TUQO equipment model. All eligible models receive 6 months official warranty coverage.
+                </p>
               </div>
 
               <form onSubmit={handleProceedToStep3} className="space-y-6">
@@ -588,10 +745,10 @@ export function WarrantyForm() {
                       )}
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-4">
                       <div>
                         <label className="block text-xs font-black uppercase tracking-wider text-gray-700 mb-1.5">
-                          Equipment Model *
+                          Select Machine / Equipment Model *
                         </label>
                         <select
                           value={item.model}
@@ -607,32 +764,22 @@ export function WarrantyForm() {
                       </div>
 
                       <div>
-                        <div className="flex items-center justify-between mb-1.5">
-                          <label className="block text-xs font-black uppercase tracking-wider text-gray-700">
-                            Serial / Barcode Number *
-                          </label>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setActiveScanProductIdx(idx);
-                              setScannerOpen(true);
-                            }}
-                            className="inline-flex items-center gap-1 text-[11px] font-bold text-[#e21b23] hover:underline"
-                          >
-                            <span>📷 Scan QR / Barcode</span>
-                          </button>
-                        </div>
+                        <label className="block text-xs font-black uppercase tracking-wider text-gray-700 mb-1.5">
+                          Equipment Name / Nickname (Optional)
+                        </label>
                         <input
                           type="text"
-                          required
-                          value={item.serialNumber}
-                          onChange={(e) =>
-                            updateProductRow(idx, "serialNumber", e.target.value.toUpperCase())
-                          }
-                          placeholder="e.g. TQ2026-HW-98431"
-                          className="w-full font-mono uppercase tracking-wider rounded-xl border border-gray-300 bg-white px-4 py-3 text-xs sm:text-sm font-bold text-gray-900 placeholder-gray-400 focus:border-[#e21b23] focus:outline-none"
+                          value={item.productName || ""}
+                          onChange={(e) => updateProductRow(idx, "productName", e.target.value)}
+                          placeholder="e.g. Workshop Pressure Washer / Car Wash Bay #1"
+                          className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-xs sm:text-sm font-semibold text-gray-900 placeholder-gray-400 focus:border-[#e21b23] focus:outline-none"
                         />
                       </div>
+                    </div>
+
+                    <div className="flex items-center gap-2 pt-1 text-[11px] text-emerald-700 font-semibold">
+                      <span>🛡️</span>
+                      <span>Eligible for 6 Months Official Manufacturer Warranty</span>
                     </div>
                   </div>
                 ))}
@@ -642,7 +789,7 @@ export function WarrantyForm() {
                   onClick={addProductRow}
                   className="w-full rounded-xl border-2 border-dashed border-gray-300 py-3 text-xs font-bold uppercase tracking-wider text-gray-600 hover:border-[#e21b23] hover:text-[#e21b23] transition"
                 >
-                  + Add Another Product (Shared Invoice)
+                  + Add Another Equipment (Shared Invoice)
                 </button>
 
                 <div className="flex items-center gap-3 pt-4">
@@ -657,7 +804,7 @@ export function WarrantyForm() {
                     type="submit"
                     className="flex-1 flex items-center justify-center gap-2 rounded-xl bg-[#e21b23] py-3.5 text-xs sm:text-sm font-black uppercase tracking-wider text-white shadow-md shadow-red-900/20 transition-all hover:bg-[#b8141a]"
                   >
-                    <span>Continue to Purchase Details</span>
+                    <span>Continue to Invoice & Dealer</span>
                     <ArrowRightIcon className="h-4 w-4" />
                   </button>
                 </div>
@@ -665,7 +812,7 @@ export function WarrantyForm() {
             </div>
           )}
 
-          {/* STEP 3: PURCHASE & DEALER DETAILS */}
+          {/* STEP 3: PURCHASE, DEALER & MANDATORY INVOICE UPLOAD */}
           {step === 3 && (
             <div className="rounded-3xl border border-gray-200 bg-white p-6 sm:p-10 shadow-sm">
               <div className="mb-6">
@@ -673,14 +820,14 @@ export function WarrantyForm() {
                   STEP 3 OF 4
                 </span>
                 <h3 className="mt-1 text-2xl font-black uppercase text-[#111214]">
-                  Purchase & Dealer Details
+                  Invoice & Dealer Details
                 </h3>
                 <p className="mt-1 text-xs text-gray-500">
-                  The purchase date determines your official warranty validity start date.
+                  Uploading your purchase invoice is mandatory to validate your 6-month warranty claim.
                 </p>
               </div>
 
-              <form onSubmit={handleProceedToStep4} className="space-y-4">
+              <form onSubmit={handleProceedToStep4} className="space-y-5">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-black uppercase tracking-wider text-gray-700 mb-1.5">
@@ -731,7 +878,7 @@ export function WarrantyForm() {
                       type="text"
                       value={dealerName}
                       onChange={(e) => setDealerName(e.target.value)}
-                      placeholder="e.g. Sidco Power Tools & Machinery"
+                      placeholder="e.g. Sidco Industrial Tools"
                       className="w-full rounded-xl border border-gray-300 bg-gray-50/50 px-4 py-3 text-xs sm:text-sm font-semibold text-gray-900 focus:border-[#e21b23] focus:bg-white focus:outline-none"
                     />
                   </div>
@@ -750,26 +897,24 @@ export function WarrantyForm() {
                   </div>
                 </div>
 
-                {/* Upload Invoice / Warranty Card Slip */}
+                {/* MANDATORY INVOICE UPLOAD */}
                 <div className="pt-2">
-                  <label className="block text-xs font-black uppercase tracking-wider text-gray-700 mb-1">
-                    Upload Invoice or Warranty Card Photo (Optional)
-                  </label>
-                  <p className="text-[11px] text-gray-400 mb-3">
-                    Photo of purchase bill or stamped dealer warranty card (JPG, PNG, or PDF).
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="block text-xs font-black uppercase tracking-wider text-gray-900">
+                      Upload Purchase Invoice / Tax Bill * (Mandatory)
+                    </label>
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-red-600 bg-red-50 px-2 py-0.5 rounded-full border border-red-200">
+                      Required
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-gray-500 mb-3">
+                    Please upload a clear photo or PDF of your purchase invoice or cash bill from the dealer.
                   </p>
 
-                  <div className="rounded-2xl border border-dashed border-gray-300 bg-gray-50/50 p-4">
-                    <ImageUploader
-                      label="Select or Snap Bill / Card Photo"
-                      sublabel="Clear photo of dealer stamp and serial number"
-                      recommendedResolution="Clear Mobile Photo"
-                      maxSizeMB={5}
-                      folder="tuqo/warranty-invoices"
-                      value={invoiceUrl}
-                      onChange={(url) => setInvoiceUrl(url)}
-                    />
-                  </div>
+                  <PublicInvoiceUploader
+                    value={invoiceUrl}
+                    onChange={(url) => setInvoiceUrl(url)}
+                  />
                 </div>
 
                 <div className="flex items-center gap-3 pt-4">
@@ -803,7 +948,7 @@ export function WarrantyForm() {
                   Quick Review
                 </h3>
                 <p className="mt-1 text-xs text-gray-500">
-                  Please review your details before activating official warranty protection.
+                  Please review your details before activating your 6-month official warranty.
                 </p>
               </div>
 
@@ -857,19 +1002,14 @@ export function WarrantyForm() {
                       Edit
                     </button>
                   </div>
-                  <div className="space-y-2">
-                    {products.map((p, i) => (
-                      <div
-                        key={i}
-                        className="flex items-center justify-between rounded-xl bg-white p-3 border border-gray-200 text-xs"
-                      >
+                  <div className="space-y-2 text-xs">
+                    {products.map((p, idx) => (
+                      <div key={idx} className="flex items-center justify-between rounded-xl bg-white p-3 border border-gray-200">
                         <div>
-                          <span className="font-black text-gray-900 block">{p.model}</span>
-                          <span className="text-gray-500 text-[11px]">12 Months Commercial Warranty</span>
+                          <div className="font-bold text-gray-900">{p.model}</div>
+                          {p.productName && <div className="text-gray-400 text-[11px]">{p.productName}</div>}
                         </div>
-                        <span className="font-mono font-bold text-[#e21b23] bg-red-50 px-2.5 py-1 rounded-md border border-red-100">
-                          {p.serialNumber}
-                        </span>
+                        <span className="text-emerald-700 font-bold text-[11px]">6 Months Warranty</span>
                       </div>
                     ))}
                   </div>
@@ -878,7 +1018,7 @@ export function WarrantyForm() {
                 <div className="rounded-2xl border border-gray-200 bg-gray-50/50 p-4">
                   <div className="flex items-center justify-between border-b border-gray-200 pb-2 mb-3">
                     <span className="text-xs font-black uppercase text-gray-800">
-                      Purchase Information
+                      Purchase & Invoice
                     </span>
                     <button
                       type="button"
@@ -894,14 +1034,35 @@ export function WarrantyForm() {
                       <span className="font-bold text-gray-900">{purchaseDate}</span>
                     </div>
                     <div>
-                      <span className="text-gray-400 block">Dealer / Source:</span>
-                      <span className="font-bold text-gray-900">{dealerName || source}</span>
+                      <span className="text-gray-400 block">Warranty Period:</span>
+                      <span className="font-bold text-emerald-700">6 Months Official Coverage</span>
+                    </div>
+                    {dealerName && (
+                      <div className="col-span-2">
+                        <span className="text-gray-400 block">Dealer / Store:</span>
+                        <span className="font-bold text-gray-900">
+                          {dealerName} {dealerCity ? `(${dealerCity})` : ""}
+                        </span>
+                      </div>
+                    )}
+                    <div className="col-span-2 pt-2 border-t border-gray-200">
+                      <span className="text-gray-400 block mb-1">Attached Invoice:</span>
+                      <a
+                        href={invoiceUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 hover:underline"
+                      >
+                        <span>🧾 View Attached Invoice Bill</span>
+                        <span>↗</span>
+                      </a>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 pt-4">
+              {/* Action Buttons */}
+              <div className="flex items-center gap-3 pt-2">
                 <button
                   type="button"
                   onClick={() => setStep(3)}
@@ -913,109 +1074,112 @@ export function WarrantyForm() {
                   type="button"
                   disabled={submitting}
                   onClick={handleActivateWarranty}
-                  className="flex-1 flex items-center justify-center gap-2 rounded-xl bg-[#e21b23] py-4 text-sm font-black uppercase tracking-wider text-white shadow-xl shadow-red-900/30 transition-all hover:bg-[#b8141a] disabled:opacity-50"
+                  className="flex-1 flex items-center justify-center gap-2 rounded-xl bg-[#e21b23] py-4 text-xs sm:text-sm font-black uppercase tracking-wider text-white shadow-xl shadow-red-900/30 transition-all hover:bg-[#b8141a] disabled:opacity-50"
                 >
-                  {submitting ? (
-                    <span>Activating Warranty...</span>
-                  ) : (
-                    <>
-                      <span>Activate My Warranty Protection</span>
-                      <ShieldCheckIcon className="h-5 w-5" />
-                    </>
-                  )}
+                  <span>{submitting ? "Activating Warranty..." : "Activate 6-Month Warranty Now"}</span>
+                  <ArrowRightIcon className="h-4 w-4" />
                 </button>
               </div>
             </div>
           )}
 
-          {/* STEP 5: ACTIVATION SUCCESS & CERTIFICATE */}
+          {/* STEP 5: SUCCESS & DIGITAL WARRANTY CERTIFICATE */}
           {step === 5 && registeredData && (
-            <div className="rounded-3xl border-2 border-emerald-500/40 bg-white p-6 sm:p-12 shadow-xl space-y-8 animate-in fade-in zoom-in-95 duration-300">
-              <div className="text-center">
-                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
-                  <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                  </svg>
+            <div className="rounded-3xl border-2 border-emerald-500/40 bg-white p-6 sm:p-10 shadow-xl space-y-6">
+              {/* Top Banner */}
+              <div className="text-center pb-6 border-b border-gray-200">
+                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100 text-3xl">
+                  🛡️
                 </div>
-                <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-black uppercase tracking-wider text-emerald-800">
-                  ✓ Warranty Activated
+                <span className="inline-block rounded-full bg-emerald-100 px-3 py-1 text-xs font-black uppercase tracking-wider text-emerald-800">
+                  WARRANTY ACTIVATED SUCCESSFULLY
                 </span>
-                <h3 className="mt-3 text-2xl sm:text-3xl font-black uppercase text-[#111214]">
-                  You&apos;re All Set!
+                <h3 className="mt-2 text-2xl sm:text-3xl font-black uppercase text-[#111214]">
+                  Digital Warranty Certificate
                 </h3>
-                <p className="mt-1 text-xs sm:text-sm text-gray-600 max-w-md mx-auto">
-                  Your TUQO equipment is now covered under official warranty protection across all service centers in India.
+                <p className="mt-1 text-xs text-gray-500">
+                  Your official 6-month TUQO manufacturer warranty is now live in our system.
                 </p>
               </div>
 
-              {/* Digital Certificate Card */}
+              {/* Certificate Box */}
               <div
-                id="tuqo-warranty-certificate"
-                className="relative overflow-hidden rounded-3xl border-2 border-gray-900 bg-[#0a0b0e] text-white p-6 sm:p-8 shadow-2xl"
+                id="printable-certificate"
+                className="relative overflow-hidden rounded-2xl border-2 border-[#111214] bg-[#0a0b0e] p-6 text-white"
               >
-                {/* Decorative Red Accent */}
-                <div className="absolute top-0 left-0 h-1.5 w-full bg-[#e21b23]" />
-                <div className="absolute -right-12 -bottom-12 h-44 w-44 rounded-full bg-red-600/10 blur-2xl" />
-
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-5">
+                <div className="flex items-center justify-between border-b border-white/10 pb-4">
                   <div>
-                    <span className="text-[10px] font-black uppercase tracking-[0.25em] text-[#e21b23]">
+                    <span className="text-[10px] font-black tracking-widest text-[#e21b23] uppercase">
                       OFFICIAL TUQO WARRANTY CERTIFICATE
                     </span>
-                    <h4 className="mt-1 text-lg sm:text-xl font-black tracking-tight text-white font-mono">
+                    <div className="text-xs font-bold text-gray-400">
+                      REGISTRATION ID:
+                    </div>
+                    <div className="font-mono text-xl font-black text-white tracking-wider">
                       {registeredData.registrationId}
-                    </h4>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <span className="rounded-lg bg-emerald-500/20 border border-emerald-500/40 px-3 py-1 text-xs font-bold text-emerald-400">
-                      ● Active Coverage
+                  <div className="text-right">
+                    <span className="rounded bg-emerald-500/20 border border-emerald-500/40 px-2.5 py-1 text-[11px] font-black text-emerald-400">
+                      ✓ ACTIVE
+                    </span>
+                    <span className="text-emerald-400 block text-[11px] mt-0.5">6 Months Coverage</span>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 py-4 border-b border-white/10 text-xs">
+                  <div>
+                    <span className="text-gray-500 block">Customer Name:</span>
+                    <span className="font-bold text-white">{registeredData.customerName}</span>
+                  </div>
+                  <div>
+                    <span className="text-gray-500 block">Mobile Phone:</span>
+                    <span className="font-mono font-bold text-white">+91 {registeredData.mobile}</span>
+                  </div>
+                  <div>
+                    <span className="text-gray-500 block">Purchase Date:</span>
+                    <span className="font-mono text-white">{registeredData.purchaseDate}</span>
+                  </div>
+                  <div>
+                    <span className="text-gray-500 block">Warranty Valid Until:</span>
+                    <span className="font-mono text-emerald-400 font-bold">
+                      {registeredData.warrantyExpiryDate || "6 Months from purchase"}
+                    </span>
+                  </div>
+                  <div className="sm:col-span-2">
+                    <span className="text-gray-500 block">Authorized Dealer:</span>
+                    <span className="text-white font-semibold">
+                      {registeredData.dealerName || "Direct / Authorized Dealer"}
                     </span>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 py-5 border-b border-white/10 text-xs">
-                  <div>
-                    <span className="text-gray-400 block text-[11px]">Registered Owner:</span>
-                    <span className="font-bold text-white text-sm">{registeredData.customerName}</span>
-                    <span className="text-gray-400 block text-[11px] mt-0.5">+91 {registeredData.mobile}</span>
-                  </div>
-                  <div>
-                    <span className="text-gray-400 block text-[11px]">Warranty Period:</span>
-                    <span className="font-bold text-white text-sm">
-                      {registeredData.purchaseDate} to {registeredData.warrantyExpiryDate}
-                    </span>
-                    <span className="text-emerald-400 block text-[11px] mt-0.5">1 Year Standard Coverage</span>
-                  </div>
-                </div>
-
-                <div className="pt-5">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-gray-400 block mb-2">
-                    Registered Equipment:
+                <div className="pt-4">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 block mb-2">
+                    Registered Equipment Units:
                   </span>
-                  <div className="space-y-2">
+                  <div className="space-y-1.5">
                     {registeredData.products?.map((p: any, idx: number) => (
                       <div
                         key={idx}
-                        className="flex items-center justify-between rounded-xl bg-white/5 border border-white/10 p-3 text-xs"
+                        className="flex items-center justify-between rounded-xl bg-white/5 border border-white/10 p-2 text-xs"
                       >
                         <span className="font-bold text-white">{p.model}</span>
-                        <span className="font-mono text-xs font-bold text-[#ff4f56]">
-                          SERIAL: {p.serialNumber}
-                        </span>
+                        <span className="text-emerald-400 text-[10px] font-bold">6 Mos Warranty</span>
                       </div>
                     ))}
                   </div>
                 </div>
               </div>
 
-              {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
+              {/* Certificate Actions */}
+              <div className="flex flex-col sm:flex-row items-center gap-3">
                 <button
                   type="button"
                   onClick={() => window.print()}
-                  className="w-full sm:flex-1 flex items-center justify-center gap-2 rounded-xl bg-[#111214] py-3.5 text-xs sm:text-sm font-black uppercase tracking-wider text-white hover:bg-black transition"
+                  className="w-full sm:flex-1 rounded-xl bg-[#111214] py-3 text-xs font-black uppercase tracking-wider text-white hover:bg-black transition shadow-md"
                 >
-                  <span>🖨️ Print / Save Certificate</span>
+                  🖨️ Print / Download Certificate
                 </button>
 
                 <button
@@ -1024,137 +1188,24 @@ export function WarrantyForm() {
                     setStep(1);
                     setCustomerName("");
                     setMobile("");
+                    setInvoiceUrl("");
                     setProducts([
                       {
                         model: COMMON_MODELS[0],
                         serialNumber: "",
                         productName: "",
-                        warrantyMonths: 12,
+                        warrantyMonths: 6,
                       },
                     ]);
                     setRegisteredData(null);
                   }}
-                  className="w-full sm:flex-1 flex items-center justify-center gap-2 rounded-xl border border-gray-300 bg-white py-3.5 text-xs sm:text-sm font-black uppercase tracking-wider text-gray-800 hover:bg-gray-50 transition"
+                  className="w-full sm:w-auto rounded-xl border border-gray-300 bg-white px-5 py-3 text-xs font-bold uppercase text-gray-700 hover:bg-gray-100"
                 >
-                  <span>Register Another Machine</span>
+                  Register Another Product
                 </button>
               </div>
             </div>
           )}
-        </div>
-      )}
-
-      {/* ================= MODAL: HOW TO FIND SERIAL GUIDE ================= */}
-      {showSerialGuide && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-          <div className="w-full max-w-lg rounded-3xl border border-white/15 bg-[#14161a] p-6 text-white shadow-2xl">
-            <div className="flex items-center justify-between border-b border-white/10 pb-3">
-              <h4 className="text-base font-bold text-white">
-                How to Find Your Serial / Barcode Number
-              </h4>
-              <button
-                type="button"
-                onClick={() => setShowSerialGuide(false)}
-                className="text-gray-400 hover:text-white"
-              >
-                ✕
-              </button>
-            </div>
-
-            <div className="mt-4 space-y-4 text-xs text-gray-300 leading-relaxed">
-              <div className="rounded-xl border border-white/10 bg-white/5 p-4 space-y-2">
-                <span className="font-bold text-[#e21b23] block text-sm">
-                  1. On Your Warranty Card / Packaging Box:
-                </span>
-                <p>
-                  Look at the official TUQO warranty card inside the box or the barcode sticker on the packaging.
-                  You can scan the QR code directly with your phone camera or copy the alphanumeric serial number (e.g. <span className="font-mono text-white">TQ-2026-XXXX</span>).
-                </p>
-              </div>
-
-              <div className="rounded-xl border border-white/10 bg-white/5 p-4 space-y-2">
-                <span className="font-bold text-[#e21b23] block text-sm">
-                  2. On the Machine Nameplate:
-                </span>
-                <p>
-                  Every TUQO pressure washer, compressor, and power tool has an engraved metallic or silver specification plate on the motor body containing the Model and <strong>S/N</strong>.
-                </p>
-              </div>
-            </div>
-
-            <div className="mt-6 flex justify-end">
-              <button
-                type="button"
-                onClick={() => setShowSerialGuide(false)}
-                className="rounded-xl bg-[#e21b23] px-5 py-2 text-xs font-bold text-white"
-              >
-                Got It
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* ================= MODAL: CAMERA QR SCANNER ================= */}
-      {scannerOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-sm p-4">
-          <div className="w-full max-w-md rounded-3xl border border-white/15 bg-[#14161a] p-6 text-white shadow-2xl text-center space-y-4">
-            <div className="flex items-center justify-between border-b border-white/10 pb-3">
-              <h4 className="text-sm font-bold text-white">
-                Scan Serial Number / QR Code
-              </h4>
-              <button
-                type="button"
-                onClick={() => setScannerOpen(false)}
-                className="text-gray-400 hover:text-white"
-              >
-                ✕
-              </button>
-            </div>
-
-            <p className="text-xs text-gray-400">
-              Point your phone camera at the QR code or barcode on the warranty card or machine label.
-            </p>
-
-            {/* Camera Box / Interactive input */}
-            <div className="relative aspect-square w-full rounded-2xl border-2 border-dashed border-[#e21b23] bg-black/50 flex flex-col items-center justify-center p-6 overflow-hidden">
-              <div className="absolute inset-4 rounded-xl border-2 border-white/30 pointer-events-none" />
-              <div className="h-14 w-14 rounded-full bg-[#e21b23]/20 flex items-center justify-center text-2xl text-[#e21b23] mb-3 animate-pulse">
-                📷
-              </div>
-              <span className="text-xs font-bold text-gray-300">
-                Camera / Photo Scanner
-              </span>
-              <p className="text-[11px] text-gray-500 mt-1 max-w-xs">
-                Upload a photo of the QR code or enter below
-              </p>
-              <input
-                type="file"
-                accept="image/*"
-                capture="environment"
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (file) {
-                    // simulate scan or extract name
-                    const autoSerial = `TQ-QR-${Math.floor(100000 + Math.random() * 900000)}`;
-                    updateProductRow(activeScanProductIdx, "serialNumber", autoSerial);
-                    setScannerOpen(false);
-                  }
-                }}
-                className="mt-4 text-xs text-gray-400 file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-[#e21b23] file:text-white file:text-xs file:font-bold"
-              />
-            </div>
-
-            <div className="pt-2">
-              <button
-                type="button"
-                onClick={() => setScannerOpen(false)}
-                className="w-full rounded-xl border border-white/15 bg-white/5 py-2.5 text-xs font-bold text-gray-300 hover:bg-white/10"
-              >
-                Close Scanner
-              </button>
-            </div>
-          </div>
         </div>
       )}
     </div>

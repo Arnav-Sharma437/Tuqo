@@ -35,7 +35,7 @@ export const APP_CONFIG = {
 export const NAV_LINKS = [
   { label: "Home", href: "/" },
   { label: "Categories", href: "/categories" },
-  { label: "Warranty", href: "/warranty" },
+  { label: "Warranty Registration", href: "/warranty" },
   { label: "About", href: "/about" },
   { label: "Contact Us", href: "/contact" },
   { label: "E-Catalog", href: "/e-catalog" },

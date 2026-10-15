@@ -2,7 +2,7 @@ import mongoose, { Schema, Document, Model } from "mongoose";
 
 export interface IWarrantyProduct {
   model: string;
-  serialNumber: string;
+  serialNumber?: string;
   productName?: string;
   warrantyMonths?: number;
 }
@@ -21,7 +21,7 @@ export interface IWarrantyRegistration extends Document {
   source: string;
   dealerName?: string;
   dealerCity?: string;
-  invoiceUrl?: string;
+  invoiceUrl: string;
   status: "Active" | "Pending" | "Verified" | "Rejected";
   warrantyExpiryDate?: string;
   notes?: string;
@@ -32,9 +32,9 @@ export interface IWarrantyRegistration extends Document {
 const WarrantyProductSchema = new Schema<IWarrantyProduct>(
   {
     model: { type: String, required: true },
-    serialNumber: { type: String, required: true },
+    serialNumber: { type: String, default: "" },
     productName: { type: String, default: "" },
-    warrantyMonths: { type: Number, default: 12 },
+    warrantyMonths: { type: Number, default: 6 },
   },
   { _id: false }
 );
@@ -54,7 +54,7 @@ const WarrantyRegistrationSchema = new Schema<IWarrantyRegistration>(
     source: { type: String, default: "Authorized Dealer" },
     dealerName: { type: String, default: "" },
     dealerCity: { type: String, default: "" },
-    invoiceUrl: { type: String, default: "" },
+    invoiceUrl: { type: String, required: true },
     status: {
       type: String,
       enum: ["Active", "Pending", "Verified", "Rejected"],

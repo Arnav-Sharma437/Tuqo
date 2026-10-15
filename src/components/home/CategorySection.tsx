@@ -96,17 +96,8 @@ export function CategorySection({
                   href={category.href}
                   className="group relative flex h-[280px] w-[220px] shrink-0 flex-col justify-between rounded-2xl border border-gray-200 bg-[#fcfcfd] p-4 transition-all duration-300 hover:-translate-y-1.5 hover:border-[#e21b23]/50 hover:bg-white hover:shadow-xl hover:shadow-black/5 sm:w-[240px]"
                 >
-                  {/* Top Label */}
-                  <div className="flex items-center justify-between">
-                    <span className="text-[9px] font-bold uppercase tracking-wider text-gray-400">
-                      TUQO PRO
-                    </span>
-
-                    <span className="h-1.5 w-1.5 rounded-full bg-gray-300 transition-colors group-hover:bg-[#e21b23]" />
-                  </div>
-
                   {/* Category Image - Large and filling */}
-                  <div className="relative mx-auto my-2 flex h-[140px] w-full items-center justify-center overflow-hidden rounded-xl bg-gradient-to-b from-gray-50 to-[#f3f4f8] p-2">
+                  <div className="relative mx-auto my-auto flex h-[155px] w-full items-center justify-center overflow-hidden rounded-xl bg-gradient-to-b from-gray-50 to-[#f3f4f8] p-2">
                     <div className="relative h-full w-full transition-transform duration-500 group-hover:scale-110">
                       <Image
                         src={category.image}

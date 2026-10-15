@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export interface WarrantyProductItem {
   model: string;
-  serialNumber: string;
+  serialNumber?: string;
   productName?: string;
   warrantyMonths?: number;
 }
@@ -65,7 +65,7 @@ export function WarrantyManager({ warranties, onRefresh }: WarrantyManagerProps)
         (w.pincode && w.pincode.includes(term)) ||
         w.products.some(
           (p) =>
-            p.serialNumber.toLowerCase().includes(term) ||
+            (p.serialNumber && p.serialNumber.toLowerCase().includes(term)) ||
             p.model.toLowerCase().includes(term) ||
             (p.productName && p.productName.toLowerCase().includes(term))
         )
@@ -178,7 +178,7 @@ export function WarrantyManager({ warranties, onRefresh }: WarrantyManagerProps)
 
     const rows = warranties.map((w) => {
       const models = w.products.map((p) => p.model).join(" | ");
-      const serials = w.products.map((p) => p.serialNumber).join(" | ");
+      const serials = w.products.map((p) => p.serialNumber || "").filter(Boolean).join(" | ") || "N/A";
       const dateFormatted = new Date(w.createdAt).toLocaleDateString();
 
       return [
@@ -399,9 +399,15 @@ export function WarrantyManager({ warranties, onRefresh }: WarrantyManagerProps)
                           {item.products.map((p, pIdx) => (
                             <div key={pIdx} className="rounded-lg bg-black/40 border border-white/5 p-1.5">
                               <div className="font-bold text-white text-[11px]">{p.model}</div>
-                              <div className="font-mono text-[10px] text-amber-300 tracking-wider">
-                                S/N: {p.serialNumber}
-                              </div>
+                              {p.serialNumber ? (
+                                <div className="font-mono text-[10px] text-amber-300 tracking-wider">
+                                  S/N: {p.serialNumber}
+                                </div>
+                              ) : (
+                                <div className="text-[10px] text-gray-500 italic">
+                                  Covered under Invoice
+                                </div>
+                              )}
                             </div>
                           ))}
                         </div>
@@ -421,9 +427,9 @@ export function WarrantyManager({ warranties, onRefresh }: WarrantyManagerProps)
                       {/* Validity */}
                       <td className="px-4 py-3 whitespace-nowrap">
                         <div className="font-mono text-[11px] text-white">
-                          {item.warrantyExpiryDate || "12 Months"}
+                          {item.warrantyExpiryDate || "6 Months"}
                         </div>
-                        <div className="text-[10px] text-gray-500">Standard 1-Year Guarantee</div>
+                        <div className="text-[10px] text-gray-500">Standard 6-Month Guarantee</div>
                       </td>
 
                       {/* Invoice Link */}
@@ -499,7 +505,7 @@ export function WarrantyManager({ warranties, onRefresh }: WarrantyManagerProps)
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between border-b border-white/10 pb-2 px-3">
-              <span className="text-xs font-bold text-white">Invoice / Warranty Card Preview</span>
+              <span className="text-xs font-bold text-white">Purchase Invoice / Tax Bill Preview</span>
               <div className="flex items-center gap-2">
                 <a
                   href={previewImage}
@@ -517,14 +523,22 @@ export function WarrantyManager({ warranties, onRefresh }: WarrantyManagerProps)
                 </button>
               </div>
             </div>
-            <div className="relative mt-2 h-[75vh] w-[80vw] max-w-3xl">
-              <Image
-                src={previewImage}
-                alt="Warranty Invoice"
-                fill
-                className="object-contain"
-                unoptimized
-              />
+            <div className="relative mt-2 h-[75vh] w-[80vw] max-w-3xl flex items-center justify-center">
+              {previewImage.toLowerCase().endsWith(".pdf") || previewImage.includes("/raw/") ? (
+                <iframe
+                  src={previewImage}
+                  className="w-full h-full rounded-xl border border-white/10"
+                  title="PDF Invoice"
+                />
+              ) : (
+                <Image
+                  src={previewImage}
+                  alt="Warranty Invoice"
+                  fill
+                  className="object-contain"
+                  unoptimized
+                />
+              )}
             </div>
           </div>
         </div>
@@ -623,13 +637,15 @@ export function WarrantyManager({ warranties, onRefresh }: WarrantyManagerProps)
                       <div>
                         <div className="font-bold text-white text-sm">{p.model}</div>
                         {p.productName && <div className="text-gray-400 text-xs">{p.productName}</div>}
-                        <div className="mt-1 font-mono text-amber-400 font-bold">
-                          Serial: {p.serialNumber}
-                        </div>
+                        {p.serialNumber && (
+                          <div className="mt-1 font-mono text-amber-400 font-bold">
+                            Serial: {p.serialNumber}
+                          </div>
+                        )}
                       </div>
                       <div className="text-right">
                         <span className="rounded-lg bg-emerald-500/10 border border-emerald-500/30 px-2 py-1 text-[10px] font-bold text-emerald-400">
-                          {p.warrantyMonths || 12} Mos Warranty
+                          {p.warrantyMonths || 6} Mos Warranty
                         </span>
                       </div>
                     </div>
@@ -658,14 +674,14 @@ export function WarrantyManager({ warranties, onRefresh }: WarrantyManagerProps)
                   <div>
                     <span className="text-gray-500 block">Warranty Valid Until:</span>
                     <span className="font-mono text-emerald-400 font-bold">
-                      {selectedWarranty.warrantyExpiryDate || "12 Months from purchase"}
+                      {selectedWarranty.warrantyExpiryDate || "6 Months from purchase"}
                     </span>
                   </div>
                 </div>
 
                 {selectedWarranty.invoiceUrl && (
                   <div className="mt-4 pt-4 border-t border-white/10">
-                    <span className="text-gray-500 block mb-2">Uploaded Bill / Invoice / Warranty Card:</span>
+                    <span className="text-gray-500 block mb-2">Uploaded Purchase Invoice / Tax Bill:</span>
                     <div
                       onClick={() => setPreviewImage(selectedWarranty.invoiceUrl || null)}
                       className="cursor-pointer relative h-36 w-full max-w-sm rounded-xl overflow-hidden border border-white/15 bg-black"
