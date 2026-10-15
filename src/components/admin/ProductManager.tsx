@@ -901,14 +901,25 @@ export function ProductManager({
               <div>
                 <div className="relative mb-3 h-36 w-full overflow-hidden rounded-xl bg-[#181a20]">
                   {p.image ? (
-                    <Image
-                      src={p.image}
-                      alt={p.name}
-                      fill
-                      unoptimized={p.image.startsWith("http")}
-                      className="object-contain p-2"
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                    />
+                    <a
+                      href={p.image}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group/img relative block h-full w-full cursor-zoom-in"
+                      title="Click to view full image in new tab"
+                    >
+                      <Image
+                        src={p.image}
+                        alt={p.name}
+                        fill
+                        unoptimized={p.image.startsWith("http")}
+                        className="object-contain p-2 group-hover/img:scale-105 transition-transform"
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                      />
+                      <span className="absolute bottom-1.5 right-1.5 rounded bg-black/75 px-1.5 py-0.5 text-[9px] font-bold text-white opacity-0 group-hover/img:opacity-100 transition-opacity">
+                        🔍 View
+                      </span>
+                    </a>
                   ) : (
                     <div className="flex h-full items-center justify-center text-xs text-gray-500">
                       No Image
