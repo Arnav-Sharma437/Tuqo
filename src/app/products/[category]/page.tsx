@@ -359,10 +359,6 @@ export default async function DynamicCategoryPage({
                 >
                   <div>
                     <div className="relative mb-6 flex h-56 sm:h-64 w-full items-center justify-center bg-gradient-to-b from-gray-50 to-[#f0f2f7] rounded-xl p-3 sm:p-4 overflow-hidden">
-                      <span className="absolute left-3 top-3 z-10 bg-white/90 px-2 py-0.5 text-[10px] font-bold text-gray-500 rounded">
-                        #{index + 1}
-                      </span>
-
                       {product.tag && (
                         <span className="absolute right-3 top-3 z-10 bg-[#e21b23] px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-white rounded shadow-xs">
                           {product.tag}

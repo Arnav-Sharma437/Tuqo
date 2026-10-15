@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { NAV_LINKS, APP_CONFIG } from "@/constants";
 import { TuqoLogo } from "@/components/common/TuqoLogo";
-import { FacebookIcon, InstagramIcon, PhoneIcon } from "@/components/common/Icons";
+import { FacebookIcon, InstagramIcon, PhoneIcon, WhatsAppIcon } from "@/components/common/Icons";
 
 export function Footer() {
   return (
@@ -21,7 +21,7 @@ export function Footer() {
           </div>
 
           {/* Navigation Links */}
-          <div className="lg:col-span-5">
+          <div className="lg:col-span-4">
             <nav className="flex flex-wrap items-center gap-x-8 gap-y-3 text-xs sm:text-sm font-bold uppercase tracking-wider text-gray-300">
               {NAV_LINKS.map((link) => (
                 <Link
@@ -36,25 +36,37 @@ export function Footer() {
           </div>
 
           {/* Social Icons & Direct Phone */}
-          <div className="lg:col-span-2 flex flex-row lg:flex-col items-start lg:items-end justify-between lg:justify-center gap-4">
-            <div className="flex items-center gap-3">
+          <div className="lg:col-span-3 flex flex-row lg:flex-col items-start lg:items-end justify-between lg:justify-center gap-4">
+            <div className="flex items-center gap-2.5">
               <a
-                href="https://facebook.com"
+                href={APP_CONFIG.social.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/5 text-gray-400 transition-all hover:bg-[#d31820] hover:text-white hover:scale-105 border border-white/10"
                 aria-label="Facebook"
+                title="Follow TUQO on Facebook"
               >
                 <FacebookIcon className="h-4 w-4" />
               </a>
               <a
-                href="https://instagram.com"
+                href={APP_CONFIG.social.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/5 text-gray-400 transition-all hover:bg-[#d31820] hover:text-white hover:scale-105 border border-white/10"
                 aria-label="Instagram"
+                title="Follow TUQO on Instagram"
               >
                 <InstagramIcon className="h-4 w-4" />
+              </a>
+              <a
+                href={APP_CONFIG.social.whatsappChannel}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/5 text-gray-400 transition-all hover:bg-[#25D366] hover:text-white hover:scale-105 border border-white/10"
+                aria-label="WhatsApp Channel"
+                title="Follow the TUQO TOOLS channel on WhatsApp"
+              >
+                <WhatsAppIcon className="h-4 w-4" />
               </a>
             </div>
 

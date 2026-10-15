@@ -6,6 +6,11 @@ export const APP_CONFIG = {
   phone: "+91 9342466860",
   phoneRaw: "91 9342466860",
   whatsappUrl: "https://wa.me/919342466860",
+  social: {
+    instagram: "https://www.instagram.com/tuqotools?psln=MTF6dGc5eXQ2a2lteQ==",
+    facebook: "https://www.facebook.com/share/1EQ2CQGpLZ/?mibextid=wwXIfr",
+    whatsappChannel: "https://whatsapp.com/channel/0029Va9dxlP7z4kma3eUFl2W",
+  },
   business: {
     name: "A.H HOLDINGS",
     addressLines: [

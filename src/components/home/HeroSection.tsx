@@ -72,7 +72,7 @@ export function HeroSection({
 
   return (
     <section
-      className="group relative w-full overflow-hidden bg-[#0a0b0e] aspect-[2.4/1] sm:aspect-[2.66/1] select-none"
+      className="group relative w-full overflow-hidden bg-[#0a0b0e] aspect-[440/290] sm:aspect-[1900/590] max-h-[590px] select-none"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

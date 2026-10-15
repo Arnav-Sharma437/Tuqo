@@ -207,6 +207,26 @@ export default function ContactPage() {
                     <span className="text-xs font-black text-gray-900 group-hover:text-emerald-600">Quick Reply</span>
                   </div>
                 </a>
+
+                {/* WhatsApp Channel */}
+                <a
+                  href={APP_CONFIG.social.whatsappChannel}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="sm:col-span-2 flex items-center justify-between rounded-xl border border-emerald-500/30 bg-emerald-50/70 p-3 transition-all hover:bg-emerald-100/60 group"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#25D366] text-black">
+                      <WhatsAppIcon className="h-3.5 w-3.5" />
+                    </div>
+                    <span className="text-xs font-bold text-gray-900">
+                      Follow the TUQO TOOLS channel on WhatsApp
+                    </span>
+                  </div>
+                  <span className="text-[10px] font-black uppercase tracking-wider text-emerald-700 group-hover:underline">
+                    Follow →
+                  </span>
+                </a>
               </div>
             </div>
           </div>
