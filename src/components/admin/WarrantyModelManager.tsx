@@ -1,6 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
+
+function getPageNumbers(current: number, total: number): (number | string)[] {
+  if (total <= 7) {
+    return Array.from({ length: total }, (_, i) => i + 1);
+  }
+  if (current <= 4) {
+    return [1, 2, 3, 4, 5, "...", total];
+  }
+  if (current >= total - 3) {
+    return [1, "...", total - 4, total - 3, total - 2, total - 1, total];
+  }
+  return [1, "...", current - 1, current, current + 1, "...", total];
+}
 
 export interface WarrantyModelItem {
   _id: string;
@@ -21,6 +34,8 @@ interface WarrantyModelManagerProps {
 
 export function WarrantyModelManager({ models, onRefresh }: WarrantyModelManagerProps) {
   const [search, setSearch] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState<number>(10);
   const [modalOpen, setModalOpen] = useState(false);
   const [editingModel, setEditingModel] = useState<WarrantyModelItem | null>(null);
   const [saving, setSaving] = useState(false);
@@ -171,6 +186,14 @@ export function WarrantyModelManager({ models, onRefresh }: WarrantyModelManager
     );
   });
 
+  const totalPages = pageSize === -1 ? 1 : Math.max(1, Math.ceil(filtered.length / pageSize));
+  const safeCurrentPage = Math.min(currentPage, totalPages);
+  const paginatedModels = useMemo(() => {
+    if (pageSize === -1) return filtered;
+    const start = (safeCurrentPage - 1) * pageSize;
+    return filtered.slice(start, start + pageSize);
+  }, [filtered, safeCurrentPage, pageSize]);
+
   const activeCount = models.filter((m) => m.active).length;
 
   return (
@@ -230,7 +253,10 @@ export function WarrantyModelManager({ models, onRefresh }: WarrantyModelManager
             <input
               type="text"
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setCurrentPage(1);
+              }}
               placeholder="Search by model name, code (e.g. HW2020), or category..."
               className="w-full rounded-xl border border-white/10 bg-black/40 py-2 pl-9 pr-4 text-xs font-semibold text-white placeholder-gray-500 focus:border-[#d31820] focus:outline-none"
             />
@@ -260,7 +286,7 @@ export function WarrantyModelManager({ models, onRefresh }: WarrantyModelManager
                   </td>
                 </tr>
               ) : (
-                filtered.map((item) => (
+                paginatedModels.map((item) => (
                   <tr key={item._id} className="hover:bg-white/[0.02] transition">
                     <td className="px-4 py-3.5 font-mono text-gray-400">
                       #{item.order}
@@ -319,6 +345,107 @@ export function WarrantyModelManager({ models, onRefresh }: WarrantyModelManager
             </tbody>
           </table>
         </div>
+
+        {/* Models Pagination Footer */}
+        {filtered.length > 0 && (
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-white/10 px-4 py-3 bg-[#15181f]">
+            <div className="flex flex-wrap items-center gap-3 text-xs text-gray-400">
+              <span>
+                Showing{" "}
+                <strong className="text-white">
+                  {pageSize === -1 ? 1 : (safeCurrentPage - 1) * pageSize + 1}
+                </strong>{" "}
+                to{" "}
+                <strong className="text-white">
+                  {pageSize === -1 ? filtered.length : Math.min(safeCurrentPage * pageSize, filtered.length)}
+                </strong>{" "}
+                of <strong className="text-white">{filtered.length}</strong> models
+              </span>
+
+              <div className="flex items-center gap-1.5">
+                <span className="text-[10px] uppercase font-bold tracking-wider text-gray-500">Per Page:</span>
+                <select
+                  value={pageSize}
+                  onChange={(e) => {
+                    setPageSize(Number(e.target.value));
+                    setCurrentPage(1);
+                  }}
+                  className="rounded-lg border border-white/10 bg-[#1c1f26] px-2 py-1 text-xs font-semibold text-white focus:border-[#d31820] focus:outline-none"
+                >
+                  <option value={10}>10</option>
+                  <option value={20}>20</option>
+                  <option value={50}>50</option>
+                  <option value={-1}>All ({filtered.length})</option>
+                </select>
+              </div>
+            </div>
+
+            {totalPages > 1 && (
+              <div className="flex items-center gap-1">
+                <button
+                  type="button"
+                  onClick={() => setCurrentPage(1)}
+                  disabled={safeCurrentPage === 1}
+                  className="rounded-lg border border-white/10 bg-white/5 px-2.5 py-1 text-xs font-bold text-gray-300 hover:bg-white/10 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition"
+                  title="First Page"
+                >
+                  «
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                  disabled={safeCurrentPage === 1}
+                  className="rounded-lg border border-white/10 bg-white/5 px-2.5 py-1 text-xs font-bold text-gray-300 hover:bg-white/10 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition"
+                  title="Previous Page"
+                >
+                  ‹ Prev
+                </button>
+
+                <div className="flex items-center gap-1">
+                  {getPageNumbers(safeCurrentPage, totalPages).map((pNum, idx) =>
+                    pNum === "..." ? (
+                      <span key={`dots-${idx}`} className="px-1.5 text-xs text-gray-400 font-bold">
+                        ...
+                      </span>
+                    ) : (
+                      <button
+                        key={`page-${pNum}`}
+                        type="button"
+                        onClick={() => setCurrentPage(pNum as number)}
+                        className={`rounded-lg px-2.5 py-1 text-xs font-bold transition ${
+                          safeCurrentPage === pNum
+                            ? "bg-[#d31820] text-white shadow-md shadow-red-950/50"
+                            : "border border-white/10 bg-white/5 text-gray-300 hover:bg-white/10 hover:text-white"
+                        }`}
+                      >
+                        {pNum}
+                      </button>
+                    )
+                  )}
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                  disabled={safeCurrentPage === totalPages}
+                  className="rounded-lg border border-white/10 bg-white/5 px-2.5 py-1 text-xs font-bold text-gray-300 hover:bg-white/10 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition"
+                  title="Next Page"
+                >
+                  Next ›
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setCurrentPage(totalPages)}
+                  disabled={safeCurrentPage === totalPages}
+                  className="rounded-lg border border-white/10 bg-white/5 px-2.5 py-1 text-xs font-bold text-gray-300 hover:bg-white/10 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition"
+                  title="Last Page"
+                >
+                  »
+                </button>
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Add / Edit Modal */}

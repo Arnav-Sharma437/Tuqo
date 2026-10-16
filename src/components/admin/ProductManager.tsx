@@ -1,10 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Image from "next/image";
 import { ImageUploader } from "./ImageUploader";
 import { CategoryItem } from "./CategoryManager";
 import { SubcategoryItem } from "./SubcategoryManager";
+
+function getPageNumbers(current: number, total: number): (number | string)[] {
+  if (total <= 7) {
+    return Array.from({ length: total }, (_, i) => i + 1);
+  }
+  if (current <= 4) {
+    return [1, 2, 3, 4, 5, "...", total];
+  }
+  if (current >= total - 3) {
+    return [1, "...", total - 4, total - 3, total - 2, total - 1, total];
+  }
+  return [1, "...", current - 1, current, current + 1, "...", total];
+}
 
 export interface ProductSpecItem {
   label: string;
@@ -74,6 +87,8 @@ export function ProductManager({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [filterCategory, setFilterCategory] = useState<string>("all");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(9);
 
   const initialProduct: ProductItem = {
     name: "",
@@ -332,6 +347,14 @@ export function ProductManager({
     filterCategory === "all"
       ? products
       : products.filter((p) => p.categorySlug === filterCategory);
+
+  const totalPages = pageSize === -1 ? 1 : Math.max(1, Math.ceil(filteredProducts.length / pageSize));
+  const safeCurrentPage = Math.min(currentPage, totalPages);
+  const paginatedProducts = useMemo(() => {
+    if (pageSize === -1) return filteredProducts;
+    const start = (safeCurrentPage - 1) * pageSize;
+    return filteredProducts.slice(start, start + pageSize);
+  }, [filteredProducts, safeCurrentPage, pageSize]);
 
   return (
     <div className="space-y-6">
@@ -874,7 +897,10 @@ export function ProductManager({
           </span>
           <select
             value={filterCategory}
-            onChange={(e) => setFilterCategory(e.target.value)}
+            onChange={(e) => {
+              setFilterCategory(e.target.value);
+              setCurrentPage(1);
+            }}
             className="rounded-lg border border-white/10 bg-[#14161a] px-3 py-1.5 text-xs text-white focus:border-[#d31820] focus:outline-none"
           >
             <option value="all">All Categories ({products.length})</option>
@@ -893,7 +919,7 @@ export function ProductManager({
             No products found in this category. Click "+ Add Product" to add machinery.
           </div>
         ) : (
-          filteredProducts.map((p) => (
+          paginatedProducts.map((p) => (
             <div
               key={p._id}
               className="flex flex-col justify-between rounded-2xl border border-white/10 bg-[#14161a] p-4 transition hover:border-[#d31820]/40"
@@ -986,6 +1012,107 @@ export function ProductManager({
           ))
         )}
       </div>
+
+      {/* Product Catalog Pagination */}
+      {filteredProducts.length > 0 && (
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 rounded-2xl border border-white/10 bg-[#14161a] p-4">
+          <div className="flex flex-wrap items-center gap-3 text-xs text-gray-400">
+            <span>
+              Showing{" "}
+              <strong className="text-white">
+                {pageSize === -1 ? 1 : (safeCurrentPage - 1) * pageSize + 1}
+              </strong>{" "}
+              to{" "}
+              <strong className="text-white">
+                {pageSize === -1 ? filteredProducts.length : Math.min(safeCurrentPage * pageSize, filteredProducts.length)}
+              </strong>{" "}
+              of <strong className="text-white">{filteredProducts.length}</strong> products
+            </span>
+
+            <div className="flex items-center gap-1.5">
+              <span className="text-[10px] uppercase font-bold tracking-wider text-gray-500">Per Page:</span>
+              <select
+                value={pageSize}
+                onChange={(e) => {
+                  setPageSize(Number(e.target.value));
+                  setCurrentPage(1);
+                }}
+                className="rounded-lg border border-white/10 bg-[#1c1f26] px-2 py-1 text-xs font-semibold text-white focus:border-[#d31820] focus:outline-none"
+              >
+                <option value={9}>9</option>
+                <option value={18}>18</option>
+                <option value={36}>36</option>
+                <option value={-1}>All ({filteredProducts.length})</option>
+              </select>
+            </div>
+          </div>
+
+          {totalPages > 1 && (
+            <div className="flex items-center gap-1">
+              <button
+                type="button"
+                onClick={() => setCurrentPage(1)}
+                disabled={safeCurrentPage === 1}
+                className="rounded-lg border border-white/10 bg-white/5 px-2.5 py-1 text-xs font-bold text-gray-300 hover:bg-white/10 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition"
+                title="First Page"
+              >
+                «
+              </button>
+              <button
+                type="button"
+                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                disabled={safeCurrentPage === 1}
+                className="rounded-lg border border-white/10 bg-white/5 px-2.5 py-1 text-xs font-bold text-gray-300 hover:bg-white/10 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition"
+                title="Previous Page"
+              >
+                ‹ Prev
+              </button>
+
+              <div className="flex items-center gap-1">
+                {getPageNumbers(safeCurrentPage, totalPages).map((pNum, idx) =>
+                  pNum === "..." ? (
+                    <span key={`dots-${idx}`} className="px-1.5 text-xs text-gray-400 font-bold">
+                      ...
+                    </span>
+                  ) : (
+                    <button
+                      key={`page-${pNum}`}
+                      type="button"
+                      onClick={() => setCurrentPage(pNum as number)}
+                      className={`rounded-lg px-2.5 py-1 text-xs font-bold transition ${
+                        safeCurrentPage === pNum
+                          ? "bg-[#d31820] text-white shadow-md shadow-red-950/50"
+                          : "border border-white/10 bg-white/5 text-gray-300 hover:bg-white/10 hover:text-white"
+                      }`}
+                    >
+                      {pNum}
+                    </button>
+                  )
+                )}
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                disabled={safeCurrentPage === totalPages}
+                className="rounded-lg border border-white/10 bg-white/5 px-2.5 py-1 text-xs font-bold text-gray-300 hover:bg-white/10 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition"
+                title="Next Page"
+              >
+                Next ›
+              </button>
+              <button
+                type="button"
+                onClick={() => setCurrentPage(totalPages)}
+                disabled={safeCurrentPage === totalPages}
+                className="rounded-lg border border-white/10 bg-white/5 px-2.5 py-1 text-xs font-bold text-gray-300 hover:bg-white/10 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition"
+                title="Last Page"
+              >
+                »
+              </button>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Quick Specs Management Modal */}
       {managingSpecsProduct && (

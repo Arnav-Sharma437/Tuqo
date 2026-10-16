@@ -28,12 +28,19 @@ interface TabConfig {
   label: string;
   icon: string;
   count: number;
+  description?: string;
+}
+
+interface NavSection {
+  title: string;
+  tabs: TabType[];
 }
 
 export default function AdminDashboardPage() {
   const router = useRouter();
   // Default to warranties tab so customer registration data is shown front-and-center!
   const [activeTab, setActiveTab] = useState<TabType>("warranties");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [notification, setNotification] = useState<{ type: "success" | "error"; message: string } | null>(null);
@@ -76,6 +83,7 @@ export default function AdminDashboardPage() {
 
   const handleTabChange = (tabId: TabType) => {
     setActiveTab(tabId);
+    setMobileMenuOpen(false);
     if (typeof window !== "undefined") {
       const url = new URL(window.location.href);
       url.searchParams.set("tab", tabId);
@@ -179,23 +187,88 @@ export default function AdminDashboardPage() {
     router.refresh();
   };
 
-  // Tab configurations - Warranty Registrations is prominently #1
-  const tabs: TabConfig[] = [
-    { id: "warranties", label: "Warranty Registrations", icon: "🛡️", count: warranties.length },
-    { id: "warranty_models", label: "Equipment Models", icon: "⚙️", count: warrantyModels.length },
-    { id: "products", label: "Product Catalog", icon: "⚡", count: products.length },
-    { id: "categories", label: "Categories", icon: "📁", count: categories.length },
-    { id: "subcategories", label: "Subcategories", icon: "🗂️", count: subcategories.length },
-    { id: "banners", label: "Hero Banners", icon: "🖼️", count: banners.length },
-    { id: "catalogs", label: "E-Catalogs", icon: "📄", count: catalogs.length },
-    { id: "faqs", label: "FAQs", icon: "❓", count: faqs.length },
+  // Tab configurations
+  const tabMap: Record<TabType, TabConfig> = {
+    warranties: {
+      id: "warranties",
+      label: "Warranty Registrations",
+      icon: "🛡️",
+      count: warranties.length,
+      description: "Customer registrations, invoices & verification",
+    },
+    warranty_models: {
+      id: "warranty_models",
+      label: "Equipment Models",
+      icon: "⚙️",
+      count: warrantyModels.length,
+      description: "Manage warranty dropdown models & coverage",
+    },
+    products: {
+      id: "products",
+      label: "Product Catalog",
+      icon: "⚡",
+      count: products.length,
+      description: "Machinery, specs & inventory status",
+    },
+    categories: {
+      id: "categories",
+      label: "Categories",
+      icon: "📁",
+      count: categories.length,
+      description: "Primary product equipment categories",
+    },
+    subcategories: {
+      id: "subcategories",
+      label: "Subcategories",
+      icon: "🗂️",
+      count: subcategories.length,
+      description: "Sub-divisions for equipment line",
+    },
+    banners: {
+      id: "banners",
+      label: "Hero Banners",
+      icon: "🖼️",
+      count: banners.length,
+      description: "Homepage slideshow graphics & banners",
+    },
+    catalogs: {
+      id: "catalogs",
+      label: "E-Catalogs",
+      icon: "📄",
+      count: catalogs.length,
+      description: "Downloadable PDF technical brochures",
+    },
+    faqs: {
+      id: "faqs",
+      label: "FAQs",
+      icon: "❓",
+      count: faqs.length,
+      description: "Help center questions & answers",
+    },
+  };
+
+  const navSections: NavSection[] = [
+    {
+      title: "Warranty & Customers",
+      tabs: ["warranties", "warranty_models"],
+    },
+    {
+      title: "Inventory & Catalog",
+      tabs: ["products", "categories", "subcategories"],
+    },
+    {
+      title: "Website Content",
+      tabs: ["banners", "catalogs", "faqs"],
+    },
   ];
+
+  const currentTab = tabMap[activeTab];
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#0a0a0c] text-white">
+      <div className="flex min-h-screen items-center justify-center bg-[#090a0d] text-white">
         <div className="flex flex-col items-center gap-3">
-          <div className="h-9 w-9 animate-spin rounded-full border-2 border-[#d31820] border-t-transparent" />
+          <div className="h-10 w-10 animate-spin rounded-full border-3 border-[#d31820] border-t-transparent" />
           <p className="text-xs font-bold uppercase tracking-wider text-gray-400">
             Initializing TUQO Enterprise CMS...
           </p>
@@ -204,8 +277,120 @@ export default function AdminDashboardPage() {
     );
   }
 
+  // Sidebar Component JSX
+  const SidebarContent = () => (
+    <div className="flex h-full flex-col justify-between">
+      {/* Top Brand Header */}
+      <div>
+        <div className="border-b border-white/10 px-5 py-4">
+          <div className="flex items-center justify-between">
+            <Link
+              href="/admin"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center gap-2.5 transition hover:opacity-90"
+            >
+              <TuqoLogo variant="white" width={110} />
+              <div className="flex flex-col">
+                <span className="rounded-md bg-[#d31820] px-1.5 py-0.5 text-[9px] font-black uppercase tracking-wider text-white shadow-xs shadow-red-900/40">
+                  CMS PRO
+                </span>
+              </div>
+            </Link>
+            <span className="inline-flex items-center gap-1.5 text-[10px] font-mono font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              Live DB
+            </span>
+          </div>
+          <p className="mt-2 text-[11px] text-gray-400">
+            Industrial Tools &amp; Machinery Console
+          </p>
+        </div>
+
+        {/* Navigation Sections */}
+        <nav className="p-3 space-y-5">
+          {navSections.map((section) => (
+            <div key={section.title} className="space-y-1">
+              <div className="px-3 pb-1.5 text-[10px] font-extrabold uppercase tracking-wider text-gray-400">
+                {section.title}
+              </div>
+              <div className="space-y-1">
+                {section.tabs.map((tabKey) => {
+                  const tab = tabMap[tabKey];
+                  const isActive = activeTab === tab.id;
+                  return (
+                    <button
+                      key={tab.id}
+                      onClick={() => handleTabChange(tab.id)}
+                      className={`group relative flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-xs font-semibold transition-all ${
+                        isActive
+                          ? "bg-[#d31820] text-white shadow-md shadow-red-950/50 font-bold"
+                          : "text-gray-300 hover:bg-white/5 hover:text-white"
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5 truncate">
+                        <span className="text-base shrink-0">{tab.icon}</span>
+                        <span className="truncate">{tab.label}</span>
+                      </div>
+                      <span
+                        className={`ml-2 shrink-0 rounded-full px-2 py-0.5 text-[10px] font-black transition ${
+                          isActive
+                            ? "bg-black/30 text-white"
+                            : "bg-white/10 text-gray-400 group-hover:bg-white/15 group-hover:text-gray-200"
+                        }`}
+                      >
+                        {tab.count}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </nav>
+      </div>
+
+      {/* Sidebar Footer & User Profile */}
+      <div className="border-t border-white/10 p-4 space-y-3 bg-[#0a0b0e]">
+        <Link
+          href="/"
+          target="_blank"
+          className="flex w-full items-center justify-between rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-gray-300 transition hover:bg-white/10 hover:text-white"
+        >
+          <span className="flex items-center gap-2">
+            <span>🌐</span>
+            <span>View Live Website</span>
+          </span>
+          <span className="text-xs text-gray-500">↗</span>
+        </Link>
+
+        <div className="flex items-center justify-between rounded-xl bg-white/5 border border-white/5 p-2.5">
+          <div className="flex items-center gap-2.5 truncate">
+            <div className="h-7 w-7 shrink-0 rounded-full bg-[#d31820] flex items-center justify-center text-xs font-black text-white shadow-sm shadow-red-900/50">
+              {user?.name ? user.name[0].toUpperCase() : "A"}
+            </div>
+            <div className="truncate">
+              <div className="text-xs font-bold text-white truncate leading-tight">
+                {user?.name || "Administrator"}
+              </div>
+              <div className="text-[10px] text-gray-400 font-mono truncate leading-tight">
+                {user?.email || "admin@tuqotools.com"}
+              </div>
+            </div>
+          </div>
+          <button
+            onClick={handleLogout}
+            title="Log Out of Admin CMS"
+            className="shrink-0 rounded-lg p-1.5 text-xs text-red-400 hover:bg-red-500/20 hover:text-red-300 transition"
+          >
+            🚪
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
-    <div className="min-h-screen bg-[#090a0d] text-white selection:bg-[#d31820] selection:text-white">
+    <div className="flex min-h-screen bg-[#090a0d] text-white selection:bg-[#d31820] selection:text-white">
       {/* Toast Notification */}
       {notification && (
         <div
@@ -220,203 +405,204 @@ export default function AdminDashboardPage() {
         </div>
       )}
 
-      {/* Top Enterprise CMS Header */}
-      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#0f1115]/95 backdrop-blur-md">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2.5 sm:px-6">
-          {/* Brand & CMS status */}
-          <div className="flex items-center gap-4">
-            <Link href="/admin" className="flex items-center gap-2.5 hover:opacity-90 transition">
-              <TuqoLogo variant="white" width={115} />
-              <div className="flex items-center gap-1.5">
-                <span className="rounded-md bg-[#d31820] px-2 py-0.5 text-[10px] font-black uppercase tracking-wider text-white shadow-xs shadow-red-900/40">
-                  CMS PRO
-                </span>
-                <span className="hidden sm:inline-flex items-center gap-1 text-[10px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-md">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  Live
-                </span>
-              </div>
-            </Link>
-          </div>
+      {/* Desktop Fixed Left Sidebar */}
+      <aside className="hidden lg:flex w-64 xl:w-72 shrink-0 flex-col border-r border-white/10 bg-[#0d0f14] sticky top-0 h-screen overflow-y-auto z-30">
+        <SidebarContent />
+      </aside>
 
-          {/* User profile & Actions */}
-          <div className="flex items-center gap-2.5 sm:gap-3">
-            <button
-              onClick={fetchData}
-              disabled={refreshing}
-              title="Refresh all database data"
-              className="flex items-center gap-1.5 rounded-xl border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-semibold text-gray-300 hover:bg-white/10 hover:text-white transition disabled:opacity-50"
-            >
-              <span className={`text-xs ${refreshing ? "animate-spin" : ""}`}>🔄</span>
-              <span className="hidden md:inline">{refreshing ? "Syncing..." : "Sync Data"}</span>
-            </button>
-
-            <Link
-              href="/"
-              target="_blank"
-              className="hidden sm:inline-flex items-center gap-1 rounded-xl border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-semibold text-gray-300 hover:bg-white/10 hover:text-white transition"
-            >
-              <span>View Site</span>
-              <span className="text-[10px]">↗</span>
-            </Link>
-
-            <div className="hidden lg:flex items-center gap-2 rounded-xl bg-white/5 border border-white/10 px-3 py-1.5">
-              <div className="h-6 w-6 rounded-full bg-[#d31820] flex items-center justify-center text-[11px] font-black text-white">
-                {user?.name ? user.name[0].toUpperCase() : "A"}
-              </div>
-              <div className="flex flex-col text-left">
-                <span className="text-xs font-bold text-white leading-tight">{user?.name || "Administrator"}</span>
-                <span className="text-[10px] text-gray-400 font-mono leading-tight">{user?.email || "admin@tuqotools.com"}</span>
-              </div>
-            </div>
-
-            <button
-              onClick={handleLogout}
-              className="rounded-xl border border-red-500/30 bg-red-500/10 px-3 py-1.5 text-xs font-bold text-red-400 transition hover:bg-red-500/20 hover:text-red-300"
-            >
-              Logout
-            </button>
-          </div>
-        </div>
-
-        {/* CMS Tab Navigation Bar */}
-        <div className="border-t border-white/5 bg-[#14161d]">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6">
-            <nav className="flex items-center gap-1 overflow-x-auto py-2 scrollbar-none">
-              {tabs.map((tab) => {
-                const isActive = activeTab === tab.id;
-                return (
-                  <button
-                    key={tab.id}
-                    onClick={() => handleTabChange(tab.id)}
-                    className={`group relative flex items-center gap-2 rounded-xl px-3.5 py-2 text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap ${
-                      isActive
-                        ? "bg-[#d31820] text-white shadow-md shadow-red-900/30 ring-1 ring-red-400/30"
-                        : "text-gray-400 hover:bg-white/5 hover:text-gray-200"
-                    }`}
-                  >
-                    <span className="text-sm">{tab.icon}</span>
-                    <span>{tab.label}</span>
-                    <span
-                      className={`rounded-full px-2 py-0.5 text-[10px] font-black transition ${
-                        isActive
-                          ? "bg-black/30 text-white"
-                          : "bg-white/10 text-gray-300 group-hover:bg-white/15"
-                      }`}
-                    >
-                      {tab.count}
-                    </span>
-                  </button>
-                );
-              })}
-            </nav>
-          </div>
-        </div>
-      </header>
-
-      {/* Quick Warranty Registration Banner if not on warranty tab */}
-      {warranties.length > 0 && activeTab !== "warranties" && (
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 pt-5">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-2xl border border-emerald-500/30 bg-emerald-950/20 p-4">
-            <div className="flex items-center gap-3">
-              <span className="text-2xl">🛡️</span>
-              <div>
-                <div className="text-xs font-black uppercase tracking-wider text-emerald-400">
-                  {warranties.length} Customer Warranty Registrations in Live Database
-                </div>
-                <div className="text-xs text-gray-300 mt-0.5">
-                  Latest: <span className="font-bold text-white">{warranties[0]?.customerName}</span> ({warranties[0]?.registrationId}) — {warranties[0]?.products?.[0]?.model || "Equipment"}
-                </div>
-              </div>
-            </div>
-            <button
-              onClick={() => handleTabChange("warranties")}
-              className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-600 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white hover:bg-emerald-500 transition whitespace-nowrap self-start sm:self-auto shadow-md"
-            >
-              <span>View All Registrations ({warranties.length}) →</span>
-            </button>
-          </div>
-        </div>
+      {/* Mobile Drawer Backdrop */}
+      {mobileMenuOpen && (
+        <div
+          onClick={() => setMobileMenuOpen(false)}
+          className="fixed inset-0 z-40 bg-black/75 backdrop-blur-sm lg:hidden transition-opacity"
+        />
       )}
 
-      {/* Main Content Area */}
-      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
-        {activeTab === "warranties" && (
-          <WarrantyManager
-            warranties={warranties}
-            onRefresh={() => {
-              fetchData();
-              showNotification("Warranty registrations refreshed");
-            }}
-          />
+      {/* Mobile Drawer Sidebar */}
+      <div
+        className={`fixed inset-y-0 left-0 z-50 w-72 bg-[#0d0f14] border-r border-white/10 transform transition-transform duration-300 ease-in-out lg:hidden ${
+          mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        <div className="absolute top-4 right-3">
+          <button
+            onClick={() => setMobileMenuOpen(false)}
+            className="rounded-lg bg-white/5 p-1.5 text-xs text-gray-400 hover:bg-white/10 hover:text-white"
+          >
+            ✕
+          </button>
+        </div>
+        <SidebarContent />
+      </div>
+
+      {/* Main Right Area */}
+      <div className="flex-1 min-w-0 flex flex-col min-h-screen bg-[#090a0d]">
+        {/* Sticky CMS Top Navigation Header */}
+        <header className="sticky top-0 z-20 border-b border-white/10 bg-[#0f1115]/95 backdrop-blur-md px-4 py-3 sm:px-6">
+          <div className="flex items-center justify-between gap-4">
+            {/* Left: Mobile hamburger & Tab Header title */}
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => setMobileMenuOpen(true)}
+                className="lg:hidden rounded-xl border border-white/10 bg-white/5 p-2 text-gray-300 hover:bg-white/10 hover:text-white transition"
+                aria-label="Open CMS Menu"
+              >
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
+
+              <div className="flex items-center gap-2.5">
+                <span className="text-xl">{currentTab.icon}</span>
+                <div>
+                  <h1 className="text-sm font-bold text-white flex items-center gap-2">
+                    <span>{currentTab.label}</span>
+                    <span className="rounded-full bg-white/10 border border-white/15 px-2 py-0.5 text-[10px] font-mono text-gray-300">
+                      {currentTab.count}
+                    </span>
+                  </h1>
+                  <p className="hidden md:block text-[11px] text-gray-400">
+                    {currentTab.description}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Right: Quick actions */}
+            <div className="flex items-center gap-2 sm:gap-3">
+              <button
+                onClick={fetchData}
+                disabled={refreshing}
+                title="Refresh and sync all MongoDB data"
+                className="flex items-center gap-1.5 rounded-xl border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-semibold text-gray-300 hover:bg-white/10 hover:text-white transition disabled:opacity-50"
+              >
+                <span className={`text-xs ${refreshing ? "animate-spin" : ""}`}>🔄</span>
+                <span className="hidden sm:inline">{refreshing ? "Syncing..." : "Sync DB"}</span>
+              </button>
+
+              <Link
+                href="/"
+                target="_blank"
+                className="hidden sm:inline-flex items-center gap-1 rounded-xl border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-semibold text-gray-300 hover:bg-white/10 hover:text-white transition"
+              >
+                <span>Live Site</span>
+                <span className="text-[10px]">↗</span>
+              </Link>
+
+              <button
+                onClick={handleLogout}
+                className="rounded-xl border border-red-500/30 bg-red-500/10 px-3 py-1.5 text-xs font-bold text-red-400 transition hover:bg-red-500/20 hover:text-red-300"
+              >
+                Logout
+              </button>
+            </div>
+          </div>
+        </header>
+
+        {/* Quick Customer Warranty Registration Alert if on another tab */}
+        {warranties.length > 0 && activeTab !== "warranties" && (
+          <div className="px-4 sm:px-6 lg:px-8 pt-5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-2xl border border-emerald-500/30 bg-emerald-950/20 p-3.5">
+              <div className="flex items-center gap-3">
+                <span className="text-2xl">🛡️</span>
+                <div>
+                  <div className="text-xs font-black uppercase tracking-wider text-emerald-400">
+                    {warranties.length} Customer Warranty Registrations in Database
+                  </div>
+                  <div className="text-xs text-gray-300 mt-0.5">
+                    Latest: <span className="font-bold text-white">{warranties[0]?.customerName}</span> ({warranties[0]?.registrationId}) — {warranties[0]?.products?.[0]?.model || "Equipment"}
+                  </div>
+                </div>
+              </div>
+              <button
+                onClick={() => handleTabChange("warranties")}
+                className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-600 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-white hover:bg-emerald-500 transition whitespace-nowrap self-start sm:self-auto shadow-md"
+              >
+                <span>View Registrations ({warranties.length}) →</span>
+              </button>
+            </div>
+          </div>
         )}
-        {activeTab === "warranty_models" && (
-          <WarrantyModelManager
-            models={warrantyModels}
-            onRefresh={() => {
-              fetchData();
-              showNotification("Equipment models updated successfully");
-            }}
-          />
-        )}
-        {activeTab === "products" && (
-          <ProductManager
-            products={products}
-            categories={categories}
-            subcategories={subcategories}
-            onRefresh={() => {
-              fetchData();
-              showNotification("Product catalog updated successfully");
-            }}
-          />
-        )}
-        {activeTab === "categories" && (
-          <CategoryManager
-            categories={categories}
-            onRefresh={() => {
-              fetchData();
-              showNotification("Category saved successfully");
-            }}
-          />
-        )}
-        {activeTab === "subcategories" && (
-          <SubcategoryManager
-            subcategories={subcategories}
-            categories={categories}
-            onRefresh={() => {
-              fetchData();
-              showNotification("Subcategory saved successfully");
-            }}
-          />
-        )}
-        {activeTab === "banners" && (
-          <BannerManager
-            banners={banners}
-            onRefresh={() => {
-              fetchData();
-              showNotification("Hero banners updated");
-            }}
-          />
-        )}
-        {activeTab === "catalogs" && (
-          <CatalogManager
-            catalogs={catalogs}
-            onRefresh={() => {
-              fetchData();
-              showNotification("E-Catalogue updated successfully");
-            }}
-          />
-        )}
-        {activeTab === "faqs" && (
-          <FaqManager
-            faqs={faqs}
-            onRefresh={() => {
-              fetchData();
-              showNotification("FAQs updated successfully");
-            }}
-          />
-        )}
-      </main>
+
+        {/* Dynamic Manager Tab Content */}
+        <main className="p-4 sm:p-6 lg:p-8 flex-1">
+          {activeTab === "warranties" && (
+            <WarrantyManager
+              warranties={warranties}
+              onRefresh={() => {
+                fetchData();
+                showNotification("Warranty registrations refreshed");
+              }}
+            />
+          )}
+          {activeTab === "warranty_models" && (
+            <WarrantyModelManager
+              models={warrantyModels}
+              onRefresh={() => {
+                fetchData();
+                showNotification("Equipment models updated successfully");
+              }}
+            />
+          )}
+          {activeTab === "products" && (
+            <ProductManager
+              products={products}
+              categories={categories}
+              subcategories={subcategories}
+              onRefresh={() => {
+                fetchData();
+                showNotification("Product catalog updated successfully");
+              }}
+            />
+          )}
+          {activeTab === "categories" && (
+            <CategoryManager
+              categories={categories}
+              onRefresh={() => {
+                fetchData();
+                showNotification("Category saved successfully");
+              }}
+            />
+          )}
+          {activeTab === "subcategories" && (
+            <SubcategoryManager
+              subcategories={subcategories}
+              categories={categories}
+              onRefresh={() => {
+                fetchData();
+                showNotification("Subcategory saved successfully");
+              }}
+            />
+          )}
+          {activeTab === "banners" && (
+            <BannerManager
+              banners={banners}
+              onRefresh={() => {
+                fetchData();
+                showNotification("Hero banners updated");
+              }}
+            />
+          )}
+          {activeTab === "catalogs" && (
+            <CatalogManager
+              catalogs={catalogs}
+              onRefresh={() => {
+                fetchData();
+                showNotification("E-Catalogue updated successfully");
+              }}
+            />
+          )}
+          {activeTab === "faqs" && (
+            <FaqManager
+              faqs={faqs}
+              onRefresh={() => {
+                fetchData();
+                showNotification("FAQs updated successfully");
+              }}
+            />
+          )}
+        </main>
+      </div>
     </div>
   );
 }
