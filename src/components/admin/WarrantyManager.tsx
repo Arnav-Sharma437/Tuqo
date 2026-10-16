@@ -539,6 +539,14 @@ export function WarrantyManager({ warranties, onRefresh }: WarrantyManagerProps)
                       {/* Actions */}
                       <td className="px-4 py-3 text-right whitespace-nowrap">
                         <div className="flex items-center justify-end gap-1.5">
+                          <a
+                            href={`/api/warranty/certificate/${encodeURIComponent(item.registrationId)}`}
+                            download={`TUQO-Warranty-${item.registrationId}.pdf`}
+                            title="Download Official Warranty Certificate PDF"
+                            className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-2 py-1 text-[11px] font-bold text-emerald-400 hover:bg-emerald-500/20 transition flex items-center gap-1"
+                          >
+                            <span>📄 PDF</span>
+                          </a>
                           <button
                             onClick={() => handleInspect(item)}
                             title="Inspect complete details"
@@ -959,14 +967,23 @@ export function WarrantyManager({ warranties, onRefresh }: WarrantyManagerProps)
             </div>
 
             {/* Modal Actions */}
-            <div className="mt-6 flex items-center justify-between border-t border-white/10 pt-4">
-              <button
-                type="button"
-                onClick={() => handleDelete(selectedWarranty._id, selectedWarranty.registrationId)}
-                className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-2 text-xs font-bold text-red-400 hover:bg-red-500/20"
-              >
-                Delete Record
-              </button>
+            <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-4">
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => handleDelete(selectedWarranty._id, selectedWarranty.registrationId)}
+                  className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-2 text-xs font-bold text-red-400 hover:bg-red-500/20"
+                >
+                  Delete Record
+                </button>
+                <a
+                  href={`/api/warranty/certificate/${encodeURIComponent(selectedWarranty.registrationId)}`}
+                  download={`TUQO-Warranty-${selectedWarranty.registrationId}.pdf`}
+                  className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-2 text-xs font-bold text-emerald-400 hover:bg-emerald-500/20 transition flex items-center gap-1.5"
+                >
+                  <span>📥 Download Certificate PDF</span>
+                </a>
+              </div>
 
               <div className="flex items-center gap-2">
                 <button

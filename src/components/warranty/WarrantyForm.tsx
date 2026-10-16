@@ -420,6 +420,33 @@ export function WarrantyForm() {
   const [submitting, setSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [registeredData, setRegisteredData] = useState<any>(null);
+  const [downloadingPdf, setDownloadingPdf] = useState(false);
+
+  // Direct PDF Download Handler
+  const handleDownloadCertificatePdf = async (regId: string) => {
+    if (!regId) return;
+    setDownloadingPdf(true);
+    try {
+      const res = await fetch(`/api/warranty/certificate/${encodeURIComponent(regId)}`);
+      if (!res.ok) {
+        throw new Error("Failed to generate PDF certificate.");
+      }
+      const blob = await res.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.download = `TUQO-Warranty-${regId}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      window.URL.revokeObjectURL(blobUrl);
+      document.body.removeChild(link);
+    } catch (err: unknown) {
+      console.error("PDF download error:", err);
+      window.open(`/api/warranty/certificate/${encodeURIComponent(regId)}`, "_blank");
+    } finally {
+      setDownloadingPdf(false);
+    }
+  };
 
   // Check Status States
   const [checkQuery, setCheckQuery] = useState("");
@@ -584,7 +611,14 @@ export function WarrantyForm() {
 
       setRegisteredData(data.warranty);
       setStep(5); // Success step
-      window.scrollTo({ top: 200, behavior: "smooth" });
+      window.scrollTo({ top: 150, behavior: "smooth" });
+
+      // Automatically initiate official PDF certificate download
+      if (data.warranty?.registrationId) {
+        setTimeout(() => {
+          handleDownloadCertificatePdf(data.warranty.registrationId);
+        }, 400);
+      }
     } catch (err: unknown) {
       setErrorMsg(err instanceof Error ? err.message : "Something went wrong.");
     } finally {
@@ -744,6 +778,22 @@ export function WarrantyForm() {
                     </div>
                   ))}
                 </div>
+              </div>
+
+              {/* Direct PDF Certificate Download Button */}
+              <div className="pt-3 border-t border-emerald-500/20 flex flex-col sm:flex-row items-center justify-between gap-3">
+                <span className="text-[11px] text-emerald-800 font-bold flex items-center gap-1.5">
+                  <span>🛡️</span>
+                  <span>Official TUQO 6-Month Manufacturer Certificate</span>
+                </span>
+                <button
+                  type="button"
+                  onClick={() => handleDownloadCertificatePdf(checkResult.registrationId)}
+                  disabled={downloadingPdf}
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-2.5 text-xs font-black uppercase tracking-wider text-white hover:bg-emerald-700 shadow-md transition disabled:opacity-50 cursor-pointer"
+                >
+                  <span>{downloadingPdf ? "⏳ Generating..." : "📥 Download Warranty PDF"}</span>
+                </button>
               </div>
             </div>
           )}
@@ -1331,84 +1381,89 @@ export function WarrantyForm() {
                 </p>
               </div>
 
-              {/* Certificate Box */}
+              {/* Certificate Box - Clean Official Protected Card */}
               <div
-                id="printable-certificate"
-                className="relative overflow-hidden rounded-2xl border-2 border-[#111214] bg-[#0a0b0e] p-6 text-white"
+                id="digital-warranty-card"
+                className="relative overflow-hidden rounded-2xl border-2 border-emerald-500/30 bg-emerald-50/20 p-6 sm:p-8 space-y-5 text-gray-900 shadow-sm"
               >
-                <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                <div className="flex flex-wrap items-center justify-between gap-3 border-b border-emerald-500/20 pb-4">
                   <div>
-                    <span className="text-[10px] font-black tracking-widest text-[#e21b23] uppercase">
-                      OFFICIAL TUQO WARRANTY CERTIFICATE
+                    <span className="text-[11px] font-black uppercase tracking-wider text-emerald-700">
+                      STATUS: ACTIVE
                     </span>
-                    <div className="text-xs font-bold text-gray-400">
-                      REGISTRATION ID:
-                    </div>
-                    <div className="font-mono text-xl font-black text-white tracking-wider">
-                      {registeredData.registrationId}
-                    </div>
+                    <h4 className="text-xl sm:text-2xl font-black text-gray-900 mt-0.5">
+                      TUQO 6-Month Official Warranty
+                    </h4>
                   </div>
-                  <div className="text-right">
-                    <span className="rounded bg-emerald-500/20 border border-emerald-500/40 px-2.5 py-1 text-[11px] font-black text-emerald-400">
-                      ✓ ACTIVE
-                    </span>
-                    <span className="text-emerald-400 block text-[11px] mt-0.5">6 Months Coverage</span>
-                  </div>
+                  <span className="rounded-full bg-emerald-600 px-3.5 py-1 text-xs font-black text-white shadow-sm flex items-center gap-1">
+                    ✓ Protected
+                  </span>
                 </div>
 
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 py-4 border-b border-white/10 text-xs">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                   <div>
-                    <span className="text-gray-500 block">Customer Name:</span>
-                    <span className="font-bold text-white">{registeredData.customerName}</span>
+                    <span className="text-gray-500 block uppercase font-semibold text-[10px] tracking-wider">Registration ID:</span>
+                    <span className="font-mono font-bold text-red-600 text-sm">{registeredData.registrationId}</span>
                   </div>
                   <div>
-                    <span className="text-gray-500 block">Mobile Phone:</span>
-                    <span className="font-mono font-bold text-white">+91 {registeredData.mobile}</span>
+                    <span className="text-gray-500 block uppercase font-semibold text-[10px] tracking-wider">Customer:</span>
+                    <span className="font-bold text-gray-900 text-sm">
+                      {registeredData.customerName} (+91 {registeredData.mobile})
+                    </span>
                   </div>
                   <div>
-                    <span className="text-gray-500 block">Purchase Date:</span>
-                    <span className="font-mono text-white">{registeredData.purchaseDate}</span>
+                    <span className="text-gray-500 block uppercase font-semibold text-[10px] tracking-wider">Purchase Date:</span>
+                    <span className="font-bold text-gray-900 text-sm">{registeredData.purchaseDate}</span>
                   </div>
                   <div>
-                    <span className="text-gray-500 block">Warranty Valid Until:</span>
-                    <span className="font-mono text-emerald-400 font-bold">
-                      {registeredData.warrantyExpiryDate || "6 Months from purchase"}
+                    <span className="text-gray-500 block uppercase font-semibold text-[10px] tracking-wider">Valid Until:</span>
+                    <span className="font-bold text-emerald-800 text-sm">
+                      {registeredData.warrantyExpiryDate || "6 Months from Purchase"}
                     </span>
                   </div>
                   <div className="sm:col-span-2">
-                    <span className="text-gray-500 block">Authorized Dealer:</span>
-                    <span className="text-white font-semibold">
-                      {registeredData.dealerName || "Direct / Authorized Dealer"}
+                    <span className="text-gray-500 block uppercase font-semibold text-[10px] tracking-wider">Authorized Dealer:</span>
+                    <span className="font-bold text-gray-900">
+                      {registeredData.dealerName || "Direct / Authorized Dealer"} {registeredData.dealerCity ? `(${registeredData.dealerCity})` : ""}
                     </span>
                   </div>
                 </div>
 
-                <div className="pt-4">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 block mb-2">
-                    Registered Equipment Units:
+                <div className="pt-3 border-t border-emerald-500/20">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-gray-700 block mb-2.5">
+                    COVERED EQUIPMENT:
                   </span>
-                  <div className="space-y-1.5">
+                  <div className="space-y-2">
                     {registeredData.products?.map((p: any, idx: number) => (
                       <div
                         key={idx}
-                        className="flex items-center justify-between rounded-xl bg-white/5 border border-white/10 p-2 text-xs"
+                        className="flex items-center justify-between rounded-xl bg-white p-3 border border-emerald-200 text-xs shadow-xs"
                       >
-                        <span className="font-bold text-white">{p.model}</span>
-                        <span className="text-emerald-400 text-[10px] font-bold">6 Mos Warranty</span>
+                        <div>
+                          <div className="font-bold text-gray-900">{p.model}</div>
+                          {p.serialNumber && (
+                            <div className="font-mono text-[10px] text-gray-500">S/N: {p.serialNumber}</div>
+                          )}
+                        </div>
+                        <span className="text-emerald-700 font-bold text-xs whitespace-nowrap">
+                          6 Months Warranty
+                        </span>
                       </div>
                     ))}
                   </div>
                 </div>
               </div>
 
-              {/* Certificate Actions */}
-              <div className="flex flex-col sm:flex-row items-center gap-3">
+              {/* Direct PDF Download Action Buttons */}
+              <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
                 <button
                   type="button"
-                  onClick={() => window.print()}
-                  className="w-full sm:flex-1 rounded-xl bg-[#111214] py-3 text-xs font-black uppercase tracking-wider text-white hover:bg-black transition shadow-md"
+                  onClick={() => handleDownloadCertificatePdf(registeredData.registrationId)}
+                  disabled={downloadingPdf}
+                  className="w-full sm:flex-1 flex items-center justify-center gap-2 rounded-xl bg-[#e21b23] py-4 text-xs sm:text-sm font-black uppercase tracking-wider text-white hover:bg-[#b8141a] transition shadow-xl shadow-red-900/30 disabled:opacity-50 cursor-pointer"
                 >
-                  🖨️ Print / Download Certificate
+                  <span className="text-base">{downloadingPdf ? "⏳" : "📥"}</span>
+                  <span>{downloadingPdf ? "Generating Official PDF..." : "Download Warranty Certificate (PDF)"}</span>
                 </button>
 
                 <button
@@ -1420,7 +1475,7 @@ export function WarrantyForm() {
                     setInvoiceUrl("");
                     setProducts([
                       {
-                        model: COMMON_MODELS[0],
+                        model: availableModels[0] || COMMON_MODELS[0],
                         serialNumber: "",
                         productName: "",
                         warrantyMonths: 6,
@@ -1428,9 +1483,9 @@ export function WarrantyForm() {
                     ]);
                     setRegisteredData(null);
                   }}
-                  className="w-full sm:w-auto rounded-xl border border-gray-300 bg-white px-5 py-3 text-xs font-bold uppercase text-gray-700 hover:bg-gray-100"
+                  className="w-full sm:w-auto rounded-xl border border-gray-300 bg-white px-5 py-4 text-xs font-bold uppercase text-gray-700 hover:bg-gray-100 transition"
                 >
-                  Register Another Product
+                  Register Another
                 </button>
               </div>
             </div>
