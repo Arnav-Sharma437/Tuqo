@@ -7,7 +7,6 @@ import { usePathname } from "next/navigation";
 import { APP_CONFIG } from "@/constants";
 import { TuqoLogo } from "@/components/common/TuqoLogo";
 import {
-  PhoneIcon,
   WhatsAppIcon,
   MenuIcon,
   XIcon,
@@ -291,24 +290,6 @@ export function Header() {
 
         {/* ================= 3. RIGHT ACTIONS ================= */}
         <div className="flex items-center gap-3 sm:gap-4">
-          {/* Desktop Helpline */}
-          <a
-            href={`tel:${APP_CONFIG.phoneRaw}`}
-            className="hidden xl:flex items-center gap-2.5 text-xs font-bold text-gray-300 hover:text-white transition-colors pr-2"
-          >
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/5 text-[#e21b23] border border-white/10">
-              <PhoneIcon className="h-4 w-4" />
-            </div>
-            <div className="text-left">
-              <span className="block text-[9px] font-bold uppercase tracking-wider text-gray-400">
-                Direct Desk
-              </span>
-              <span className="font-extrabold text-white tracking-tight">
-                {APP_CONFIG.phone}
-              </span>
-            </div>
-          </a>
-
           {/* Direct WhatsApp CTA Button */}
           <a
             href={APP_CONFIG.whatsappUrl}
@@ -320,13 +301,15 @@ export function Header() {
             <span>Quick Inquiry</span>
           </a>
 
-          {/* Mobile Phone Call Button */}
+          {/* Mobile WhatsApp Icon Button */}
           <a
-            href={`tel:${APP_CONFIG.phoneRaw}`}
-            className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/10 text-white border border-white/15 transition-colors sm:hidden hover:bg-[#e21b23]"
-            aria-label="Call TUQO"
+            href={APP_CONFIG.whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#25D366] text-black border border-emerald-500/30 transition-colors sm:hidden shadow-xs hover:bg-[#20bd5a]"
+            aria-label="WhatsApp TUQO"
           >
-            <PhoneIcon className="h-4 w-4" />
+            <WhatsAppIcon className="h-4 w-4" />
           </a>
 
           {/* Mobile Hamburger Toggle */}
@@ -464,7 +447,7 @@ export function Header() {
             </Link>
 
             {/* Action Buttons */}
-            <div className="pt-6 space-y-3">
+            <div className="pt-6">
               <a
                 href={APP_CONFIG.whatsappUrl}
                 target="_blank"
@@ -473,14 +456,6 @@ export function Header() {
               >
                 <WhatsAppIcon className="h-4 w-4" />
                 <span>Chat on WhatsApp</span>
-              </a>
-
-              <a
-                href={`tel:${APP_CONFIG.phoneRaw}`}
-                className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-white/10 border border-white/15 text-xs font-extrabold uppercase tracking-wider text-white hover:bg-white/20 transition"
-              >
-                <PhoneIcon className="h-4 w-4" />
-                <span>Call {APP_CONFIG.phone}</span>
               </a>
             </div>
           </div>
