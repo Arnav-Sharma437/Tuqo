@@ -130,7 +130,7 @@ export default function WarrantyPage() {
               What does the 6-month TUQO warranty cover?
             </h3>
             <p className="mt-2 text-xs sm:text-sm text-gray-600 leading-relaxed">
-              The standard 6-month manufacturer warranty covers manufacturing defects, motor armature/stator failure, internal pump casting faults, and electrical switches under standard operating conditions.
+              The standard 6-month manufacturer warranty covers manufacturing defects, motor armature/stator failure.
             </p>
           </div>
 

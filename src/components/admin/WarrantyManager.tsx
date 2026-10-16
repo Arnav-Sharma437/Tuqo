@@ -542,7 +542,7 @@ export function WarrantyManager({ warranties, onRefresh }: WarrantyManagerProps)
                           <a
                             href={`/api/warranty/certificate/${encodeURIComponent(item.registrationId)}`}
                             download={`TUQO-Warranty-${item.registrationId}.pdf`}
-                            title="Download Official Warranty Certificate PDF"
+                            title="Download Digital Warranty Card PDF"
                             className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-2 py-1 text-[11px] font-bold text-emerald-400 hover:bg-emerald-500/20 transition flex items-center gap-1"
                           >
                             <span>📄 PDF</span>
@@ -981,7 +981,7 @@ export function WarrantyManager({ warranties, onRefresh }: WarrantyManagerProps)
                   download={`TUQO-Warranty-${selectedWarranty.registrationId}.pdf`}
                   className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-2 text-xs font-bold text-emerald-400 hover:bg-emerald-500/20 transition flex items-center gap-1.5"
                 >
-                  <span>📥 Download Certificate PDF</span>
+                  <span>📥 Download Warranty Card PDF</span>
                 </a>
               </div>
 

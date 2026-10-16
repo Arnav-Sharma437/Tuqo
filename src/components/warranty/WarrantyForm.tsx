@@ -780,11 +780,11 @@ export function WarrantyForm() {
                 </div>
               </div>
 
-              {/* Direct PDF Certificate Download Button */}
+              {/* Direct PDF Digital Warranty Card Download Button */}
               <div className="pt-3 border-t border-emerald-500/20 flex flex-col sm:flex-row items-center justify-between gap-3">
                 <span className="text-[11px] text-emerald-800 font-bold flex items-center gap-1.5">
                   <span>🛡️</span>
-                  <span>Official TUQO 6-Month Manufacturer Certificate</span>
+                  <span>Official TUQO 6-Month Manufacturer Warranty Card</span>
                 </span>
                 <button
                   type="button"
@@ -792,7 +792,7 @@ export function WarrantyForm() {
                   disabled={downloadingPdf}
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-2.5 text-xs font-black uppercase tracking-wider text-white hover:bg-emerald-700 shadow-md transition disabled:opacity-50 cursor-pointer"
                 >
-                  <span>{downloadingPdf ? "⏳ Generating..." : "📥 Download Warranty PDF"}</span>
+                  <span>{downloadingPdf ? "⏳ Generating..." : "📥 Download Digital Warranty Card (PDF)"}</span>
                 </button>
               </div>
             </div>
@@ -1374,7 +1374,7 @@ export function WarrantyForm() {
                   WARRANTY ACTIVATED SUCCESSFULLY
                 </span>
                 <h3 className="mt-2 text-2xl sm:text-3xl font-black uppercase text-[#111214]">
-                  Digital Warranty Certificate
+                  Digital Warranty Card
                 </h3>
                 <p className="mt-1 text-xs text-gray-500">
                   Your official 6-month TUQO manufacturer warranty is now live in our system.
@@ -1463,7 +1463,7 @@ export function WarrantyForm() {
                   className="w-full sm:flex-1 flex items-center justify-center gap-2 rounded-xl bg-[#e21b23] py-4 text-xs sm:text-sm font-black uppercase tracking-wider text-white hover:bg-[#b8141a] transition shadow-xl shadow-red-900/30 disabled:opacity-50 cursor-pointer"
                 >
                   <span className="text-base">{downloadingPdf ? "⏳" : "📥"}</span>
-                  <span>{downloadingPdf ? "Generating Official PDF..." : "Download Warranty Certificate (PDF)"}</span>
+                  <span>{downloadingPdf ? "Generating Official PDF..." : "Download Digital Warranty Card (PDF)"}</span>
                 </button>
 
                 <button

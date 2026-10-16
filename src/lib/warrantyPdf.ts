@@ -196,8 +196,8 @@ export async function generateWarrantyCertificatePdf(
     color: cardBorder,
   });
 
-  // 4. MAIN CERTIFICATE TITLE & INTRO
-  page.drawText("DIGITAL WARRANTY CERTIFICATE", {
+  // 4. MAIN WARRANTY CARD TITLE & INTRO
+  page.drawText("DIGITAL WARRANTY CARD", {
     x: 48,
     y: height - 142,
     size: 18,
@@ -206,7 +206,7 @@ export async function generateWarrantyCertificatePdf(
   });
 
   page.drawText(
-    "This certificate verifies that your TUQO equipment has been registered and is protected under genuine manufacturer warranty.",
+    "This card verifies that your TUQO equipment has been registered and is protected under genuine manufacturer warranty.",
     {
       x: 48,
       y: height - 158,
@@ -507,9 +507,9 @@ export async function generateWarrantyCertificatePdf(
 
   const terms = [
     "1. This warranty is valid for 6 months starting from the verified purchase date on your dealer invoice.",
-    "2. Warranty covers manufacturing defects, motor armature/stator failure, and internal pump casting faults under normal usage.",
+    "2. Warranty covers manufacturing defects, motor armature/stator failure.",
     "3. Excludes normal wear & tear of consumable accessories (hoses, carbon brushes, spray nozzles, O-rings, power cords).",
-    "4. For claims, present this digital certificate copy alongside your dealer tax invoice to our authorized service network.",
+    "4. For claims, present this digital warranty card copy alongside your dealer tax invoice to our authorized service network.",
   ];
 
   let ty = termsY + 54;
@@ -523,42 +523,6 @@ export async function generateWarrantyCertificatePdf(
     });
     ty -= 12;
   }
-
-  // 9. FOOTER CONTACT STRIP
-  const footerY = 40;
-  page.drawLine({
-    start: { x: 48, y: footerY + 26 },
-    end: { x: width - 48, y: footerY + 26 },
-    thickness: 0.8,
-    color: cardBorder,
-  });
-
-  page.drawText(
-    "WhatsApp Claims Desk: +91 93424 66860   |   Email: mustafa.ahholdings@gmail.com   |   Web: www.tuqotools.com",
-    {
-      x: 52,
-      y: footerY + 12,
-      size: 7.5,
-      font: helveticaBold,
-      color: brandDark,
-    }
-  );
-
-  page.drawText("TUQO Tools & Machinery India | Official Manufacturer Warranty Certificate", {
-    x: 52,
-    y: footerY + 1,
-    size: 6.5,
-    font: helvetica,
-    color: textGray,
-  });
-
-  page.drawText("PAGE 1 OF 1", {
-    x: width - 100,
-    y: footerY + 1,
-    size: 6.5,
-    font: courierBold,
-    color: textGray,
-  });
 
   // Serialize PDF to bytes
   const pdfBytes = await doc.save();
