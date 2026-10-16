@@ -8,7 +8,6 @@ import {
   ArrowRightIcon,
   PhoneIcon,
   WhatsAppIcon,
-  MailIcon,
 } from "@/components/common/Icons";
 
 export default function ContactPage() {
@@ -256,19 +255,6 @@ export default function ContactPage() {
                   </div>
                 </a>
 
-                {/* Email Direct */}
-                <a
-                  href={`mailto:${APP_CONFIG.email}`}
-                  className="sm:col-span-2 flex items-center gap-3 rounded-xl border border-gray-200 bg-[#f9fafc] p-3.5 transition-all hover:border-[#e21b23] hover:bg-white group"
-                >
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#111214] text-white">
-                    <MailIcon className="h-4 w-4 text-red-500" />
-                  </div>
-                  <div>
-                    <span className="text-[9px] font-bold uppercase text-gray-400 block">Official Email</span>
-                    <span className="text-xs font-black text-gray-900 group-hover:text-[#e21b23] break-all">{APP_CONFIG.email}</span>
-                  </div>
-                </a>
 
                 {/* WhatsApp Channel */}
                 <a
@@ -308,7 +294,7 @@ export default function ContactPage() {
               </h2>
 
               <p className="mt-2 text-xs sm:text-sm text-gray-500">
-                Fill out the form below. Enquiries are sent directly to our official desk at <strong>{APP_CONFIG.email}</strong>.
+                Fill out the form below. Our team will review your enquiry and get back to you promptly.
               </p>
             </div>
 
@@ -321,8 +307,7 @@ export default function ContactPage() {
                   Enquiry Received Successfully!
                 </h3>
                 <p className="text-xs sm:text-sm text-gray-600 max-w-md mx-auto">
-                  Thank you! Your message has been forwarded to our desk at{" "}
-                  <strong className="text-gray-900">{APP_CONFIG.email}</strong>. Our team will contact you shortly.
+                  Thank you! Your message has been received. Our team will contact you shortly.
                 </p>
                 <button
                   type="button"
