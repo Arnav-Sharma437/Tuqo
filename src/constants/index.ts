@@ -5,6 +5,7 @@ export const APP_CONFIG = {
   tagline: "BUILT FOR A STRONGER TOMORROW",
   phone: "+91 9342466860",
   phoneRaw: "91 9342466860",
+  email: "mustafa.ahholdings@gmail.com",
   whatsappUrl: "https://wa.me/919342466860",
   social: {
     instagram: "https://www.instagram.com/tuqotools?psln=MTF6dGc5eXQ2a2lteQ==",

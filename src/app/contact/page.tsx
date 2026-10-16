@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { APP_CONFIG } from "@/constants";
 import {
   MapPinIcon,
@@ -8,9 +8,57 @@ import {
   ArrowRightIcon,
   PhoneIcon,
   WhatsAppIcon,
+  MailIcon,
 } from "@/components/common/Icons";
 
 export default function ContactPage() {
+  const [fullName, setFullName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [enquiryType, setEnquiryType] = useState("Product Information");
+  const [message, setMessage] = useState("");
+
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitting(true);
+    setErrorMsg("");
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName,
+          phone,
+          email,
+          enquiryType,
+          message,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || "Failed to submit enquiry");
+      }
+
+      setSubmitted(true);
+      setFullName("");
+      setPhone("");
+      setEmail("");
+      setMessage("");
+    } catch (err: unknown) {
+      setErrorMsg(
+        err instanceof Error ? err.message : "Something went wrong. Please try again."
+      );
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
     <main className="w-full bg-[#f9fafc] min-h-screen text-[#111214]">
       {/* PAGE BANNER */}
@@ -163,7 +211,7 @@ export default function ContactPage() {
               </div>
             </div>
 
-            {/* Direct Helpline & Fast Contact Card (Eliminates the empty space) */}
+            {/* Direct Helpline & Fast Contact Card */}
             <div className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-7 shadow-sm space-y-4">
               <div>
                 <span className="text-[9px] font-extrabold uppercase tracking-wider text-[#e21b23]">
@@ -208,6 +256,20 @@ export default function ContactPage() {
                   </div>
                 </a>
 
+                {/* Email Direct */}
+                <a
+                  href={`mailto:${APP_CONFIG.email}`}
+                  className="sm:col-span-2 flex items-center gap-3 rounded-xl border border-gray-200 bg-[#f9fafc] p-3.5 transition-all hover:border-[#e21b23] hover:bg-white group"
+                >
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#111214] text-white">
+                    <MailIcon className="h-4 w-4 text-red-500" />
+                  </div>
+                  <div>
+                    <span className="text-[9px] font-bold uppercase text-gray-400 block">Official Email</span>
+                    <span className="text-xs font-black text-gray-900 group-hover:text-[#e21b23] break-all">{APP_CONFIG.email}</span>
+                  </div>
+                </a>
+
                 {/* WhatsApp Channel */}
                 <a
                   href={APP_CONFIG.social.whatsappChannel}
@@ -246,116 +308,154 @@ export default function ContactPage() {
               </h2>
 
               <p className="mt-2 text-xs sm:text-sm text-gray-500">
-                Fill out the form below and our technical desk will get back to you promptly.
+                Fill out the form below. Enquiries are sent directly to our official desk at <strong>{APP_CONFIG.email}</strong>.
               </p>
             </div>
 
-            <form className="space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label
-                    htmlFor="fullName"
-                    className="mb-1.5 block text-[10px] font-extrabold uppercase tracking-wide text-gray-700"
-                  >
-                    Full Name *
-                  </label>
-                  <input
-                    id="fullName"
-                    name="fullName"
-                    type="text"
-                    placeholder="Enter your name"
-                    autoComplete="name"
-                    required
-                    className="h-11 w-full rounded-xl border border-gray-300 bg-white px-3.5 text-xs outline-none transition-all focus:border-[#e21b23] focus:ring-1 focus:ring-[#e21b23]"
-                  />
+            {submitted ? (
+              <div className="rounded-2xl border border-emerald-300 bg-emerald-50/80 p-6 text-center space-y-3">
+                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-emerald-600 text-white text-xl">
+                  ✓
                 </div>
-
-                <div>
-                  <label
-                    htmlFor="phone"
-                    className="mb-1.5 block text-[10px] font-extrabold uppercase tracking-wide text-gray-700"
-                  >
-                    Phone Number *
-                  </label>
-                  <input
-                    id="phone"
-                    name="phone"
-                    type="tel"
-                    placeholder="Enter your phone number"
-                    autoComplete="tel"
-                    required
-                    className="h-11 w-full rounded-xl border border-gray-300 bg-white px-3.5 text-xs outline-none transition-all focus:border-[#e21b23] focus:ring-1 focus:ring-[#e21b23]"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="mb-1.5 block text-[10px] font-extrabold uppercase tracking-wide text-gray-700"
-                  >
-                    Email Address
-                  </label>
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    placeholder="Enter your email"
-                    autoComplete="email"
-                    className="h-11 w-full rounded-xl border border-gray-300 bg-white px-3.5 text-xs outline-none transition-all focus:border-[#e21b23] focus:ring-1 focus:ring-[#e21b23]"
-                  />
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="enquiryType"
-                    className="mb-1.5 block text-[10px] font-extrabold uppercase tracking-wide text-gray-700"
-                  >
-                    Enquiry Type *
-                  </label>
-                  <select
-                    id="enquiryType"
-                    name="enquiryType"
-                    defaultValue="Product Information"
-                    required
-                    className="h-11 w-full rounded-xl border border-gray-300 bg-white px-3.5 text-xs outline-none transition-all focus:border-[#e21b23] focus:ring-1 focus:ring-[#e21b23]"
-                  >
-                    <option>Product Information</option>
-                    <option>Price / Quotation</option>
-                    <option>Technical Support</option>
-                    <option>Service &amp; Repair</option>
-                    <option>Dealer Enquiry</option>
-                    <option>Other</option>
-                  </select>
-                </div>
-              </div>
-
-              <div>
-                <label
-                  htmlFor="message"
-                  className="mb-1.5 block text-[10px] font-extrabold uppercase tracking-wide text-gray-700"
+                <h3 className="text-lg font-black text-gray-900">
+                  Enquiry Received Successfully!
+                </h3>
+                <p className="text-xs sm:text-sm text-gray-600 max-w-md mx-auto">
+                  Thank you! Your message has been forwarded to our desk at{" "}
+                  <strong className="text-gray-900">{APP_CONFIG.email}</strong>. Our team will contact you shortly.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setSubmitted(false)}
+                  className="mt-3 rounded-xl bg-gray-900 px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white hover:bg-black transition"
                 >
-                  Message *
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  rows={5}
-                  required
-                  placeholder="How can our equipment desk help you?"
-                  className="w-full resize-none rounded-xl border border-gray-300 bg-white p-3.5 text-xs outline-none transition-all focus:border-[#e21b23] focus:ring-1 focus:ring-[#e21b23]"
-                />
+                  Send Another Message
+                </button>
               </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-4">
+                {errorMsg && (
+                  <div className="rounded-xl border border-red-300 bg-red-50 p-3.5 text-xs font-bold text-red-700">
+                    ⚠ {errorMsg}
+                  </div>
+                )}
 
-              <button
-                type="submit"
-                className="group flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#e21b23] text-xs font-extrabold uppercase tracking-wider text-white shadow-md transition-all duration-300 hover:bg-[#b8141a] hover:shadow-lg"
-              >
-                <span>Send Enquiry</span>
-                <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </button>
-            </form>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label
+                      htmlFor="fullName"
+                      className="mb-1.5 block text-[10px] font-extrabold uppercase tracking-wide text-gray-700"
+                    >
+                      Full Name *
+                    </label>
+                    <input
+                      id="fullName"
+                      name="fullName"
+                      type="text"
+                      required
+                      value={fullName}
+                      onChange={(e) => setFullName(e.target.value)}
+                      placeholder="Enter your name"
+                      autoComplete="name"
+                      className="h-11 w-full rounded-xl border border-gray-300 bg-white px-3.5 text-xs outline-none transition-all focus:border-[#e21b23] focus:ring-1 focus:ring-[#e21b23]"
+                    />
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="phone"
+                      className="mb-1.5 block text-[10px] font-extrabold uppercase tracking-wide text-gray-700"
+                    >
+                      Phone Number *
+                    </label>
+                    <input
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      required
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      placeholder="Enter your phone number"
+                      autoComplete="tel"
+                      className="h-11 w-full rounded-xl border border-gray-300 bg-white px-3.5 text-xs outline-none transition-all focus:border-[#e21b23] focus:ring-1 focus:ring-[#e21b23]"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label
+                      htmlFor="email"
+                      className="mb-1.5 block text-[10px] font-extrabold uppercase tracking-wide text-gray-700"
+                    >
+                      Email Address (Optional)
+                    </label>
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="Enter your email"
+                      autoComplete="email"
+                      className="h-11 w-full rounded-xl border border-gray-300 bg-white px-3.5 text-xs outline-none transition-all focus:border-[#e21b23] focus:ring-1 focus:ring-[#e21b23]"
+                    />
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="enquiryType"
+                      className="mb-1.5 block text-[10px] font-extrabold uppercase tracking-wide text-gray-700"
+                    >
+                      Enquiry Type *
+                    </label>
+                    <select
+                      id="enquiryType"
+                      name="enquiryType"
+                      value={enquiryType}
+                      onChange={(e) => setEnquiryType(e.target.value)}
+                      required
+                      className="h-11 w-full rounded-xl border border-gray-300 bg-white px-3.5 text-xs outline-none transition-all focus:border-[#e21b23] focus:ring-1 focus:ring-[#e21b23]"
+                    >
+                      <option>Product Information</option>
+                      <option>Price / Quotation</option>
+                      <option>Technical Support</option>
+                      <option>Service &amp; Repair</option>
+                      <option>Dealer Enquiry</option>
+                      <option>Other</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="message"
+                    className="mb-1.5 block text-[10px] font-extrabold uppercase tracking-wide text-gray-700"
+                  >
+                    Message *
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows={5}
+                    required
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    placeholder="How can our equipment desk help you?"
+                    className="w-full resize-none rounded-xl border border-gray-300 bg-white p-3.5 text-xs outline-none transition-all focus:border-[#e21b23] focus:ring-1 focus:ring-[#e21b23]"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="group flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#e21b23] text-xs font-extrabold uppercase tracking-wider text-white shadow-md transition-all duration-300 hover:bg-[#b8141a] hover:shadow-lg disabled:opacity-60"
+                >
+                  <span>{submitting ? "Sending Enquiry..." : "Send Enquiry"}</span>
+                  <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </button>
+              </form>
+            )}
           </div>
         </section>
       </div>

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/db/mongodb";
 import WarrantyRegistration from "@/models/WarrantyRegistration";
+import { sendWarrantyNotification } from "@/lib/email";
 
 export const dynamic = "force-dynamic";
 
@@ -98,6 +99,13 @@ export async function POST(req: Request) {
       warrantyExpiryDate,
       notes: data.notes || "",
     });
+
+    // Send email notification to mustafa.ahholdings@gmail.com
+    try {
+      await sendWarrantyNotification(newWarranty);
+    } catch (emailErr) {
+      console.error("Failed to send warranty notification email:", emailErr);
+    }
 
     return NextResponse.json(
       {
