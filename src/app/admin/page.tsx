@@ -122,14 +122,14 @@ export default function AdminDashboardPage() {
         modelsRes,
         warrantiesRes,
       ] = await Promise.all([
-        fetch("/api/admin/banners"),
-        fetch("/api/admin/categories"),
-        fetch("/api/admin/subcategories"),
-        fetch("/api/admin/products"),
-        fetch("/api/admin/catalogs"),
-        fetch("/api/admin/faqs"),
-        fetch("/api/admin/warranty-models"),
-        fetch("/api/admin/warranties"),
+        fetch("/api/admin/banners", { cache: "no-store" }),
+        fetch("/api/admin/categories", { cache: "no-store" }),
+        fetch("/api/admin/subcategories", { cache: "no-store" }),
+        fetch("/api/admin/products", { cache: "no-store" }),
+        fetch("/api/admin/catalogs", { cache: "no-store" }),
+        fetch("/api/admin/faqs", { cache: "no-store" }),
+        fetch("/api/admin/warranty-models", { cache: "no-store" }),
+        fetch("/api/admin/warranties", { cache: "no-store" }),
       ]);
 
       if (bannersRes.ok) {

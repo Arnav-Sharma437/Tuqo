@@ -381,7 +381,7 @@ export function WarrantyForm() {
   useEffect(() => {
     async function fetchModels() {
       try {
-        const res = await fetch("/api/warranty/models");
+        const res = await fetch("/api/warranty/models", { cache: "no-store" });
         if (res.ok) {
           const data = await res.json();
           if (data.models && data.models.length > 0) {

@@ -40,6 +40,8 @@ export function WarrantyModelManager({ models, onRefresh }: WarrantyModelManager
   const [editingModel, setEditingModel] = useState<WarrantyModelItem | null>(null);
   const [saving, setSaving] = useState(false);
   const [syncing, setSyncing] = useState(false);
+  const [deletingAll, setDeletingAll] = useState(false);
+  const [restoring, setRestoring] = useState(false);
   const [statusMsg, setStatusMsg] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
   // Form State
@@ -58,6 +60,7 @@ export function WarrantyModelManager({ models, onRefresh }: WarrantyModelManager
     setWarrantyMonths(6);
     setOrder(models.length + 1);
     setActive(true);
+    setStatusMsg(null);
     setModalOpen(true);
   };
 
@@ -69,6 +72,7 @@ export function WarrantyModelManager({ models, onRefresh }: WarrantyModelManager
     setWarrantyMonths(item.warrantyMonths || 6);
     setOrder(item.order || 0);
     setActive(item.active);
+    setStatusMsg(null);
     setModalOpen(true);
   };
 
@@ -86,9 +90,9 @@ export function WarrantyModelManager({ models, onRefresh }: WarrantyModelManager
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            name,
-            code,
-            category,
+            name: name.trim(),
+            code: code.trim(),
+            category: category.trim(),
             warrantyMonths,
             order,
             active,
@@ -102,9 +106,9 @@ export function WarrantyModelManager({ models, onRefresh }: WarrantyModelManager
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            name,
-            code,
-            category,
+            name: name.trim(),
+            code: code.trim(),
+            category: category.trim(),
             warrantyMonths,
             order,
             active,
@@ -115,6 +119,7 @@ export function WarrantyModelManager({ models, onRefresh }: WarrantyModelManager
       }
 
       setModalOpen(false);
+      setCurrentPage(1);
       onRefresh();
     } catch (err: any) {
       setStatusMsg({ type: "error", text: err.message || "Failed to save" });
@@ -130,7 +135,12 @@ export function WarrantyModelManager({ models, onRefresh }: WarrantyModelManager
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ active: !item.active }),
       });
-      if (res.ok) onRefresh();
+      if (res.ok) {
+        onRefresh();
+      } else {
+        const data = await res.json();
+        alert(data.error || "Failed to update status");
+      }
     } catch (err) {
       console.error("Toggle active error:", err);
     }
@@ -145,9 +155,68 @@ export function WarrantyModelManager({ models, onRefresh }: WarrantyModelManager
       const res = await fetch(`/api/admin/warranty-models/${id}`, {
         method: "DELETE",
       });
-      if (res.ok) onRefresh();
+      const data = await res.json();
+      if (res.ok) {
+        onRefresh();
+      } else {
+        alert(data.error || "Failed to delete model");
+      }
     } catch (err) {
       console.error("Delete error:", err);
+      alert("Failed to delete model. Please check network connection.");
+    }
+  };
+
+  const handleDeleteAll = async () => {
+    if (!window.confirm("Are you sure you want to delete ALL equipment models? You will start with a clean empty list.")) {
+      return;
+    }
+
+    setDeletingAll(true);
+    try {
+      const res = await fetch("/api/admin/warranty-models", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "delete_all" }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        onRefresh();
+      } else {
+        alert(data.error || "Failed to delete all models.");
+      }
+    } catch (err) {
+      console.error("Delete all error:", err);
+      alert("Failed to delete models. Please try again.");
+    } finally {
+      setDeletingAll(false);
+    }
+  };
+
+  const handleRestoreDefaults = async () => {
+    if (!window.confirm("Do you want to restore the sample default equipment models?")) {
+      return;
+    }
+
+    setRestoring(true);
+    try {
+      const res = await fetch("/api/admin/warranty-models", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "restore_defaults" }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        alert(data.message || "Default models restored successfully!");
+        onRefresh();
+      } else {
+        alert(data.error || "Failed to restore defaults.");
+      }
+    } catch (err) {
+      console.error("Restore defaults error:", err);
+      alert("Failed to restore default models.");
+    } finally {
+      setRestoring(false);
     }
   };
 
@@ -226,18 +295,36 @@ export function WarrantyModelManager({ models, onRefresh }: WarrantyModelManager
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2.5">
+          <div className="flex flex-wrap items-center gap-2">
+            {models.length > 0 && (
+              <button
+                onClick={handleDeleteAll}
+                disabled={deletingAll}
+                className="flex items-center gap-1.5 rounded-xl border border-red-500/30 bg-red-500/10 px-3.5 py-2.5 text-xs font-bold uppercase tracking-wider text-red-400 hover:bg-red-500/20 transition disabled:opacity-50 cursor-pointer"
+                title="Delete all models to start with a clean list"
+              >
+                <span>{deletingAll ? "⏳ Deleting..." : "🗑 Clear All"}</span>
+              </button>
+            )}
+            <button
+              onClick={handleRestoreDefaults}
+              disabled={restoring}
+              className="flex items-center gap-1.5 rounded-xl border border-white/10 bg-white/5 px-3.5 py-2.5 text-xs font-bold uppercase tracking-wider text-gray-300 hover:bg-white/10 hover:text-white transition disabled:opacity-50 cursor-pointer"
+              title="Restore sample default models"
+            >
+              <span>{restoring ? "⏳ Restoring..." : "↺ Restore Defaults"}</span>
+            </button>
             <button
               onClick={handleSyncFromCatalog}
               disabled={syncing}
-              className="flex items-center gap-1.5 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-gray-200 hover:bg-white/10 transition disabled:opacity-50"
+              className="flex items-center gap-1.5 rounded-xl border border-white/10 bg-white/5 px-3.5 py-2.5 text-xs font-bold uppercase tracking-wider text-gray-200 hover:bg-white/10 transition disabled:opacity-50 cursor-pointer"
               title="Import active products from products catalog"
             >
               <span>{syncing ? "⏳ Syncing..." : "📥 Import from Catalog"}</span>
             </button>
             <button
               onClick={openAddModal}
-              className="flex items-center gap-1.5 rounded-xl bg-[#d31820] px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-white shadow-lg shadow-red-900/30 hover:bg-[#b5141a] transition"
+              className="flex items-center gap-1.5 rounded-xl bg-[#d31820] px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-white shadow-lg shadow-red-900/30 hover:bg-[#b5141a] transition cursor-pointer"
             >
               <span>+ Add New Model</span>
             </button>
@@ -281,8 +368,42 @@ export function WarrantyModelManager({ models, onRefresh }: WarrantyModelManager
             <tbody className="divide-y divide-white/5">
               {filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-4 py-10 text-center text-gray-500">
-                    No equipment models found. Click &quot;+ Add New Model&quot; to create one.
+                  <td colSpan={6} className="px-4 py-12 text-center">
+                    <div className="flex flex-col items-center justify-center max-w-sm mx-auto space-y-3">
+                      <span className="text-3xl">📦</span>
+                      <p className="text-sm font-bold text-gray-300">
+                        {search ? "No matching models found for this search." : "No equipment models configured yet."}
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        {search
+                          ? "Try a different search term or clear the search filter."
+                          : "Add your equipment models using '+ Add New Model', import from your product catalog, or restore defaults."}
+                      </p>
+                      {!search && (
+                        <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
+                          <button
+                            onClick={openAddModal}
+                            className="rounded-xl bg-[#d31820] px-3.5 py-2 text-xs font-bold uppercase tracking-wider text-white shadow-md hover:bg-[#b5141a] cursor-pointer"
+                          >
+                            + Add Model
+                          </button>
+                          <button
+                            onClick={handleSyncFromCatalog}
+                            disabled={syncing}
+                            className="rounded-xl border border-white/10 bg-white/5 px-3.5 py-2 text-xs font-bold uppercase tracking-wider text-gray-300 hover:bg-white/10 cursor-pointer"
+                          >
+                            📥 Import Catalog
+                          </button>
+                          <button
+                            onClick={handleRestoreDefaults}
+                            disabled={restoring}
+                            className="rounded-xl border border-white/10 bg-white/5 px-3.5 py-2 text-xs font-bold uppercase tracking-wider text-gray-300 hover:bg-white/10 cursor-pointer"
+                          >
+                            ↺ Restore Defaults
+                          </button>
+                        </div>
+                      )}
+                    </div>
                   </td>
                 </tr>
               ) : (

@@ -90,13 +90,7 @@ export async function GET() {
     }
 
     await connectToDatabase();
-    let models = await WarrantyModel.find().sort({ order: 1, createdAt: 1 });
-
-    // Seed defaults on initial first run if collection is empty
-    if (models.length === 0) {
-      await WarrantyModel.insertMany(DEFAULT_WARRANTY_MODELS);
-      models = await WarrantyModel.find().sort({ order: 1, createdAt: 1 });
-    }
+    const models = await WarrantyModel.find().sort({ order: 1, createdAt: 1 });
 
     return NextResponse.json({ success: true, models });
   } catch (error: unknown) {
@@ -115,6 +109,25 @@ export async function POST(req: Request) {
 
     await connectToDatabase();
     const data = await req.json();
+
+    // Special Action: Restore sample default models
+    if (data.action === "restore_defaults") {
+      let restoredCount = 0;
+      for (const item of DEFAULT_WARRANTY_MODELS) {
+        const existing = await WarrantyModel.findOne({ name: item.name });
+        if (!existing) {
+          await WarrantyModel.create(item);
+          restoredCount++;
+        }
+      }
+
+      const updatedModels = await WarrantyModel.find().sort({ order: 1, createdAt: 1 });
+      return NextResponse.json({
+        success: true,
+        message: `Restored ${restoredCount} default warranty models.`,
+        models: updatedModels,
+      });
+    }
 
     // Special Action: Sync all products from Product catalog into warranty models
     if (data.action === "sync_from_products") {
@@ -160,27 +173,69 @@ export async function POST(req: Request) {
 
     const trimmedName = data.name.trim();
 
-    // Check for duplicate name
-    const existing = await WarrantyModel.findOne({ name: trimmedName });
+    // Check for duplicate name (case-insensitive)
+    const existing = await WarrantyModel.findOne({
+      name: { $regex: new RegExp(`^${trimmedName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}$`, "i") },
+    });
     if (existing) {
       return NextResponse.json(
-        { success: false, error: "A model with this name already exists" },
+        { success: false, error: `A model with the name "${existing.name}" already exists.` },
         { status: 400 }
       );
     }
 
-    const newModel = await WarrantyModel.create({
-      name: trimmedName,
-      code: (data.code || "").trim(),
-      category: (data.category || "Power Tools").trim(),
-      warrantyMonths: Number(data.warrantyMonths) || 6,
-      order: Number(data.order) || 0,
-      active: data.active !== undefined ? Boolean(data.active) : true,
-    });
+    let newModel;
+    try {
+      newModel = await WarrantyModel.create({
+        name: trimmedName,
+        code: (data.code || "").trim(),
+        category: (data.category || "Power Tools").trim(),
+        warrantyMonths: Number(data.warrantyMonths) || 6,
+        order: Number(data.order) || 0,
+        active: data.active !== undefined ? Boolean(data.active) : true,
+      });
+    } catch (err: any) {
+      if (err.code === 11000) {
+        return NextResponse.json(
+          { success: false, error: `A model with the name "${trimmedName}" already exists.` },
+          { status: 400 }
+        );
+      }
+      throw err;
+    }
 
     return NextResponse.json({ success: true, model: newModel }, { status: 201 });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : "Failed to create warranty model";
+    return NextResponse.json({ success: false, error: message }, { status: 500 });
+  }
+}
+
+// DELETE /api/admin/warranty-models (Bulk operations)
+export async function DELETE(req: Request) {
+  try {
+    const session = await getAdminSession();
+    if (!session) {
+      return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
+    }
+
+    await connectToDatabase();
+    const body = await req.json().catch(() => ({}));
+
+    if (body.action === "delete_all") {
+      const result = await WarrantyModel.deleteMany({});
+      return NextResponse.json({
+        success: true,
+        message: `Successfully deleted all ${result.deletedCount} warranty models.`,
+      });
+    }
+
+    return NextResponse.json(
+      { success: false, error: "Invalid delete action specified." },
+      { status: 400 }
+    );
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Failed to delete warranty models";
     return NextResponse.json({ success: false, error: message }, { status: 500 });
   }
 }

@@ -9,13 +9,7 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   try {
     await connectToDatabase();
-    let models = await WarrantyModel.find({ active: true }).sort({ order: 1, createdAt: 1 });
-
-    // Seed defaults if collection is empty
-    if (models.length === 0) {
-      await WarrantyModel.insertMany(DEFAULT_WARRANTY_MODELS);
-      models = await WarrantyModel.find({ active: true }).sort({ order: 1, createdAt: 1 });
-    }
+    const models = await WarrantyModel.find({ active: true }).sort({ order: 1, createdAt: 1 });
 
     return NextResponse.json({
       success: true,
