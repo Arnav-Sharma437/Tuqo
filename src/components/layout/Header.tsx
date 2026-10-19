@@ -127,7 +127,7 @@ export function Header() {
           : "bg-[#0a0b0e] border-b border-white/10 shadow-sm"
       }`}
     >
-      <div className="mx-auto flex h-[72px] sm:h-[78px] max-w-[1440px] items-center justify-between px-5 sm:px-8 lg:px-10">
+      <div className="mx-auto flex h-[72px] sm:h-[78px] max-w-[1440px] items-center justify-between px-4 sm:px-6 lg:px-8 xl:px-10">
         {/* ================= 1. BRAND LOGO (WHITE LOGO AS IN FOOTER) ================= */}
         <div className="flex shrink-0 items-center">
           <Link
@@ -135,16 +135,16 @@ export function Header() {
             className="flex items-center py-2 transition-opacity duration-200 hover:opacity-85"
             aria-label="TUQO Tools Home"
           >
-            <TuqoLogo variant="white" width={160} priority />
+            <TuqoLogo variant="white" width={145} className="w-[125px] sm:w-[140px] xl:w-[155px]" priority />
           </Link>
         </div>
 
         {/* ================= 2. DESKTOP CENTER NAVIGATION ================= */}
-        <nav className="hidden items-center gap-1 xl:gap-2 lg:flex">
+        <nav className="hidden items-center gap-0.5 xl:gap-1.5 lg:flex shrink-0">
           {/* Home */}
           <Link
             href="/"
-            className={`relative flex h-14 items-center px-3.5 text-[13px] font-bold uppercase tracking-wider transition-colors duration-200 ${
+            className={`relative flex h-14 items-center px-2 xl:px-3 text-xs xl:text-[13px] font-bold uppercase tracking-wider whitespace-nowrap shrink-0 transition-colors duration-200 ${
               pathname === "/"
                 ? "text-[#e21b23]"
                 : "text-gray-200 hover:text-[#e21b23]"
@@ -152,19 +152,19 @@ export function Header() {
           >
             <span>Home</span>
             {pathname === "/" && (
-              <span className="absolute bottom-0 left-3 right-3 h-[2.5px] rounded-full bg-[#e21b23]" />
+              <span className="absolute bottom-0 left-2 right-2 xl:left-3 xl:right-3 h-[2.5px] rounded-full bg-[#e21b23]" />
             )}
           </Link>
 
           {/* Categories with Dropdown */}
           <div
-            className="relative"
+            className="relative shrink-0"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
             <Link
               href="/categories"
-              className={`relative flex h-14 items-center gap-1.5 px-3.5 text-[13px] font-bold uppercase tracking-wider transition-colors duration-200 ${
+              className={`relative flex h-14 items-center gap-1 xl:gap-1.5 px-2 xl:px-3 text-xs xl:text-[13px] font-bold uppercase tracking-wider whitespace-nowrap shrink-0 transition-colors duration-200 ${
                 pathname.startsWith("/categories") || pathname.startsWith("/products")
                   ? "text-[#e21b23]"
                   : "text-gray-200 hover:text-[#e21b23]"
@@ -177,7 +177,7 @@ export function Header() {
                 }`}
               />
               {(pathname.startsWith("/categories") || pathname.startsWith("/products")) && (
-                <span className="absolute bottom-0 left-3 right-3 h-[2.5px] rounded-full bg-[#e21b23]" />
+                <span className="absolute bottom-0 left-2 right-2 xl:left-3 xl:right-3 h-[2.5px] rounded-full bg-[#e21b23]" />
               )}
             </Link>
 
@@ -228,25 +228,25 @@ export function Header() {
           {/* E-Catalog */}
           <Link
             href="/e-catalog"
-            className={`relative flex h-14 items-center gap-1.5 px-3.5 text-[13px] font-bold uppercase tracking-wider transition-colors duration-200 ${
+            className={`relative flex h-14 items-center gap-1 xl:gap-1.5 px-2 xl:px-3 text-xs xl:text-[13px] font-bold uppercase tracking-wider whitespace-nowrap shrink-0 transition-colors duration-200 ${
               pathname === "/e-catalog"
                 ? "text-[#e21b23]"
                 : "text-gray-200 hover:text-[#e21b23]"
             }`}
           >
             <span>E-Catalog</span>
-            <span className="rounded bg-[#e21b23]/20 border border-[#e21b23]/40 px-1.5 py-0.5 text-[9px] font-black uppercase text-[#ff5c62]">
+            <span className="rounded bg-[#e21b23]/20 border border-[#e21b23]/40 px-1 xl:px-1.5 py-0.5 text-[9px] font-black uppercase text-[#ff5c62] shrink-0">
               PDF
             </span>
             {pathname === "/e-catalog" && (
-              <span className="absolute bottom-0 left-3 right-3 h-[2.5px] rounded-full bg-[#e21b23]" />
+              <span className="absolute bottom-0 left-2 right-2 xl:left-3 xl:right-3 h-[2.5px] rounded-full bg-[#e21b23]" />
             )}
           </Link>
 
           {/* Warranty Registration */}
           <Link
             href="/warranty"
-            className={`relative flex h-14 items-center px-3.5 text-[13px] font-bold uppercase tracking-wider transition-colors duration-200 ${
+            className={`relative flex h-14 items-center px-2 xl:px-3 text-xs xl:text-[13px] font-bold uppercase tracking-wider whitespace-nowrap shrink-0 transition-colors duration-200 ${
               pathname === "/warranty"
                 ? "text-[#e21b23]"
                 : "text-gray-200 hover:text-[#e21b23]"
@@ -254,14 +254,14 @@ export function Header() {
           >
             <span>Warranty Registration</span>
             {pathname === "/warranty" && (
-              <span className="absolute bottom-0 left-3 right-3 h-[2.5px] rounded-full bg-[#e21b23]" />
+              <span className="absolute bottom-0 left-2 right-2 xl:left-3 xl:right-3 h-[2.5px] rounded-full bg-[#e21b23]" />
             )}
           </Link>
 
           {/* About */}
           <Link
             href="/about"
-            className={`relative flex h-14 items-center px-3.5 text-[13px] font-bold uppercase tracking-wider transition-colors duration-200 ${
+            className={`relative flex h-14 items-center px-2 xl:px-3 text-xs xl:text-[13px] font-bold uppercase tracking-wider whitespace-nowrap shrink-0 transition-colors duration-200 ${
               pathname === "/about"
                 ? "text-[#e21b23]"
                 : "text-gray-200 hover:text-[#e21b23]"
@@ -269,14 +269,14 @@ export function Header() {
           >
             <span>About Us</span>
             {pathname === "/about" && (
-              <span className="absolute bottom-0 left-3 right-3 h-[2.5px] rounded-full bg-[#e21b23]" />
+              <span className="absolute bottom-0 left-2 right-2 xl:left-3 xl:right-3 h-[2.5px] rounded-full bg-[#e21b23]" />
             )}
           </Link>
 
           {/* Contact */}
           <Link
             href="/contact"
-            className={`relative flex h-14 items-center px-3.5 text-[13px] font-bold uppercase tracking-wider transition-colors duration-200 ${
+            className={`relative flex h-14 items-center px-2 xl:px-3 text-xs xl:text-[13px] font-bold uppercase tracking-wider whitespace-nowrap shrink-0 transition-colors duration-200 ${
               pathname === "/contact"
                 ? "text-[#e21b23]"
                 : "text-gray-200 hover:text-[#e21b23]"
@@ -284,13 +284,13 @@ export function Header() {
           >
             <span>Contact</span>
             {pathname === "/contact" && (
-              <span className="absolute bottom-0 left-3 right-3 h-[2.5px] rounded-full bg-[#e21b23]" />
+              <span className="absolute bottom-0 left-2 right-2 xl:left-3 xl:right-3 h-[2.5px] rounded-full bg-[#e21b23]" />
             )}
           </Link>
         </nav>
 
         {/* ================= 3. RIGHT ACTIONS ================= */}
-        <div className="flex items-center gap-2.5 sm:gap-3.5">
+        <div className="flex items-center gap-2 xl:gap-3.5 shrink-0">
           {/* Live Header Search Bar (Desktop + Mobile overlay) */}
           <HeaderSearch />
 
@@ -299,9 +299,9 @@ export function Header() {
             href={APP_CONFIG.whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden sm:inline-flex h-10 items-center justify-center gap-2 rounded-xl bg-[#e21b23] px-4 text-xs font-extrabold uppercase tracking-wider text-white shadow-md shadow-red-900/30 transition-all hover:bg-[#b8141a] hover:scale-[1.02] active:scale-95"
+            className="hidden sm:inline-flex h-10 items-center justify-center gap-1.5 xl:gap-2 rounded-xl bg-[#e21b23] px-3 xl:px-4 text-xs font-extrabold uppercase tracking-wider text-white shadow-md shadow-red-900/30 transition-all hover:bg-[#b8141a] hover:scale-[1.02] active:scale-95 shrink-0 whitespace-nowrap"
           >
-            <WhatsAppIcon className="h-4 w-4 text-white" />
+            <WhatsAppIcon className="h-4 w-4 text-white shrink-0" />
             <span>Quick Inquiry</span>
           </a>
 
@@ -310,7 +310,7 @@ export function Header() {
             href={APP_CONFIG.whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#25D366] text-black border border-emerald-500/30 transition-colors sm:hidden shadow-xs hover:bg-[#20bd5a]"
+            className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#25D366] text-black border border-emerald-500/30 transition-colors sm:hidden shadow-xs hover:bg-[#20bd5a] shrink-0"
             aria-label="WhatsApp TUQO"
           >
             <WhatsAppIcon className="h-4 w-4" />
@@ -320,7 +320,7 @@ export function Header() {
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/15 bg-white/10 text-white transition-colors hover:border-[#e21b23] hover:text-[#e21b23] lg:hidden"
+            className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/15 bg-white/10 text-white transition-colors hover:border-[#e21b23] hover:text-[#e21b23] lg:hidden shrink-0"
             aria-label="Toggle Navigation Menu"
             aria-expanded={mobileMenuOpen}
           >
