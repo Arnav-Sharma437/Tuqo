@@ -61,6 +61,15 @@ export function BestSellerSection({
   // Duplicate for seamless infinite horizontal slider
   const sliderItems = [...bestSellers, ...bestSellers, ...bestSellers];
 
+  // Match the exact linear speed (pixels/sec) of the Category slider (~72px/sec)
+  const animationDuration = React.useMemo(() => {
+    // Each product card is 295px width + 20px gap = 315px.
+    // Marquee moves 50% of track length at 72px/s (identical to CategorySection's 32s for 18 cards):
+    const totalDistance = sliderItems.length * 315 * 0.5;
+    const durationSeconds = Math.round(totalDistance / 72);
+    return `${Math.max(45, durationSeconds)}s`;
+  }, [sliderItems.length]);
+
   return (
     <section className="relative w-full overflow-hidden bg-[#fbfbfd] py-14 sm:py-18 lg:py-20 border-b border-gray-200">
       {/* Background Subtle Grid */}
@@ -106,7 +115,7 @@ export function BestSellerSection({
         <div className="relative w-full overflow-hidden py-2">
           <div
             className="animate-marquee flex w-max items-stretch gap-5 hover:[animation-play-state:paused]"
-            style={{ animationDuration: "55s" }}
+            style={{ animationDuration }}
           >
             {sliderItems.map((product, idx) => {
               const productUrl = `/products/${product.categorySlug}/${product.slug}`;
