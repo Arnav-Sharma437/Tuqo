@@ -87,6 +87,7 @@ export function ProductManager({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [filterCategory, setFilterCategory] = useState<string>("all");
+  const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(9);
 
@@ -343,10 +344,22 @@ export function ProductManager({
     }
   };
 
-  const filteredProducts =
-    filterCategory === "all"
-      ? products
-      : products.filter((p) => p.categorySlug === filterCategory);
+  const filteredProducts = useMemo(() => {
+    return products.filter((p) => {
+      const matchesCategory =
+        filterCategory === "all" || p.categorySlug === filterCategory;
+      if (!matchesCategory) return false;
+      if (!searchQuery.trim()) return true;
+      const q = searchQuery.toLowerCase();
+      return (
+        p.name.toLowerCase().includes(q) ||
+        (p.model && p.model.toLowerCase().includes(q)) ||
+        (p.category && p.category.toLowerCase().includes(q)) ||
+        (p.subcategory && p.subcategory.toLowerCase().includes(q)) ||
+        (p.slug && p.slug.toLowerCase().includes(q))
+      );
+    });
+  }, [products, filterCategory, searchQuery]);
 
   const totalPages = pageSize === -1 ? 1 : Math.max(1, Math.ceil(filteredProducts.length / pageSize));
   const safeCurrentPage = Math.min(currentPage, totalPages);
@@ -889,8 +902,8 @@ export function ProductManager({
         </form>
       )}
 
-      {/* Filter Category & Products Grid */}
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-4">
+      {/* Filter Category, Search & Products Grid */}
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
         <div className="flex items-center gap-2">
           <span className="text-xs text-gray-400 font-semibold uppercase tracking-wider">
             Filter:
@@ -911,12 +924,40 @@ export function ProductManager({
             ))}
           </select>
         </div>
+
+        {/* Search Bar in Product Catalog */}
+        <div className="relative min-w-[220px] sm:w-72">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+              setCurrentPage(1);
+            }}
+            placeholder="Search title, model, SKU..."
+            className="w-full rounded-xl border border-white/10 bg-[#14161a] py-1.5 pl-8 pr-7 text-xs text-white placeholder-gray-500 focus:border-[#d31820] focus:outline-none"
+          />
+          <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-500 text-xs">
+            🔍
+          </span>
+          {searchQuery && (
+            <button
+              type="button"
+              onClick={() => setSearchQuery("")}
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white text-xs"
+            >
+              ✕
+            </button>
+          )}
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {filteredProducts.length === 0 ? (
           <div className="col-span-full rounded-2xl border border-white/10 bg-[#14161a] p-12 text-center text-gray-400">
-            No products found in this category. Click "+ Add Product" to add machinery.
+            {searchQuery
+              ? `No products found matching "${searchQuery}".`
+              : "No products found in this category. Click '+ Add Product' to add machinery."}
           </div>
         ) : (
           paginatedProducts.map((p) => (

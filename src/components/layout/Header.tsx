@@ -13,6 +13,7 @@ import {
   ChevronDownIcon,
   ArrowRightIcon,
 } from "@/components/common/Icons";
+import { HeaderSearch } from "./HeaderSearch";
 
 export interface NavCategoryItem {
   name: string;
@@ -289,7 +290,10 @@ export function Header() {
         </nav>
 
         {/* ================= 3. RIGHT ACTIONS ================= */}
-        <div className="flex items-center gap-3 sm:gap-4">
+        <div className="flex items-center gap-2.5 sm:gap-3.5">
+          {/* Live Header Search Bar (Desktop + Mobile overlay) */}
+          <HeaderSearch />
+
           {/* Direct WhatsApp CTA Button */}
           <a
             href={APP_CONFIG.whatsappUrl}
@@ -332,6 +336,11 @@ export function Header() {
       {/* ================= 4. MOBILE MENU DRAWER (DARK) ================= */}
       {mobileMenuOpen && (
         <div className="border-t border-white/10 bg-[#0a0b0e] px-5 py-6 shadow-2xl lg:hidden max-h-[85vh] overflow-y-auto">
+          {/* Mobile Drawer Search Bar */}
+          <div className="mb-4">
+            <HeaderSearch isMobileDrawer onNavigate={() => setMobileMenuOpen(false)} />
+          </div>
+
           <div className="flex flex-col space-y-1">
             {/* Home */}
             <Link
