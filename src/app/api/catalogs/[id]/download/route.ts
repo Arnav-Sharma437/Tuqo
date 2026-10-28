@@ -32,6 +32,7 @@ export async function GET(
           {
             resource_type: "raw",
             type: "upload",
+            attachment: true,
           }
         );
 

@@ -9,10 +9,18 @@ cloudinary.config({
 });
 
 export function isCloudinaryConfigured(): boolean {
+  const name = process.env.CLOUDINARY_CLOUD_NAME;
+  const key = process.env.CLOUDINARY_API_KEY;
+  const secret = process.env.CLOUDINARY_API_SECRET;
+
   return Boolean(
-    process.env.CLOUDINARY_CLOUD_NAME &&
-    process.env.CLOUDINARY_API_KEY &&
-    process.env.CLOUDINARY_API_SECRET
+    name &&
+    key &&
+    secret &&
+    name !== "[SENSITIVE]" &&
+    key !== "[SENSITIVE]" &&
+    secret !== "[SENSITIVE]" &&
+    !secret.startsWith("your_")
   );
 }
 
