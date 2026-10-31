@@ -16,6 +16,7 @@ export interface IProduct {
   subcategorySlug?: string;
   image: string;
   images: string[];
+  videoUrl?: string;
   shortDesc: string;
   description: string;
   tag: string;
@@ -40,6 +41,7 @@ const ProductSchema = new Schema<IProduct>(
     subcategorySlug: { type: String, default: "" },
     image: { type: String, required: true },
     images: { type: [String], default: [] },
+    videoUrl: { type: String, default: "" },
     shortDesc: { type: String, default: "" },
     description: { type: String, default: "" },
     tag: { type: String, default: "" },

@@ -14,6 +14,7 @@ export interface Product {
   subcategorySlug?: string;
   image: string;
   images?: string[];
+  videoUrl?: string;
   shortDesc: string;
   description: string;
   tag: string;

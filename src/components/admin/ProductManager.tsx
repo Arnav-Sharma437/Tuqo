@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import Image from "next/image";
 import { ImageUploader } from "./ImageUploader";
+import { VideoUploader } from "./VideoUploader";
 import { CategoryItem } from "./CategoryManager";
 import { SubcategoryItem } from "./SubcategoryManager";
 
@@ -53,6 +54,7 @@ export interface ProductItem {
   subcategorySlug?: string;
   image: string;
   images?: string[];
+  videoUrl?: string;
   shortDesc: string;
   description: string;
   tag: string;
@@ -101,6 +103,7 @@ export function ProductManager({
     subcategorySlug: "",
     image: "",
     images: [],
+    videoUrl: "",
     shortDesc: "",
     description: "",
     tag: "",
@@ -128,6 +131,7 @@ export function ProductManager({
     setEditingProduct({
       ...prod,
       images: Array.isArray(prod.images) && prod.images.length > 0 ? prod.images : (prod.image ? [prod.image] : []),
+      videoUrl: prod.videoUrl || "",
       features: prod.features?.length ? prod.features : [""],
       specs: prod.specs?.length ? prod.specs : [{ label: "", value: "" }],
       applications: prod.applications?.length ? prod.applications : [""],
@@ -659,6 +663,16 @@ export function ProductManager({
             ) : null}
           </div>
 
+          {/* Product Video Demonstration */}
+          <VideoUploader
+            label="Product Demonstration Video"
+            sublabel="Add a YouTube link (e.g. https://www.youtube.com/watch?v=... or shorts), Vimeo, or upload an MP4 video file to show this machine in action"
+            value={editingProduct.videoUrl || ""}
+            onChange={(url) =>
+              setEditingProduct({ ...editingProduct, videoUrl: url })
+            }
+          />
+
           <div>
             <label className="block text-xs font-semibold uppercase tracking-wider text-gray-300">
               Short Summary
@@ -995,6 +1009,14 @@ export function ProductManager({
                   {p.tag && (
                     <span className="absolute top-2 left-2 rounded-full bg-[#d31820] px-2 py-0.5 text-[9px] font-bold uppercase text-white">
                       {p.tag}
+                    </span>
+                  )}
+                  {p.videoUrl && (
+                    <span
+                      className="absolute top-2 right-2 rounded-full bg-red-600/90 backdrop-blur-sm border border-red-500/40 px-2 py-0.5 text-[9px] font-bold uppercase text-white flex items-center gap-1 shadow"
+                      title="Product has demonstration video"
+                    >
+                      <span>▶</span> Video
                     </span>
                   )}
                 </div>

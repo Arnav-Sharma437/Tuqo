@@ -30,6 +30,7 @@ export async function PUT(
     if (data.subcategorySlug !== undefined) updateFields.subcategorySlug = data.subcategorySlug;
     if (data.image !== undefined) updateFields.image = data.image;
     if (data.images !== undefined) updateFields.images = Array.isArray(data.images) ? data.images : [];
+    if (data.videoUrl !== undefined) updateFields.videoUrl = data.videoUrl;
     if (data.shortDesc !== undefined) updateFields.shortDesc = data.shortDesc;
     if (data.description !== undefined) updateFields.description = data.description;
     if (data.tag !== undefined) updateFields.tag = data.tag;

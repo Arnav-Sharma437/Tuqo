@@ -365,6 +365,12 @@ export default async function DynamicCategoryPage({
                         </span>
                       )}
 
+                      {product.videoUrl && (
+                        <span className="absolute left-3 top-3 z-10 bg-black/80 backdrop-blur-sm border border-white/20 text-white px-2 py-0.5 text-[9px] font-black uppercase tracking-wider rounded flex items-center gap-1 shadow-xs">
+                          <span className="text-[#e21b23]">▶</span> Video
+                        </span>
+                      )}
+
                       <div className="relative h-full w-full transition-transform duration-500 group-hover:scale-110">
                         <Image
                           src={product.image}

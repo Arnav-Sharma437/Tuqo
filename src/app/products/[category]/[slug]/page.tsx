@@ -15,6 +15,7 @@ import {
 } from "@/components/common/Icons";
 import { ProductGallery } from "@/components/product/ProductGallery";
 import { ProductShare } from "@/components/product/ProductShare";
+import { parseVideoUrl } from "@/lib/videoUtils";
 
 export const dynamic = "force-dynamic";
 
@@ -55,6 +56,8 @@ export default async function ProductDetailPage({
     .filter((p) => p.slug !== product.slug)
     .slice(0, 3);
 
+  const parsedVideo = parseVideoUrl(product.videoUrl);
+
   const whatsappInquiryUrl = `https://wa.me/919342466860?text=${encodeURIComponent(
     `Hello TUQO Team, I am interested in inquiring about ${product.name} (Model: ${product.model}). Please provide technical specifications and pricing/availability details.`
   )}`;
@@ -93,6 +96,7 @@ export default async function ProductDetailPage({
                 mainImage={product.image}
                 images={product.images}
                 productName={product.name}
+                videoUrl={product.videoUrl}
               />
             </div>
 
@@ -188,6 +192,46 @@ export default async function ProductDetailPage({
                   ))}
                 </tbody>
               </table>
+            </div>
+          </div>
+        )}
+
+        
+        {/* Product Demonstration Video - Rendered if videoUrl exists */}
+        {parsedVideo && (
+          <div className="mt-10 overflow-hidden rounded-2xl border border-gray-200/90 bg-white p-6 sm:p-8 lg:p-10 shadow-xs">
+            <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-gray-100 pb-4">
+              <div className="flex items-center gap-2.5">
+                <span className="h-[3px] w-7 bg-[#e21b23]" />
+                <h2 className="text-xl font-black uppercase tracking-tight text-[#111214] sm:text-2xl">
+                  Product Demonstration Video
+                </h2>
+              </div>
+              <span className="text-xs font-bold uppercase tracking-wider text-[#e21b23] flex items-center gap-1.5">
+                <span className="flex h-2 w-2 rounded-full bg-[#e21b23] animate-pulse" />
+                Live Machine Operation
+              </span>
+            </div>
+
+            <div className="relative aspect-video w-full max-w-4xl mx-auto overflow-hidden rounded-xl bg-black shadow-lg border border-gray-200">
+              {parsedVideo.type === "youtube" || parsedVideo.type === "vimeo" ? (
+                <iframe
+                  src={parsedVideo.embedUrl}
+                  title={`${product.name} Video Demonstration`}
+                  className="h-full w-full border-0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              ) : (
+                <video
+                  src={parsedVideo.embedUrl}
+                  controls
+                  className="h-full w-full object-contain"
+                  preload="metadata"
+                >
+                  Your browser does not support HTML5 video.
+                </video>
+              )}
             </div>
           </div>
         )}

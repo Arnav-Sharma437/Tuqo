@@ -2,17 +2,20 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
+import { parseVideoUrl } from "@/lib/videoUtils";
 
 interface ProductGalleryProps {
   mainImage: string;
   images?: string[];
   productName: string;
+  videoUrl?: string;
 }
 
 export function ProductGallery({
   mainImage,
   images = [],
   productName,
+  videoUrl,
 }: ProductGalleryProps) {
   // Consolidate images into unique list
   const allImages = React.useMemo(() => {
@@ -24,7 +27,10 @@ export function ProductGallery({
   }, [mainImage, images]);
 
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isVideoActive, setIsVideoActive] = useState(false);
   const activeImage = allImages[activeIndex] || allImages[0];
+
+  const parsedVideo = React.useMemo(() => parseVideoUrl(videoUrl), [videoUrl]);
 
   // Lightbox modal state
   const [isOpen, setIsOpen] = useState(false);
@@ -77,83 +83,186 @@ export function ProductGallery({
   return (
     <>
       <div className="flex flex-col gap-4 w-full">
-        {/* Main Image Stage - Click to enlarge */}
-        <div
-          onClick={() => openLightbox(activeIndex)}
-          className="group relative flex aspect-square w-full items-center justify-center rounded-2xl bg-[#fafafa] border border-gray-200/80 p-6 sm:p-8 shadow-inner overflow-hidden cursor-zoom-in transition-all hover:border-[#e21b23]/40 hover:shadow-md"
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              openLightbox(activeIndex);
-            }
-          }}
-          aria-label={`Click to enlarge ${productName} image`}
-        >
-          {/* Zoom hint badge */}
-          <div className="absolute top-3 right-3 z-10 flex items-center gap-1.5 rounded-full bg-white/95 backdrop-blur-md px-2.5 py-1 text-[11px] font-bold text-gray-700 shadow-sm border border-gray-200/80 opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all">
-            <svg
-              className="h-3.5 w-3.5 text-[#e21b23]"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2.5}
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"
-              />
-            </svg>
-            <span>Click to expand</span>
-          </div>
+        {/* Main Stage: Image or Video */}
+        {isVideoActive && parsedVideo ? (
+          <div className="relative flex aspect-square w-full items-center justify-center rounded-2xl bg-black border border-gray-900 shadow-md overflow-hidden">
+            {/* Header / Switch back bar */}
+            <div className="absolute top-3 left-3 right-3 z-10 flex items-center justify-between">
+              <span className="flex items-center gap-1.5 rounded-full bg-red-600 px-3 py-1 text-[11px] font-black uppercase tracking-wider text-white shadow-md">
+                <span>▶</span>
+                <span>Video Demo</span>
+              </span>
 
-          <div className="relative h-full w-full max-h-[350px] max-w-[350px] flex items-center justify-center transition-transform duration-300 group-hover:scale-[1.04]">
-            <Image
-              src={activeImage}
-              alt={productName}
-              fill
-              priority
-              sizes="(max-width: 768px) 100vw, 380px"
-              className="object-contain p-2"
-            />
-          </div>
-
-          {allImages.length > 1 && (
-            <span className="absolute bottom-3 right-3 z-10 bg-black/70 backdrop-blur-sm text-white text-[10px] font-bold px-2.5 py-1 rounded-full">
-              {activeIndex + 1} / {allImages.length}
-            </span>
-          )}
-        </div>
-
-        {/* Thumbnails Row if more than 1 image */}
-        {allImages.length > 1 && (
-          <div className="flex items-center gap-2.5 overflow-x-auto pb-1 scrollbar-thin">
-            {allImages.map((img, idx) => (
               <button
-                key={`${img}-${idx}`}
                 type="button"
-                onClick={() => setActiveIndex(idx)}
-                onDoubleClick={() => openLightbox(idx)}
-                aria-label={`View image ${idx + 1}`}
-                className={`relative h-16 w-16 sm:h-20 sm:w-20 shrink-0 overflow-hidden rounded-xl border-2 bg-white p-1 transition-all ${
-                  activeIndex === idx
-                    ? "border-[#e21b23] shadow-md ring-2 ring-[#e21b23]/20 scale-105"
-                    : "border-gray-200 opacity-70 hover:opacity-100 hover:border-gray-400"
-                }`}
+                onClick={() => setIsVideoActive(false)}
+                className="flex items-center gap-1.5 rounded-full bg-black/80 backdrop-blur-md px-3 py-1 text-[11px] font-bold text-white hover:bg-black transition border border-white/20"
               >
-                <Image
-                  src={img}
-                  alt={`${productName} thumbnail ${idx + 1}`}
-                  fill
-                  sizes="80px"
-                  className="object-contain p-1"
-                />
+                <span>📷 View Photos</span>
               </button>
-            ))}
+            </div>
+
+            {/* Video Player */}
+            <div className="relative h-full w-full flex items-center justify-center">
+              {parsedVideo.type === "youtube" || parsedVideo.type === "vimeo" ? (
+                <iframe
+                  src={parsedVideo.embedUrl}
+                  title={`${productName} Video Demonstration`}
+                  className="h-full w-full border-0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              ) : (
+                <video
+                  src={parsedVideo.embedUrl}
+                  controls
+                  autoPlay
+                  className="h-full w-full object-contain"
+                >
+                  Your browser does not support HTML5 video.
+                </video>
+              )}
+            </div>
+          </div>
+        ) : (
+          /* Main Image Stage - Click to enlarge */
+          <div
+            onClick={() => openLightbox(activeIndex)}
+            className="group relative flex aspect-square w-full items-center justify-center rounded-2xl bg-[#fafafa] border border-gray-200/80 p-6 sm:p-8 shadow-inner overflow-hidden cursor-zoom-in transition-all hover:border-[#e21b23]/40 hover:shadow-md"
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                openLightbox(activeIndex);
+              }
+            }}
+            aria-label={`Click to enlarge ${productName} image`}
+          >
+            {/* Zoom hint badge */}
+            <div className="absolute top-3 right-3 z-10 flex items-center gap-1.5 rounded-full bg-white/95 backdrop-blur-md px-2.5 py-1 text-[11px] font-bold text-gray-700 shadow-sm border border-gray-200/80 opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all">
+              <svg
+                className="h-3.5 w-3.5 text-[#e21b23]"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2.5}
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"
+                />
+              </svg>
+              <span>Click to expand</span>
+            </div>
+
+            {/* Quick Watch Video Button on Main Image (if video exists) */}
+            {parsedVideo && (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsVideoActive(true);
+                }}
+                className="absolute top-3 left-3 z-10 flex items-center gap-1.5 rounded-full bg-red-600 hover:bg-red-700 text-white px-3 py-1 text-[11px] font-black uppercase tracking-wider shadow-lg transition-all hover:scale-105"
+              >
+                <span>▶</span>
+                <span>Watch Video</span>
+              </button>
+            )}
+
+            <div className="relative h-full w-full max-h-[350px] max-w-[350px] flex items-center justify-center transition-transform duration-300 group-hover:scale-[1.04]">
+              <Image
+                src={activeImage}
+                alt={productName}
+                fill
+                priority
+                sizes="(max-width: 768px) 100vw, 380px"
+                className="object-contain p-2"
+              />
+            </div>
+
+            {allImages.length > 1 && (
+              <span className="absolute bottom-3 right-3 z-10 bg-black/70 backdrop-blur-sm text-white text-[10px] font-bold px-2.5 py-1 rounded-full">
+                {activeIndex + 1} / {allImages.length}
+              </span>
+            )}
           </div>
         )}
+
+        {/* Thumbnails Row: Images + Video Thumbnail */}
+        <div className="flex items-center gap-2.5 overflow-x-auto pb-1 scrollbar-thin">
+          {/* Photos */}
+          {allImages.map((img, idx) => (
+            <button
+              key={`${img}-${idx}`}
+              type="button"
+              onClick={() => {
+                setIsVideoActive(false);
+                setActiveIndex(idx);
+              }}
+              onDoubleClick={() => {
+                setIsVideoActive(false);
+                openLightbox(idx);
+              }}
+              aria-label={`View image ${idx + 1}`}
+              className={`relative h-16 w-16 sm:h-20 sm:w-20 shrink-0 overflow-hidden rounded-xl border-2 bg-white p-1 transition-all ${
+                !isVideoActive && activeIndex === idx
+                  ? "border-[#e21b23] shadow-md ring-2 ring-[#e21b23]/20 scale-105"
+                  : "border-gray-200 opacity-70 hover:opacity-100 hover:border-gray-400"
+              }`}
+            >
+              <Image
+                src={img}
+                alt={`${productName} thumbnail ${idx + 1}`}
+                fill
+                sizes="80px"
+                className="object-contain p-1"
+              />
+            </button>
+          ))}
+
+          {/* Video Thumbnail Button (if video exists) */}
+          {parsedVideo && (
+            <button
+              type="button"
+              onClick={() => setIsVideoActive(true)}
+              aria-label="Play product demonstration video"
+              className={`group relative h-16 w-16 sm:h-20 sm:w-20 shrink-0 overflow-hidden rounded-xl border-2 bg-[#121316] transition-all flex flex-col items-center justify-center ${
+                isVideoActive
+                  ? "border-red-600 shadow-md ring-2 ring-red-500/30 scale-105"
+                  : "border-gray-300 opacity-80 hover:opacity-100 hover:border-red-500"
+              }`}
+            >
+              {parsedVideo.thumbnailUrl ? (
+                <div className="relative h-full w-full">
+                  <Image
+                    src={parsedVideo.thumbnailUrl}
+                    alt={`${productName} video thumbnail`}
+                    fill
+                    sizes="80px"
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                    <span className="flex h-7 w-7 items-center justify-center rounded-full bg-red-600 text-white text-xs font-black shadow group-hover:scale-110 transition-transform">
+                      ▶
+                    </span>
+                  </div>
+                </div>
+              ) : (
+                <div className="flex flex-col items-center justify-center p-1 text-center">
+                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-red-600 text-white text-[11px] font-black shadow mb-1">
+                    ▶
+                  </span>
+                  <span className="text-[9px] font-black uppercase text-white tracking-wider">
+                    Video
+                  </span>
+                </div>
+              )}
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Fullscreen Lightbox Modal */}
@@ -182,6 +291,19 @@ export function ProductGallery({
             </div>
 
             <div className="flex items-center gap-2">
+              {parsedVideo && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    closeLightbox();
+                    setIsVideoActive(true);
+                  }}
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-red-500/40 bg-red-600 px-3 py-1.5 text-xs font-bold text-white hover:bg-red-700 transition"
+                >
+                  <span>▶ Play Video</span>
+                </button>
+              )}
+
               <button
                 type="button"
                 onClick={() => setIsZoomed((prev) => !prev)}
@@ -261,7 +383,7 @@ export function ProductGallery({
             )}
           </div>
 
-          {/* Bottom Thumbnails Strip */}
+          {/* Bottom Thumbnails */}
           {allImages.length > 1 && (
             <div
               className="flex items-center justify-center gap-2 overflow-x-auto pt-2 border-t border-white/10"
@@ -269,25 +391,24 @@ export function ProductGallery({
             >
               {allImages.map((img, idx) => (
                 <button
-                  key={`lb-${img}-${idx}`}
+                  key={`lightbox-${img}-${idx}`}
                   type="button"
                   onClick={() => {
-                    setIsZoomed(false);
                     setLightboxIndex(idx);
+                    setIsZoomed(false);
                   }}
-                  className={`relative h-14 w-14 sm:h-16 sm:w-16 shrink-0 overflow-hidden rounded-xl border-2 bg-black/40 p-1 transition-all ${
+                  className={`relative h-12 w-12 sm:h-14 sm:w-14 shrink-0 overflow-hidden rounded-lg border-2 bg-white p-0.5 transition-all ${
                     lightboxIndex === idx
-                      ? "border-[#e21b23] ring-2 ring-[#e21b23]/50 scale-105"
-                      : "border-white/20 opacity-60 hover:opacity-100 hover:border-white/40"
+                      ? "border-[#e21b23] scale-110 ring-2 ring-[#e21b23]/50"
+                      : "border-white/20 opacity-50 hover:opacity-100 hover:border-white/60"
                   }`}
                 >
                   <Image
                     src={img}
                     alt={`Thumbnail ${idx + 1}`}
                     fill
-                    unoptimized
-                    sizes="64px"
-                    className="object-contain p-0.5"
+                    sizes="56px"
+                    className="object-contain"
                   />
                 </button>
               ))}

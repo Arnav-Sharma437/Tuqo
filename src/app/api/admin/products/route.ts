@@ -53,6 +53,7 @@ export async function POST(req: Request) {
       subcategorySlug: data.subcategorySlug || "",
       image: data.image,
       images: Array.isArray(data.images) ? data.images : [],
+      videoUrl: data.videoUrl || "",
       shortDesc: data.shortDesc || "",
       description: data.description || "",
       tag: data.tag || "",
