@@ -1,0 +1,66 @@
+name: Deploy TUQO to VPS
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy to Production VPS
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Execute Remote Deployment via SSH
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.VPS_SSH_KEY }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+        run: |
+          if [ -z "$SSH_PRIVATE_KEY" ] || [ -z "$VPS_HOST" ] || [ -z "$VPS_USER" ]; then
+            echo "⚠️ VPS secrets not configured on this repo. Please deploy via SSH on the VPS manually."
+            exit 0
+          fi
+
+          mkdir -p ~/.ssh
+
+          python3 -c "
+          import os, re
+
+          key = os.environ.get('SSH_PRIVATE_KEY', '').strip()
+
+          def format_key(k):
+              m = re.search(r'(-----BEGIN [^-]+-----)(.*?)(-----END [^-]+-----)', k, re.DOTALL)
+              if m:
+                  hdr, body, ftr = m.group(1).strip(), m.group(2).strip(), m.group(3).strip()
+                  clean_b64 = ''.join(body.split())
+                  wrapped = '\n'.join([clean_b64[i:i+64] for i in range(0, len(clean_b64), 64)])
+                  return f'{hdr}\n{wrapped}\n{ftr}\n'
+              clean_b64 = ''.join(k.split())
+              wrapped = '\n'.join([clean_b64[i:i+64] for i in range(0, len(clean_b64), 64)])
+              return f'-----BEGIN OPENSSH PRIVATE KEY-----\n{wrapped}\n-----END OPENSSH PRIVATE KEY-----\n'
+
+          formatted = format_key(key)
+          with open(os.path.expanduser('~/.ssh/id_rsa'), 'w') as f:
+              f.write(formatted)
+          "
+
+          chmod 700 ~/.ssh
+          chmod 600 ~/.ssh/id_rsa
+
+          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=30 -i ~/.ssh/id_rsa -p 22 ${VPS_USER}@${VPS_HOST} << 'EOF'
+            set -e
+            echo "🚀 Starting TUQO deployment on VPS..."
+
+            cd /var/www/tuqo
+            git fetch origin main
+            git reset --hard origin/main
+            npm install
+            npm run build
+            pm2 restart tuqo-app --update-env
+            pm2 save
+            echo "✅ TUQO deployment completed successfully!"
+          EOF
+
+          rm -f ~/.ssh/id_rsa
